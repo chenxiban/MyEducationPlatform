@@ -1,6 +1,7 @@
 server:
 #项目端口号
   port: 8888
+
 eureka:
   instance:
   #eureka实例主机名称
