@@ -12,7 +12,7 @@ import com.cxb.springcloud.Application;
  * @ClassName: Application.java
  * @author ChenYongJia
  * @Date 2018年12月01日 晚上22：54
- * @Email chen87647213@163.com
+ * @Email chen87647213@163.com 
  */
 @EnableEurekaServer
 @SpringBootApplication
