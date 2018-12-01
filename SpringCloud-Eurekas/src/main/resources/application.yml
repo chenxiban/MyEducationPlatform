@@ -1,0 +1,15 @@
+server:
+#项目端口号
+  port: 8888
+eureka:
+  instance:
+  #eureka实例主机名称
+    hostname: localhost
+  client:
+  #关闭eureka的客户端行为:注册服务
+    registerWithEureka: false
+    #关闭eureka的客户端行为:订阅服务
+    fetchRegistry: false
+    serviceUrl:
+    #eureka注册中心地址
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

@@ -1,0 +1,10 @@
+********************* Eureka 注册中心  步骤: 5步************
+1>创建SpringBoot项目
+2>在pom.xml文件中
+引入Eureka依赖 spring-cloud-starter-eureka-server
+配置 SpringCloud 的子项目版本集中管理 依赖 spring-cloud-dependencies
+配置 SpringCloud 官方远程仓库 https://repo.spring.io/milestone
+3> 在项目配置文件application.yml中配置eureka注册中心配置项
+4>在项目入口函数上启用注册中心 @EnableEurekaServer
+5>启动项目,访问注册中心 
+http://localhost:8888/
