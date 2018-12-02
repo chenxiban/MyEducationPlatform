@@ -4,7 +4,6 @@ Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: lenovo
 Implementation-Vendor-Id: com.cxb
 Build-Jdk: 1.8.0_66
-Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
- ot-starter-parent/MyEduPlatform/ChenYongJia
+Implementation-URL: https://repo.spring.io/milestone
 Created-By: Maven Integration for Eclipse
 
