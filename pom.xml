@@ -14,6 +14,7 @@
 		<module>YangYiChen</module>
 		<module>MiZhongLiang</module>
 		<module>SpringCloud-Eurekas</module>
+		<module>FileManagement</module>
 	</modules>
 
 	<!-- parent指明继承关系，给出被继承的父项目的具体信息 继承说明：这里继承SpringBoot提供的父工程 -->
