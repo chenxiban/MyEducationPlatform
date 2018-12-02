@@ -46,13 +46,17 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
 		</dependency>
-		
-		<!-- Spring Boot devtools 热部署 依赖 -->
+
+ 		<!-- Thymeleaf 模板引擎 -->
 		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency> -->
-		
+
+		<!-- Spring Boot devtools 热部署 依赖 -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-devtools</artifactId> 
+			</dependency> -->
+
 		<!-- 引入lombok 依赖 -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
