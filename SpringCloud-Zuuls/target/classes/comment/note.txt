@@ -1,0 +1,47 @@
+********* SpringClou 网关路由 Zuul (解决跨域,权限控制) 步骤: 步 *********
+1>创建SpringBoot项目,引入依赖
+pring-cloud-starter-eureka
+spring-cloud-starter-zuul
+2>项目配置文件application.yml中配置注册中心地址
+3>在Spring容器中加入网关过滤器com.netflix.zuul.ZuulFilter的子实现类,在此实现微服务集群权限控制功能.
+4>在入口函数使用 @EnableZuulProxy注解启用Zuul网关路由
+
+*********** SpringCloud 网关路由 Zuul (解决跨域,权限控制) 步骤: 步*************
+1>创建SpringBoot项目,引入依赖
+	<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-zuul</artifactId>
+		</dependency>
+2>项目配置文件
+ eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8888/eureka/
+server:
+  port: 8769
+spring:
+  application:
+    name: service-zuul
+---------------------- zuul默认生成的配置信息 -------------------------
+zuul:
+  routes:
+    api-a:
+      path: /service-member/**
+      service-id: service-member
+    api-b:
+      path: /service-order/**
+      service-id: service-order
+---------------------- zuul默认生成的配置信息 -------------------------
+3>在Spring容器中加入com.netflix.zuul.ZuulFilter的子实现类,在此实现微服务集群权限控制功能.
+@Override
+	public Object run() {
+		RequestContext ctx = RequestContext.getCurrentContext();
+		HttpServletRequest request = ctx.getRequest();
+
+4>在入口函数使用 @EnableZuulProxy注解启用Zuul网关路由
+@EnableZuulProxy
+@EnableEurekaClient
