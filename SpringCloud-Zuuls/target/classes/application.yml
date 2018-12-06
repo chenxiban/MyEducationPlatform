@@ -19,6 +19,20 @@ spring:
 zuul: #需要忽略的头部信息，不在传播到其他服务 
   sensitive-headers: Access-Control-Allow-Origin 
   ignored-headers: Access-Control-Allow-Origin,H-APP-Id,Token,APPToken
+  
+security:
+  oauth2:
+    resource:
+      ####从认证授权中心上验证token
+      tokenInfoUri: http://localhost:3012/oauth/check_token
+      preferTokenInfo: true
+    client:
+      accessTokenUri: http://localhost:3012/oauth/token
+      userAuthorizationUri: http://localhost:3012/oauth/authorize
+#      ###appid
+      clientId: client_1
+#      ###appSecret
+      clientSecret: 123456
 #zuul:
 #  routes:
 #    api-a:

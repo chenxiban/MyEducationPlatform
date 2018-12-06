@@ -55,7 +55,7 @@ public class ZuulTokenFilter extends ZuulFilter {
 		Object accessToken = request.getParameter("token");
 		String refer = request.getHeader("refer");
 
-		if (accessToken != null) {
+		/*if (accessToken != null) {
 			return null;// 网关路由放行
 		}
 		log.warn("token is empty");
@@ -65,7 +65,7 @@ public class ZuulTokenFilter extends ZuulFilter {
 			// 令牌是空的! ! !请先登录! ! !
 			ctx.getResponse().getWriter().write("Token is empty ！！！Please log in first ！！！");
 		} catch (Exception e) {
-		}
+		}*/
 		return null;// 网关路由放行
 
 	}
