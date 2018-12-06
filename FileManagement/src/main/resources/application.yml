@@ -14,21 +14,21 @@ server:
 spring:
   application:
   #服务名称,随便写
-    name: chenyongjiatwo
-  #datasource: 
-    #driver-class-name: com.mysql.jdbc.Driver 
+    name: chenyongjia-file
+  datasource: 
+    driver-class-name: com.mysql.jdbc.Driver 
     #数据库意思是:机构权限文件
-    #url: jdbc:mysql://127.0.0.1:3306/authoritydocument?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false 
-    #username: root 
-    #password: root 
+    url: jdbc:mysql://127.0.0.1:3306/filemanagement?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false 
+    username: root 
+    password: root 
   # SpringDateJpa 配置自动建表：updata:没有表新建，有表更新操作,控制台显示建表语句
-  #jpa: 
-    #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect  #不加这句则默认为myisam引擎
+  jpa: 
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect  #不加这句则默认为myisam引擎
     ##运行时输出jpa执行的sql语句
-    #show-sql: true
+    show-sql: true
     ## spring-boot-starter-data-jpa自动映射创建表动作 配置: 有表更新,无表创建
-    #hibernate: 
-      #ddl-auto: update
+    hibernate: 
+      ddl-auto: update
   #集中解决各种编码问题
   banner:
     charset: UTF-8
@@ -49,4 +49,18 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss 
   # 时区设置
     time-zone: GMT+8
+    
+security:
+  oauth2:
+    resource:
+      ####从认证授权中心上验证token
+      tokenInfoUri: http://localhost:3012/oauth/check_token
+      preferTokenInfo: true
+    client:
+      accessTokenUri: http://localhost:3012/oauth/token
+      userAuthorizationUri: http://localhost:3012/oauth/authorize
+#      ###appid
+      clientId: client_1
+#      ###appSecret
+      clientSecret: 123456
    

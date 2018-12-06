@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 	<name>SpringCloud-Eurekas</name>
 	<url>https://repo.spring.io/milestone</url>
-	<description>MS:SpringCloud Eureka 注册中心</description>
+	<description>CYJ:SpringCloud Eureka 注册中心</description>
 
 	<!-- SpringBoot 项目 统一 父依赖 -->
 	<parent>
