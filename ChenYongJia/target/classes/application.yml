@@ -58,17 +58,17 @@ spring:
   # 时区设置
     time-zone: GMT+8
     
-#security:
-  #oauth2:
-    #resource:
+security:
+  oauth2:
+    resource:
       ####从认证授权中心上验证token
-      #tokenInfoUri: http://localhost:3010/ChenYongJia/oauth/check_token
-      #preferTokenInfo: true
-    #client:
-      #accessTokenUri: http://localhost:3010/ChenYongJia/oauth/token
-      #userAuthorizationUri: http://localhost:3010/ChenYongJia/oauth/authorize
+      tokenInfoUri: http://localhost:3012/oauth/check_token
+      preferTokenInfo: true
+    client:
+      accessTokenUri: http://localhost:3012/oauth/token
+      userAuthorizationUri: http://localhost:3012/oauth/authorize
 #      ###appid
-      #clientId: client_1
+      clientId: client_1
 #      ###appSecret
-      #clientSecret: 123456
+      clientSecret: 123456
    
