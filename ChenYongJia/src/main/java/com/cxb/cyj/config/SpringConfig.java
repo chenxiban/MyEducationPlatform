@@ -8,9 +8,9 @@ import org.springframework.web.client.RestTemplate;
  * 
  * @Description:   
  * @ClassName:     SpringConfig.java
- * @author         Mashuai
- * @Date           2018年8月22日 下午9:37:42
- * @Email          1119616605@qq.com
+ * @author         Chenyongjia
+ * @Date           2018年12月06日 下午16:20:42
+ * @Email          867647213@qq.com
  */
 @Configuration
 public class SpringConfig {
