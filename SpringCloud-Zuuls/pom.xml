@@ -50,6 +50,12 @@
 			<artifactId>spring-cloud-starter-netflix-zuul</artifactId>
 		</dependency>
 
+		<!-- 权限控制Spring-Oauth2.0的认证模式依赖暂时不用,由于一些注解和API从spring security5.0中移除，所以需要导入下面的依赖包 -->
+		<!-- spring-cloud-starter-oauth2 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-oauth2</artifactId>
+		</dependency>
 	</dependencies>
 
 	<!-- SpringCloud 所有子项目 版本集中管理.MS:统一所有SpringCloud依赖项目的版本 依赖 -->
