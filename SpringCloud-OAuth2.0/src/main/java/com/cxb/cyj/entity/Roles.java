@@ -22,6 +22,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,11 +34,11 @@ import lombok.Setter;
 
 /**
  * 
- * @Description:   角色实体类
- * @ClassName:     Roles.java
- * @author         ChenYongJia
- * @Date           2018年12月04日 下午20:40:56
- * @Email          867647213@qq.com
+ * @Description: 角色实体类
+ * @ClassName: Roles.java
+ * @author ChenYongJia
+ * @Date 2018年12月04日 下午20:40:56
+ * @Email 867647213@qq.com
  */
 @SuppressWarnings("serial")
 @Getter
@@ -47,7 +48,7 @@ import lombok.Setter;
 @Builder // 使用建造模型
 @Entity
 @Table(name = "tb_roles")
-public class Roles implements Serializable {
+public class Roles implements Serializable {//GrantedAuthority, 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy
@@ -73,10 +74,21 @@ public class Roles implements Serializable {
 
 	// 关联权限
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER, cascade = javax.persistence.CascadeType.ALL) // 指定多对多关系 //默认懒加载,只有调用getter方法时才加载数据
+	@ManyToMany(fetch = FetchType.EAGER, cascade = javax.persistence.CascadeType.ALL) // 指定多对多关系
+																						// //默认懒加载,只有调用getter方法时才加载数据
 	@JoinTable(name = "tb_rolepermission", // 指定第三张中间表名称
 			joinColumns = { @JoinColumn(name = "role_id") }, // 本表主键userId与第三张中间表user_role_tb的外键user_role_tb_user_id对应
 			inverseJoinColumns = { @JoinColumn(name = "permission_id") }) // 多对多关系另一张表与第三张中间表表的外键的对应关系
 	@NotFound(action = NotFoundAction.IGNORE) // NotFound : 意思是找不到引用的外键数据时忽略，NotFound默认是exception
 	private Set<Permission> roleSet = new HashSet<Permission>();// 用户所拥有的角色集合
+
+	/*@Override
+	public String getAuthority() {
+		return rolesName;
+	}
+
+	@Override
+	public String toString() {
+		return "Role{" + "rolesId=" + rolesId + ", rolesName='" + rolesName + '\'' + '}';
+	}*/
 }

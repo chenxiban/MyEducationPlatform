@@ -79,11 +79,6 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.thymeleaf.extras</groupId>
-			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
-		</dependency>
-		
 		<!-- Spring Boot JPA 依赖 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

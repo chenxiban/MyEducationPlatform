@@ -1,5 +1,8 @@
 package com.cxb.cyj.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,18 +22,35 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import com.cxb.cyj.service.impl.CustomUserServiceImpl;
+
 /**
  * 
- * @Description:   授权认证服务中心配置
- * @ClassName:     AuthorizationServerConfig.java
- * @author         ChenYongJia
- * @Date           2018年12月04日 下午20:40:56
- * @Email          867647213@qq.com
+ * @Description: 授权认证服务中心配置
+ * @ClassName: AuthorizationServerConfig.java
+ * @author ChenYongJia
+ * @Date 2018年12月04日 下午20:40:56
+ * @Email 867647213@qq.com
  */
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+	
+	@Autowired
+    private CustomUserServiceImpl userDetailsService;
+	
+	static final Logger logger = LoggerFactory.getLogger(AuthorizationServerConfig.class);
 
+    /*@Bean
+    public TokenStore tokenStore() {
+        return new JdbcTokenStore(dataSource);
+    }
+
+    @Bean // 声明 ClientDetails实现
+    public ClientDetailsService clientDetailsService() {
+        return new JdbcClientDetailsService(dataSource);
+    }*/
+    
 	// @EnableAuthorizationServer 开启 授权认证服务中心
 	// accessToken 有效期 2小时
 	private static final int ACCESSTOKENVALIDITYSECONDS = 7200;// 两小时
@@ -43,12 +63,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 		// 思考： 如果合作机构需要做oauth2认证的话 第一步操作的是什么？
 		// 1.申请获取到appid 和 appkey 写死的
-		 clients.inMemory().withClient("client_1").secret(passwordEncoder().encode("123456"))
-		 .redirectUris("http://www.mayikt.com")	//授权码授权模式下的回调地址
-		 .authorizedGrantTypes("authorization_code", "password",
-		 "refresh_token").scopes("all")
-		 .accessTokenValiditySeconds(ACCESSTOKENVALIDITYSECONDS)
-		 .refreshTokenValiditySeconds(REFRESHTOKENVALIDITYSECONDS);// 授权类型
+		clients.inMemory().withClient("client_1").secret(passwordEncoder().encode("123456"))
+				.redirectUris("http://www.mayikt.com") // 授权码授权模式下的回调地址
+				.authorizedGrantTypes("authorization_code", "password", "refresh_token").scopes("all")
+				.accessTokenValiditySeconds(ACCESSTOKENVALIDITYSECONDS)
+				.refreshTokenValiditySeconds(REFRESHTOKENVALIDITYSECONDS);// 授权类型
 		// 为授权码类型
 		// 密码授权模式 使用用户名称和密码进行获取accessToken
 		// 如果clientid appid 同时使用密码模式和授权code 获取accessToken 为发生什么问题
@@ -69,6 +88,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		// 必须加上他，不然刷新令牌接口会报错
 		endpoints.authenticationManager(authenticationManager());
 		endpoints.userDetailsService(userDetailsService());
+		//endpoints.userDetailsService(userServiceDetail);// 从数据库取值
 		// 之前的accessToken b55c980c-31f7-4498-a783-bd905608fb18
 		// 刷新之后accessToken d40f7915-dd06-4503-83c8-2815915c9368
 	}
@@ -79,10 +99,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		oauthServer.allowFormAuthenticationForClients();
 		// 允许check_token访问
 		oauthServer.checkTokenAccess("permitAll()");
-		/*oauthServer
-        .tokenKeyAccess("permitAll()")
-        .checkTokenAccess("permitAll()")
-        .allowFormAuthenticationForClients();*/
+		oauthServer.tokenKeyAccess("permitAll()");
 	}
 
 	@Bean
@@ -117,6 +134,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	}
 
 	@Bean
+	static
 	PasswordEncoder passwordEncoder() {
 		// 加密方式
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

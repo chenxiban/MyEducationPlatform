@@ -29,8 +29,7 @@ public interface UsersRepository extends JpaRepository<User, Integer>, JpaSpecif
 	 * @return
 	 * @author Chenyongjia
 	 */
-	@Query("FROM User u WHERE u.usersName= :usersName")
-	User findsLoginName(String usersName);
+	User findByUserName(String userName);
 	
 	/**
 	 * 批量删除用户信息

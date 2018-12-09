@@ -47,7 +47,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				// 设置不拦截规则
 				.antMatchers("/webjars/**", "/js/**", "/css/**", "/images/*", "/fonts/**", "/**/*.png", "/**/*.jpg",
 						"/static/**")
-				.permitAll().antMatchers("/", "/home", "/about","/oauth/token").permitAll()// 指定那些URL不要被保护
+				.permitAll().antMatchers("/", "/home", "/about","/oauth/**").permitAll()// 指定那些URL不要被保护
 				.antMatchers("/admin/**").hasAnyRole("ROLE_USER")// 指定那些URL不要被保护
 				.antMatchers("/user/**").hasAnyRole("ROLE_USER")// 指定那些URL不要被保护
 				.antMatchers("/**").fullyAuthenticated().and().formLogin().loginPage("/login")// 登录的时候你要跳转到哪里

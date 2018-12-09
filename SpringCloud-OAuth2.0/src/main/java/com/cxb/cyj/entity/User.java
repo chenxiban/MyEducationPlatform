@@ -30,6 +30,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.cxb.cyj.md5.PasswordEncoder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -59,29 +60,29 @@ public class User implements UserDetails,Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy
 	@Column(columnDefinition = "int unsigned  COMMENT '用户id'")
-	private Integer usersId;
+	private Integer userId;
 	@Column(columnDefinition = "int unsigned NOT NULL COMMENT '由 Java 代码生成的用户流水号'")
-	private Integer usersStuNo;
+	private Integer userStuNo;
 	@Column(columnDefinition = "varchar(20) NOT NULL COMMENT '用户名称'  ")
-	private String usersName;
+	private String userName;
 	@Column(columnDefinition = "varchar(11) COMMENT '密保手机号'  ")
-	private String usersProtectMTel;
+	private String userProtectMTel;
 	@Column(columnDefinition = "varchar(50) COMMENT '密保邮箱'  ")
-	private String usersProtectEMail;
+	private String userProtectEMail;
 	@Column(columnDefinition = "varchar(120) COMMENT '用户登陆密码'  ")
-	private String usersPassword;
+	private String userPassword;
 	@Column(columnDefinition = "char(1) DEFAULT '否'  COMMENT '是否锁定'")
-	private String usersIsLookout;
+	private String userIsLookout;
 	@Column(columnDefinition = "tinyint unsigned DEFAULT 0 COMMENT '密码错误次数'")
-	private Integer usersPsdWrongTime;
+	private Integer userPsdWrongTime;
 	@Column(columnDefinition = "datetime COMMENT '用户锁定时间' ")
-	private Date usersLockTime;
+	private Date userLockTime;
 	@Column(columnDefinition = "datetime COMMENT '用户最后一次登录时间' ")
-	private Date usersLastLoginTime;
+	private Date userLastLoginTime;
 	@Column(columnDefinition = "datetime COMMENT '创建时间' ")
-	private Date usersCreatTime;
+	private Date userCreatTime;
 	@Column(columnDefinition = "timestamp COMMENT '最后一次修改时间'", nullable = false, updatable = false, insertable = false)
-	private Timestamp usersUpdateTime;
+	private Timestamp userUpdateTime;
 	
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER) // 指定多对多关系
@@ -99,6 +100,7 @@ public class User implements UserDetails,Serializable {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> auths = new ArrayList<>();
 		Set<Roles> roles = this.getRolesSet();
+		//Set<Permission> permissions=this.getPermissionSet();
 		for (Roles role : roles) {
 			auths.add(new SimpleGrantedAuthority(role.getRolesName()));
 		}
@@ -107,12 +109,12 @@ public class User implements UserDetails,Serializable {
 
 	@Override
 	public String getPassword() {
-		return this.usersPassword;
+		return this.userPassword;
 	}
 
 	@Override
 	public String getUsername() {
-		return this.usersName;
+		return this.userName;
 	}
 
 	/**
@@ -130,12 +132,11 @@ public class User implements UserDetails,Serializable {
 	 */
 	@Override
 	public boolean isAccountNonLocked() {
-		/*if (this.getUsersIsLookout().equals("是")) {
+		if (this.getUserIsLookout().equals("是")) {
 			return false;
 		} else {
 			return true;
-		}*/
-		return true;
+		}
 	}
 
 	/**
@@ -152,6 +153,12 @@ public class User implements UserDetails,Serializable {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+	
+	public static void main(String[] args) {
+		// 加密方式
+		PasswordEncoder passwordEncoder = new PasswordEncoder("小佳", "MD5");
+		System.out.println(passwordEncoder.encode("123456"));
 	}
 	
 }

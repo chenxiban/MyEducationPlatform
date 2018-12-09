@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.cxb.cyj.dao.UsersRepository;
 import com.cxb.cyj.entity.User;
-import com.cxb.cyj.service.UserService;
 import com.cxb.cyj.util.IsEmptyUtils;
 
 /**
@@ -22,16 +22,17 @@ import com.cxb.cyj.util.IsEmptyUtils;
 public class CustomUserServiceImpl implements UserDetailsService {
 	
 	@Autowired
-	private UserService userService;
+	private UsersRepository usersRepository;
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("收到的账号"+username);
-        User users=userService.findsLoginName(username);
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        System.out.println("收到的账号"+userName);
+        User users=usersRepository.findByUserName(userName);
+        System.out.println(users);
         if(IsEmptyUtils.isEmpty(users)){
         	throw new UsernameNotFoundException("Login account does not exist!!!");
         } 
-        System.out.println("用户为:" + users.getUsersName() + ";密码为:" + users.getUsersPassword());
+        System.out.println("用户为:" + users.getUsername() + ";密码为:" + users.getUserPassword());
         return users;
 	}
 

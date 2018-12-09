@@ -62,13 +62,10 @@ security:
   oauth2:
     resource:
       ####从认证授权中心上验证token
-      tokenInfoUri: http://localhost:3012/oauth/check_token
+      tokenInfoUri: http://localhost:3011/chenyongjia-oauth/oauth/check_token
       preferTokenInfo: true
     client:
-      accessTokenUri: http://localhost:3012/oauth/token
-      userAuthorizationUri: http://localhost:3012/oauth/authorize
-#      ###appid
+      accessTokenUri: http://localhost:3011/chenyongjia-oauth/oauth/token
+      userAuthorizationUri: http://localhost:3011/chenyongjia-oauth/oauth/authorize
       clientId: client_1
-#      ###appSecret
-      clientSecret: 123456
-   
+      clientSecret: 123456   
