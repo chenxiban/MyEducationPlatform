@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +32,7 @@ public class UserController {
 	private Timestamp timestamp = new Timestamp(date.getTime());
 	
 	/**
-	 * http://localhost:3011/wangmengxia/WangMengXia/user/loginUsers
+	 * http://localhost:3011/wangmengxia/WangMengXia/user/loginUsers?userName=贴吧管理员&userPwd=123456
 	 * @param users
 	 * @return
 	 * 王梦霞
@@ -44,8 +44,19 @@ public class UserController {
 			int uid = u.getUserId();
 			String userName = users.getUserName();
 			String userPwd = users.getUserPwd();
+			/*return new Result(true,"登录成功");*/
+					
+			if (userPwd.equals(u.getUserPwd())) {
+				users.getUserPwd();
+				return new Result(true,"登录成功");
+			} else {
+				return new Result(false,"密码错误");
+			}
+		}else {
+			return new Result(false,"当前用户不存在");
 		}
-		return u;
+		
+		
 	}
 }
 
