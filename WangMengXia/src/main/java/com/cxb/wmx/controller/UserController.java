@@ -32,12 +32,11 @@ public class UserController {
 	private Timestamp timestamp = new Timestamp(date.getTime());
 	
 	/**
-	 * http://localhost:3030/WangMengXia/user/loginUsers
+	 * http://localhost:3011/wangmengxia/WangMengXia/user/loginUsers
 	 * @param users
 	 * @return
 	 * 王梦霞
 	 */
-	@PreAuthorize(value="hasAuthority('user:loginUsers')")	//等于 .antMatchers("/deleteOrder").hasAnyAuthority("deleteOrder")
 	@RequestMapping(value = "/loginUsers", name = "管理员登录")
 	public Object loginUsers(Users users) {
 		Users u = userService.findByUserName(users.getUserName());
