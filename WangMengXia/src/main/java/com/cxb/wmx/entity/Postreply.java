@@ -60,6 +60,8 @@ postreply_updatetime字段,时间戳,非空,备注:修改时间
 	private Integer postreplyId;
 	@Column(columnDefinition = "int  NOT NULL COMMENT '回复人id'")
 	private Integer userId;
+	@Column(columnDefinition = "varchar(20)  NOT NULL COMMENT '回复人昵称'")
+	private String userName;
 	@Column(columnDefinition = "varchar(500) NOT NULL COMMENT '回复内容'  ")
 	private String postreplyCount;
 	@Column(columnDefinition = "tinyint unsigned DEFAULT 0 COMMENT '是否举报成功' ")

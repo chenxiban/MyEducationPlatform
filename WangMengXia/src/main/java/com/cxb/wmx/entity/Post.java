@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CascadeType;
 
@@ -82,5 +83,9 @@ public class Post {
 	
 	@OneToMany(mappedBy="post",fetch=FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
 	private List<Postcommit> list3= new ArrayList<>();
+	
+	@Transient
+	private String barCategory;
+	
 	
 }
