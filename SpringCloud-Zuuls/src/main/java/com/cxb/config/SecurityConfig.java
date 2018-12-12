@@ -6,16 +6,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
- * 5.Zuul网关
-*5.1开启支持Sso
- * @author ChenYongJia 2018年12月9日
+ * 开启支持Sso
+ * @author ChenYongJia 2018年12月12日 
  *
  */
 @Configuration
 @EnableOAuth2Sso
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable();
-	}
+public class SecurityConfig extends WebSecurityConfigurerAdapter{
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http.csrf().disable();
+
+    }
+
 }

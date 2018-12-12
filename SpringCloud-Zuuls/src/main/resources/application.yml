@@ -1,6 +1,6 @@
 eureka:
   client:
-    serviceUrl:
+    serviceUrl: 
     #eureka注册中心地址
       defaultZone: http://localhost:8888/eureka/
 server:
@@ -31,8 +31,8 @@ security:
     client: 
       accessTokenUri: http://localhost:3011/chenyongjia-oauth/oauth/token
       userAuthorizationUri: http://localhost:3011/chenyongjia-oauth/oauth/authorize
-      clientId: client_1
-      clientSecret: 123456 
+      client-id: client_1
+      client-secret: 123456 
 ###actuator监控点 start####
 endpoints:
   health:
