@@ -30,27 +30,5 @@ public interface UsersRepository extends JpaRepository<User, Integer>, JpaSpecif
 	 * @author Chenyongjia
 	 */
 	User findByUserName(String userName);
-	
-	/**
-	 * 批量删除用户信息
-	 * 
-	 * @param stuList
-	 * @return
-	 * @author Chenyongjia
-	 */
-	@Query(value = "DELETE FROM tb_user WHERE user_id IN (:stuList)", nativeQuery = true)
-	@Modifying
-	@Transactional
-	Integer deleteBatch(@Param(value = "stuList") List<String> stuList);
-	
-	/**
-	 * 查询用户权限
-	 * 
-	 * @param id
-	 * @return
-	 * @author Chenyongjia
-	 */
-	@Query(value = "SELECT permission_value FROM tb_permission WHERE permission_id IN(SELECT permission_id FROM tb_rolepermission WHERE role_id IN(SELECT role_id FROM tb_userroles WHERE users_id =:id)) ", nativeQuery = true)
-	List<String> queryPermissionValueByUserId(Integer id);
 
 }

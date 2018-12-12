@@ -47,7 +47,7 @@ import lombok.Setter;
 @Builder // 使用建造模型
 @Entity
 @Table(name = "tb_permission")
-public class Permission implements Serializable {// GrantedAuthority,
+public class Permission implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -92,15 +92,5 @@ public class Permission implements Serializable {// GrantedAuthority,
 		this.permissionModule = permissionModule;
 		this.permissionName = permissionName;
 	}
-
-	/*@Override
-	public String getAuthority() {
-		return permissionValue;
-	}
-	
-	@Override
-	public String toString() {
-		return "Permission{" + "permissionId=" + permissionId + ", permissionValue='" + permissionValue + '\'' + '}';
-	}*/
 	
 }

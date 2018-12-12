@@ -9,10 +9,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -20,7 +19,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import com.cxb.cyj.service.impl.CustomUserServiceImpl;
 
@@ -68,17 +66,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.authorizedGrantTypes("authorization_code", "password", "refresh_token").scopes("all")
 				.accessTokenValiditySeconds(ACCESSTOKENVALIDITYSECONDS)
 				.refreshTokenValiditySeconds(REFRESHTOKENVALIDITYSECONDS);// 授权类型
-		// 为授权码类型
-		// 密码授权模式 使用用户名称和密码进行获取accessToken
-		// 如果clientid appid 同时使用密码模式和授权code 获取accessToken 为发生什么问题
-		// a 相同
-		// b 覆盖
-		// c 不一致性
-		// d 报错
-		// 密码模式 660fa8e0-f8db-422d-8891-906db021ded8
-		// 授权模式 660fa8e0-f8db-422d-8891-906db021ded8
-		// accessToken 和appid关联
-
 	}
 
 	// 设置token类型
@@ -87,8 +74,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				HttpMethod.POST);
 		// 必须加上他，不然刷新令牌接口会报错
 		endpoints.authenticationManager(authenticationManager());
-		endpoints.userDetailsService(userDetailsService());
-		//endpoints.userDetailsService(userServiceDetail);// 从数据库取值
+		endpoints.userDetailsService(userDetailsService);// 从数据库取值
 		// 之前的accessToken b55c980c-31f7-4498-a783-bd905608fb18
 		// 刷新之后accessToken d40f7915-dd06-4503-83c8-2815915c9368
 	}
@@ -96,10 +82,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
 		// 允许表单认证
+		//oauthServer.tokenKeyAccess("permitAll()");
 		oauthServer.allowFormAuthenticationForClients();
 		// 允许check_token访问
 		oauthServer.checkTokenAccess("permitAll()");
-		oauthServer.tokenKeyAccess("permitAll()");
+	}
+	
+	/**
+	 * 用户自定义
+	 */
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
 	@Bean
@@ -116,22 +109,22 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Bean
 	public AuthenticationProvider daoAuhthenticationProvider() {
 		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-		daoAuthenticationProvider.setUserDetailsService(userDetailsService());
+		daoAuthenticationProvider.setUserDetailsService(userDetailsService);
 		daoAuthenticationProvider.setHideUserNotFoundExceptions(false);
 		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
 		return daoAuthenticationProvider;
 	}
 
 	// 设置添加用户信息,正常应该从数据库中读取
-	@Bean
+	/*@Bean
 	UserDetailsService userDetailsService() {
 		InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
 		userDetailsService.createUser(User.withUsername("user_1").password(passwordEncoder().encode("123456"))
 				.authorities("ROLE_USER").build());
 		userDetailsService.createUser(User.withUsername("user_2").password(passwordEncoder().encode("1234567"))
 				.authorities("ROLE_USER").build());
-		return userDetailsService;
-	}
+		return new CustomUserServiceImpl;
+	}*/
 
 	@Bean
 	static
@@ -140,5 +133,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		return passwordEncoder;
 	}
+    /*@Bean
+	BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}*/
 
 }

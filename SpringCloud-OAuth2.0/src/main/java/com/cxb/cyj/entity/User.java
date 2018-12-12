@@ -29,8 +29,8 @@ import org.hibernate.annotations.NotFoundAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.cxb.cyj.md5.PasswordEncoder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -41,11 +41,11 @@ import lombok.Setter;
 
 /**
  * 
- * @Description:   用户实体类
- * @ClassName:     User.java
- * @author         ChenYongJia
- * @Date           2018年12月04日 下午20:40:56
- * @Email          867647213@qq.com
+ * @Description: 用户实体类
+ * @ClassName: User.java
+ * @author ChenYongJia
+ * @Date 2018年12月04日 下午20:40:56
+ * @Email 867647213@qq.com
  */
 @SuppressWarnings("serial")
 @Getter
@@ -55,7 +55,7 @@ import lombok.Setter;
 @Builder // 使用建造模型
 @Entity
 @Table(name = "tb_user")
-public class User implements UserDetails,Serializable {
+public class User implements UserDetails, Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy
@@ -83,7 +83,7 @@ public class User implements UserDetails,Serializable {
 	private Date userCreatTime;
 	@Column(columnDefinition = "timestamp COMMENT '最后一次修改时间'", nullable = false, updatable = false, insertable = false)
 	private Timestamp userUpdateTime;
-	
+
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER) // 指定多对多关系
 	@Cascade(value = { CascadeType.ALL }) // 设置级联关系
@@ -95,15 +95,16 @@ public class User implements UserDetails,Serializable {
 	
 	@Transient
 	private String Pass;
-	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> auths = new ArrayList<>();
-		Set<Roles> roles = this.getRolesSet();
-		//Set<Permission> permissions=this.getPermissionSet();
+		Set<Roles> roles = this.getRolesSet();// 根据角色控制
+		//Set<Permission> permissions=this.getPermissionSet();// 根据权限控制
 		for (Roles role : roles) {
-			auths.add(new SimpleGrantedAuthority(role.getRolesName()));
+			auths.add(new SimpleGrantedAuthority(role.getRolesEName()));
 		}
+		System.out.println("当前用户拥有的权限为=====>"+auths);
 		return auths;
 	}
 
@@ -118,8 +119,7 @@ public class User implements UserDetails,Serializable {
 	}
 
 	/**
-	 * 账户是否未过期
-	 * 指示用户的帐户是否已过期。过期的帐户无法验证。
+	 * 账户是否未过期 指示用户的帐户是否已过期。过期的帐户无法验证。
 	 */
 	@Override
 	public boolean isAccountNonExpired() {
@@ -127,16 +127,11 @@ public class User implements UserDetails,Serializable {
 	}
 
 	/**
-	 * 账户是否未锁定
-	 * 指示用户是否锁定或解锁。无法对锁定用户进行身份验证。
+	 * 账户是否未锁定 指示用户是否锁定或解锁。无法对锁定用户进行身份验证。
 	 */
 	@Override
 	public boolean isAccountNonLocked() {
-		if (this.getUserIsLookout().equals("是")) {
-			return false;
-		} else {
-			return true;
-		}
+		return true;
 	}
 
 	/**
@@ -154,11 +149,23 @@ public class User implements UserDetails,Serializable {
 	public boolean isEnabled() {
 		return true;
 	}
-	
-	public static void main(String[] args) {
-		// 加密方式
-		PasswordEncoder passwordEncoder = new PasswordEncoder("小佳", "MD5");
-		System.out.println(passwordEncoder.encode("123456"));
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userStuNo=" + userStuNo + ", userName=" + userName + ", userProtectMTel="
+				+ userProtectMTel + ", userProtectEMail=" + userProtectEMail + ", userPassword=" + userPassword
+				+ ", userIsLookout=" + userIsLookout + ", userPsdWrongTime=" + userPsdWrongTime + ", userLockTime="
+				+ userLockTime + ", userLastLoginTime=" + userLastLoginTime + ", userCreatTime=" + userCreatTime
+				+ ", userUpdateTime=" + userUpdateTime + "]";
 	}
-	
+
+	public static void main(String[] args) {
+		User user=new User();
+		user.setUserName("小佳");
+		user.setUserPassword("cyj123");
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // 加密
+		String encodedPassword = passwordEncoder.encode(user.getPassword().trim());
+		System.out.println(encodedPassword);
+	}
+
 }

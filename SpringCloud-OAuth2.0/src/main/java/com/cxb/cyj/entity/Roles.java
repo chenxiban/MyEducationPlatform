@@ -62,6 +62,8 @@ public class Roles implements Serializable {//GrantedAuthority,
 	private Date rolesCreatTime;
 	@Column(columnDefinition = "timestamp COMMENT '最后一次修改时间'", nullable = false, updatable = false, insertable = false)
 	private Timestamp rolesUpdateTime;
+	@Column(columnDefinition = "varchar(50) COMMENT '角色英文体现'  ")
+	private String rolesEName;
 
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER) // 多对多关系

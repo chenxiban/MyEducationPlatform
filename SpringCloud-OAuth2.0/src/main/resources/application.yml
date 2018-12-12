@@ -64,7 +64,7 @@ spring:
       #preferTokenInfo: true
     #client:
       #accessTokenUri: http://localhost:3012/oauth//token
-      #userAuthorizationUri: http://localhost:3012/oauth//authorize
+      #userAuthorizationUri: http://localhost:3012/oauth/authorize
 #      ###appid
       #clientId: client_1
 #      ###appSecret

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -12,11 +13,11 @@ import com.cxb.cyj.Handler.MyAuthenticationSuccessHandler;
 
 /**
  * 
- * @Description:   安全配置文件：
- * @ClassName:     SpringSecurityConfig.java
- * @author         ChenYongJia
- * @Date           2018年12月04日 下午20:40:56
- * @Email          867647213@qq.com
+ * @Description: 安全配置文件：
+ * @ClassName: SpringSecurityConfig.java
+ * @author ChenYongJia
+ * @Date 2018年12月04日 下午20:40:56
+ * @Email 867647213@qq.com
  */
 @Configuration
 @EnableWebSecurity
@@ -29,34 +30,54 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private MyAuthenticationFailureHandler failHandler;
 
-	/**
-	 * @Description:用户自定义,在内存中创建一个用户及其角色权限
-	 * @param auth
-	 * @throws Exception
-	 * @author Chenyongjia
-	 */
-	/*
-	 * @Override protected void configure(AuthenticationManagerBuilder auth) throws
-	 * Exception { auth.userDetailsService(customUserServiceImpl); }
-	 */
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.csrf().disable().authorizeRequests()
-				// 设置不拦截规则
-				.antMatchers("/webjars/**", "/js/**", "/css/**", "/images/*", "/fonts/**", "/**/*.png", "/**/*.jpg",
-						"/static/**")
-				.permitAll().antMatchers("/", "/home", "/about","/oauth/**").permitAll()// 指定那些URL不要被保护
-				.antMatchers("/admin/**").hasAnyRole("ROLE_USER")// 指定那些URL不要被保护
-				.antMatchers("/user/**").hasAnyRole("ROLE_USER")// 指定那些URL不要被保护
-				.antMatchers("/**").fullyAuthenticated().and().formLogin().loginPage("/login")// 登录的时候你要跳转到哪里
-				.permitAll()// 登录任意访问
-				.successHandler(successHandler).failureHandler(failHandler)// 登录成功与否的返回信息
-				.and().rememberMe() // rememberMe
-				.and() // 注销行为任意访问
-				.logout().permitAll();
+//		http.csrf().disable().authorizeRequests()
+//				// 设置不拦截规则
+//				.antMatchers("/webjars/**", "/js/**", "/css/**", "/images/*", "/fonts/**", "/**/*.png", "/**/*.jpg",
+//						"/static/**")
+//				.permitAll().antMatchers("/", "/home", "/about", "/oauth/**").permitAll()// 指定那些URL不要被保护
+//				.antMatchers("/**").fullyAuthenticated().and().formLogin()// 登录的时候你要跳转到哪里
+//				.permitAll()// 登录任意访问
+//				.successHandler(successHandler).failureHandler(failHandler)// 登录成功与否的返回信息
+//				.and().rememberMe() // rememberMe
+//				.and() // 注销行为任意访问
+//				.logout().permitAll();
 
+		// 所有请求都需要SpringSecurity认证授权
+//		http.csrf().disable().authorizeRequests()
+//				// 设置不拦截规则
+//				.antMatchers("/webjars/**", "/js/**", "/css/**", "/images/*", "/fonts/**", "/**/*.png", "/**/*.jpg",
+//						"/static/**")
+//				.permitAll().antMatchers("/login")
+//				.permitAll().antMatchers("/", "/home", "/about")
+//				.permitAll()// 指定那些URL不要被保护
+//				.antMatchers("/**").fullyAuthenticated()
+//				.and().formLogin().loginPage("/login")
+//				.successHandler(successHandler)
+//				.failureHandler(failHandler)
+//				.and().csrf().disable();
+
+		// 不拦截 oauth 开放的资源
+		http.csrf().disable().requestMatchers().anyRequest().and().authorizeRequests().antMatchers("login", "/oauth/**")
+				.permitAll().antMatchers("/webjars/**", "/js/**", "/css/**", "/images/*", "/fonts/**", "/**/*.png",
+						"/**/*.jpg", "/static/**")
+				.permitAll();
+//		http.csrf().disable().authorizeRequests()
+//			.antMatchers("login", "/oauth/**").permitAll()
+//			.antMatchers("/webjars/**", "/js/**", "/css/**", "/images/*", "/fonts/**", "/**/*.png",
+//					"/**/*.jpg", "/static/**")
+//			.permitAll();
+//			.anyRequest()
+//			.authenticated().and()
+//			.formLogin().and()
+//			.httpBasic();
+	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/favor.ioc");
 	}
 
 	/*
