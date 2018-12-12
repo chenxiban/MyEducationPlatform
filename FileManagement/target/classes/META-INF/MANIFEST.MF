@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
-Implementation-Title: FileManagement
+Implementation-Title: FilesManagement
 Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: 王梦霞
-Implementation-Vendor-Id: com.cxb
+Implementation-Vendor-Id: cxb.cyj
 Build-Jdk: 1.8.0_152
 Implementation-URL: https://repo.spring.io/milestone
 Created-By: Maven Integration for Eclipse
