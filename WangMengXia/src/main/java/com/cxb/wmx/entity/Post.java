@@ -86,10 +86,9 @@ public class Post {
 	
 	@Transient
 	private String barCategory;
-	
-	public String getBarCategory() {
-		return this.bar.getBarCategory();
-	}
-	
-	
+	 
+	/*@Transient
+	private int page=0;
+	@Transient
+	private int rows=10;*/
 }

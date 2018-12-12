@@ -38,10 +38,10 @@ public class PostController {
 	 * @return
 	 */
 	@RequestMapping(value="/queryPost")
-	public Object queryPost(PostSearch postSearch) {
-		Pageable pageable = PageRequest.of(postSearch.getPage() - 1, postSearch.getRows(), Sort.Direction.ASC,
+	public Object queryPost(PostSearch post) {
+		Pageable pageable = PageRequest.of(post.getPage() - 1, post.getRows(), Sort.Direction.ASC,
 				"postId");
-		Page<Post> page = postService.sreachByPost(postSearch, pageable);
+		Page<Post> page = postService.sreachByPost(post, pageable);
 		System.out.println("page======>" + page);
 		Long total = page.getTotalElements();
 		List<Post> list = page.getContent();

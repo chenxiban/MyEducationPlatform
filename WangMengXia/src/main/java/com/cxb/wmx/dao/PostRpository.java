@@ -21,4 +21,6 @@ public interface PostRpository extends JpaRepository<Post, Integer>, JpaSpecific
 	@Modifying
 	@Transactional
 	int deletePostById(@Param(value="postId") Integer postId);
+	
+		
 }

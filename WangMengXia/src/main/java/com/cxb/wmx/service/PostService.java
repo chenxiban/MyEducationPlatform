@@ -19,7 +19,7 @@ public interface PostService {
 	 * @param pageable
 	 * @return
 	 */
-	public Page<Post> sreachByPost(PostSearch postSearch, Pageable pageable);
+	public Page<Post> sreachByPost(PostSearch post, Pageable pageable);
 	
 	public Object deletePostById(Integer postId);
 	

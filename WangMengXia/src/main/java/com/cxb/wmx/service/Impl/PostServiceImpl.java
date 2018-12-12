@@ -8,7 +8,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,7 @@ import com.cxb.wmx.entitysearch.PostSearch;
 import com.cxb.wmx.service.PostService;
 import com.cxb.wmx.util.IsEmptyUtils;
 
+@SuppressWarnings("unused")
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -33,16 +36,18 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	private PostComRpository postComRpository;
-
+	
 	@Autowired
 	private PostreplyRpository postreplyRpository;
 
+	protected Path<Post> join;
+
 	@Override
-	public Page<Post> sreachByPost(PostSearch postSearch, Pageable pageable) {
-		return postRpository.findAll(this.getWhereClause(postSearch), pageable);
+	public Page<Post> sreachByPost(PostSearch post, Pageable pageable) {
+		return postRpository.findAll(this.getWhereClause(post), pageable);
 	}
 
-	private Specification<Post> getWhereClause(PostSearch postSearch) {
+	private Specification<Post> getWhereClause(PostSearch post) {
 		return new Specification<Post>() {
 			private static final long serialVersionUID = 1L;
 
@@ -51,12 +56,18 @@ public class PostServiceImpl implements PostService {
 				Predicate predicate = cb.conjunction();// 动态SQL表达式
 				List<Expression<Boolean>> exList = predicate.getExpressions();// 动态SQL表达式集合
 
-				if (postSearch.getBarCategory() != null && !"".equals(postSearch.getBarCategory())) {
-					exList.add(cb.like(root.<String>get("barCategory"), "%" + postSearch.getBarCategory() + "%"));
+				if (post.getPostName() != null && !"".equals(post.getPostName())) {
+					exList.add(cb.like(root.<String>get("postName"), "%" + post.getPostName() + "%"));
 				}
-				if (postSearch.getPostName() != null && !"".equals(postSearch.getPostName())) {
-					exList.add(cb.like(root.<String>get("postName"), "%" + postSearch.getPostName() + "%"));
+			/*	if (post.getBarCategory() != null && !"".equals(post.getBarCategory())) {
+					exList.add(cb.like(root.<String>get("barCategory"), "%" + post.getBarCategory() + "%"));
 				}
+				*/
+				/*if (post.getBarCategory() != null && !"".equals(post.getBarCategory())) {
+					Path<String> barCategory= join.<String>get("barCategory");
+					 Predicate p1 = cb.like(barCategory, "%"+post.getBarCategory()+"%");
+					 exList.add(p1);
+				}*/
 				return predicate;
 			}
 		};
