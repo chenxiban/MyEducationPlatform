@@ -1,5 +1,7 @@
 package com.cxb.cyj.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -39,5 +41,27 @@ public interface UserService {
 	 * @return
 	 */
 	User findsLoginName(String usersName);
+	
+	/**
+	 * 添加用户信息
+	 * 
+	 * @param u
+	 * @return
+	 */
+	boolean addUser(User u);
+	
+	/**
+	 * 删除用户信息
+	 * @param stuList
+	 * @return
+	 */
+	boolean delUser(List<String> stuList);
+	
+	/**
+	 * 修改用户信息
+	 * @param id
+	 * @return
+	 */
+	User updUserById(Integer id);
 	
 }

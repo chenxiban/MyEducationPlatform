@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
@@ -19,11 +21,11 @@ import com.cxb.cyj.service.PermissionService;
 
 /**
  * 
- * @Description:   权限控制器
- * @ClassName:     PermissionController.java
- * @author         ChenYongJia
- * @Date           2018年12月04日 下午20:40:56
- * @Email          867647213@qq.com
+ * @Description: 权限控制器
+ * @ClassName: PermissionController.java
+ * @author ChenYongJia
+ * @Date 2018年12月04日 下午20:40:56
+ * @Email 867647213@qq.com
  */
 @RestController
 @RequestMapping(value = "/permission", name = "权限模块")
@@ -39,19 +41,47 @@ public class PermissionController {
 	private PermissionService service;
 
 	/**
-	 * http://localhost:3010/ChenYongJia/permission/updatePermission 更新系统权限信息
+	 * http://localhost:3011/chenyongjia/ChenYongJia/permission/queryAll 查询系统权限
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/queryAll", name = "查询系统权限",method=RequestMethod.GET)
+	public List<String> queryAll() {
+		System.out.println("查询到的数据库所有权限===>" + service.queryAll());
+		return service.queryAll();
+	}
+
+	/**
+	 * http://localhost:3011/chenyongjia/ChenYongJia/permission/batchInsert 批量插入权限数据
+	 * 
+	 * @param pList
+	 * @return
+	 */
+	@RequestMapping(value = "/batchInsert", name = "批量插入权限数据",method=RequestMethod.PUT)
+	public Integer batchInsert(@RequestBody List<Permission> pList) {
+		return service.batchInsert(pList);
+	}
+
+	/**
+	 * http://localhost:3011/chenyongjia/ChenYongJia/permission/updatePermission
+	 * 更新系统权限信息
 	 * 
 	 * @author ChenYongJia
 	 */
-	@PreAuthorize(value = "hasAuthority('permission:updatePermission')")
-	@RequestMapping(value = "/updatePermission", name = "更新系统权限")
-	public Object updatePermission() {
-		System.out.println("更新系统中所有权限...");
-		int k = this.updateSysPermission();// 收集系统中所有权限数据更新到数据库
-		System.out.println("系统中所有权限全部" + k + "条更新完毕 ^_^ ");
-		return "updatePermission 成功更新权限条数=>" + k;
+	@RequestMapping(value = "/updatePermission", name = "更新系统权限",method=RequestMethod.POST)
+	public String updatePermission(@RequestParam(value="ks") int ks) {
+		if (ks > 0) {
+			System.out.println("更新系统中所有权限...");
+			System.out.println("系统中所有权限全部" + ks + "条更新完毕 ^_^ ");
+			return "updatePermission 成功更新权限条数=>" + ks;
+		} else {
+			System.out.println("更新系统中所有权限...");
+			int k=this.updateSysPermission();
+			System.out.println("系统中所有权限全部" + k + "条更新完毕 ^_^ ");
+			return "updatePermission 成功更新权限条数=>" + k;
+		}
 	}
-
+	
 	/**
 	 * 收集系统中所有权限数据更新到数据库
 	 * 

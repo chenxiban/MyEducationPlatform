@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 
 /**
  * 
@@ -15,7 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  */
 @SpringCloudApplication // ===( @EnableEurekaClient + @EnableHystrix + @SpringBootApplication
 						// )pom.xml必须引Eureka、Hystrix依赖
-@EnableAuthorizationServer //
+@EnableAuthorizationServer
 @EnableFeignClients
 public class Application {
 	public static void main(String[] args) {

@@ -42,8 +42,8 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public User findsLoginName(String usersName) {
-		return usersRepository.findsLoginName(usersName);
+	public User findsLoginName(String userName) {
+		return usersRepository.findByUserName(userName);
 	}
 	
 	/**
@@ -92,6 +92,32 @@ public class UserServiceImpl implements UserService {
 			}
 
 		};
+	}
+
+	@Override
+	public boolean addUser(User u) {
+		try {
+			usersRepository.save(u);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean delUser(List<String> stuList) {
+		try {
+			usersRepository.deleteBatch(stuList);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public User updUserById(Integer id) {
+		// TODO Auto-generated method stub
+		return usersRepository.getOne(id);
 	}
 	
 }

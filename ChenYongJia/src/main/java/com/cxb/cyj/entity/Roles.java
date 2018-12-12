@@ -61,6 +61,8 @@ public class Roles implements Serializable {
 	private Date rolesCreatTime;
 	@Column(columnDefinition = "timestamp COMMENT '最后一次修改时间'", nullable = false, updatable = false, insertable = false)
 	private Timestamp rolesUpdateTime;
+	@Column(columnDefinition = "varchar(50) COMMENT '角色英文体现'  ")
+	private String rolesEname;
 
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER) // 多对多关系
@@ -79,4 +81,14 @@ public class Roles implements Serializable {
 			inverseJoinColumns = { @JoinColumn(name = "permission_id") }) // 多对多关系另一张表与第三张中间表表的外键的对应关系
 	@NotFound(action = NotFoundAction.IGNORE) // NotFound : 意思是找不到引用的外键数据时忽略，NotFound默认是exception
 	private Set<Permission> roleSet = new HashSet<Permission>();// 用户所拥有的角色集合
+	
+	// 关联模块
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER, cascade = javax.persistence.CascadeType.ALL) // 指定多对多关系
+																							// //默认懒加载,只有调用getter方法时才加载数据
+	@JoinTable(name = "tb_rolemodules", // 指定第三张中间表名称
+			joinColumns = { @JoinColumn(name = "role_id") }, // 本表主键userId与第三张中间表user_role_tb的外键user_role_tb_user_id对应
+			inverseJoinColumns = { @JoinColumn(name = "modules_id") }) // 多对多关系另一张表与第三张中间表表的外键的对应关系
+	@NotFound(action = NotFoundAction.IGNORE) // NotFound : 意思是找不到引用的外键数据时忽略，NotFound默认是exception
+	private Set<Modules> modulesSet = new HashSet<Modules>();// 用户所拥有的角色集合
 }

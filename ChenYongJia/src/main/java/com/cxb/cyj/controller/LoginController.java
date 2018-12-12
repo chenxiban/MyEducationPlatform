@@ -2,6 +2,8 @@ package com.cxb.cyj.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.cyj.entity.Result;
@@ -35,7 +37,7 @@ public class LoginController {
 	 * @author ChenYongJia
 	 * @return
 	 */
-	@RequestMapping("/oauth/token")
+	@RequestMapping(value="/oauth/token",method=RequestMethod.GET)
 	public Object getToken(String username, String password) {
 		/*User user = userService.findsLoginName(username);
 		if (IsEmptyUtils.isEmpty(username)) {
@@ -71,8 +73,8 @@ public class LoginController {
 	 * @author ChenYongJia
 	 * @return
 	 */
-	@RequestMapping("/oauth/check_token")
-	public Object checkToken(String token) {
+	@RequestMapping(value="/oauth/check_token",method=RequestMethod.GET)
+	public Object checkToken(@RequestParam(value="token") String token) {
 		System.out.println("用于验证的token为=======>" + token);
 		try {
 			Object object=consumerService.checkToken(token);
@@ -89,8 +91,8 @@ public class LoginController {
 	 * @author ChenYongJia
 	 * @return
 	 */
-	@RequestMapping("/oauth/refresh_Token")
-	public boolean refreshToken(String token) {
+	@RequestMapping(value="/oauth/refresh_Token",method=RequestMethod.GET)
+	public boolean refreshToken(@RequestParam(value="token") String token) {
 		System.out.println("用于注销的token为=======>" + token);
 		if (!IsEmptyUtils.isEmpty(consumerService.refreshToken(token))) {
 			return true;

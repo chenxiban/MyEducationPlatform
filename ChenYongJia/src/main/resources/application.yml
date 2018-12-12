@@ -11,9 +11,9 @@ server:
   servlet: 
     context-path: /ChenYongJia
 
-#logging:
-  #level:
-    #org.springframework.security: DEBUG
+logging:
+  level:
+    org.springframework.security: DEBUG
 
 spring:
   application:
@@ -67,5 +67,5 @@ security:
     client:
       accessTokenUri: http://localhost:3011/chenyongjia-oauth/oauth/token
       userAuthorizationUri: http://localhost:3011/chenyongjia-oauth/oauth/authorize
-      clientId: client_1
-      clientSecret: 123456   
+      client-id: client_1
+      client-secret: 123456   

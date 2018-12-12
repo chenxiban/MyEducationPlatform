@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * 
  * @Description:   
- * @ClassName:     SpringConfig.java
+ * @ClassName:     SpringConfig.java 
  * @author         Chenyongjia
  * @Date           2018年12月06日 下午16:20:42
  * @Email          867647213@qq.com
