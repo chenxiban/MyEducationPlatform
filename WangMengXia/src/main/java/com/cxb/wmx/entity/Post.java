@@ -87,5 +87,9 @@ public class Post {
 	@Transient
 	private String barCategory;
 	
+	public String getBarCategory() {
+		return this.bar.getBarCategory();
+	}
+	
 	
 }

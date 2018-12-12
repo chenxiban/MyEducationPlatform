@@ -54,6 +54,8 @@
 			<artifactId>spring-cloud-starter-oauth2</artifactId>
 		</dependency> -->
 		
+		
+		
 		<!-- 引入lombok 依赖 -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
