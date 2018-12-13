@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.cxb.cyj.entity.Permission;
 import com.cxb.cyj.entity.Roles;
 import com.cxb.cyj.entitysearch.RolesSearch;
 
@@ -27,6 +28,14 @@ public interface RolesService {
 	 * @return
 	 */
 	public Roles getAllRoles(String name);
+	
+	/**
+	 * 根据角色id查询角色拥有的权限
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public List<Permission> getRolesPermissionByRoleId(Integer id);
 	
 	/**
 	 * 根据id获取用户表未被设置的角色信息
@@ -92,13 +101,13 @@ public interface RolesService {
 	 * @param moduleIds
 	 * @return
 	 */
-	//public Integer setRoleModule(Integer roleId,Integer moduleIds);
+	public Integer setRoleModule(Integer roleId,Integer moduleIds);
 	
 	/**
 	 * 根据roleId删除模块
 	 * @param roleId
 	 * @return
 	 */
-	//public boolean delRoleModule(Integer roleId);
+	public boolean delRoleModule(Integer roleId);
 	
 }

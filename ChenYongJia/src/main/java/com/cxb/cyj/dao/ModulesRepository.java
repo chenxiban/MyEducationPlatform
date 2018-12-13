@@ -53,7 +53,7 @@ public interface ModulesRepository extends JpaRepository<Modules, Integer>, JpaS
 	 * @param id
 	 * @return
 	 */
-	@Query(value = "SELECT modules_id,modules_create_time,modules_founder,modules_last_update_time,modules_name,modules_parent_id,path,modules_update_man,modules_weight FROM tb_modules WHERE modules_parent_id=:parentId", nativeQuery = true)
+	@Query(value = "SELECT modules_id,modules_create_time,modules_founder,modules_last_update_time,modules_name,modules_parent_id,modules_path,modules_update_man,modules_weight FROM tb_modules WHERE modules_parent_id=:parentId", nativeQuery = true)
 	public List<Modules> queryChildren(@Param("parentId") Integer parentId);
 	
 	/**

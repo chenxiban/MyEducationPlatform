@@ -1,5 +1,7 @@
 package com.cxb.cyj.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +35,7 @@ import lombok.Setter;
 @Builder // 使用建造模型
 @Entity
 @Table(name = "tb_token")
-public class MyToken {
+public class MyToken implements Serializable {
 	
 	@Id    
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

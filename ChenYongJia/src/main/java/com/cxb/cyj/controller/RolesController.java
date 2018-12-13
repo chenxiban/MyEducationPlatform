@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.cyj.entity.Result;
@@ -47,7 +48,7 @@ public class RolesController {
 	public Object getAllPageRoles(RolesSearch rolesSearch) {
 		// System.out.println("当前查询参数===>" + rolesSearch);
 		Pageable pageable = PageRequest.of(rolesSearch.getPage() - 1, rolesSearch.getRows(), Sort.Direction.ASC,
-				"roleId");
+				"rolesId");
 		Page<Roles> page = rolesService.sreachByRoles(rolesSearch, pageable);
 		Long total = page.getTotalElements();
 		List<Roles> list = page.getContent();
@@ -59,11 +60,22 @@ public class RolesController {
 		map.put("rows", list);
 		return map;
 	}
+	
+	/**
+	 * 获取角色权限
+	 * http://localhost:3011/chenyongjia/ChenYongJia/roles/getRolesPermissionByRoleId?roles_id=1
+	 * @author WangChuanWei
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/getRolesPermissionByRoleId", name = "获取角色权限", method = RequestMethod.GET)
+	public Object getRolesPermissionByRoleId(Integer id) {
+		return rolesService.getRolesPermissionByRoleId(id);
+	}
 
 	/**
 	 * 获取用户角色
-	 * http://localhost:3011/chenyongjia/ChenYongJia/roles/getUserRolesByUserId
-	 * 
+	 * http://localhost:3011/chenyongjia/ChenYongJia/roles/getUserRolesByUserId?userId=1
 	 * @author WangChuanWei
 	 * @param id
 	 * @return
@@ -75,7 +87,7 @@ public class RolesController {
 
 	/**
 	 * 添加角色
-	 * http://localhost:3011/chenyongjia/ChenYongJia/roles/addRoles?rolesName=管理员
+	 * http://localhost:3011/chenyongjia/ChenYongJia/roles/addRoles?rolesName=666
 	 * 
 	 * @author WangChuanWei
 	 * @param r
@@ -104,7 +116,7 @@ public class RolesController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delRoles", name = "删除角色", method = RequestMethod.DELETE)
-	public Object delRoles(String roleId) {
+	public Object delRoles(@RequestParam(value="roleId") String roleId) {
 		List<String> list = new ArrayList<String>();
 		String[] ids = roleId.split(",");
 		for (String dids : ids) {
@@ -129,12 +141,34 @@ public class RolesController {
 	public Object updRoles(Roles u) {
 		Roles roles = rolesService.getRolesById(u.getRolesId());
 		roles.setRolesName(u.getRolesName());
+		roles.setRolesEname(u.getRolesEname());
 		roles.setRolesId(u.getRolesId());
 		if (rolesService.addUser(roles)) {
 			return new Result(true, "角色修改成功");
 		} else {
 			return new Result(false, "角色名重复,请重新填写!");
 		}
+	}
+	
+	/**
+	 * 角色设置菜单模块
+	 * http://localhost:3011/chenyongjia/ChenYongJia/roles/setRoleModule
+	 * @author WangChuanWei
+	 * @param roleId
+	 * @param moduleId
+	 * @return
+	 */
+	@RequestMapping(value = "/setRoleModule", name = "角色设置菜单模块",method = RequestMethod.PUT)
+	public Object setRoleModule(
+			Integer roleId,
+			@RequestParam(value = "moduleId", required = false) Integer[] moduleId) {
+		String msg = null;
+		System.out.println("移除当前角色权限====>"+rolesService.delRoleModule(roleId));
+		for (Integer moduleIds:moduleId) {
+			int k = rolesService.setRoleModule(roleId, moduleIds);
+			msg = "角色roleId=>" + roleId + "->成功设置" + k + "个菜单模块.";
+		}
+		return new Result(true, msg);// 设置成功
 	}
 
 }

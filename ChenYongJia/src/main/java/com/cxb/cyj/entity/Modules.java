@@ -1,5 +1,6 @@
 package com.cxb.cyj.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -47,10 +48,10 @@ import lombok.Setter;
 @Builder // 使用建造模型
 @Entity
 @Table(name = "tb_modules")
-public class Modules {
+public class Modules implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO) // 自动增长列
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // 自动增长列
 	@OrderBy // 数据加载顺序
 	@Column(columnDefinition = "int unsigned comment '备注:模块自动增长主键'  ")
 	private Integer modulesId;

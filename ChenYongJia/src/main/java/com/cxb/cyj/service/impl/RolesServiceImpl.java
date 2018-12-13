@@ -15,6 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.cxb.cyj.dao.RolesRepository;
+import com.cxb.cyj.entity.Permission;
 import com.cxb.cyj.entity.Roles;
 import com.cxb.cyj.entitysearch.RolesSearch;
 import com.cxb.cyj.service.RolesService;
@@ -31,7 +32,6 @@ public class RolesServiceImpl implements RolesService {
 	 */
 	@Override
 	public Page<Roles> sreachByRoles(RolesSearch rolesSearch, Pageable pageable) {
-		// TODO Auto-generated method stub
 		return rolesRepository.findAll(this.getWhereClause(rolesSearch), pageable);
 	}
 
@@ -60,6 +60,15 @@ public class RolesServiceImpl implements RolesService {
 	public List<Roles> getRolesLists() {
 		// TODO Auto-generated method stub
 		return rolesRepository.findAll();
+	}
+	
+	/**
+	 * 根据角色id查询该角色拥有的权限
+	 */
+	@Override
+	public List<Permission> getRolesPermissionByRoleId(Integer id) {
+		// TODO Auto-generated method stub
+		return rolesRepository.getRolesPermission(id);
 	}
 
 	/**
@@ -104,7 +113,6 @@ public class RolesServiceImpl implements RolesService {
 	 */
 	@Override
 	public Roles getRolesById(Integer rid) {
-		// TODO Auto-generated method stub
 		return rolesRepository.getOne(rid);
 	}
 
@@ -128,7 +136,7 @@ public class RolesServiceImpl implements RolesService {
 	@Override
 	public boolean addByRole(Integer roleId, Integer userId) {
 		// TODO Auto-generated method stub
-		return false;
+		return rolesRepository.addByRole(roleId, userId) > 0 ? true : false;
 	}
 	
 	/**
@@ -156,6 +164,27 @@ public class RolesServiceImpl implements RolesService {
 
 		};
 	}
-	
+
+	/**
+	 * 设置模块
+	 */
+	@Override
+	public Integer setRoleModule(Integer roleId, Integer moduleIds) {
+		// TODO Auto-generated method stub
+		return rolesRepository.setRoleModule(roleId, moduleIds);
+	}
+
+	/**
+	 * 根据roleId删除模块
+	 */
+	@Override
+	public boolean delRoleModule(Integer roleId) {
+		try {
+			rolesRepository.delRoleModule(roleId);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 }
