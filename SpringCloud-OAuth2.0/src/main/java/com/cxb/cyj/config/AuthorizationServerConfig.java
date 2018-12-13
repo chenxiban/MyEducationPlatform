@@ -92,7 +92,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	 * 用户自定义
 	 */
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(userDetailsService);//.passwordEncoder(passwordEncoder());
 	}
 
 	@Bean
