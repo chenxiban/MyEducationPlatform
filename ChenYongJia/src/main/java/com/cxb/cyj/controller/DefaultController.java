@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * 
- * @Description:   默认控制器
+ * @Description:   默认控制器 
  * @ClassName:     DefaultController.java
  * @author         ChenYongJia
  * @Date           2018年12月04日 下午20:40:56
