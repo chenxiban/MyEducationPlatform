@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class Files implements Serializable {
 	
-	private int files_id;
+	private String files_id;
 	private Date create_time;
 	private String files_name;
 	private Date update_time;
