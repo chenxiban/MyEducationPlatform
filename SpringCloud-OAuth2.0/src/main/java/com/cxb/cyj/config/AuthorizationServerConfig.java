@@ -24,7 +24,7 @@ import com.cxb.cyj.service.impl.CustomUserServiceImpl;
 
 /**
  * 
- * @Description: 授权认证服务中心配置
+ * @Description: 授权认证服务中心配置 
  * @ClassName: AuthorizationServerConfig.java
  * @author ChenYongJia
  * @Date 2018年12月04日 下午20:40:56
