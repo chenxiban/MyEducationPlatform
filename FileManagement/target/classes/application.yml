@@ -59,8 +59,7 @@ spring:
       max-request-size: -1
       
 cbs:
-  imagesPath: file:/E:/fileUpload/
-    
+  imagesPath: file:/D:/fileUpload/
 security:
   oauth2:
     resource:

@@ -9,7 +9,6 @@
 	<configs>
 	</configs>
 	<autoconfigs>
-		<config>java:com.cxb.Application</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

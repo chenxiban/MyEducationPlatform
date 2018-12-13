@@ -14,11 +14,21 @@ public class UploadFileServiceImpl implements UploadFileService {
 	private UploadFile uploadFile;
 
 	@Override
-	public Integer insertFile(String uuid,String files_name, String files_url, String files_uploadUrl, Date create_time) {
-		return uploadFile.insertFile(uuid,files_name, files_url, files_uploadUrl, create_time);
+	public Integer insertFile(String uuid, String files_name, String files_url, String files_uploadUrl,
+			Date create_time) {
+		return uploadFile.insertFile(uuid, files_name, files_url, files_uploadUrl, create_time);
 	}
 
+	@Override
+	public Integer getFileByFileName(String files_name) {
+		// TODO Auto-generated method stub
+		return uploadFile.getFileByFileName(files_name);
+	}
 
-
+	@Override
+	public void deleteFileByFileName(String files_name) {
+		// TODO Auto-generated method stub
+		uploadFile.deleteFileByFileName(files_name);
+	}
 
 }
