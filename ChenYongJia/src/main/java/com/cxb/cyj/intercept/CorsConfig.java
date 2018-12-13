@@ -30,8 +30,19 @@ public class CorsConfig {
 	@Bean
 	// 歌珥过滤器
 	public CorsFilter corsFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", buildConfig()); // 4
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		final CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin("*");
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("*");
+		config.setMaxAge(18000L);
+		config.addAllowedMethod("OPTIONS");// 允许提交请求的方法，*表示全部允许
+		config.addAllowedMethod("GET");// 允许Get的请求方法
+		config.addAllowedMethod("PUT");
+		config.addAllowedMethod("POST");
+		config.addAllowedMethod("DELETE");
+		source.registerCorsConfiguration("/**", config);
 		return new CorsFilter(source);
 	}
 
