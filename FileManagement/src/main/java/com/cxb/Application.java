@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 /**
  * 
- * @Description: SpringCloud微服务启动类
+ * @Description: SpringCloud微服务启动类 
  * @ClassName: Application.java
  * @author ChenYongJia
  * @Date 2018年12月01日 晚上22：54
