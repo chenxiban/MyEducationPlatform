@@ -108,10 +108,9 @@ public class UploadFilesController {
 	 * @author WangAnLing
 	 */
 	@RequestMapping(value = "/downloadFile", name = "下载文件", method = RequestMethod.POST)
-	public String downloadFile(@RequestParam("fileNames") String fileNames,
+	public String downloadFile(@RequestParam("fileName") String fileName,
 			@RequestParam("request") HttpServletRequest request,
 			@RequestParam("response") HttpServletResponse response) {
-		String fileName = request.getParameter(fileNames);
 		// 设置文件名，根据业务需要替换成要下载的文件名
 		if (fileName != null) {
 			// 设置文件路径
