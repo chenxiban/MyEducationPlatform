@@ -25,11 +25,26 @@ public interface PermissionService {
 	List<String> queryAll();
 	
 	/**
+	 * 查询所有权限集合
+	 * @return 权限字符串集合
+	 * @author Chenyongjia
+	 */
+	List<Permission> queryNode();
+	
+	/**
 	 * 批量插入权限数据
 	 * @param pList
 	 * @return 成功插入的权限数据条数
 	 * @author Chenyongjia
 	 */
 	Integer batchInsert(List<Permission> pList);
+	
+	/**
+	 * 用于查询孩子节点
+	 * @param permissionModule
+	 * @author Chenyongjia
+	 * @return
+	 */
+	public List<Permission> findsByPermissionModules(String permissionModule);
 	
 }

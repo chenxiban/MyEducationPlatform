@@ -1,6 +1,5 @@
 package com.cxb.cyj.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,6 +31,15 @@ public interface UsersRepository extends JpaRepository<User, Integer>, JpaSpecif
 	User findByUserName(String userName);
 	
 	/**
+	 * 根据userId查询
+	 * 
+	 * @param userId
+	 * @return
+	 * @author Chenyongjia
+	 */
+	User findByUserId(Integer userId);
+	
+	/**
 	 * 批量删除用户信息
 	 * 
 	 * @param stuList
@@ -42,6 +50,15 @@ public interface UsersRepository extends JpaRepository<User, Integer>, JpaSpecif
 	@Modifying
 	@Transactional
 	Integer deleteBatch(@Param(value = "stuList") List<String> stuList);
+	
+	/**
+	 * 根据ID查询用户角色
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@Query(value = "SELECT roles_id FROM tb_userroles WHERE users_id=:usersId ", nativeQuery = true)
+	public List<Integer> getUserRole(@Param(value = "usersId") Integer userId);
 	
 	/**
 	 * 查询用户权限

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,6 +38,14 @@ public class PermissionController {
 
 	@Autowired
 	private PermissionService service;
+	
+	/**
+	 * http://localhost:3011/chenyongjia/ChenYongJia/permission/queryNode 查看系统权限
+	 */
+	@RequestMapping(value = "/queryNode", name = "查看系统权限",method=RequestMethod.GET)
+	public Object queryNode() {
+		return service.queryNode();
+	}
 
 	/**
 	 * http://localhost:3011/chenyongjia/ChenYongJia/permission/queryAll 查询系统权限

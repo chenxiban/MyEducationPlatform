@@ -85,15 +85,15 @@ public interface RolesService {
 	 * @param stuList
 	 * @return
 	 */
-	public boolean deleteByRoleId(Integer stuList,Integer userId);
+	public boolean deleteByRoleId(Integer stuList,Integer usersId);
 	
 	/**
-	 * 增加角色
-	 * @param roleId
-	 * @param userId
+	 * 增加用户角色
+	 * @param rolesId
+	 * @param usersId
 	 * @return
 	 */
-	public boolean addByRole(Integer roleId,Integer userId);
+	public boolean addByRole(Integer rolesId,Integer usersId);
 	
 	/**
 	 * 设置模块

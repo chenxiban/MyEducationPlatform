@@ -22,6 +22,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -52,11 +53,11 @@ public class College implements Serializable {
 	@Column(columnDefinition = "int unsigned comment '学院/院系/专业ID'  ")
 	private Integer collegeId;
 	@Column(unique=true, columnDefinition = "varchar(60) comment '备注:学院/院系/专业名称'  ")
+	@JsonProperty(value = "text")
 	private String collegeName;
 	@Column(columnDefinition = "int unsigned NOT NULL comment '备注:父模块编号'  ")
 	private Integer collegeParentId;
 	@Column(columnDefinition = "int unsigned NOT NULL comment '备注:标注是 学院/系别/专业分别用0，1，2代表'  ")
-	@JsonProperty(value = "text")
 	private Integer collegeRmark;
 	@Column(columnDefinition = "varchar(120) comment '备注:路径'  ")
 	private String collegePath;
@@ -71,6 +72,7 @@ public class College implements Serializable {
 	@Column(columnDefinition = "varchar(50) comment '备注:修改人'  ")
 	private String collegeUpdateMan;
 	
+	@JsonIgnore
 	@ManyToOne(targetEntity = Organization.class)
 	@JoinColumn(name="college_organization_id")	//副表中的外键字段名称
 	private Organization organization;

@@ -115,9 +115,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updUserById(Integer id) {
-		// TODO Auto-generated method stub
-		return usersRepository.getOne(id);
+	public User updUserById(Integer userId) {
+		return usersRepository.findByUserId(userId);
+	}
+
+	@Override
+	public User getUserById(Integer userId) {
+		return usersRepository.findByUserId(userId);
+	}
+
+	@Override
+	public List<Integer> getUserRole(Integer userId) {
+		return usersRepository.getUserRole(userId);
 	}
 	
 }

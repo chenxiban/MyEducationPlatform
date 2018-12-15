@@ -20,6 +20,7 @@ import com.cxb.cyj.entity.Result;
 import com.cxb.cyj.entity.Roles;
 import com.cxb.cyj.entitysearch.RolesSearch;
 import com.cxb.cyj.service.RolesService;
+import com.cxb.cyj.service.UserService;
 import com.cxb.cyj.util.IsEmptyUtils;
 
 /**
@@ -36,6 +37,8 @@ public class RolesController {
 
 	@Autowired
 	private RolesService rolesService;
+	@Autowired
+	private UserService userService;
 
 	/**
 	 * 分页检索查询 http://localhost:3011/chenyongjia/ChenYongJia/roles/getAllPageRoles
@@ -75,14 +78,15 @@ public class RolesController {
 
 	/**
 	 * 获取用户角色
-	 * http://localhost:3011/chenyongjia/ChenYongJia/roles/getUserRolesByUserId?userId=1
+	 * http://localhost:3011/chenyongjia/ChenYongJia/roles/getUserRolesByUserId
+	 * 
 	 * @author WangChuanWei
 	 * @param id
 	 * @return
 	 */
 	@RequestMapping(value = "/getUserRolesByUserId", name = "获取用户角色", method = RequestMethod.GET)
-	public Object getUserRolesByUserId(Integer id) {
-		return rolesService.getUserRolesByUserId(id);
+	public Object getUserRolesByUserId(Integer userId) {
+		return rolesService.getUserRolesByUserId(userId);
 	}
 
 	/**
@@ -169,6 +173,44 @@ public class RolesController {
 			msg = "角色roleId=>" + roleId + "->成功设置" + k + "个菜单模块.";
 		}
 		return new Result(true, msg);// 设置成功
+	}
+	
+	/**
+	 * 增加用户角色 http://localhost:3011/chenyongjia/ChenYongJia/roles/addByRole?userId=1&rolesId=2&usersId=1
+	 * 
+	 * @param roleId
+	 * @return
+	 */
+	@RequestMapping(value = "/addByRole", name = "增加角色", method = RequestMethod.GET)
+	public Object addByRole(Integer usersId, Integer rolesId, Integer userId) {
+		if (rolesService.addByRole(rolesId, usersId)) {
+			List<Integer> urRoles = userService.getUserRole(userId);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("roleIds", urRoles);
+			return new Result(true, map);
+		} else {
+			return new Result(false, "角色增加失败");
+		}
+	}
+	
+	/**
+	 * 移除用户角色 http://localhost:3011/chenyongjia/ChenYongJia/roles/delRolesId?usersId=1&rolesId=3&userId=1
+	 * 
+	 * @param rolesId
+	 * @return
+	 */
+	@RequestMapping(value = "/delRolesId", name = "移除角色", method = RequestMethod.DELETE)
+	//public Object delRolesId(Integer rolesId, Integer usersId, Integer userId) {
+	public Object delRolesId(Integer rolesId, Integer usersId) {
+		if (rolesService.deleteByRoleId(rolesId, usersId)) {
+			// 根据用户Id查询出该用户的所有权限
+			/*List<Integer> urRoles = userService.getUserRole(userId);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("roleIds", urRoles);*/
+			return new Result(true, "角色移除成功");
+		} else {
+			return new Result(false, "角色移除失败");
+		}
 	}
 
 }

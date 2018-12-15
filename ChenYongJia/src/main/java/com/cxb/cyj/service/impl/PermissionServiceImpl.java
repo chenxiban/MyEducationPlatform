@@ -57,4 +57,46 @@ public class PermissionServiceImpl implements PermissionService {
 		return num;
 	}
 
+	/**
+	 * 查询所有权限集合
+	 * @return 权限字符串集合
+	 * @author Chenyongjia
+	 */
+	@Override
+	public List<Permission> queryNode() {
+		List<Permission> permissionTree = permissionRepository.findsBy();// 查询出所有的权限树
+		List<Permission> nodes=new ArrayList<Permission>();
+		System.out.println("nodes.size()的长度=====>"+nodes.size());
+		for (int i = 0; i < permissionTree.size(); i++) {
+			Permission node=new Permission();
+			System.out.println("Permission对象为===>"+node);
+			node.setText(permissionTree.get(i).getPermissionModule());
+			// 为node对象设置children属性
+			node.setChildren(this.findsByPermissionModules(permissionTree.get(i).getPermissionModule()));
+			System.out.println("查到的Children属性为====>"+node.getChildren());
+			System.out.println("node对象为===>"+node);// 错误在这里
+			nodes.add(node);
+		}
+		System.out.println("nodes集合为===>"+nodes);
+		return nodes;
+	}
+	
+	/**
+	 * 用于查询孩子节点
+	 * @param permissionModule
+	 * @author Chenyongjia
+	 * @return
+	 */
+	@Override
+	public List<Permission> findsByPermissionModules(String permissionModule) {
+		List<Permission>  objectsList = permissionRepository.findsByPermissionModule(permissionModule);
+		for (int i = 0; i < objectsList.size(); i++) {
+			objectsList.get(i).setId(objectsList.get(i).getPermissionId());
+			objectsList.get(i).setText(objectsList.get(i).getPermissionName());
+			objectsList.get(i).setPermissionLastUpdateTime(objectsList.get(i).getPermissionLastUpdateTime());
+		}
+		System.out.println("查询孩子节点=======================>"+objectsList);
+		return objectsList;
+	}
+
 }

@@ -64,4 +64,17 @@ public interface UserService {
 	 */
 	User updUserById(Integer id);
 	
+	/**
+	 * 根据id查询用户
+	 * @param id
+	 * @return
+	 */
+	User getUserById(Integer userId);
+	
+	/**
+	 * 根据用户id查询用户角色
+	 * @param id
+	 * @return
+	 */
+	List<Integer> getUserRole(Integer userId);
 }

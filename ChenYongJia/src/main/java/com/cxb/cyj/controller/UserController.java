@@ -16,11 +16,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.cyj.entity.Result;
 import com.cxb.cyj.entity.User;
 import com.cxb.cyj.entitysearch.UserSearch;
+import com.cxb.cyj.service.RolesService;
 import com.cxb.cyj.service.UserService;
 import com.cxb.cyj.util.IsEmptyUtils;
 
@@ -38,6 +40,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RolesService rolesService;
 
 	@Value("${server.port}")
 	private String serverPort;
@@ -96,10 +100,11 @@ public class UserController {
 	public Object addUsers(User u) {
 		u.setUserCreatTime(new Date(System.currentTimeMillis()));
 		u.setUserPassword("cyj123");
+		u.setUserStuNo(201800001);
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // 加密
 		String encodedPassword = passwordEncoder.encode(u.getUserPassword().trim());
 		u.setUserPassword(encodedPassword);
-		u.setUserCreatTime(new Date());
+		u.setUserPsdWrongTime(0);
 		User ulist = userService.findsLoginName(u.getUserName());
 		if (IsEmptyUtils.isEmpty(ulist)) {
 			if (userService.addUser(u)) {
@@ -163,6 +168,64 @@ public class UserController {
 			return new Result(true, "用户修改成功");
 		} else {
 			return new Result(false, "用户名重复,请重新填写!");
+		}
+	}
+	
+	/**
+	 * 修改用户锁定状态 http://localhost:3011/chenyongjia/ChenYongJia/user/lockUsers
+	 * 
+	 * @param u
+	 * @return
+	 */
+	@RequestMapping(value = "/lockUsers", name = "锁定用户", method = RequestMethod.POST)
+	public Object lockUsers(User u) {
+		User user = userService.getUserById(u.getUserId());
+		user.setUserIsLookout(u.getUserIsLookout());
+		user.setUserPsdWrongTime(u.getUserPsdWrongTime());
+		user.setUserId(u.getUserId());
+		if (userService.addUser(user)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 重置密码 http://localhost:3011/chenyongjia/ChenYongJia/user/clearUsers
+	 * 
+	 * @param u
+	 * @return
+	 */
+	@RequestMapping(value = "/clearUsers", name = "重置密码" ,method = RequestMethod.POST)
+	public Object clearUsers(User u) {
+		User user = userService.getUserById(u.getUserId());
+		user.setUserName(u.getUserName());
+		user.setUserPassword("cyj666");
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // 加密
+		String encodedPassword = passwordEncoder.encode(user.getUserPassword().trim());
+		user.setUserPassword(encodedPassword);
+		user.setUserId(u.getUserId());
+		if (userService.addUser(user)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * 查询用户未拥有的角色
+	 * http://localhost:3011/chenyongjia/ChenYongJia/user/getRolesList 不带分页
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/getRolesList", name = "不分页查询角色", method = RequestMethod.GET)
+	public Object getRolesList(Integer[] roleId,@RequestParam(value = "userId", required = false) Integer userId) {
+		List<Integer> urRoles = userService.getUserRole(userId);
+		System.out.println(urRoles);
+		if (!IsEmptyUtils.isEmpty(urRoles)) {
+			return rolesService.getRolesList(urRoles);
+		} else {
+			return rolesService.getRolesLists();
 		}
 	}
 

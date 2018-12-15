@@ -45,7 +45,7 @@ public interface RolesRepository extends JpaRepository<Roles, Integer>,JpaSpecif
 	 * @param id
 	 * @return
 	 */
-	@Query(value="SELECT roles_id,roles_create_time,roles_explains,roles_last_update_time,roles_name FROM tb_roles WHERE roles_id NOT IN (:ids)",nativeQuery=true)
+	@Query(value="SELECT roles_id,roles_creat_time,roles_explain,roles_update_time,roles_name,roles_ename FROM tb_roles WHERE roles_id NOT IN (:ids)",nativeQuery=true)
 	public List<Roles> getRolesList(@Param("ids") List<Integer> id);
 	
 	/**
@@ -53,8 +53,8 @@ public interface RolesRepository extends JpaRepository<Roles, Integer>,JpaSpecif
 	 * @param id
 	 * @return
 	 */
-	@Query(value="SELECT r.roles_name,r.roles_ename FROM tb_roles r LEFT JOIN tb_userroles u ON u.roles_id=r.roles_id WHERE u.users_id=:uid",nativeQuery=true)
-	public List<Roles> getUserRolesByUserId(@Param("uid")Integer id);
+	@Query(value="SELECT * FROM tb_roles r LEFT JOIN tb_userroles u ON u.roles_id=r.roles_id WHERE u.users_id=:userId",nativeQuery=true)
+	public List<Roles> getUserRolesByUserId(@Param("userId")Integer userId);
 	
 	/**
 	 * 批量删除角色信息
