@@ -102,7 +102,7 @@ public class User implements UserDetails, Serializable {
 		Set<Roles> roles = this.getRolesSet();// 根据角色控制
 		//Set<Permission> permissions=this.getPermissionSet();// 根据权限控制
 		for (Roles role : roles) {
-			auths.add(new SimpleGrantedAuthority(role.getRolesEName()));
+			auths.add(new SimpleGrantedAuthority(role.getRolesEname()));
 		}
 		System.out.println("当前用户拥有的权限为=====>"+auths);
 		return auths;

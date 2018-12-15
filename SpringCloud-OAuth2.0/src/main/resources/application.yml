@@ -9,9 +9,9 @@ server:
 #项目端口号
   port: 3012
 
-#logging:
-  #level:
-    #org.springframework.security: DEBUG
+logging:
+  level:
+    org.springframework.security: DEBUG
 
 spring:
   application:
@@ -22,7 +22,7 @@ spring:
     #数据库意思是:机构权限文件
     url: jdbc:mysql://127.0.0.1:3306/rightsmanagement?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false 
     username: root 
-    password: root 
+    password: root
   #redis数据库配置
   #redis:
     #host: 127.0.0.1

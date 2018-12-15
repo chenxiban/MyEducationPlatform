@@ -33,46 +33,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-//		http.csrf().disable().authorizeRequests()
-//				// 设置不拦截规则
-//				.antMatchers("/webjars/**", "/js/**", "/css/**", "/images/*", "/fonts/**", "/**/*.png", "/**/*.jpg",
-//						"/static/**")
-//				.permitAll().antMatchers("/", "/home", "/about", "/oauth/**").permitAll()// 指定那些URL不要被保护
-//				.antMatchers("/**").fullyAuthenticated().and().formLogin()// 登录的时候你要跳转到哪里
-//				.permitAll()// 登录任意访问
-//				.successHandler(successHandler).failureHandler(failHandler)// 登录成功与否的返回信息
-//				.and().rememberMe() // rememberMe
-//				.and() // 注销行为任意访问
-//				.logout().permitAll();
-
+		// 拦截所有请求,使用httpBasic方式登陆
 		// 所有请求都需要SpringSecurity认证授权
-//		http.csrf().disable().authorizeRequests()
-//				// 设置不拦截规则
-//				.antMatchers("/webjars/**", "/js/**", "/css/**", "/images/*", "/fonts/**", "/**/*.png", "/**/*.jpg",
-//						"/static/**")
-//				.permitAll().antMatchers("/login")
-//				.permitAll().antMatchers("/", "/home", "/about")
-//				.permitAll()// 指定那些URL不要被保护
-//				.antMatchers("/**").fullyAuthenticated()
-//				.and().formLogin().loginPage("/login")
-//				.successHandler(successHandler)
-//				.failureHandler(failHandler)
-//				.and().csrf().disable();
-
-		// 不拦截 oauth 开放的资源
-		http.csrf().disable().requestMatchers().anyRequest().and().authorizeRequests().antMatchers("login", "/oauth/**")
-				.permitAll().antMatchers("/webjars/**", "/js/**", "/css/**", "/images/*", "/fonts/**", "/**/*.png",
-						"/**/*.jpg", "/static/**")
-				.permitAll();
-//		http.csrf().disable().authorizeRequests()
-//			.antMatchers("login", "/oauth/**").permitAll()
-//			.antMatchers("/webjars/**", "/js/**", "/css/**", "/images/*", "/fonts/**", "/**/*.png",
-//					"/**/*.jpg", "/static/**")
-//			.permitAll();
-//			.anyRequest()
-//			.authenticated().and()
-//			.formLogin().and()
-//			.httpBasic();
+		http.authorizeRequests()
+				.antMatchers("/webjars/**", "/js/**", "/css/**", "/images/*", "/fonts/**", "/**/*.png", "/**/*.jpg",
+						"/static/**")
+				.permitAll().antMatchers("login", "/oauth/**").permitAll().antMatchers("/**").fullyAuthenticated().and()
+				.csrf().disable().formLogin();
 	}
 
 	@Override
