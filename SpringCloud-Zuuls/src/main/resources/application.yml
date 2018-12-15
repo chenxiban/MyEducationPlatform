@@ -21,8 +21,6 @@ zuul: #需要忽略的头部信息，不在传播到其他服务
   ignored-headers: Access-Control-Allow-Origin,H-APP-Id,Token,APPToken
   
 security: 
-  basic:
-    enabled: false
   oauth2: 
     resource: 
       ####从认证授权中心上验证token
@@ -31,17 +29,8 @@ security:
     client: 
       accessTokenUri: http://localhost:3011/chenyongjia-oauth/oauth/token
       userAuthorizationUri: http://localhost:3011/chenyongjia-oauth/oauth/authorize
-      client-id: client_1
-      client-secret: 123456 
-###actuator监控点 start####
-endpoints:
-  health:
-    sensitive: false
-    enabled: true
-##默认情况下很多端点是不允许访问的，会返回401:Unauthorized
-management: 
-  security: 
-    enabled: false
+      clientId: client_1
+      clientSecret: 123456 
 #zuul:
 #  routes:
 #    api-a:

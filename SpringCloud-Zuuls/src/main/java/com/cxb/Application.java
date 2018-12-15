@@ -19,7 +19,6 @@ import org.springframework.web.filter.CorsFilter;
  * @Email 867647213@qq.com
  */
 @EnableZuulProxy
-@EnableAuthorizationServer
 @SpringCloudApplication
 public class Application {
 	public static void main(String[] args) {
