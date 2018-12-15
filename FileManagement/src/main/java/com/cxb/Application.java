@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  */
 @SpringCloudApplication // ===( @EnableEurekaClient + @EnableHystrix + @SpringBootApplication
 // )pom.xml必须引Eureka、Hystrix依赖
-@EnableAuthorizationServer //
 @EnableFeignClients
 @MapperScan("com.cxb.cyj.dao")// 指定扫描的mapper接口所在的包
 public class Application {
