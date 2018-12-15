@@ -8,6 +8,7 @@ import org.springframework.web.method.HandlerMethod;
  * 系统权限工具类
  * 
  */
+@SuppressWarnings("unused")
 public class SysUtils {
 	
 	/**

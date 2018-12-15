@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.wmx.entity.Bar;
@@ -32,7 +33,7 @@ public class PostreplyController {
 	 * @param barSearch
 	 * @return
 	 */
-	@RequestMapping(value="/queryPostreply")
+	@RequestMapping(value="/queryPostreply",method=RequestMethod.GET)
 	public Object queryPostreply(PostreplySearch postreplySearch) {
 		Pageable pageable = PageRequest.of(postreplySearch.getPage() - 1, postreplySearch.getRows(), Sort.Direction.ASC,
 				"postreplyId");
@@ -56,7 +57,7 @@ public class PostreplyController {
 	 * @param prId
 	 * @return
 	 */
-	@RequestMapping(value="/deletePostRepById")
+	@RequestMapping(value="/deletePostRepById",method=RequestMethod.POST)
 	public Object deletePostRepById(Integer hfId) {
 		if (postreplyService.deletePostreplyById(hfId)) {
 			return true;

@@ -75,6 +75,29 @@ public class Post {
 	@JoinColumn(name="bar_id")	//副表中的外键字段名称
 	private Bar bar;
 	
+	@Transient
+	private String barCategory;
+	
+	@Transient
+	private Integer barId;
+	/**
+	 * 给JSON转换器使用
+	 * @return
+	 */
+	public String getStudentClazzName() {
+		if(bar != null) {
+			System.out.println("贴吧分类的名称为");
+			return bar.getBarCategory();
+		}else {
+			return barCategory;
+		}
+		
+	}
+
+	public void setBarCategory(String barCategory) {
+		this.barCategory= barCategory;
+	}
+	
 	@OneToMany(mappedBy="post",fetch=FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
 	private List<Postreport> list1 = new ArrayList<>();
 	
@@ -83,12 +106,4 @@ public class Post {
 	
 	@OneToMany(mappedBy="post",fetch=FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
 	private List<Postcommit> list3= new ArrayList<>();
-	
-	@Transient
-	private String barCategory;
-	 
-	/*@Transient
-	private int page=0;
-	@Transient
-	private int rows=10;*/
 }

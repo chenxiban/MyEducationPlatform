@@ -12,7 +12,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.wmx.entity.Bar;
@@ -23,7 +26,7 @@ import com.cxb.wmx.util.IsEmptyUtils;
 
 @SuppressWarnings("unused")
 @RestController
-@RequestMapping(value="/bar",name="贴吧分类")
+@RequestMapping(value="/bar")
 public class BarController {
 
 	@Autowired
@@ -38,7 +41,7 @@ public class BarController {
 	 * @return
 	 * 王梦霞
 	 */
-	@RequestMapping(value="/selectAllBar")
+	@RequestMapping(value="/selectAllBar",method=RequestMethod.GET)
 	public Object selectAllBar() {
 		return barService.selectAllBar();
 	}
@@ -52,7 +55,7 @@ public class BarController {
 	 * @return
 	 * @author 王梦霞
 	 */
-	@RequestMapping(value="/addBar")
+	@RequestMapping(value="/addBar",method=RequestMethod.PUT)
 	public Object addBar(Bar bar) {
 		Bar bar2 =barService.findByBarCategory(bar.getBarCategory());
 		bar.setBarCreatetime(new Date());
@@ -76,7 +79,7 @@ public class BarController {
 	 * @return
 	 * 王梦霞
 	 */
-	@RequestMapping(value="/updateBar")
+	@RequestMapping(value="/updateBar",method=RequestMethod.POST)
 	public Object updateBar(Bar bar) {
 		Bar bar2 =barService.queryBarId(bar.getBarId());
 		bar2.setBarCategory(bar.getBarCategory());
@@ -95,7 +98,7 @@ public class BarController {
 	 * @return
 	 * 王梦霞
 	 */
-	@RequestMapping(value="/deleteBar")
+	@RequestMapping(value="/deleteBar",method=RequestMethod.DELETE)
 	public Object deleteBar(Integer bid) {
 		return barService.deleteBar(bid);
 	}
@@ -106,7 +109,7 @@ public class BarController {
 	 * @param barId
 	 * @return
 	 */
-	@RequestMapping(value="/deleteBarByIds")
+	@RequestMapping(value="/deleteBarByIds",method=RequestMethod.POST)
 	public Object deleteBarByIds(String barId) {
 		List<String> list = new ArrayList<String>();
 		String[] ids = barId.split(",");
@@ -127,7 +130,7 @@ public class BarController {
 	 * @param barSearch
 	 * @return
 	 */
-	@RequestMapping(value="/queryBar")
+	@RequestMapping(value="/queryBar",method=RequestMethod.GET)
 	public Object queryBar(BarSearch barSearch) {
 		Pageable pageable = PageRequest.of(barSearch.getPage() - 1, barSearch.getRows(), Sort.Direction.ASC,
 				"barId");

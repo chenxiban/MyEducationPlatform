@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.wmx.dao.PostComRpository;
@@ -37,7 +38,7 @@ public class PostComController {
 	 * @param barSearch
 	 * @return
 	 */
-	@RequestMapping(value="/queryPostCom")
+	@RequestMapping(value="/queryPostCom",method=RequestMethod.GET)
 	public Object queryPostCom(PostComSearch postComSearch) {
 		Pageable pageable = PageRequest.of(postComSearch.getPage() - 1, postComSearch.getRows(), Sort.Direction.ASC,
 				"postcommitId");
@@ -61,7 +62,7 @@ public class PostComController {
 	 * @param prId
 	 * @return
 	 */
-	@RequestMapping(value="/deletePostCommitById")
+	@RequestMapping(value="/deletePostCommitById",method=RequestMethod.POST)
 	public Object deletePostCommitById(Integer postcommitId) {
 		System.out.println("当前要删除的评论id为====>"+postcommitId);
 		return postComService.deletePostCommitById(postcommitId);

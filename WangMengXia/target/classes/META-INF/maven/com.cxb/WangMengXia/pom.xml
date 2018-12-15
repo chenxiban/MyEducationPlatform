@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 	<name>WangMengXia</name>
 	<url>https://repo.spring.io/milestone</url>
-	<description>MS:WangMengXia 服务提供者</description>
+	<description>CYJ:WangMengXia 服务提供者</description>
   
   <!-- SpringBoot 项目 统一 父依赖 -->
 	<parent>

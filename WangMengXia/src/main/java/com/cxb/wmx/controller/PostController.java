@@ -12,10 +12,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.wmx.entity.Bar;
 import com.cxb.wmx.entity.Post;
+import com.cxb.wmx.entity.Result;
 import com.cxb.wmx.entitysearch.BarSearch;
 import com.cxb.wmx.entitysearch.PostSearch;
 import com.cxb.wmx.service.PostService;
@@ -37,7 +39,7 @@ public class PostController {
 	 * @param postSearch
 	 * @return
 	 */
-	@RequestMapping(value="/queryPost")
+	/*@RequestMapping(value="/queryPost")
 	public Object queryPost(PostSearch post) {
 		Pageable pageable = PageRequest.of(post.getPage() - 1, post.getRows(), Sort.Direction.ASC,
 				"postId");
@@ -52,8 +54,31 @@ public class PostController {
 		System.out.println("total 总数为===>" + map.get("total"));
 		System.out.println("rows 数据为===>" + map.get("rows"));
 		return map;
-	}
+	}*/
 	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/queryAllPage
+	 * @param id
+	 * @return Post
+	 * @author 王梦霞
+	 * 连表动态查询分页
+	 */
+	@RequestMapping(value="/queryAllPage",method=RequestMethod.GET)
+	public Object queryAllPage(String postName,String barCategory) {
+		Post post = new Post();
+		post.setPostName(postName);
+		post.setBarCategory(barCategory);
+		
+		Page<Post> page = null;
+    	page = postService.queryAllPage(post, 0, 10);//第1页,每页10条;第几页从零开始(第1页则是0),每页显示几条.
+    	System.out.println("page=>"+page);
+    	Long total = page.getTotalElements();
+    	List<Post> list = page.getContent();
+    	Map<String, Object> map = new HashMap<>();
+    	map.put("total", total);
+    	map.put("rows", list);
+    	return map;
+	}
 	/**
 	 * http://localhost:3011/wangmengxia/WangMengXia/post/deletePostById
 	 * 删除帖子
@@ -61,8 +86,35 @@ public class PostController {
 	 * @param postId
 	 * @return
 	 */
-	@RequestMapping(value="/deletePostById")
+	@RequestMapping(value="/deletePostById",method=RequestMethod.POST)
 	public Object deletePostById(Integer postId) {
 		return postService.deletePostById(postId);
+	}
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/queryByBarId
+	 * 是否置顶,以及取消置顶
+	 * @author 王梦霞
+	 * @param postId
+	 * @param barId
+	 * @param allTop
+	 * @return
+	 */
+	@RequestMapping(value="/queryByBarId",method=RequestMethod.POST)
+	public Object queryByBarId(Integer postId, Integer barId, Integer allTop,Integer p) {
+		if (p==1) {
+			if (postService.queryByBarId(postId, barId, allTop)) {
+				return new Result(true,"设置帖子置顶成功");
+			} else {
+				return new Result(false,"设置帖子置顶失败");
+			}
+		} else {
+			if (postService.queryByPostId(postId)) {
+				return new Result(true,"帖子取消置顶成功");
+			} else {
+				return new Result(false,"帖子取消置顶失败");
+			}
+		}
+		
 	}
 }

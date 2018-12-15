@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 import com.cxb.wmx.entity.Post;
 import com.cxb.wmx.entity.Postcommit;
 import com.cxb.wmx.entitysearch.PostComSearch;
-import com.cxb.wmx.entitysearch.PostSearch;
 
 public interface PostComService {
 
