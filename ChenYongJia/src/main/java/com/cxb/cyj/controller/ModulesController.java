@@ -15,6 +15,14 @@ import com.cxb.cyj.entity.Result;
 import com.cxb.cyj.service.ModulesService;
 import com.cxb.cyj.util.IsEmptyUtils;
 
+/**
+ * 
+ * @Description: 模块控制器
+ * @ClassName: ModulesController.java
+ * @author ChenYongJia
+ * @Date 2018年12月04日 下午20:40:56
+ * @Email 867647213@qq.com
+ */
 @RestController
 @RequestMapping(value = "/modules", name = "菜单模块")
 public class ModulesController {

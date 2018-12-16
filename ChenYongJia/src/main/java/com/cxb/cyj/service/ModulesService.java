@@ -6,6 +6,14 @@ import org.springframework.stereotype.Service;
 
 import com.cxb.cyj.entity.Modules;
 
+/**
+ * 
+ * @Description:   模块业务类
+ * @ClassName:     ModulesService.java
+ * @author         ChenYongJia
+ * @Date           2018年12月04日 下午20:40:56
+ * @Email          867647213@qq.com
+ */
 @Service
 public interface ModulesService {
 	

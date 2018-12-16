@@ -25,7 +25,39 @@ public interface CollegeService {
 	
 	/**
 	 * 查询孩子菜单
+	 * @param parentId
+	 * @return
 	 */
 	public List<College> queryChildren(Integer parentId);
+	
+	/**
+	 * 添加机构信息
+	 * @param c
+	 * @return
+	 */
+	public boolean addCollege(College c,Integer oid);
+	
+	/**
+	 * 修改机构信息
+	 * @param c
+	 * @return
+	 */
+	public boolean updateCollege(College c,Integer oid);
+	
+	/**
+	 * 根据id查询信息
+	 * @param collegeId
+	 * @return
+	 */
+	public College getById(Integer collegeId);
+	
+	/**
+	 * 根据collegeRmark=2查询
+	 * 
+	 * @param collegeRmark
+	 * @return
+	 * @author Chenyongjia
+	 */
+	public List<College> findByCollegeRmark(Integer collegeRmark);
 	
 }

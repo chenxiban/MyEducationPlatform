@@ -24,7 +24,7 @@ public interface PermissionRepository extends JpaRepository<Permission, Integer>
 	 * @return
 	 */
 	@Query(value="SELECT * FROM tb_permission GROUP BY permission_module ORDER BY permission_id",nativeQuery=true)
-	public List<Permission> findsBy();
+	List<Permission> findsBy();
 	
 	/**
 	 * 根据text名称查询所属孩子节点
@@ -33,6 +33,6 @@ public interface PermissionRepository extends JpaRepository<Permission, Integer>
 	 * @return
 	 */
 	@Query(value="SELECT permission_id,permission_name,permission_last_update_time,permission_value,permission_module FROM tb_permission WHERE permission_module=:permissionModule",nativeQuery=true)
-	public List<Permission> findsByPermissionModule(@Param(value="permissionModule") String permissionModule);
+	List<Permission> findsByPermissionModule(@Param(value="permissionModule") String permissionModule);
 	
 }

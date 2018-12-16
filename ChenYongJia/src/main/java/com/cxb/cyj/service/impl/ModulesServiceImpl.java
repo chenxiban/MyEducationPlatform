@@ -121,7 +121,6 @@ public class ModulesServiceImpl implements ModulesService {
 
 	@Override
 	public Modules getById(Integer id) {
-		// TODO Auto-generated method stub
 		return modulesRepository.getOne(id);
 	}
 

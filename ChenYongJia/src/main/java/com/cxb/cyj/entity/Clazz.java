@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,6 +50,7 @@ public class Clazz implements Serializable {
 	@Column(columnDefinition = "TIMESTAMP comment '备注:最后一次修改时间'  ", nullable = false, updatable = false, insertable = false)
 	private Timestamp classUpdateTime;
 	
+	@JsonIgnore
 	@ManyToOne(targetEntity = Organization.class)
 	@JoinColumn(name="clazz_college_id")	//副表中的外键字段名称
 	private College college;

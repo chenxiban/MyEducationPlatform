@@ -6,22 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cxb.cyj.dao.CollegeRepository;
+import com.cxb.cyj.dao.OrganizationRepository;
 import com.cxb.cyj.entity.College;
+import com.cxb.cyj.entity.Organization;
 import com.cxb.cyj.service.CollegeService;
 
 /**
  * 
- * @Description:   机构业务实现类
- * @ClassName:     CollegeServiceImpl.java
- * @author         ChenYongJia
- * @Date           2018年12月04日 下午20:40:56
- * @Email          867647213@qq.com
+ * @Description: 机构业务实现类
+ * @ClassName: CollegeServiceImpl.java
+ * @author ChenYongJia
+ * @Date 2018年12月04日 下午20:40:56
+ * @Email 867647213@qq.com
  */
 @Service
 public class CollegeServiceImpl implements CollegeService {
 
 	@Autowired
 	private CollegeRepository collegeRepository;
+
+	@Autowired
+	private OrganizationRepository organizationRepository;
 
 	@Override
 	public List<College> showColleges() {
@@ -60,6 +65,68 @@ public class CollegeServiceImpl implements CollegeService {
 	@Override
 	public List<College> queryChildren(Integer parentId) {
 		return collegeRepository.queryChildren(parentId);
+	}
+
+	/**
+	 * 添加机构信息
+	 * 
+	 * @param c
+	 * @return
+	 */
+	@Override
+	public boolean addCollege(College c, Integer oid) {
+		try {
+			Organization organization = organizationRepository.getOne(oid);
+			c.setOrganization(organization);
+			System.out.println("查询到的机构为==========>" + organization);
+			collegeRepository.save(c);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
+	}
+
+	/**
+	 * 修改机构信息
+	 * 
+	 * @param c
+	 * @return
+	 */
+	@Override
+	public boolean updateCollege(College c, Integer oid) {
+		try {
+			Organization organization = organizationRepository.getOne(oid);
+			c.setOrganization(organization);
+			System.out.println("查询到的机构为==========>" + organization);
+			collegeRepository.save(c);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	/**
+	 * 根据id查询信息
+	 * 
+	 * @param collegeId
+	 * @return
+	 */
+	@Override
+	public College getById(Integer collegeId) {
+		return collegeRepository.getOne(collegeId);
+	}
+
+	/**
+	 * 根据collegeRmark=2查询
+	 * 
+	 * @param collegeRmark
+	 * @return
+	 * @author Chenyongjia
+	 */
+	@Override
+	public List<College> findByCollegeRmark(Integer collegeRmark) {
+		return collegeRepository.findByCollegeRmark(collegeRmark);
 	}
 
 }

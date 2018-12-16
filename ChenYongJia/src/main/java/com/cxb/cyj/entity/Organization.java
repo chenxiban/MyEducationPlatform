@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -58,7 +60,17 @@ public class Organization implements Serializable {
 	@Column(columnDefinition = "TIMESTAMP comment '备注:最后一次操作时间'  ", nullable = false, updatable = false, insertable = false)
 	private Timestamp organizationUpdateTime;//最后一次操作时间   
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="organization",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	private List<College> list = new ArrayList<>();
+
+	@Override
+	public String toString() {
+		return "Organization [organizationId=" + organizationId + ", organizationSchool=" + organizationSchool
+				+ ", organizationHead=" + organizationHead + ", organizationMtel=" + organizationMtel
+				+ ", organizationAddress=" + organizationAddress + ", organizationAbstract=" + organizationAbstract
+				+ ", organizationCreatTime=" + organizationCreatTime + ", organizationUpdateTime="
+				+ organizationUpdateTime + "]";
+	}
 
 }

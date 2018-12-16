@@ -24,8 +24,8 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,7 +53,6 @@ public class College implements Serializable {
 	@Column(columnDefinition = "int unsigned comment '学院/院系/专业ID'  ")
 	private Integer collegeId;
 	@Column(unique=true, columnDefinition = "varchar(60) comment '备注:学院/院系/专业名称'  ")
-	@JsonProperty(value = "text")
 	private String collegeName;
 	@Column(columnDefinition = "int unsigned NOT NULL comment '备注:父模块编号'  ")
 	private Integer collegeParentId;
@@ -77,6 +76,7 @@ public class College implements Serializable {
 	@JoinColumn(name="college_organization_id")	//副表中的外键字段名称
 	private Organization organization;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="college",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	private List<Clazz> list = new ArrayList<>();
 	
@@ -94,6 +94,15 @@ public class College implements Serializable {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("url", this.collegePath);
 		return map;
+	}
+
+	@Override
+	public String toString() {
+		return "College [collegeId=" + collegeId + ", collegeName=" + collegeName + ", collegeParentId="
+				+ collegeParentId + ", collegeRmark=" + collegeRmark + ", collegePath=" + collegePath
+				+ ", collegeWeight=" + collegeWeight + ", collegeCreatTime=" + collegeCreatTime + ", collegeUpdateTime="
+				+ collegeUpdateTime + ", collegeFounder=" + collegeFounder + ", collegeUpdateMan=" + collegeUpdateMan
+				+ ", organization=" + organization + "]";
 	}
 	
 }

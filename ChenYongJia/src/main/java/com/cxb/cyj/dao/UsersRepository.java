@@ -58,7 +58,7 @@ public interface UsersRepository extends JpaRepository<User, Integer>, JpaSpecif
 	 * @return
 	 */
 	@Query(value = "SELECT roles_id FROM tb_userroles WHERE users_id=:usersId ", nativeQuery = true)
-	public List<Integer> getUserRole(@Param(value = "usersId") Integer userId);
+	List<Integer> getUserRole(@Param(value = "usersId") Integer userId);
 	
 	/**
 	 * 查询用户权限

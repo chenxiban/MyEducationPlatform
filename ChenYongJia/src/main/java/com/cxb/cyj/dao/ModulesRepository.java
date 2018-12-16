@@ -30,13 +30,13 @@ public interface ModulesRepository extends JpaRepository<Modules, Integer>, JpaS
 	@Query(value = "DELETE FROM tb_modules WHERE modules_id IN (:stuList)", nativeQuery = true)
 	@Modifying
 	@Transactional
-	public Integer deleteBatch(@Param(value = "stuList") List<String> stuList);
+	Integer deleteBatch(@Param(value = "stuList") List<String> stuList);
 	
 	/**
 	 * 左侧树结构
 	 */
 	@Query(value = "SELECT modules_id FROM tb_rolemodules WHERE role_id IN (:roleId)", nativeQuery = true)
-	public List<Integer> getModulesRole(@Param(value = "roleId") List<Integer> roleId);
+	List<Integer> getModulesRole(@Param(value = "roleId") List<Integer> roleId);
 
 	/**
 	 * 根据id查询子菜单
@@ -46,7 +46,7 @@ public interface ModulesRepository extends JpaRepository<Modules, Integer>, JpaS
 	 * @return
 	 */
 	@Query(value = "SELECT modules_id,modules_create_time,modules_founder,modules_last_update_time,modules_name,modules_parent_id,modules_path,modules_update_man,modules_weight FROM tb_modules WHERE modules_parent_id=:parentId AND modules_id IN(:moduleId)", nativeQuery = true)
-	public List<Modules> queryChildrenById(@Param("parentId") int id, @Param("moduleId") List<Integer> moduleId);
+	List<Modules> queryChildrenById(@Param("parentId") int id, @Param("moduleId") List<Integer> moduleId);
 	
 	/**
 	 * 根据根节点查询
@@ -54,7 +54,7 @@ public interface ModulesRepository extends JpaRepository<Modules, Integer>, JpaS
 	 * @return
 	 */
 	@Query(value = "SELECT modules_id,modules_create_time,modules_founder,modules_last_update_time,modules_name,modules_parent_id,modules_path,modules_update_man,modules_weight FROM tb_modules WHERE modules_parent_id=:parentId", nativeQuery = true)
-	public List<Modules> queryChildren(@Param("parentId") Integer parentId);
+	List<Modules> queryChildren(@Param("parentId") Integer parentId);
 	
 	/**
 	 * 根据父id查询子菜单
@@ -62,7 +62,7 @@ public interface ModulesRepository extends JpaRepository<Modules, Integer>, JpaS
 	 * @return
 	 */
 	@Query(value = "SELECT modules_id FROM tb_modules WHERE modules_parent_id IN(:parentId)", nativeQuery = true)
-	public List<String> getChildrenByParentId(@Param("parentId") List<String> parentId);
+	List<String> getChildrenByParentId(@Param("parentId") List<String> parentId);
 	
 	/**
 	 * 根据父id查询孙子菜单
@@ -70,6 +70,6 @@ public interface ModulesRepository extends JpaRepository<Modules, Integer>, JpaS
 	 * @return
 	 */
 	@Query(value = "SELECT modules_id FROM tb_modules WHERE modules_parent_id IN(SELECT modules_id FROM tb_modules WHERE modules_parent_id IN (:parentId))", nativeQuery = true)
-	public List<String> getChildrenByParentIds(@Param("parentId") List<String> parentId);
+	List<String> getChildrenByParentIds(@Param("parentId") List<String> parentId);
 	
 }
