@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<script src="https://cdn.bootcss.com/vue/2.5.15/vue.js"></script>
+		<title></title>
+	</head>
+	<div id="noApplicationRecord" class="m-learnChapterNormal f-pr"></div>
+
+	<body>
+		<script>
+			var noApplicationRecord = document.getElementById('noApplicationRecord')
+
+			//模拟数据
+			var data = [{
+					business: '万达影院(万胜广场店)',
+					count: '325',
+					num: '20170012565863565656',
+					time: '2017-10-12 16:30',
+					license: '粤A88888'
+				},
+				{
+					business: '麦当劳',
+					count: '111',
+					num: '20170012565863565656',
+					time: '2017-10-12 16:30',
+					license: '粤A99999'
+				},
+				{
+					business: '肯德基',
+					count: '456',
+					num: '20170012565863565656',
+					time: '2017-10-12 16:30',
+					license: '粤A45466'
+				}
+			]
+			//绘制单个div
+			function setDiv(item) {
+								var div='<!--课件章节显示-->'
+									+'<div class="titleBox j-titleBox f-cb" id="auto-id-1544679583886">'
+										+'<!--课件章节展开关闭按钮-->'
+										+'<div class="f-icon cpicon j-down f-fl u-icon-caret-up" style=""></div>'
+										+'<div class="f-icon cpicon j-up f-fl u-icon-caret-down" style="display: none;"></div>'
+										+'<div class="cpicon j-noContent f-fl" style="display: none;">&nbsp;</div>'
+										+'<h3 class="j-titleName name f-fl f-thide">' + item.business + '{章节名称}(章节总分钟精确到min)</h3>'
+									+'</div>'
+									+'<div class="f-pa line j-line"></div>'
+									+'<!--课件课时显示主体-->'
+									+'<div class="lessonBox j-lessoBox">'
+										+'<div class="u-learnLesson normal f-cb f-pr" id="auto-id-1544679583889">'
+											+'<div class="j-icon icon f-pa icon-3"></div>'
+											+'<h4 class="j-name name f-fl f-thide">' + item.count + '101{课时名称}(课时的时间min)</h4>'
+											+'<div class="j-typebox f-cb f-fr">'
+												+'<div>'
+													+'<div class="f-icon lsicon f-fl learned" data-cid="1006784202" title="视频：101{课时名称}" id="auto-id-1544679584469"><span class="u-icon-video2">{视频连接路径}</span></div>'
+													+'<div class="f-icon lsicon f-fl learned" data-cid="1006830071" title="富文本：扩展阅读资料" id="auto-id-1544679584471"><span class="u-icon-text">{文档连接路径}</span></div>'
+												+'</div>'
+											+'</div>'
+										+'</div>'
+									+'</div>'
+				return div
+			}
+			//循环加载到页面
+			function getnoApplicationData() {
+				var html = ''
+				for(var i = 0; i < data.length; i++) {
+					html += setDiv(data[i])
+				}
+				noApplicationRecord.innerHTML = html
+			}
+
+			window.onload = getnoApplicationData()
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<!--<script src="https://cdn.bootcss.com/vue/2.5.15/vue.js"></script>-->
+		<script type="text/javascript" src="js/vue.js"></script>
+	</head>
+
+	<body>
+		
+		<div id="app" class="app">
+			<span v-text="msg"></span>
+			{{msg}}
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+						el: '#app', //可以是css选择器.例如: #app或.app
+						data:{
+							msg:"xielibchipi",
+							count:0
+						}
+					});
+			
+		</script>
+	</body>
+
+</html>
