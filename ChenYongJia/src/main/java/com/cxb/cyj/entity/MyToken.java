@@ -1,6 +1,8 @@
 package com.cxb.cyj.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,6 +50,12 @@ public class MyToken implements Serializable {
 	@Column(columnDefinition = "varchar(120) COMMENT 'token存储'  ")
 	private String tokenAcc;
 	
+	@Column(columnDefinition = "datetime COMMENT 'token存储创建时间' ")
+	private Date tokenCreatTime;
+	@Column(columnDefinition = "timestamp COMMENT 'token存储最后一次修改时间'", nullable = false, updatable = false, insertable = false)
+	private Timestamp tokenUpdateTime;
+	
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.EAGER)		// 默认值optional = true表示是否可以为空
 	@JoinColumn(name="user_id",unique = true)	////副表中的外键字段名称 // unique=true确保了一对一关系	
 	private User user;

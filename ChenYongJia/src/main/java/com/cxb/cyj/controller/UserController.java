@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cxb.cyj.entity.MyToken;
 import com.cxb.cyj.entity.Result;
 import com.cxb.cyj.entity.User;
 import com.cxb.cyj.entitysearch.UserSearch;
+import com.cxb.cyj.service.MyTokenService;
 import com.cxb.cyj.service.RolesService;
 import com.cxb.cyj.service.UserService;
 import com.cxb.cyj.util.IsEmptyUtils;
@@ -42,6 +44,8 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private RolesService rolesService;
+	@Autowired
+	private MyTokenService myTokenService;
 
 	@Value("${server.port}")
 	private String serverPort;
@@ -227,6 +231,17 @@ public class UserController {
 		} else {
 			return rolesService.getRolesLists();
 		}
+	}
+	
+	/**
+	 * 查询用户未拥有的角色
+	 * http://localhost:3011/chenyongjia/ChenYongJia/user/getUserIdByToken?token=? 不带分页
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/getUserIdByToken", name = "通过token换取用户信息", method = RequestMethod.GET)
+	public Object getUserIdByToken(String token) {
+		return myTokenService.findByTokenAcc(token);
 	}
 
 }
