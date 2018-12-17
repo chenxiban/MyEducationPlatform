@@ -51,7 +51,7 @@ public class Clazz implements Serializable {
 	private Timestamp classUpdateTime;
 	
 	@JsonIgnore
-	@ManyToOne(targetEntity = Organization.class)
+	@ManyToOne(targetEntity = College.class)
 	@JoinColumn(name="clazz_college_id")	//副表中的外键字段名称
 	private College college;
 	
