@@ -24,14 +24,14 @@ public interface ConsumerService {
 	 * 查询chenyongjia服务数据库权限
 	 * @return
 	 */
-	@RequestMapping(value="/ChenYongJia/permission/queryAll",method=RequestMethod.GET)
+	@RequestMapping(value="/ChenYongJia/permission/queryAll",method=RequestMethod.POST)
 	public List<String> queryAll();
 	
 	/**
 	 * 向chenyongjia服务数据库添加权限
 	 * @return
 	 */
-	@RequestMapping(value="/ChenYongJia/permission/batchInsert",method=RequestMethod.PUT)
+	@RequestMapping(value="/ChenYongJia/permission/batchInsert",method=RequestMethod.POST)
 	public Integer batchInsert(@RequestBody List<Permission> pList);
 	
 	
