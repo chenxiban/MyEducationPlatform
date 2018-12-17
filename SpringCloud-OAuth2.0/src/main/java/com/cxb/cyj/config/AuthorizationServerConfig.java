@@ -52,8 +52,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	 */
 
 	// accessToken 有效期 2小时
-	private static final int ACCESSTOKENVALIDITYSECONDS = 7200;// 两小时
-	private static final int REFRESHTOKENVALIDITYSECONDS = 7200;// 两小时
+	private static final int ACCESSTOKENVALIDITYSECONDS = 7200 * 12 * 7;// 两小时
+	private static final int REFRESHTOKENVALIDITYSECONDS = 7200 * 12 * 7;// 两小时
 	// 配置 appid、appkey 、回调地址、token有效期
 
 	/**
@@ -132,15 +132,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	}
 
 	// 设置添加用户信息,正常应该从数据库中读取
-	/*@Bean
-	UserDetailsService userDetailsService() {
-		InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-		userDetailsService.createUser(User.withUsername("user_1").password(passwordEncoder().encode("123456"))
-				.authorities("ROLE_USER", "deleteOrder").build());
-		userDetailsService.createUser(User.withUsername("user_2").password(passwordEncoder().encode("1234567"))
-				.authorities("ROLE_USER", "updateOrder").build());
-		return userDetailsService;
-	}*/
+	/*
+	 * @Bean UserDetailsService userDetailsService() { InMemoryUserDetailsManager
+	 * userDetailsService = new InMemoryUserDetailsManager();
+	 * userDetailsService.createUser(User.withUsername("user_1").password(
+	 * passwordEncoder().encode("123456")) .authorities("ROLE_USER",
+	 * "deleteOrder").build());
+	 * userDetailsService.createUser(User.withUsername("user_2").password(
+	 * passwordEncoder().encode("1234567")) .authorities("ROLE_USER",
+	 * "updateOrder").build()); return userDetailsService; }
+	 */
 
 	@Bean
 	PasswordEncoder passwordEncoder() {
