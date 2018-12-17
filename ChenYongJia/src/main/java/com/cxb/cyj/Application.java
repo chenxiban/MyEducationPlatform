@@ -5,7 +5,7 @@ import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
- * 
+ * 主函数
  * @Description: SpringCloud微服务启动类
  * @ClassName: Application.java
  * @author ChenYongJia
