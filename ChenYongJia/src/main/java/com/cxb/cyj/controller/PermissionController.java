@@ -52,7 +52,7 @@ public class PermissionController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/queryAll", name = "查询系统权限",method=RequestMethod.GET)
+	@RequestMapping(value = "/queryAll", name = "查询系统权限",method=RequestMethod.POST)
 	public List<String> queryAll() {
 		System.out.println("查询到的数据库所有权限===>" + service.queryAll());
 		return service.queryAll();
@@ -64,7 +64,7 @@ public class PermissionController {
 	 * @param pList
 	 * @return
 	 */
-	@RequestMapping(value = "/batchInsert", name = "批量插入权限数据",method=RequestMethod.PUT)
+	@RequestMapping(value = "/batchInsert", name = "批量插入权限数据",method=RequestMethod.POST)
 	public Integer batchInsert(@RequestBody List<Permission> pList) {
 		return service.batchInsert(pList);
 	}
