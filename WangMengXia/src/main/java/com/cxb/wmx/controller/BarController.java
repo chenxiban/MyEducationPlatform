@@ -49,7 +49,7 @@ public class BarController {
 	
 	/**
 	 * 添加贴吧分类
-	 * http://localhost:3011/wangmengxia/WangMengXia/bar/addBar
+	 * http://localhost:3011/wangmengxia/WangMengXia/bar/addBar?barCategory=c哈哈
 	 * http://localhost:3030/WangMengXia/bar/addBar?barCategory=王哈哈
 	 * @param bar
 	 * @return
@@ -146,4 +146,5 @@ public class BarController {
 		System.out.println("rows 数据为===>" + map.get("rows"));
 		return map;
 	}
+
 }

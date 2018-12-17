@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CascadeType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,7 +54,6 @@ public class Bar {
 	@Column(columnDefinition = "timestamp COMMENT '最后一次修改时间'", nullable = false, updatable = false, insertable = false)
 	private Timestamp barUpdateTime;
 	
-
 	@OneToMany(mappedBy="bar",fetch=FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
 	private List<Post> list = new ArrayList<>();
 }

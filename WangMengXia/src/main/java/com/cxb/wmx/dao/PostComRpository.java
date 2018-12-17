@@ -68,4 +68,13 @@ public interface PostComRpository extends JpaRepository<Postcommit, Integer>, Jp
 	@Query(value="SELECT * FROM tb_postcommit WHERE post_id=:postId",nativeQuery=true)
 	List<Postcommit> selectPostComiByPostId(@Param(value="postId") Integer postId);
 	
+	/**
+	 * 删除帖子
+	 * @param postId
+	 * @author 王梦霞
+	 * @return
+	 */
+	@Query(value="SELECT postcommit_id,postcommit_count,postcommit_createtime,postcommit_name,postcommit_report,postcommit_update_time,user_id,user_touurl,post_id,COUNT(post_id) AS number FROM tb_postcommit GROUP BY post_id ORDER BY number DESC",nativeQuery=true)
+	List<Postcommit> selectPostByTop();
+	
 }

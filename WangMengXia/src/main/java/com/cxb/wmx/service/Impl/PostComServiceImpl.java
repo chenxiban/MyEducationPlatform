@@ -56,6 +56,9 @@ public class PostComServiceImpl implements PostComService {
 
 	/**
 	 * @author 王梦霞 删除评论以及评论下的回复
+	 * 先查到是否有这个评论,在判断这个评论是否举报成功 ,若都符合,在查询一下评论下是否有回复
+	 * 若有回复,不论是否举报,删除回复后在删除评论
+	 * 若无回复,直接删该评论
 	 */
 	@Override
 	public Object deletePostCommitById(Integer postcommitId) {
@@ -78,5 +81,5 @@ public class PostComServiceImpl implements PostComService {
 		}
 
 	}
-
+	
 }

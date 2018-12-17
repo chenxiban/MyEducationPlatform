@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cxb.wmx.dao.PostComRpository;
-import com.cxb.wmx.entity.Bar;
 import com.cxb.wmx.entity.Postcommit;
-import com.cxb.wmx.entitysearch.BarSearch;
 import com.cxb.wmx.entitysearch.PostComSearch;
 import com.cxb.wmx.service.PostComService;
 
@@ -67,4 +64,5 @@ public class PostComController {
 		System.out.println("当前要删除的评论id为====>"+postcommitId);
 		return postComService.deletePostCommitById(postcommitId);
 	} 
+	
 }

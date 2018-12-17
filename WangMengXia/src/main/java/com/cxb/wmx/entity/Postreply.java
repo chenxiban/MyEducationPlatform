@@ -43,16 +43,7 @@ import lombok.Setter;
 @Table(name = "tb_postreply")
 public class Postreply {
 
-	/**
-	 * postreply_id字段,int类型,主键自增,非空,备注:帖子回复主键
-postcommit_id字段,int类型,外键,非空,备注:评论外键
-
-user_id字段,int类型,非空,备注:回复人id需个人中心提供数据
-postreply_count字段,varchar类型,非空,备注:评论内容
-postreply_report字段,tinyint(0否,1是),备注:是否举报
-postreply_createtime字段,datetime类型,非空,备注:评论时间
-postreply_updatetime字段,时间戳,非空,备注:修改时间
-	 */
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy
@@ -76,9 +67,11 @@ postreply_updatetime字段,时间戳,非空,备注:修改时间
 	@JoinColumn(name="postcommit_id")	//副表中的外键字段名称
 	private Postcommit postcommit;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="postreply",fetch=FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
 	private List<Postreplyreport> list1 = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="postreply",fetch=FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
 	private List<Postreplylike> list2 = new ArrayList<>();
 	

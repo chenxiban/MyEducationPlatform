@@ -40,15 +40,7 @@ import lombok.Setter;
 @Table(name = "tb_postreplylike")
 public class Postreplylike {
 
-	/**
-	 * postreplylike_id字段,int类型,主键自增,非空,备注:帖子点赞主键
-postreply_id字段,int类型,非空,外键,备注:帖子回复外健
 
-postreplylike_stuts字段,tinyint(0否,1是),非空,默认为0,备注:状态
-user_id字段,int类型,非空,备注:点/反的用户的id
-postreplylike_createtime字段,datetime类型,非空,备注:评论时间
-postreplylike_updatetime字段,时间戳,非空,备注:修改时间
-	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy

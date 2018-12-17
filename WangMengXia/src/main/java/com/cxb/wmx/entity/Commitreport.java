@@ -39,15 +39,7 @@ import lombok.Setter;
 @Table(name = "tb_commitreport")
 public class Commitreport {
 
-	/**
-	 * commitreport_id字段,int类型,主键自增,非空,备注:评论举报主键
-postcommit_id字段,int类型,非空,外键,备注:评论外键
-user_id字段,int类型,非空,外键,备注:举报的用户id
-commitreport_content字段,varchar类型长度200,备注:举报内容
-commitreport_stuts字段,,tinyint(0否,1是),非空,默认为0,备注:举报信息审核状态
-postcommit_createtime字段,datetime类型,非空,备注:发表时间
-postcommit_updatetime字段,时间戳,非空,备注:最后一次修改时间
-	 */
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy

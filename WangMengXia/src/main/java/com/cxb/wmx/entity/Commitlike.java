@@ -39,14 +39,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "tb_commitlike")
 public class Commitlike {
-	/**
-	 * commitlike_id字段,int类型,主键自增,非空,备注:帖子评论点赞主键
-postcommit_id字段,int类型,非空,外键,备注:帖子评论外键
-commitlike_stuts字段,tinyint(0否,1是),默认为0,备注:状态
-user_id字段,int类型,非空,备注:点/反的用户的id
-commitlike_createtime字段,datetime类型,备注:创建时间
-commitlike_updatetime字段,时间戳,备注:最后一次修改时间
-	 */
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

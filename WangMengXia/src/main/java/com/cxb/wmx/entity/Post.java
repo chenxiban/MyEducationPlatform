@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -80,6 +79,10 @@ public class Post {
 	
 	@Transient
 	private Integer barId;
+	@Transient
+	private int page=0;
+	@Transient
+	private int rows=10;
 	/**
 	 * 给JSON转换器使用
 	 * @return
@@ -98,12 +101,15 @@ public class Post {
 		this.barCategory= barCategory;
 	}
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="post",fetch=FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
 	private List<Postreport> list1 = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="post",fetch=FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
 	private List<Postlike> list2 = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="post",fetch=FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
 	private List<Postcommit> list3= new ArrayList<>();
 }

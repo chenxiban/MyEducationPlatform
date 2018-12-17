@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.cxb.wmx.entity.Post.PostBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,14 +40,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "tb_postlike")
 public class Postlike {
-	/**
-	 * postlike_id字段,int类型,主键自增,非空,备注:帖子点赞主键
-post_id字段,int类型,非空,外键,备注:帖子外键
-postlike_stuts字段,,tinyint(0否,1是),非空,默认为0,备注:状态
-user_id字段,int类型,非空,备注:点/反的用户的id
-postlike_createtime字段,datetime类型,非空,备注:发表时间
-postlike_updatetime字段,时间戳,非空,备注:最后一次修改时间
-	 */
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy
@@ -67,5 +61,11 @@ postlike_updatetime字段,时间戳,非空,备注:最后一次修改时间
 	@JoinColumn(name="post_id")	//副表中的外键字段名称
 	private Post post;
 	
+	@Transient
+	private Integer number;
+	@Transient
+	private Integer page;
+	@Transient
+	private Integer rows;
 
 }

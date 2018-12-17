@@ -40,16 +40,7 @@ import lombok.Setter;
 @Table(name = "tb_postreplyreport")
 public class Postreplyreport {
 
-	/**
-	 * postreplyreport_id字段,int类型,主键自增,非空,备注:回复举报主键
-postreply_id字段,int类型,非空,外键,备注:回复外键
-
-user_id字段,int类型,非空,外键,备注:举报的用户id
-postreplyreport_content字段,varchar类型长度200,备注:举报内容
-postreplyreport_stuts字段,,tinyint(0否,1是),默认为0,备注:举报信息审核状态
-postreplyreport_createtime字段,datetime类型,非空,备注:评论时间
-postreplyreport_updatetime字段,时间戳,非空,备注:修改时间
-	 */
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy

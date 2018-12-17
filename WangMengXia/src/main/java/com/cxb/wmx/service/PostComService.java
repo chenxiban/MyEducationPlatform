@@ -1,11 +1,15 @@
 package com.cxb.wmx.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
+import com.cxb.wmx.entity.Bar;
 import com.cxb.wmx.entity.Post;
 import com.cxb.wmx.entity.Postcommit;
+import com.cxb.wmx.entitysearch.BarSearch;
 import com.cxb.wmx.entitysearch.PostComSearch;
 
 public interface PostComService {
@@ -25,4 +29,5 @@ public interface PostComService {
 	 * @return
 	 */
 	public Object deletePostCommitById(Integer postcommitId);
+	
 }

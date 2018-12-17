@@ -41,13 +41,6 @@ import lombok.Setter;
 @Table(name = "tb_reportcount")
 public class Reportcount {
 
-	/**
-	 * reportcount_id字段,int类型,主键自增,非空,备注:帖子内容举报主键
-postreport_id字段,int类型,,备注:帖子举报外键
-reportcount_content字段,varchar类型长度200,备注:管理员返还的举报内容
-reportcount_createtime字段,datetime类型,非空,备注:发表时间
-reportcount_updatetime字段,时间戳,非空,备注:最后一次修改时间
-	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy
@@ -65,9 +58,5 @@ reportcount_updatetime字段,时间戳,非空,备注:最后一次修改时间
 	@JoinColumn(name="post_id")	//副表中的外键字段名称
 	private Post post;
 	
-	/*@JsonIgnore
-	@OneToOne(optional = false, mappedBy = "reportcount", cascade = CascadeType.ALL, fetch = FetchType.EAGER)	//不建外键		//optional是否可以为空
-	@JoinColumn(name="postreport_id",unique = true)	////副表中的外键字段名称 // unique=true确保了一对一关系	
-	private Postreport postreport;*/
 	
 }

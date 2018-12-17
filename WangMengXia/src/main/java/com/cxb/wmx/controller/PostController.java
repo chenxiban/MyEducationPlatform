@@ -13,13 +13,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cxb.wmx.entity.Bar;
 import com.cxb.wmx.entity.Post;
 import com.cxb.wmx.entity.Result;
-import com.cxb.wmx.entitysearch.BarSearch;
-import com.cxb.wmx.entitysearch.PostSearch;
 import com.cxb.wmx.service.PostService;
 
 @RestController
@@ -64,20 +62,23 @@ public class PostController {
 	 * 连表动态查询分页
 	 */
 	@RequestMapping(value="/queryAllPage",method=RequestMethod.GET)
-	public Object queryAllPage(String postName,String barCategory) {
+	public Object queryAllPage(String postName,String barCategory, int page,int rows) {
 		Post post = new Post();
 		post.setPostName(postName);
 		post.setBarCategory(barCategory);
-		
-		Page<Post> page = null;
-    	page = postService.queryAllPage(post, 0, 10);//第1页,每页10条;第几页从零开始(第1页则是0),每页显示几条.
-    	System.out.println("page=>"+page);
-    	Long total = page.getTotalElements();
-    	List<Post> list = page.getContent();
-    	Map<String, Object> map = new HashMap<>();
-    	map.put("total", total);
-    	map.put("rows", list);
-    	return map;
+		Pageable pageable = PageRequest.of((page-1), rows, Sort.Direction.ASC,
+				"postId");
+		Page<Post> page1 = postService.queryAllPage(post, pageable);
+		System.out.println("page======>" + page);
+		Long total = page1.getTotalElements();
+		List<Post> list = page1.getContent();
+		System.out.println("list======>" + list);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", total);
+		map.put("rows", list);
+		System.out.println("total 总数为===>" + map.get("total"));
+		System.out.println("rows 数据为===>" + map.get("rows"));
+		return map;
 	}
 	/**
 	 * http://localhost:3011/wangmengxia/WangMengXia/post/deletePostById
@@ -116,5 +117,44 @@ public class PostController {
 			}
 		}
 		
+	}
+	
+	/**
+	 * 查询评论前二十的帖子
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/queryByTop
+	 * @return
+	 */
+	@RequestMapping(value="/queryByTop",method=RequestMethod.GET)
+	public Map<String, Object> queryByTop(@RequestParam(value="page")Integer page,@RequestParam(value="rows")Integer rows) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("total", postService.queryPageTop(page,rows).size());
+		map.put("rows", postService.queryPageTop(page,rows));
+		return map;
+	}
+	
+	/**
+	 * 查询点赞前二十的帖子
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/selectPostListByTopD
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostListByTopD",method=RequestMethod.GET)
+	public Map<String, Object> selectPostListByTopD(@RequestParam(value="page")Integer page,@RequestParam(value="rows")Integer rows) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("total", postService.selectPostListByTopD(page,rows).size());
+		map.put("rows", postService.selectPostListByTopD(page,rows));
+		return map;
+	}
+	
+	/**
+	 * 查询踩赞前二十的帖子
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/selectPostListByTopC
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostListByTopC",method=RequestMethod.GET)
+	public Map<String, Object> selectPostListByTopC(@RequestParam(value="page")Integer page,@RequestParam(value="rows")Integer rows) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("total", postService.selectPostListByTopC(page,rows).size());
+		map.put("rows", postService.selectPostListByTopC(page,rows));
+		return map;
 	}
 }
