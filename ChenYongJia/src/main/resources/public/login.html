@@ -2,112 +2,202 @@
 <html>
 
 	<head>
-		<meta charset="UTF-8">
-		<title>欢迎登陆</title>
+		<meta charset="utf-8" />
+		<title>DiaLog会话框</title>
 		<link rel="icon" href="img/timg.jpg">
-		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/icon.css" />
-		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/default/easyui.css" />
-		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.min.js"></script>
-		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
-		<script type="text/javascript" src="js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
-		<style>
+		<link rel="stylesheet" type="text/css" href="css/element-ui.css" />
+		<script src="js/Vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/element-ui.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
 			#aaa {
 				background: url(img/mainbj.jpg) no-repeat;
 				background-size: 100%;
 			}
 		</style>
-		<script>
-			//const backUrl = window.localStorage.setItem("backUrl",window.location.href);
-			const backUrl = window.localStorage.getItem("backUrl");
-			$(function() {
-				$('#backUrl').val(backUrl);
-				//alert(backUrl);
-				$("#aa").dialog({
-					title: '欢迎登陆',
-					width: 400,
-					height: 220,
-					iconCls: 'icon-man',
-					closable: false
-				});
-			})
-		</script>
-
-		<script>
-			function submitForm() {
-				let username=$('#username').val();
-				let data = $("#loginForm").serialize();
-				let isValid = $('#form').form('validate');
-				if(isValid) {
-					$.ajax({
-						type: 'GET',
-						url: 'http://localhost:3011/chenyongjia/ChenYongJia/oauth/token',
-						cache: false,
-						data: data,
-						dataType: 'json',
-						success: function(res) {
-							if(res.success) {
-								window.localStorage.setItem("token", res.message.object.access_token); //将resObj的message消息中的参数存入token中
-								window.localStorage.setItem("refreshToken", res.message.object.refresh_token); //将resObj的message消息中的参数存入token中
-								window.localStorage.setItem("roleIds", res.message.roleIds);
-								window.localStorage.setItem("loginName", username);
-								window.location.href = res.message.backUrl; //将token暂存后跳转向main页面
-							} else {
-								$.messager.alert({
-									title: '提示信息',
-									msg: res.message,
-									timeout: 3000, //推出时间
-									showType: 'slide', //动画效果
-									showSpeed: 3000
-									//显示时间
-								});
-							}
-
-						},
-						error: function(res) {
-							$.messager.alert({
-								title: '提示信息',
-								msg: res.message,
-								timeout: 3000, //推出时间
-								showType: 'slide', //动画效果
-								showSpeed: 3000
-								//显示时间
-							});
-						}
-					});
-				}
-			}
-
-			function clearForm() {
-				$("#loginForm").form('clear');
-			}
-		</script>
 	</head>
 
 	<body id="aaa">
-		<div id="aa" style="background: url(img/beijing.jpg) no-repeat; background-size: 100% 100%;">
-			<div style="padding: 10px 60px 10px 60px; ">
-				<form id="loginForm" method="post">
-					<table cellpadding="10">
-						<td><input id="backUrl" name="backUrl" hidden="true"></td>
-						<tr>
-							<td>登&nbsp;录&nbsp;名：</td>
-							<td><input type="text" name="username" id="username" value="小佳" data-options="required:true" class="easyui-validatebox" missingMessage="用户名不能为空" /></td>
-						</tr>
-						<tr>
-							<td>密&nbsp;&nbsp;&nbsp;码：</td>
-							<td><input type="password" name="password" id="password" value="cyj123" data-options="required:true" class="easyui-validatebox" missingMessage="用户密码不能为空" /></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>
-								<a href="javascript:void(0)" class="easyui-linkbutton" type="button" data-options="iconCls:'icon-ok'" onclick="submitForm()">登录系统</a>
-								<a href="javascript:void(0)" class="easyui-linkbutton" type="button" data-options="iconCls:'icon-clear'" onclick="clearForm()">清除输入</a>
-							</td>
-						</tr>
-					</table>
-				</form>
-			</div>
+		<div id="dialog">
+			<!-- Form -->
+			<el-dialog title="欢迎登陆后台管理系统" center="true" width=25% :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" :visible.sync="dialogFormVisible">
+				<el-form :model="form" ref="from" :rules="rules">
+					<el-form-item label="用户名称：" prop="username">
+						<el-input v-model="form.username" autosize="true" placeholder="请输入用户名" prefix-icon="el-icon-edit" autocomplete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="用户密码：" prop="password">
+						<el-input v-model="form.password" autosize="true" placeholder="请输入用户密码" prefix-icon="el-icon-view	" autocomplete="off"></el-input>
+					</el-form-item>
+				</el-form>
+				<div slot="footer" class="dialog-footer">
+					<el-button type="primary" @click="submitForm('from')">登 陆 系 统</el-button>
+					<el-button @click="resetForm('from')">清 空 输 入</el-button>
+				</div>
+			</el-dialog>
 		</div>
 	</body>
+	<script type="text/javascript">
+		//const backUrl = window.localStorage.setItem("backUrl",window.location.href);
+		const backUrl = window.localStorage.getItem("backUrl");
+		new Vue({
+			el: '#dialog',
+			data: function() {
+				return {
+					dialogFormVisible: true,
+					form: {
+						username: '',
+						password: ''
+					},
+					rules: {
+						username: [{
+							required: true,
+							message: '请输入用户名',
+							trigger: 'blur'
+						}],
+						password: [{
+							required: true,
+							message: '请输入用户密码',
+							trigger: 'blur'
+						}]
+					}
+				}
+			},
+			methods: {
+				submitForm(from) {
+					this.$refs[from].validate((valid) => {
+						const vm = this;
+						if(valid) {
+							console.log(this.$refs[from].model)
+							const usernames=this.$refs[from].model.username;
+							//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
+							axios({
+								method: "get",
+								url: "http://localhost:3011/chenyongjia/ChenYongJia/oauth/token",
+								params: {
+									username: this.$refs[from].model.username,
+									password: this.$refs[from].model.password,
+									backUrl: backUrl
+								}
+							})
+							.then(function(res) {
+								if(res.data.success) {
+									window.localStorage.setItem("token", res.data.message.object.access_token); //将resObj的message消息中的参数存入token中
+									window.localStorage.setItem("refreshToken", res.data.message.object.refresh_token); //将resObj的message消息中的参数存入token中
+									window.localStorage.setItem("roleIds", res.data.message.roleIds);
+									window.localStorage.setItem("loginName", usernames);
+									axios({
+											method: "put",
+											url: "http://localhost:3011/chenyongjia/ChenYongJia/tokens/saveMyToken",
+											params: {
+												tokenAcc: res.data.message.object.access_token,
+												usersName: usernames
+											}
+										})
+										.then(function(res) {
+											if(res.data.success) {
+												window.location.href = backUrl; //返回上一级
+											} else {
+												window.location.href = backUrl; //返回上一级
+											}
+										})
+										.catch(function(error) {
+											$alert('请求失败出现错误', '登陆失败', {
+												confirmButtonText: '确定',
+												callback: action => {
+													this.$message({
+														type: 'error',
+														message: '请求失败出现错误'
+													});
+												}
+											});
+										});
+								} else {
+									vm.$alert(res.data.message, '登陆失败', {
+										confirmButtonText: '确定',
+										callback: action => {
+											vm.$message({
+												type: 'warning',
+												message: res.data.message
+											});
+										}
+									});
+								}
+							})
+							.catch(function(error) {
+								vm.$alert(error.data.message, '登陆失败', {
+									confirmButtonText: '确定',
+									callback: action => {
+										vm.$message({
+											type: 'error',
+											message: error.data.message
+										});
+									}
+								});
+							});
+					} else {
+						vm.$alert('表单验证失败', '登陆失败', {
+							confirmButtonText: '确定',
+							callback: action => {
+								vm.$message({
+									type: 'info',
+									message: '表单验证失败'
+								});
+							}
+						});
+						return false;
+					}
+				});
+			},
+			resetForm(from) {
+				this.$refs[from].resetFields();
+			}
+			}
+		});
+		/*login: function(from) {
+					var vm = this;
+					//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
+					axios({
+							method: "get",
+							url: "http://localhost:3011/chenyongjia/ChenYongJia/oauth/token",
+							data: vm.from
+						})
+						.then(function(res) {
+							if(res.success) {
+								$alert('提示消息', '登陆成功', {
+									confirmButtonText: '确定',
+									callback: action => {
+										this.$message({
+											type: 'success',
+											message: res.message
+										});
+									}
+								});
+							} else {
+								$alert('提示消息', '登陆失败', {
+									confirmButtonText: '确定',
+									callback: action => {
+										this.$message({
+											type: 'warning',
+											message: res.message
+										});
+									}
+								});
+							}
+							console.log(res);
+						})
+						.catch(function(error) {
+							$alert('提示消息', '登陆失败', {
+								confirmButtonText: '确定',
+								callback: action => {
+									this.$message({
+										type: 'error',
+										message: error
+									});
+								}
+							});
+							console.log(error);
+						});
+				},*/
+	</script>
 
 </html>

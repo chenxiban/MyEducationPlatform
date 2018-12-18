@@ -88,6 +88,8 @@ public class User implements Serializable {//UserDetails,
 	
 	@Transient
 	private String Pass;
+	@Transient
+	private String backUrl;
 	
 	/*@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

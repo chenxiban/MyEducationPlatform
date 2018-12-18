@@ -14,6 +14,7 @@ import com.cxb.cyj.entity.Result;
 import com.cxb.cyj.entity.User;
 import com.cxb.cyj.service.MyTokenService;
 import com.cxb.cyj.service.UserService;
+import com.cxb.cyj.util.IsEmptyUtils;
 
 /**
  * 
@@ -42,14 +43,20 @@ public class MyTokenController {
 	 * @return
 	 */
 	@RequestMapping(value = "/saveMyToken", name = "添加token的存储信息", method = RequestMethod.PUT)
-	public Object saveMyToken(@RequestBody MyToken myToken, @RequestParam(value = "usersName") String usersName) {
+	public Object saveMyToken(MyToken myToken,@RequestParam(value="usersName") String usersName) {
+		System.out.println(usersName);
 		User user = userService.findsLoginName(usersName);
 		myToken.setUserId(user.getUserId());
 		myToken.setTokenCreatTime(new Date());
 
 		MyToken myToken2 = myTokenService.findByIds(user.getUserId());
-
-		if (myToken2.getTokenAcc().equals(myToken.getTokenAcc())) {
+		if (IsEmptyUtils.isEmpty(myToken2)) {
+			if (myTokenService.saveMyToken(myToken)) {
+				return new Result(true, "token添加成功");
+			} else {
+				return new Result(false, "token添加失败");
+			}
+		} else if (myToken2.getTokenAcc().equals(myToken.getTokenAcc())) {
 			return new Result(false, "token已存储,存储失败");
 		} else {
 			if (myTokenService.deleteBatch(myToken2.getTokenAcc())) {// 根据失效的不相等的删除

@@ -40,7 +40,7 @@ public interface UserService {
 	 * @param usersName
 	 * @return
 	 */
-	User findsLoginName(String usersName);
+	User findsLoginName(String userName);
 	
 	/**
 	 * 添加用户信息
