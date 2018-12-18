@@ -1,0 +1,20 @@
+写项目准备：
+	1、配置Git上传下载配置
+	点击Window进入show View 中的Other在Other中搜索Git选择Git Repositories
+	选择Git Repositories窗口，点击Remotes下的Origin，右键选择带笔的那个进行配置
+	2、序列化工作空间配置
+	右键父项目MyEduPlaform进入Team中的Synchronize Workspace
+	右键别人项目，选择Synchronize 点击pull 再次重复本操作
+	查看别人项目是否有所改变
+	如果别人项目有所改变，右键项目选择Over Write重写到自己项目
+	右键项目选择Add to Index 
+	点击Commit 提交到本地仓库
+	重新回到自己项目
+	再次右键父项目MyEduPlaform进入Team中的Synchronize Workspace
+	查看序列化工作空间是否还有项目 如果显示NO changes in 'git(LIHaiChao)'
+	可以开始写自己的项目 
+	3、Git上传
+	右键父项目MyEduPlaform进入Team中的Synchronize Workspace
+	查看别人是否做了更新，如果做了更新重复操作2、
+	点击自己项目选择Add to Index 写上上传人名字，更新内容，更新时间 
+	点击commit and push 上传完毕后显示今天所有更新
