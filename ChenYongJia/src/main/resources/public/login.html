@@ -13,11 +13,15 @@
 		<style>
 			#aaa {
 				background: url(img/mainbj.jpg) no-repeat;
-				background-size:100% ;
+				background-size: 100%;
 			}
 		</style>
 		<script>
+			//const backUrl = window.localStorage.setItem("backUrl",window.location.href);
+			const backUrl = window.localStorage.getItem("backUrl");
 			$(function() {
+				$('#backUrl').val(backUrl);
+				//alert(backUrl);
 				$("#aa").dialog({
 					title: '欢迎登陆',
 					width: 400,
@@ -30,18 +34,44 @@
 
 		<script>
 			function submitForm() {
-				var data = $("#loginForm").serialize();
-				var isValid = $('#form').form('validate');
+				let username=$('#username').val();
+				let data = $("#loginForm").serialize();
+				let isValid = $('#form').form('validate');
 				if(isValid) {
 					$.ajax({
-						type: 'post',
+						type: 'GET',
 						url: 'http://localhost:3011/chenyongjia/ChenYongJia/oauth/token',
 						cache: false,
 						data: data,
 						dataType: 'json',
 						success: function(res) {
-							console.log("res=>" + res+"res.access_token=>"+res.access_token);
-							alert(res.access_token);
+							if(res.success) {
+								window.localStorage.setItem("token", res.message.object.access_token); //将resObj的message消息中的参数存入token中
+								window.localStorage.setItem("refreshToken", res.message.object.refresh_token); //将resObj的message消息中的参数存入token中
+								window.localStorage.setItem("roleIds", res.message.roleIds);
+								window.localStorage.setItem("loginName", username);
+								window.location.href = res.message.backUrl; //将token暂存后跳转向main页面
+							} else {
+								$.messager.alert({
+									title: '提示信息',
+									msg: res.message,
+									timeout: 3000, //推出时间
+									showType: 'slide', //动画效果
+									showSpeed: 3000
+									//显示时间
+								});
+							}
+
+						},
+						error: function(res) {
+							$.messager.alert({
+								title: '提示信息',
+								msg: res.message,
+								timeout: 3000, //推出时间
+								showType: 'slide', //动画效果
+								showSpeed: 3000
+								//显示时间
+							});
 						}
 					});
 				}
@@ -55,16 +85,17 @@
 
 	<body id="aaa">
 		<div id="aa" style="background: url(img/beijing.jpg) no-repeat; background-size: 100% 100%;">
-			<div style="padding: 10px 60px 20px 60px; ">
+			<div style="padding: 10px 60px 10px 60px; ">
 				<form id="loginForm" method="post">
 					<table cellpadding="10">
+						<td><input id="backUrl" name="backUrl" hidden="true"></td>
 						<tr>
 							<td>登&nbsp;录&nbsp;名：</td>
-							<td><input type="text" name="username" id="username" value="user_1" data-options="required:true" class="easyui-validatebox" missingMessage="用户名不能为空" /></td>
+							<td><input type="text" name="username" id="username" value="小佳" data-options="required:true" class="easyui-validatebox" missingMessage="用户名不能为空" /></td>
 						</tr>
 						<tr>
 							<td>密&nbsp;&nbsp;&nbsp;码：</td>
-							<td><input type="password" name="password" id="password" value="123456" data-options="required:true" class="easyui-validatebox" missingMessage="用户密码不能为空" /></td>
+							<td><input type="password" name="password" id="password" value="cyj123" data-options="required:true" class="easyui-validatebox" missingMessage="用户密码不能为空" /></td>
 						</tr>
 						<tr>
 							<td></td>

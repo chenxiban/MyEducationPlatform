@@ -53,7 +53,7 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping(value = "/oauth/token", method = RequestMethod.GET)
-	public Object getToken(String username, String password) {
+	public Object getToken(String username, String password,String backUrl) {
 		grant_type = "password";
 
 		User user = userService.findsLoginName(username);
@@ -85,6 +85,9 @@ public class LoginController {
 						Map<String, Object> map = new HashMap<String, Object>();
 						map.put("object", object);
 						map.put("roleIds", urRoles);
+						if (!IsEmptyUtils.isEmpty(backUrl)) {
+							map.put("backUrl", backUrl);
+						}
 						return new Result(true, map);
 					}
 				} else {

@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -86,11 +85,6 @@ public class User implements Serializable {//UserDetails,
 			inverseJoinColumns = { @JoinColumn(name = "roles_id") }) // 多对多关系另一张表与第三张中间表表的外键的对应关系
 	@NotFound(action = NotFoundAction.IGNORE) // NotFound : 意思是找不到引用的外键数据时忽略，NotFound默认是exception
 	private Set<Roles> rolesSet = new HashSet<Roles>();// 用户所拥有的角色集合
-	
-	@JsonIgnore
-	@OneToOne(optional = false, mappedBy = "user", cascade = javax.persistence.CascadeType.ALL, fetch = FetchType.EAGER)	//不建外键		//optional是否可以为空
-	@JoinColumn(name="user_course_id",unique = true)	////副表中的外键字段名称 // unique=true确保了一对一关系	
-	private MyToken myToken;
 	
 	@Transient
 	private String Pass;

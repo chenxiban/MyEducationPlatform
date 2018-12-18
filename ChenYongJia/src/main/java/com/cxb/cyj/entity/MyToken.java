@@ -6,16 +6,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,6 +42,9 @@ public class MyToken implements Serializable {
 	@Column(columnDefinition = "int unsigned  COMMENT 'token存储表id'")
 	private Integer tokenId;
 	
+	@Column(columnDefinition = "int unsigned  COMMENT '用户id'")
+	private Integer userId;
+	
 	@Column(columnDefinition = "varchar(120) COMMENT 'token存储'  ")
 	private String tokenAcc;
 	
@@ -54,10 +52,5 @@ public class MyToken implements Serializable {
 	private Date tokenCreatTime;
 	@Column(columnDefinition = "timestamp COMMENT 'token存储最后一次修改时间'", nullable = false, updatable = false, insertable = false)
 	private Timestamp tokenUpdateTime;
-	
-	@JsonIgnore
-	@OneToOne(fetch = FetchType.EAGER)		// 默认值optional = true表示是否可以为空
-	@JoinColumn(name="user_id",unique = true)	////副表中的外键字段名称 // unique=true确保了一对一关系	
-	private User user;
 	
 }

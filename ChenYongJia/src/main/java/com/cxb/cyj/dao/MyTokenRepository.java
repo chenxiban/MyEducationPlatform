@@ -20,13 +20,22 @@ import com.cxb.cyj.entity.MyToken;
 public interface MyTokenRepository extends JpaRepository<MyToken, Integer>, JpaSpecificationExecutor<MyToken>  {
 	
 	/**
+	 * 根据userid查询mytoken
+	 * @param userId
+	 * @author Chenyongjia
+	 * @return
+	 */
+	MyToken findByUserId(Integer userId);
+	
+	/**
 	 * 根据tokenAcc查询
 	 * 
 	 * @param tokenAcc
 	 * @return
 	 * @author Chenyongjia
 	 */
-	MyToken findByTokenAcc(String tokenAcc);
+	@Query(value = "SELECT token_id,user_id,token_acc,token_creat_time,token_update_time FROM tb_token WHERE token_acc=:tokenAcc", nativeQuery = true)
+	MyToken findsTokenAcc(@Param(value="tokenAcc") String tokenAcc);
 	
 	/**
 	 * 删除token信息

@@ -28,7 +28,7 @@ public class MyTokenServiceImpl implements MyTokenService {
 	 */
 	@Override
 	public MyToken findByTokenAcc(String tokenAcc) {
-		return myTokenRepository.findByTokenAcc(tokenAcc);
+		return myTokenRepository.findsTokenAcc(tokenAcc);
 	}
 
 	/**
@@ -57,6 +57,17 @@ public class MyTokenServiceImpl implements MyTokenService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	/**
+	 * 根据userId查询myToken
+	 * @param userId
+	 * @author Chenyongjia
+	 * @return
+	 */
+	@Override
+	public MyToken findByIds(Integer userId) {
+		return myTokenRepository.findByUserId(userId);
 	}
 	
 }

@@ -16,32 +16,12 @@ public class DefaultController {
 
 	@GetMapping("/")
 	public String home1() {
-		return "/login";
-	}
-
-	@GetMapping("/home")
-	public String home() {
-		return "/home";
-	}
-
-	@GetMapping("/admin")
-	public String admin() {
-		return "/admin";
-	}
-
-	@GetMapping("/user")
-	public String user() {
-		return "/user";
-	}
-
-	@GetMapping("/about")
-	public String about() {
-		return "/about";
+		return "login";
 	}
 
 	@GetMapping("/login")
 	public String login() {
-		return "/login";
+		return "login";
 	}
 
 	@GetMapping("/403")

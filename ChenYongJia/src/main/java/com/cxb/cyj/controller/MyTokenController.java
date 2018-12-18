@@ -3,14 +3,17 @@ package com.cxb.cyj.controller;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.cyj.entity.MyToken;
 import com.cxb.cyj.entity.Result;
+import com.cxb.cyj.entity.User;
 import com.cxb.cyj.service.MyTokenService;
-import com.cxb.cyj.util.IsEmptyUtils;
+import com.cxb.cyj.service.UserService;
 
 /**
  * 
@@ -23,31 +26,43 @@ import com.cxb.cyj.util.IsEmptyUtils;
 @RestController
 @RequestMapping(value = "/tokens", name = "Token模块")
 public class MyTokenController {
-	
+
 	@Autowired
 	private MyTokenService myTokenService;
-	
+
+	@Autowired
+	private UserService userService;
+
 	/**
 	 * 添加token的存储信息
-	 * http://localhost:3011/chenyongjia/ChenYongJia/tokens/saveMyToken?usersName=郭士才7&usersStuNo=123456
+	 * http://localhost:3011/chenyongjia/ChenYongJia/tokens/saveMyToken?
 	 * 
 	 * @author GuoShiCai
 	 * @param myToken
 	 * @return
 	 */
-	@RequestMapping(value = "/saveMyToken", method = RequestMethod.PUT)
-	public Object saveMyToken(MyToken myToken) {
+	@RequestMapping(value = "/saveMyToken", name = "添加token的存储信息", method = RequestMethod.PUT)
+	public Object saveMyToken(@RequestBody MyToken myToken, @RequestParam(value = "usersName") String usersName) {
+		User user = userService.findsLoginName(usersName);
+		myToken.setUserId(user.getUserId());
 		myToken.setTokenCreatTime(new Date());
-		MyToken mylist = myTokenService.findByTokenAcc(myToken.getTokenAcc());
-		if (IsEmptyUtils.isEmpty(mylist)) {
-			if (myTokenService.saveMyToken(myToken)) {
-				return new Result(true, "token添加成功");
-			} else {
-				return new Result(false, "token添加失败");
-			}
+
+		MyToken myToken2 = myTokenService.findByIds(user.getUserId());
+
+		if (myToken2.getTokenAcc().equals(myToken.getTokenAcc())) {
+			return new Result(false, "token已存储,存储失败");
 		} else {
-			return new Result(false, "token名重复,存储失败");
+			if (myTokenService.deleteBatch(myToken2.getTokenAcc())) {// 根据失效的不相等的删除
+				if (myTokenService.saveMyToken(myToken)) {
+					return new Result(true, "token添加成功");
+				} else {
+					return new Result(false, "token添加失败");
+				}
+			} else {
+				return new Result(false, "token存储数据删除失败");
+			}
 		}
+
 	}
-	
+
 }

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cxb.cyj.entity.MyToken;
 import com.cxb.cyj.entity.Result;
 import com.cxb.cyj.entity.User;
 import com.cxb.cyj.entitysearch.UserSearch;
@@ -235,7 +234,7 @@ public class UserController {
 	
 	/**
 	 * 查询用户未拥有的角色
-	 * http://localhost:3011/chenyongjia/ChenYongJia/user/getUserIdByToken?token=? 不带分页
+	 * http://localhost:3011/chenyongjia/ChenYongJia/user/getUserIdByToken?token=598b984a-f0c2-4771-bd99-3739fffacf3b 不带分页
 	 * 
 	 * @return
 	 */

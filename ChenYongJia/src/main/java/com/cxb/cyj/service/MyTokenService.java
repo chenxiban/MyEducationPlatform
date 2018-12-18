@@ -40,4 +40,12 @@ public interface MyTokenService {
 	 */
 	public boolean saveMyToken(MyToken myToken);
 	
+	/**
+	 * 根据userId查询myToken
+	 * @param userId
+	 * @author Chenyongjia
+	 * @return
+	 */
+	public MyToken findByIds(Integer userId);
+	
 }
