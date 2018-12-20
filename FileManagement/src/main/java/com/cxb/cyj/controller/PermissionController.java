@@ -18,7 +18,7 @@ import com.cxb.cyj.service.ConsumerService;
 
 /**
  * 
- * @Description:   权限控制器
+ * @Description:   权限控制器 
  * @ClassName:     PermissionController.java
  * @author         ChenYongJia
  * @Date           2018年12月04日 下午20:40:56
