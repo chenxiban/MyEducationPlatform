@@ -26,6 +26,7 @@ public interface BarRpository extends JpaRepository<Bar, Integer>, JpaSpecificat
 	/**
 	 * 可删除多个
 	 * @param barId
+	 * @author 王梦霞
 	 * @return
 	 */
 	@Query(value="DELETE  FROM tb_bar WHERE bar_id In(:barId)",nativeQuery=true)

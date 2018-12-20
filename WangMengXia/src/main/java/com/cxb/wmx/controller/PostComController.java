@@ -65,4 +65,21 @@ public class PostComController {
 		return postComService.deletePostCommitById(postcommitId);
 	} 
 	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/postCom/deleteUserPostComByPid
+	 * 删除
+	 * @author 王梦霞
+	 * @param prId
+	 * @return
+	 */
+	@RequestMapping(value="/deleteUserPostComByPid",method=RequestMethod.POST)
+	public Object deleteUserPostComByPid(Integer postcommitId) {
+		System.out.println("当前要删除的评论id为====>"+postcommitId);
+		if (postComService.deleteUserPostComByPid(postcommitId)) {
+			return true;
+		} else {
+			return false;
+		}
+	} 
+	
 }

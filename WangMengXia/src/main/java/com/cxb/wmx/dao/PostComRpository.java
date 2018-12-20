@@ -69,7 +69,6 @@ public interface PostComRpository extends JpaRepository<Postcommit, Integer>, Jp
 	List<Postcommit> selectPostComiByPostId(@Param(value="postId") Integer postId);
 	
 	/**
-	 * 删除帖子
 	 * @param postId
 	 * @author 王梦霞
 	 * @return
@@ -77,4 +76,15 @@ public interface PostComRpository extends JpaRepository<Postcommit, Integer>, Jp
 	@Query(value="SELECT postcommit_id,postcommit_count,postcommit_createtime,postcommit_name,postcommit_report,postcommit_update_time,user_id,user_touurl,post_id,COUNT(post_id) AS number FROM tb_postcommit GROUP BY post_id ORDER BY number DESC",nativeQuery=true)
 	List<Postcommit> selectPostByTop();
 	
+	
+	/**
+	 * 用户删除自己发的评论
+	 * @author 王梦霞
+	 * @param pid
+	 * @return
+	 */
+	@Query(value="DELETE FROM tb_postcommit WHERE postcommit_id =:pid",nativeQuery=true)
+	@Modifying
+	@Transactional
+	int deleteUserPostComByPid(@Param(value="pid") Integer pid);
 }

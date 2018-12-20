@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import com.cxb.wmx.entity.Post;
 import com.cxb.wmx.entity.Postlike;
@@ -60,11 +61,18 @@ public interface PostService {
 	 * @return
 	 */
 	public List<Post> selectPostListByTopD(Integer page,Integer rows);
-	
 	/**
 	 * 前10的总踩赞最多的帖子
 	 * @author 王梦霞
 	 * @return
 	 */
 	public List<Post> selectPostListByTopC(Integer page,Integer rows);
+	
+	/**
+	 * 用户删除自己发的帖子
+	 * @author 王梦霞
+	 * @param pid
+	 * @return
+	 */
+	public boolean deleteUserPostByPid(Integer pid);
 }

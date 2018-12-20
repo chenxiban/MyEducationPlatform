@@ -67,5 +67,8 @@ public class Postlike {
 	private Integer page;
 	@Transient
 	private Integer rows;
-
+	@Transient
+	private Integer postLike;
+	@Transient
+	private Integer postDisLike;
 }

@@ -24,4 +24,12 @@ public interface PostreplyService {
 	 * @return
 	 */
 	public boolean deletePostreplyById(Integer hfId);
+	
+	/**
+	 * @author 王梦霞
+	 * 用户删除自己的回复
+	 * @param hfId
+	 * @return
+	 */
+	public boolean deleteUserPostreplyById(Integer hfId);
 }

@@ -76,7 +76,8 @@ public class Post {
 	
 	@Transient
 	private String barCategory;
-	
+	@Transient
+	private Integer postCount;
 	@Transient
 	private Integer barId;
 	@Transient
@@ -87,7 +88,7 @@ public class Post {
 	 * 给JSON转换器使用
 	 * @return
 	 */
-	public String getStudentClazzName() {
+	public String getBarCategory() {
 		if(bar != null) {
 			System.out.println("贴吧分类的名称为");
 			return bar.getBarCategory();

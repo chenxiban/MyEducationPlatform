@@ -40,4 +40,15 @@ public interface PostreplyRpository extends JpaRepository<Postreply, Integer>, J
 	@Transactional
 	int deletePostreplyById(@Param(value="hfId") Integer hfId);
 	
+	
+	/**
+	 * @author 王梦霞
+	 * 用户删除自己的回复
+	 * @param hfId
+	 * @return
+	 */
+	@Query(value="DELETE FROM  tb_postreply WHERE postreply_id =:hfId",nativeQuery=true)
+	@Modifying
+	@Transactional
+	int deleteUserPostreplyById(@Param(value="hfId") Integer hfId);
 }

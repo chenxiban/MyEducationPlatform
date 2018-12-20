@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.wmx.entity.Result;
@@ -22,7 +23,7 @@ import com.cxb.wmx.util.IsEmptyUtils;
  *
  */
 @RestController
-@RequestMapping(value="/user",name="管理员")
+@RequestMapping(value="/user")
 public class UserController {
 
 	@SuppressWarnings("unused")
@@ -55,8 +56,37 @@ public class UserController {
 		}else {
 			return new Result(false,"当前用户不存在");
 		}
-		
-		
+	}
+	
+	/**
+	 * 获取登录人的详细信息
+	 * http://localhost:3011/wangmengxia/WangMengXia/user/getUserById?uid=1
+	 * http://localhost:3030/WangMengXia/user/getUserById&uid=1
+	 * @author 王梦霞
+	 * @param uid
+	 * @return
+	 */
+	@RequestMapping(value="/getUserById",method=RequestMethod.GET)
+	public Object getUserById(Integer uid) {
+		return userService.selectUserById(uid);
+	}
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/user/getUserPostCountByUid?uid=1
+	 * 用户发帖总数,评论总数,点赞总数
+	 * @param uid
+	 * @param pid
+	 * @return
+	 */
+	@RequestMapping(value="/getUserPostCountByUid")
+	public Object getUserPostCountByUid(Integer uid) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("postCount", userService.getUserPostCount(uid));
+		List<Integer> pid=userService.getUserPostCountByUid(uid);
+		map.put("postCmmit", userService.getUserPostCommit(pid));
+		map.put("postLike", userService.getUserPostLike(pid));
+		map.put("postDisLike", userService.getUserPostDisLike(pid));
+		return map;
 	}
 }
 

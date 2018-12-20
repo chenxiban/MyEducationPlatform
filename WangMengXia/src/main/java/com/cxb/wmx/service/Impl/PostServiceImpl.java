@@ -48,13 +48,10 @@ public class PostServiceImpl implements PostService {
 
 	protected Path<Post> join;
 
-	
 	/**
-	 * @author 王梦霞 删除帖子
-	 * 先查询要删除那个帖子,判断该帖子是否举报,未举报,不能删除
-	 * 若举报,先查看该帖子下是否有评论,若有,查询一下评论下是否有回复,有就先删除回复,在删除评论,最后删除帖子
-	 * 若没有回复,先删除评论,在删除帖子
-	 * 若没有评论,就直接删除帖子
+	 * @author 王梦霞 删除帖子 先查询要删除那个帖子,判断该帖子是否举报,未举报,不能删除
+	 *         若举报,先查看该帖子下是否有评论,若有,查询一下评论下是否有回复,有就先删除回复,在删除评论,最后删除帖子
+	 *         若没有回复,先删除评论,在删除帖子 若没有评论,就直接删除帖子
 	 */
 	@Override
 	public Object deletePostById(Integer postId) {
@@ -111,8 +108,10 @@ public class PostServiceImpl implements PostService {
 	public Page<Post> queryAllPage(Post post, Pageable pageable) {// 分页
 		return postRpository.findAll(this.getWhereClause(post), pageable);
 	}
+
 	/**
 	 * 查询条件动态组装 动态生成where语句 匿名内部类形式
+	 * 
 	 * @param
 	 * @author 王梦霞
 	 * @return
@@ -140,13 +139,9 @@ public class PostServiceImpl implements PostService {
 	}
 
 	/**
-	 * 如果没有全部置顶的帖子,
-	 * 先对分类 进行操作,去查询该分类是否有置顶的帖子,
-	 * 如果没有置顶的帖子,去给该分类添加置顶的帖子
-	 * 如果该分类下面有置顶的帖子,去遍历一下根据帖子id,
-	 * 查询出置顶的帖子,将其top修改为0,将要进行置顶操作的帖子的top修改为1
-	 * 若对全部置顶进行操作,先查询出是否有top为2的帖子,
-	 * 若没有就把当前帖子进行全部置顶操作,
+	 * 如果没有全部置顶的帖子, 先对分类 进行操作,去查询该分类是否有置顶的帖子, 如果没有置顶的帖子,去给该分类添加置顶的帖子
+	 * 如果该分类下面有置顶的帖子,去遍历一下根据帖子id, 查询出置顶的帖子,将其top修改为0,将要进行置顶操作的帖子的top修改为1
+	 * 若对全部置顶进行操作,先查询出是否有top为2的帖子, 若没有就把当前帖子进行全部置顶操作,
 	 * 若有就进行遍历查询出top为2的帖子,将其top修改为0,对其要进行操作的帖子top修改为2
 	 */
 	@Override
@@ -193,38 +188,42 @@ public class PostServiceImpl implements PostService {
 		}
 	}
 
-	
 	@Override
-	public List<Post> queryPageTop(Integer page,Integer rows) {
-		List<Postcommit> list=postComRpository.selectPostByTop();
-		List<Integer> list2=new ArrayList<Integer>();
+	public List<Post> queryPageTop(Integer page, Integer rows) {
+		List<Postcommit> list = postComRpository.selectPostByTop();
+		List<Integer> list2 = new ArrayList<Integer>();
 		for (int i = 0; i < list.size(); i++) {
 			list2.add(list.get(i).getPost().getPostId());
 		}
-		List<Post> list3=postRpository.queryByTopById(list2,(page-1),rows);
+		List<Post> list3 = postRpository.queryByTopById(list2, (page - 1), rows);
 		return list3;
 	}
 
 	@Override
-	public List<Post> selectPostListByTopD(Integer page,Integer rows) {
-		List<Postlike> list=postLikeRpository.selectPostListByTopD();
-		List<Integer> list2=new ArrayList<Integer>();
+	public List<Post> selectPostListByTopD(Integer page, Integer rows) {
+		List<Postlike> list = postLikeRpository.selectPostListByTopD();
+		List<Integer> list2 = new ArrayList<Integer>();
 		for (int i = 0; i < list.size(); i++) {
 			list2.add(list.get(i).getPost().getPostId());
 		}
-		List<Post> list3=postRpository.queryByTopById(list2,(page-1),rows);
+		List<Post> list3 = postRpository.queryByTopById(list2, (page - 1), rows);
 		return list3;
 	}
-	
+
 	@Override
-	public List<Post> selectPostListByTopC(Integer page,Integer rows) {
-		List<Postlike> list=postLikeRpository.selectPostListByTopC();
-		List<Integer> list2=new ArrayList<Integer>();
+	public List<Post> selectPostListByTopC(Integer page, Integer rows) {
+		List<Postlike> list = postLikeRpository.selectPostListByTopC();
+		List<Integer> list2 = new ArrayList<Integer>();
 		for (int i = 0; i < list.size(); i++) {
 			list2.add(list.get(i).getPost().getPostId());
 		}
-		List<Post> list3=postRpository.queryByTopById(list2,(page-1),rows);
+		List<Post> list3 = postRpository.queryByTopById(list2, (page - 1), rows);
 		return list3;
+	}
+
+	@Override
+	public boolean deleteUserPostByPid(Integer pid) {
+		return postRpository.deleteUserPostByPid(pid) > 0 ? true : false;
 	}
 
 }

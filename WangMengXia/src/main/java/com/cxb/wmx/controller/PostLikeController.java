@@ -35,4 +35,70 @@ public class PostLikeController {
 	public Object getPostLikeByTopC() {
 		return postLikeService.selectPostListByTopC();
 	}
+	
+	/**
+	 * 用户个帖子点赞
+	 * http://localhost:3011/wangmengxia/WangMengXia/postlike/addPostlikeDz?postId=2&userId=2
+	 * @author 王梦霞
+	 * @return
+	 */
+	@RequestMapping(value="/addPostlikeDz")
+	public Object addPostlikeDz(Integer postId,Integer userId) {
+		return postLikeService.addPostlikeDz(postId,userId);
+	}
+	
+	/**
+	 * 用户个帖子踩赞
+	 * http://localhost:3011/wangmengxia/WangMengXia/postlike/addPostlikeCz?postId=2&userId=22
+	 * @author 王梦霞
+	 * @return
+	 */
+	@RequestMapping(value="/addPostlikeCz")
+	public Object addPostlikeCz(Integer postId,Integer userId) {
+		return postLikeService.addPostlikeDz(postId,userId);
+	}
+	
+	/**
+	 * 用户给帖子取消点赞
+	 * http://localhost:3011/wangmengxia/WangMengXia/postlike/deletePostlikeDz?postId=2&userId=22
+	 * @author 王梦霞
+	 * @return
+	 */
+	@RequestMapping(value="/deletePostlikeDz")
+	public Object deletePostlikeDz(Integer postId,Integer userId) {
+		return postLikeService.deletePostlikeDz(postId, userId);
+	}
+	
+	/**
+	 * 用户个帖子取消踩赞
+	 * http://localhost:3011/wangmengxia/WangMengXia/postlike/deletePostlikeCz?postId=2&userId=22
+	 * @author 王梦霞
+	 * @returnupdatePostlikeCz
+	 */
+	@RequestMapping(value="/deletePostlikeCz")
+	public Object deletePostlikeCz(Integer postId,Integer userId) {
+		return postLikeService.deletePostlikeCz(postId, userId);
+	}
+	
+	/**
+	 * 用户给帖子点赞后进行踩赞的操作
+	 * http://localhost:3011/wangmengxia/WangMengXia/postlike/updatePostlikeDz?postId=2&userId=22
+	 * @author 王梦霞
+	 * @return
+	 */
+	@RequestMapping(value="/updatePostlikeDz")
+	public Object updatePostlikeDz(Integer postId,Integer userId) {
+		return postLikeService.updatePostlikeDz(postId, userId);
+	}
+	
+	/**
+	 * 用户给帖子踩赞后进行点赞的操作
+	 * http://localhost:3011/wangmengxia/WangMengXia/postlike/updatePostlikeCz?postId=2&userId=22
+	 * @author 王梦霞
+	 * @return
+	 */
+	@RequestMapping(value="/updatePostlikeCz")
+	public Object updatePostlikeCz(Integer postId,Integer userId) {
+		return postLikeService.updatePostlikeCz(postId, userId);
+	}
 }

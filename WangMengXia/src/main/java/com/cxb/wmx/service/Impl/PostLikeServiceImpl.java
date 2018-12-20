@@ -27,6 +27,36 @@ public class PostLikeServiceImpl implements PostLikeService{
 		return  postLikeRpository.selectPostListByTopC();
 	}
 
+	@Override
+	public boolean addPostlikeDz(Integer postId,Integer userId) {
+		return postLikeRpository.addPostlikeDz(postId,userId)>0?true:false;
+	}
+
+	@Override
+	public boolean addPostlikeCz(Integer postId, Integer userId) {
+		return postLikeRpository.addPostlikeCz(postId,userId)>0?true:false;
+	}
+
+	@Override
+	public boolean deletePostlikeDz(Integer postId, Integer userId) {
+		return postLikeRpository.deletePostlikeDz(postId,userId)>0?true:false;
+	}
+
+	@Override
+	public boolean deletePostlikeCz(Integer postId, Integer userId) {
+		return postLikeRpository.deletePostlikeCz(postId,userId)>0?true:false;
+	}
+
+	@Override
+	public boolean updatePostlikeDz(Integer postId, Integer userId) {
+		return postLikeRpository.updatePostlikeDz(postId, userId)>0?true:false;
+	}
+
+	@Override
+	public boolean updatePostlikeCz(Integer postId, Integer userId) {
+		return postLikeRpository.updatePostlikeCz(postId, userId)>0?true:false;
+	}
+
 	
 
 }

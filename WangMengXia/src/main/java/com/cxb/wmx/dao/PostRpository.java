@@ -17,6 +17,7 @@ public interface PostRpository extends JpaRepository<Post, Integer>, JpaSpecific
 	/**
 	 * 通过管理员的审查后的删除
 	 * @param postId
+	 * @author 王梦霞
 	 * @return
 	 */
 	@Query(value="DELETE FROM tb_post WHERE post_id =:postId AND post_report=1",nativeQuery=true)
@@ -78,5 +79,17 @@ public interface PostRpository extends JpaRepository<Post, Integer>, JpaSpecific
 	 */
 	@Query(value="SELECT * FROM tb_post WHERE post_id IN (:postId) LIMIT :page"+","+":rows",nativeQuery=true)
 	List<Post> queryByTopById(@Param(value="postId") List<Integer> postId,@Param(value="page") Integer page,@Param(value="rows") Integer rows);
+	
+	/**
+	 * 用户删除自己发的帖子
+	 * @author 王梦霞
+	 * @param pid
+	 * @return
+	 */
+	@Query(value="DELETE FROM tb_post WHERE post_id =:pid",nativeQuery=true)
+	@Modifying
+	@Transactional
+	int deleteUserPostByPid(@Param(value="pid") Integer pid);
+	
 	
 }

@@ -21,6 +21,7 @@ import com.cxb.wmx.entity.Result;
 import com.cxb.wmx.entitysearch.PostComSearch;
 import com.cxb.wmx.service.PostComService;
 import com.cxb.wmx.util.IsEmptyUtils;
+import com.fasterxml.jackson.databind.ser.impl.FailingSerializer;
 
 @Service
 public class PostComServiceImpl implements PostComService {
@@ -80,6 +81,11 @@ public class PostComServiceImpl implements PostComService {
 			}
 		}
 
+	}
+
+	@Override
+	public boolean deleteUserPostComByPid(Integer pid) {
+		return postComRpository.deleteUserPostComByPid(pid)>0?true:false;
 	}
 	
 }

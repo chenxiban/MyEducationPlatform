@@ -54,12 +54,28 @@ public class PostreplyController {
 	 * http://localhost:3011/wangmengxia/WangMengXia/postReply/deletePostRepById
 	 * 删除
 	 * @author 王梦霞
-	 * @param prId
+	 * @param prIddeleteUserPostreplyById
 	 * @return
 	 */
 	@RequestMapping(value="/deletePostRepById",method=RequestMethod.POST)
 	public Object deletePostRepById(Integer hfId) {
 		if (postreplyService.deletePostreplyById(hfId)) {
+			return true;
+		} else {
+			return false;
+		}
+	} 
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/postReply/deleteUserPostreplyById
+	 * 删除
+	 * @author 王梦霞
+	 * @param prId
+	 * @return
+	 */
+	@RequestMapping(value="/deleteUserPostreplyById",method=RequestMethod.POST)
+	public Object deleteUserPostreplyById(Integer hfId) {
+		if (postreplyService.deleteUserPostreplyById(hfId)) {
 			return true;
 		} else {
 			return false;

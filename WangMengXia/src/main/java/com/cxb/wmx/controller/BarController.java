@@ -34,7 +34,7 @@ public class BarController {
 	private Date date = new Date();
 	private Timestamp timestamp = new Timestamp(date.getTime());
 	/**
-	 * 查询所有贴吧分类 
+	 * 查询所有贴吧分类
 	 * http://localhost:3011/wangmengxia/WangMengXia/bar/selectAllBar
 	 * http://localhost:3030/WangMengXia/bar/selectAllBar
 	 * @param bar

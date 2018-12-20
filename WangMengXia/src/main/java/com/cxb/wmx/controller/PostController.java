@@ -1,5 +1,7 @@
 package com.cxb.wmx.controller;
 
+import static org.junit.Assert.assertTrue;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cxb.wmx.entity.Post;
 import com.cxb.wmx.entity.Result;
 import com.cxb.wmx.service.PostService;
+import com.cxb.wmx.service.UserService;
+
+import io.netty.util.internal.IntegerHolder;
 
 @RestController
 @RequestMapping(value="/post")
@@ -29,31 +34,8 @@ public class PostController {
 	private Date date = new Date();
 	@SuppressWarnings("unused")
 	private Timestamp timestamp = new Timestamp(date.getTime());
-	
-	/**
-	 * http://localhost:3011/wangmengxia/WangMengXia/post/queryPost
-	 * 动态查询贴吧分类(分页)
-	 * @author 王梦霞
-	 * @param postSearch
-	 * @return
-	 */
-	/*@RequestMapping(value="/queryPost")
-	public Object queryPost(PostSearch post) {
-		Pageable pageable = PageRequest.of(post.getPage() - 1, post.getRows(), Sort.Direction.ASC,
-				"postId");
-		Page<Post> page = postService.sreachByPost(post, pageable);
-		System.out.println("page======>" + page);
-		Long total = page.getTotalElements();
-		List<Post> list = page.getContent();
-		System.out.println("list======>" + list);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("total", total);
-		map.put("rows", list);
-		System.out.println("total 总数为===>" + map.get("total"));
-		System.out.println("rows 数据为===>" + map.get("rows"));
-		return map;
-	}*/
-	
+	@Autowired
+	private UserService userService;
 	/**
 	 * http://localhost:3011/wangmengxia/WangMengXia/post/queryAllPage
 	 * @param id
@@ -120,6 +102,7 @@ public class PostController {
 	}
 	
 	/**
+	 * @author 王梦霞
 	 * 查询评论前二十的帖子
 	 * http://localhost:3011/wangmengxia/WangMengXia/post/queryByTop
 	 * @return
@@ -133,6 +116,7 @@ public class PostController {
 	}
 	
 	/**
+	 * @author 王梦霞
 	 * 查询点赞前二十的帖子
 	 * http://localhost:3011/wangmengxia/WangMengXia/post/selectPostListByTopD
 	 * @return
@@ -147,6 +131,7 @@ public class PostController {
 	
 	/**
 	 * 查询踩赞前二十的帖子
+	 * @author 王梦霞
 	 * http://localhost:3011/wangmengxia/WangMengXia/post/selectPostListByTopC
 	 * @return
 	 */
@@ -156,5 +141,21 @@ public class PostController {
 		map.put("total", postService.selectPostListByTopC(page,rows).size());
 		map.put("rows", postService.selectPostListByTopC(page,rows));
 		return map;
+	}
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/deleteUserPostByPid?pid=29
+	 * 用户删除自己发的帖子
+	 * @author 王梦霞
+	 * @param pid
+	 * @return
+	 */
+	@RequestMapping(value="/deleteUserPostByPid")
+	public Object deleteUserPostByPid(Integer pid) {
+			if (postService.deleteUserPostByPid(pid)) {
+				return true;
+				} else {
+					return false;
+				}
 	}
 }

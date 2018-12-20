@@ -84,7 +84,6 @@ public class BarServiceImpl implements BarService{
 				public Predicate toPredicate(Root<Bar> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 					Predicate predicate = cb.conjunction();//动态SQL表达式			
 					List<Expression<Boolean>> exList = predicate.getExpressions();//动态SQL表达式集合
-					
 	               if( barSearch.getBarCategory() != null && !"".equals(barSearch.getBarCategory()) ){
 	            	   exList.add(cb.like(root.<String>get("barCategory"), "%"+barSearch.getBarCategory()+"%"));
 	               }

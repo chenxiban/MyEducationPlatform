@@ -49,5 +49,9 @@ public class PostreplyServiceImpl implements PostreplyService{
 	public boolean deletePostreplyById(Integer hfId) {
 			return postreplyRpository.deletePostreplyById(hfId)>0 ?true:false;
 	}
+	@Override
+	public boolean deleteUserPostreplyById(Integer hfId) {
+		return postreplyRpository.deleteUserPostreplyById(hfId)>0?true:false;
+	}
 
 }

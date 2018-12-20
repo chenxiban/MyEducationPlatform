@@ -88,6 +88,7 @@ public class Postcommit {
 	private Integer page;
 	@Transient
 	private Integer rows;
-
+	@Transient
+	private Integer postCommit;
 	
 }
