@@ -1,4 +1,4 @@
-package com.cxb.cyj.config;
+package com.cxb.cyj.config; 
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
