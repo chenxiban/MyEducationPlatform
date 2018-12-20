@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
-Built-By: ￧ﾎﾋ￦ﾢﾦ￩ﾜﾞ
-Build-Jdk: 1.8.0_152
+Implementation-Title: YangYiChen
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: 杨毅晨
+Implementation-Vendor-Id: com.cxb
+Build-Jdk: 1.8.0_131
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/YangYiChen
 Created-By: Maven Integration for Eclipse
 
