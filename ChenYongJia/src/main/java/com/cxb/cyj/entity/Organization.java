@@ -55,7 +55,7 @@ public class Organization implements Serializable {
 	private String organizationAddress;//地址
 	@Column(columnDefinition = "varchar(1000) comment '备注:机构简介'  ")
 	private String organizationAbstract;//简介
-	@Column(columnDefinition = "datetime comment '备注:用户创建时间'  ")
+	@Column(columnDefinition = "datetime comment '备注:机构创建时间'  ")
 	private Date organizationCreatTime;//创建时间
 	@Column(columnDefinition = "TIMESTAMP comment '备注:最后一次操作时间'  ", nullable = false, updatable = false, insertable = false)
 	private Timestamp organizationUpdateTime;//最后一次操作时间   

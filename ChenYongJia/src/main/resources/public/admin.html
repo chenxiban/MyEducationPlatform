@@ -3,13 +3,13 @@
 
 	<head>
 		<meta charset="utf-8" />
-		<title>欢迎登陆智慧教育平台</title>
+		<title>欢迎登陆后台管理系统</title>
 		<link rel="icon" href="img/timg.jpg">
 		<link rel="stylesheet" type="text/css" href="css/element-ui.css" />
 		<script src="js/Vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/element-ui.js" type="text/javascript" charset="utf-8"></script>
-		<style type="text/css">
+		<style>
 			#aaa {
 				background: url(img/mainbj.jpg) no-repeat;
 				background-size: 100%;
@@ -20,7 +20,7 @@
 	<body id="aaa">
 		<div id="dialog">
 			<!-- Form -->
-			<el-dialog title="欢迎登陆智慧教育平台" center="true" width=25% :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" :visible.sync="dialogFormVisible">
+			<el-dialog title="欢迎登陆后台管理系统" center="true" width=25% :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" :visible.sync="dialogFormVisible">
 				<el-form :model="form" ref="from" :rules="rules">
 					<el-form-item label="用户名称：" prop="username">
 						<el-input v-model="form.username" autosize="true" placeholder="请输入用户名" prefix-icon="el-icon-edit" autocomplete="off"></el-input>
@@ -71,86 +71,62 @@
 							const usernames=this.$refs[from].model.username;
 							//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
 							axios({
-								method: "get",
-								url: "http://localhost:3011/chenyongjia/ChenYongJia/oauth/token",
-								params: {
-									username: this.$refs[from].model.username,
-									password: this.$refs[from].model.password,
-									backUrl: backUrl
-								}
-							})
-							.then(function(res) {
-								if(res.data.success) {
-									window.localStorage.setItem("token", res.data.message.object.access_token); //将resObj的message消息中的参数存入token中
-									window.localStorage.setItem("refreshToken", res.data.message.object.refresh_token); //将resObj的message消息中的参数存入token中
-									window.localStorage.setItem("roleIds", res.data.message.roleIds);
-									window.localStorage.setItem("loginName", usernames);
-									axios({
-											method: "put",
-											url: "http://localhost:3011/chenyongjia/ChenYongJia/tokens/saveMyToken",
-											params: {
-												tokenAcc: res.data.message.object.access_token,
-												usersName: usernames
+									method: "get",
+									url: "http://localhost:3011/chenyongjia/ChenYongJia/oauth/token",
+									params: {
+										username: this.$refs[from].model.username,
+										password: this.$refs[from].model.password,
+										backUrl: backUrl
+									}
+								})
+								.then(function(res) {
+									if(res.data.success) {
+										window.localStorage.setItem("token", res.data.message.object.access_token); //将resObj的message消息中的参数存入token中
+										window.localStorage.setItem("refreshToken", res.data.message.object.refresh_token); //将resObj的message消息中的参数存入token中
+										window.localStorage.setItem("roleIds", res.data.message.roleIds);
+										window.localStorage.setItem("loginName", usernames);
+										//vm.$router.go(-1)//返回上一级
+										window.location.href = "mian.html"; //将token暂存后跳转向main页面
+									} else {
+										vm.$alert(res.data.message, '登陆失败', {
+											confirmButtonText: '确定',
+											callback: action => {
+												vm.$message({
+													type: 'warning',
+													message: res.data.message
+												});
 											}
-										})
-										.then(function(res) {
-											if(res.data.success) {
-												window.location.href = backUrl; //返回上一级
-											} else {
-												window.location.href = backUrl; //返回上一级
-											}
-										})
-										.catch(function(error) {
-											$alert('请求失败出现错误', '登陆失败', {
-												confirmButtonText: '确定',
-												callback: action => {
-													this.$message({
-														type: 'error',
-														message: '请求失败出现错误'
-													});
-												}
-											});
 										});
-								} else {
-									vm.$alert(res.data.message, '登陆失败', {
+									}
+								})
+								.catch(function(error) {
+									vm.$alert(error.data.message, '登陆失败', {
 										confirmButtonText: '确定',
 										callback: action => {
 											vm.$message({
-												type: 'warning',
-												message: res.data.message
+												type: 'error',
+												message: error.data.message
 											});
 										}
 									});
+								});
+						} else {
+							vm.$alert('表单验证失败', '登陆失败', {
+								confirmButtonText: '确定',
+								callback: action => {
+									vm.$message({
+										type: 'info',
+										message: '表单验证失败'
+									});
 								}
-							})
-							.catch(function(error) {
-								vm.$alert(error.data.message, '登陆失败', {
-									confirmButtonText: '确定',
-									callback: action => {
-										vm.$message({
-											type: 'error',
-											message: error.data.message
-										});
-									}
-								});
 							});
-					} else {
-						vm.$alert('表单验证失败', '登陆失败', {
-							confirmButtonText: '确定',
-							callback: action => {
-								vm.$message({
-									type: 'info',
-									message: '表单验证失败'
-								});
-							}
-						});
-						return false;
-					}
-				});
-			},
-			resetForm(from) {
-				this.$refs[from].resetFields();
-			}
+							return false;
+						}
+					});
+				},
+				resetForm(from) {
+					this.$refs[from].resetFields();
+				}
 			}
 		});
 		/*login: function(from) {

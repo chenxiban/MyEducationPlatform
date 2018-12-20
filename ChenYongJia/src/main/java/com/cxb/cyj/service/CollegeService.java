@@ -28,28 +28,28 @@ public interface CollegeService {
 	 * @param parentId
 	 * @return
 	 */
-	public List<College> queryChildren(Integer parentId);
+	List<College> queryChildren(Integer parentId);
 	
 	/**
 	 * 添加机构信息
 	 * @param c
 	 * @return
 	 */
-	public boolean addCollege(College c,Integer oid);
+	boolean addCollege(College c,Integer oid);
 	
 	/**
 	 * 修改机构信息
 	 * @param c
 	 * @return
 	 */
-	public boolean updateCollege(College c,Integer oid);
+	boolean updateCollege(College c,Integer oid);
 	
 	/**
 	 * 根据id查询信息
 	 * @param collegeId
 	 * @return
 	 */
-	public College getById(Integer collegeId);
+	College getById(Integer collegeId);
 	
 	/**
 	 * 根据collegeRmark=2查询
@@ -58,6 +58,6 @@ public interface CollegeService {
 	 * @return
 	 * @author Chenyongjia
 	 */
-	public List<College> findByCollegeRmark(Integer collegeRmark);
+	List<College> findByCollegeRmark(Integer collegeRmark);
 	
 }

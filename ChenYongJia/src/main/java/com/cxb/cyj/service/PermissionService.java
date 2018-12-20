@@ -45,6 +45,6 @@ public interface PermissionService {
 	 * @author Chenyongjia
 	 * @return
 	 */
-	public List<Permission> findsByPermissionModules(String permissionModule);
+	List<Permission> findsByPermissionModules(String permissionModule);
 	
 }

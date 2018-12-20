@@ -32,7 +32,7 @@ public interface UserService {
 	 * @param rows
 	 * @return
 	 */
-	public Page<User> sreachByUser(UserSearch userSearch, Pageable pageable);
+	Page<User> sreachByUser(UserSearch userSearch, Pageable pageable);
 	
 	/**
 	 * 根据姓名查询

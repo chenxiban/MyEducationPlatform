@@ -54,7 +54,6 @@ public class College implements Serializable {
 	@Column(columnDefinition = "int unsigned comment '学院/院系/专业ID'  ")
 	private Integer collegeId;
 	@Column(unique=true, columnDefinition = "varchar(60) comment '备注:学院/院系/专业名称'  ")
-	@JsonProperty(value = "text")
 	private String collegeName;
 	@Column(columnDefinition = "int unsigned NOT NULL comment '备注:父模块编号'  ")
 	private Integer collegeParentId;

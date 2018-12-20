@@ -18,9 +18,15 @@ import com.cxb.cyj.entity.Organization;
 public interface OrganizationService {
 	
 	/**
+	 * 根据organizationSchool查询Organization
+	 * @return
+	 */
+	List<Organization> queryAll(String organizationSchool);
+	
+	/**
 	 * 查询所有Organization
 	 * @return
 	 */
-	public List<Organization> queryAll(String organizationSchool);
+	List<Organization> getAll();
 	
 }

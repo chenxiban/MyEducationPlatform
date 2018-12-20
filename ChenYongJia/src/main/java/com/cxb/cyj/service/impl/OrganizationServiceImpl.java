@@ -24,12 +24,21 @@ public class OrganizationServiceImpl implements OrganizationService {
 	private OrganizationRepository organizationRepository;
 	
 	/**
-	 * 查询所有Organization
+	 * 根据organizationSchool查询Organization
 	 * @return
 	 */
 	@Override
 	public List<Organization> queryAll(String organizationSchool) {
 		return organizationRepository.findByOrganizationSchoolContaining(organizationSchool);
+	}
+
+	/**
+	 * 查询所有Organization
+	 * @return
+	 */
+	@Override
+	public List<Organization> getAll() {
+		return organizationRepository.findAll();
 	}
 	
 }

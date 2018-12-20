@@ -9,8 +9,8 @@ import com.cxb.cyj.service.OrganizationService;
 
 /**
  * 
- * @Description: 登录控制器
- * @ClassName: UserController.java
+ * @Description: 机构控制器
+ * @ClassName: OrganizationController.java
  * @author ChenYongJia
  * @Date 2018年12月04日 下午20:40:56
  * @Email 867647213@qq.com
@@ -23,14 +23,25 @@ public class OrganizationController {
 	private OrganizationService organizationService;
 	
 	/**
-	 * 查询模块http://localhost:3011/chenyongjia/ChenYongJia/organization/queryAllOrganization
+	 * 查询机构http://localhost:3011/chenyongjia/ChenYongJia/organization/queryAllOrganization
 	 * 
-	 * @author WangChuanWei
+	 * @author ChenYongJia
 	 * @return
 	 */
 	@RequestMapping(value = "/queryAllOrganization", name = "查询机构", method = RequestMethod.GET)
 	public Object queryAllOrganization(String organizationSchool) {
 		return organizationService.queryAll(organizationSchool);
+	}
+	
+	/**
+	 * 查询所有机构http://localhost:3011/chenyongjia/ChenYongJia/organization/getAllOrganization
+	 * 
+	 * @author ChenYongJia
+	 * @return
+	 */
+	@RequestMapping(value = "/getAllOrganization", name = "查询所有机构", method = RequestMethod.GET)
+	public Object getAllOrganization() {
+		return organizationService.getAll();
 	}
 	
 }

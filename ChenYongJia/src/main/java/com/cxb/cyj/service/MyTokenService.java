@@ -21,7 +21,7 @@ public interface MyTokenService {
 	 * @author Chenyongjia
 	 * @return
 	 */
-	public MyToken findByTokenAcc(String tokenAcc);
+	MyToken findByTokenAcc(String tokenAcc);
 	
 	/**
 	 * 删除token信息
@@ -30,7 +30,7 @@ public interface MyTokenService {
 	 * @author Chenyongjia
 	 * @return
 	 */
-	public boolean deleteBatch(String token);
+	boolean deleteBatch(String token);
 	
 	/**
 	 * 添加信息
@@ -38,7 +38,7 @@ public interface MyTokenService {
 	 * @author Chenyongjia
 	 * @return
 	 */
-	public boolean saveMyToken(MyToken myToken);
+	boolean saveMyToken(MyToken myToken);
 	
 	/**
 	 * 根据userId查询myToken
@@ -46,6 +46,6 @@ public interface MyTokenService {
 	 * @author Chenyongjia
 	 * @return
 	 */
-	public MyToken findByIds(Integer userId);
+	MyToken findByIds(Integer userId);
 	
 }

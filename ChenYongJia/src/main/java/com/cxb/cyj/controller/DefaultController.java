@@ -14,19 +14,62 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class DefaultController {
 
-	@GetMapping("/")
-	public String home1() {
-		return "login";
-	}
-
+	/**
+	 * http://localhost:3011/chenyongjia/ChenYongJia/
+	 * @return
+	 */
 	@GetMapping("/login")
 	public String login() {
 		return "login";
 	}
+	
+	@GetMapping("/admin")
+	public String admin() {
+		return "admin";
+	}
+	
+	@GetMapping("/clazz")
+	public String adminlogin() {
+		return "clazz";
+	}
 
-	@GetMapping("/403")
-	public String error403() {
-		return "/error/403";
+	@GetMapping("/course")
+	public String course() {
+		return "course";
+	}
+	
+	@GetMapping("/jdgl")
+	public String jdgl() {
+		return "jdgl";
+	}
+	@GetMapping("/mian")
+	public String mian() {
+		return "mian";
+	}
+	
+	@GetMapping("/modules")
+	public String modules() {
+		return "modules";
+	}
+	
+	@GetMapping("/organization")
+	public String organization() {
+		return "organization";
+	}
+	
+	@GetMapping("/permission")
+	public String permission() {
+		return "permission";
+	}
+	
+	@GetMapping("/post")
+	public String post() {
+		return "post";
+	}
+	
+	@GetMapping("/yh")
+	public String yh() {
+		return "yh";
 	}
 
 }

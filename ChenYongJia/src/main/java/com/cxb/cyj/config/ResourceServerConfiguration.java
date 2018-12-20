@@ -20,7 +20,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 	// @EnableResourceServer 开启资源服务中心,一般配置在网关.
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		// 对 api/order 请求进行拦截 验证 accessToken
+		// 对 api/order 请求进行拦截 验证 accessToken,需要携带token的方法
 		http.authorizeRequests().antMatchers("/api/order/**").authenticated();
 	}
 	// public
