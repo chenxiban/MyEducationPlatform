@@ -62,6 +62,9 @@
 					}
 				}
 			},
+			mounted: function() {
+				
+			},
 			methods: {
 				submitForm(from) {
 					this.$refs[from].validate((valid) => {
@@ -80,6 +83,7 @@
 								}
 							})
 							.then(function(res) {
+								alert(res.data.backUrl);
 								if(res.data.success) {
 									window.localStorage.setItem("token", res.data.message.object.access_token); //将resObj的message消息中的参数存入token中
 									window.localStorage.setItem("refreshToken", res.data.message.object.refresh_token); //将resObj的message消息中的参数存入token中

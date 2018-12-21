@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 
- * @Description:   
+ * @Description:   调用oauth2.0的fegin类
  * @ClassName:     ConsumerServiceTwo.java
  * @author         ChenYongJia
  * @Date           2018年12月09日 下午9:38:05
