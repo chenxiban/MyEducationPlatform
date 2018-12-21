@@ -23,7 +23,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 		// 对 api/order 请求进行拦截 验证 accessToken,需要携带token的方法
 		http.authorizeRequests().antMatchers("/api/order/**").authenticated()
 		.and().headers().frameOptions().sameOrigin();
-	}
+	}  
 	// public
 	// 拦截资源 网关里面做 开放接口和内部接口一定要独立出来可以封转该业务逻辑相同
 
