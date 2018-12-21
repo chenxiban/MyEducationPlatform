@@ -1,7 +1,13 @@
 package com.cxb.cyj.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cxb.cyj.entity.PsotTui;
 
@@ -16,9 +22,15 @@ import com.cxb.cyj.entity.PsotTui;
 public interface PsotTuiRepository extends JpaRepository<PsotTui, Integer>, JpaSpecificationExecutor<PsotTui>  {
 	
 	/**
-	 * 查询推荐总数
+	 * 删除推荐帖子信息
+	 * 
+	 * @param stuList
 	 * @return
+	 * @author Chenyongjia
 	 */
-	Integer findByPostId();
+	@Query(value = "DELETE FROM tb_posttui WHERE post_id=:postId", nativeQuery = true)
+	@Modifying
+	@Transactional
+	Integer deleteBatch(@Param(value = "postId") Integer postId);
 	
 }

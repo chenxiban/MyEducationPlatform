@@ -2,6 +2,10 @@ package com.cxb.cyj.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -17,7 +21,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "tb_posttui")
 public class PsotTui {
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@OrderBy
+	@Column(columnDefinition = "int unsigned  COMMENT '推荐帖子主键'")
+	private Integer tuiId;
 	@Column(columnDefinition = "int unsigned COMMENT '推荐帖子id'")
 	private Integer postId;
 	
