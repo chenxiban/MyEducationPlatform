@@ -86,7 +86,7 @@
 										window.localStorage.setItem("roleIds", res.data.message.roleIds);
 										window.localStorage.setItem("loginName", usernames);
 										//vm.$router.go(-1)//返回上一级
-										window.location.href = "mian.html"; //将token暂存后跳转向main页面
+										window.location.href = "http://localhost:3011/chenyongjia/ChenYongJia/mian"; //将token暂存后跳转向main页面
 									} else {
 										vm.$alert(res.data.message, '登陆失败', {
 											confirmButtonText: '确定',

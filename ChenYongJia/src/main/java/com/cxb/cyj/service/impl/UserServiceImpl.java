@@ -70,11 +70,11 @@ public class UserServiceImpl implements UserService {
 				Predicate predicate = cb.conjunction();// 动态SQL表达式
 				List<Expression<Boolean>> exList = predicate.getExpressions();// 动态SQL表达式集合
 
-				if (!IsEmptyUtils.isEmpty(us.getUsersName())) {
-					exList.add(cb.like(root.<String>get("usersName"), "%" + us.getUsersName() + "%"));
+				if (!IsEmptyUtils.isEmpty(us.getUserName())) {
+					exList.add(cb.like(root.<String>get("userName"), "%" + us.getUserName() + "%"));
 				}
-				if (!IsEmptyUtils.isEmpty(us.getUsersIsLookout())) {
-					exList.add(cb.like(root.<String>get("usersIsLookout"), "%" + us.getUsersIsLookout() + "%"));
+				if (!IsEmptyUtils.isEmpty(us.getUserIsLookout())) {
+					exList.add(cb.like(root.<String>get("userIsLookout"), "%" + us.getUserIsLookout() + "%"));
 				}
 				if (!IsEmptyUtils.isEmpty(us.getBirthStart())) {
 					exList.add(cb.greaterThanOrEqualTo(root.<Date>get("birthStart"), us.getBirthStart()));
@@ -82,11 +82,11 @@ public class UserServiceImpl implements UserService {
 				if (!IsEmptyUtils.isEmpty(us.getBirthEnd())) {
 					exList.add(cb.lessThanOrEqualTo(root.<Date>get("birthEnd"), us.getBirthEnd()));
 				}
-				if (!IsEmptyUtils.isEmpty(us.getEmail())) {
-					exList.add(cb.like(root.<String>get("email"), "%" + us.getEmail() + "%"));
+				if (!IsEmptyUtils.isEmpty(us.getUserProtectEMail())) {
+					exList.add(cb.like(root.<String>get("userProtectEMail"), "%" + us.getUserProtectEMail() + "%"));
 				}
-				if (!IsEmptyUtils.isEmpty(us.getMtel())) {
-					exList.add(cb.like(root.<String>get("mtel"), "%" + us.getMtel() + "%"));
+				if (!IsEmptyUtils.isEmpty(us.getUserProtectMTel())) {
+					exList.add(cb.like(root.<String>get("userProtectMTel"), "%" + us.getUserProtectMTel() + "%"));
 				}
 				return predicate;
 			}

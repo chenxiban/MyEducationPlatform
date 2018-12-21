@@ -4,12 +4,13 @@ eureka:
     serviceUrl:
     #eureka注册中心地址固定就这样写
       defaultZone: http://localhost:8888/eureka/
-      
+     
 server:
 #项目端口号
   port: 3010
   servlet: 
     context-path: /ChenYongJia
+    
 
 logging:
   level:
@@ -58,7 +59,7 @@ spring:
   # 时区设置
     time-zone: GMT+8
     
-security:
+security: 
   oauth2:
     resource:
       ####从认证授权中心上验证token

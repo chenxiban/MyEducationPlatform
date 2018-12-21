@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>用户管理</title>
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/icon.css" />
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/default/easyui.css" />
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+		<script type="text/jscript" src="js/jquery.edatagrid.js"></script>
+		<script type="text/javascript" src="js/easyUIvalidate.js"></script>
+		<style>
+			.datagrid-td-rownumber {
+				height: 26px;
+			}
+		</style>
+		<script type="text/javascript">
+			var token = window.localStorage.getItem("token"); //取出暂存的token数据
+			$(function() {
+				$("#dg").datagrid({
+					method: 'get',
+					url: 'http://localhost:3011/chenyongjia/ChenYongJia/post/queryAllPage',
+					queryParams: { //datagrid的固定参数
+						token: token, //必传
+						p: 1
+					},
+					onLoadSuccess: function() { //加载小图标
+						$(".easyui-linkbutton").linkbutton();
+						handlePermission();
+					}
+				});
+				handlePermission();
+			});
+
+			//查询
+			function doSearch() {
+				$("#dg").datagrid('load', {
+					token: token,
+					p: $("#barCategory").combobox('getValue')
+				});
+			}
+
+			function formatterContent(value, row, index) {
+				if(row.postTitle == null) {
+					return "暂无";
+				}
+				if(row.postTitle.length > 0) {
+					return row.postTitle.substr(0, 5) + "...";
+				}
+			}
+
+			function formatterContents(value, row, index) {
+				if(row.postContent == null) {
+					return "暂无";
+				}
+				if(row.postContent.length > 0) {
+					return row.postContent.substr(0, 10) + "...";
+				}
+			}
+
+			//表单序列化去空值
+			function serializeNotNull(serStr) {
+				return serStr.split("&").filter(
+					function(str) {
+						return !str.endsWith("=")
+					}).join("&");
+			}
+		</script>
+		<script>
+			//操作
+			function formatterSetRole(value, row, index) {
+				return "<a class='easyui-linkbutton' iconCls='icon-tip' style='cursor: pointer;' onclick='lookBiao(" +
+					index + ")'>查看标题</a><a class='easyui-linkbutton' iconCls='icon-redo' style='cursor: pointer;' onclick='lookCount(" +
+					index + ")'>查看内容</a><a class='easyui-linkbutton' iconCls='icon-lock' style='cursor: pointer;' onclick='postTui(" +
+					index + ")'>首页推荐</a><a class='easyui-linkbutton' iconCls='icon-lock' style='cursor: pointer;' onclick='delPostTui(" +
+					index + ")'>取消推荐</a>";
+			}
+
+			function lookBiao(index) {
+				var data = $("#dg").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+
+				$.messager.alert('标题信息', row.postTitle, 'info');
+			}
+
+			function lookCount(index) {
+				var data = $("#dg").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+
+				$.messager.alert('内容信息', row.postContent, 'info');
+			}
+
+			function postTui(index) {
+				var data = $("#dg").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+
+				if(row == null || row == '') {
+					$.messager.show({
+						title: '提示信息',
+						msg: '请选中要推荐的帖子!',
+						timeout: 3000, //推出时间
+						showType: 'slide', //动画效果
+						showSpeed: 3000 //显示时间
+					});
+					return;
+				}
+
+				$.messager.confirm('确认', '您确认推荐该帖子么？', function(r) {
+					if(r) {
+						$.ajax({
+							type: "POST",
+							url: "http://localhost:3011/chenyongjia/ChenYongJia/post/savePostTui",
+							cache: false,
+							data: {
+								token:token,
+								postId:row.postId
+							},
+							dataType: "json",
+							success: function(res) {
+								if(res.success) {
+									$.messager.show({
+										title: '提示信息',
+										msg: res.message,
+										timeout: 3000, //推出时间
+										showType: 'slide', //动画效果
+										showSpeed: 3000
+										//显示时间
+									});
+									$("#dg").datagrid("reload");
+								} else {
+									$.messager.show({
+										title: '提示信息',
+										msg: res.message,
+										timeout: 3000, //推出时间
+										showType: 'slide', //动画效果
+										showSpeed: 3000
+										//显示时间
+									});
+								}
+
+							},
+							error: function(res) {
+								$.messager.show({
+									title: '提示信息',
+									msg: res.message,
+									timeout: 3000, //推出时间
+									showType: 'slide', //动画效果
+									showSpeed: 3000
+									//显示时间
+								});
+								$("#dg").datagrid("reload");
+							}
+						});
+					}
+				});
+			}
+			
+			function delPostTui (index) {
+				var data = $("#dg").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+
+				if(row == null || row == '') {
+					$.messager.show({
+						title: '提示信息',
+						msg: '请选中要取消推荐的帖子!',
+						timeout: 3000, //推出时间
+						showType: 'slide', //动画效果
+						showSpeed: 3000 //显示时间
+					});
+					return;
+				}
+				
+				$.messager.confirm('确认', '您确认取消推荐该帖子么？', function(r) {
+					if(r) {
+						$.ajax({
+							type: "DELETE",
+							url: "http://localhost:3011/chenyongjia/ChenYongJia/post/delPostTui",
+							cache: false,
+							data: {
+								token:token,
+								postId:row.postId
+							},
+							dataType: "json",
+							success: function(res) {
+								if(res.success) {
+									$.messager.show({
+										title: '提示信息',
+										msg: res.message,
+										timeout: 3000, //推出时间
+										showType: 'slide', //动画效果
+										showSpeed: 3000
+										//显示时间
+									});
+									$("#dg").datagrid("reload");
+								} else {
+									$.messager.show({
+										title: '提示信息',
+										msg: res.message,
+										timeout: 3000, //推出时间
+										showType: 'slide', //动画效果
+										showSpeed: 3000
+										//显示时间
+									});
+								}
+
+							},
+							error: function(res) {
+								$.messager.show({
+									title: '提示信息',
+									msg: res.message,
+									timeout: 3000, //推出时间
+									showType: 'slide', //动画效果
+									showSpeed: 3000
+									//显示时间
+								});
+								$("#dg").datagrid("reload");
+							}
+						});
+					}
+				});
+			}
+		</script>
+	</head>
+
+	<body class="easyui-layout">
+		<table id="dg" name="center" title="贴吧推荐列表" style="width:100%;height:auto" toolbar="#toolbar" pagination="true" idField="barId" rownumbers="true" fitColumns="true" singleSelect="false" pageSize=10>
+			<thead>
+				<tr>
+					<th data-options="field:'postId',width:40,hidden:false">帖子ID</th>
+					<th data-options="field:'postName',width:60" editor="{type:'validatebox',options:{validType:'postName'}}">发帖人名称</th>
+					<th data-options="field:'postTitle',width:60,formatter: formatterContent" editor="{type:'validatebox',options:{validType:'postTitle'}}">帖子标题</th>
+					<th data-options="field:'postContent',width:100,formatter: formatterContents" editor="{type:'validatebox',options:{validType:'postContent'}}">帖子内容</th>
+					<th data-options="field:'postTop',width:80,">是否置顶</th>
+					<th data-options="field:'postCreatetime',width:100,">创建时间</th>
+					<th data-options="field:'postUpdateTime',width:100,">最后修改时间</th>
+					<th data-options="field:'setRoleAction',width:240,align:'center',formatter:formatterSetRole ,iconCls:'icon-man'">操作</th>
+				</tr>
+			</thead>
+		</table>
+
+		<div id="toolbar" style="padding:5px; height:auto">
+			<div style="margin-bottom:5px">
+				<from id="sousuo">
+					查询方式:&nbsp;&nbsp;
+					<select class="easyui-combobox" id="barCategory" name="barCategory" editable="true" style="width: 100px;" panelHeight="auto">
+						<option value="1">点赞热度</option>
+						<option value="2">踩赞热度</option>
+						<option value="3">评论热度</option>
+						<option value="0">查询已推荐的帖子</option>
+					</select>
+					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doSearch()">查询</a>
+				</from>
+			</div>
+		</div>
+
+	</body>
+
+</html>

@@ -62,6 +62,7 @@ public class ZuulTokenFilter extends ZuulFilter {
 			ctx.getResponse().getWriter().write("Token is empty ！！！Please log in first ！！！");
 		} catch (Exception e) {
 		}*/
+		ctx.getResponse().setHeader("x-frame-options","SAMEORIGIN");
 		return null;// 网关路由放行
 
 	}

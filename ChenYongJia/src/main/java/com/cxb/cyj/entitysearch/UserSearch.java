@@ -21,14 +21,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // 自动无参的构造方法方法
 public class UserSearch {
 
-	private String usersName;
-	private String usersIsLookout;
+	private String userName;
+	private String userIsLookout;
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date birthStart;
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date birthEnd;
-	private String email;
-	private String mtel;
+	private String userProtectEMail;
+	private String userProtectMTel;
 	private int page = 0;
 	private int rows = 10;
 

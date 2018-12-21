@@ -1,5 +1,7 @@
 package com.cxb.cyj.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -68,7 +70,10 @@ public class DefaultController {
 	}
 	
 	@GetMapping("/yh")
-	public String yh() {
+	//public String yh(HttpServletResponse response) {
+	public String yh(HttpServletResponse response) {
+		//response.addHeader("x-frame-options","SAMEORIGIN");
+		//response.setHeader("x-frame-options","SAMEORIGIN");
 		return "yh";
 	}
 
