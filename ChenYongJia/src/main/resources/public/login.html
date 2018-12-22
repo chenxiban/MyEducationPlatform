@@ -157,51 +157,6 @@
 			}
 			}
 		});
-		/*login: function(from) {
-					var vm = this;
-					//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
-					axios({
-							method: "get",
-							url: "http://localhost:3011/chenyongjia/ChenYongJia/oauth/token",
-							data: vm.from
-						})
-						.then(function(res) {
-							if(res.success) {
-								$alert('提示消息', '登陆成功', {
-									confirmButtonText: '确定',
-									callback: action => {
-										this.$message({
-											type: 'success',
-											message: res.message
-										});
-									}
-								});
-							} else {
-								$alert('提示消息', '登陆失败', {
-									confirmButtonText: '确定',
-									callback: action => {
-										this.$message({
-											type: 'warning',
-											message: res.message
-										});
-									}
-								});
-							}
-							console.log(res);
-						})
-						.catch(function(error) {
-							$alert('提示消息', '登陆失败', {
-								confirmButtonText: '确定',
-								callback: action => {
-									this.$message({
-										type: 'error',
-										message: error
-									});
-								}
-							});
-							console.log(error);
-						});
-				},*/
 	</script>
 
 </html>
