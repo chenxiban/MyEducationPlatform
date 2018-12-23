@@ -44,4 +44,9 @@ public class TeacherSetGapfillingAnswerServiceImpl implements TeacherSetGapfilli
 		return gapfillingAnswerRepository.updateGapfillingAnswer(gapfillingAnswer);
 	}
 
+	@Override
+	public String queryGapfillingAnswer(String question) {
+		return queryGapfillingAnswer(question);
+	}
+
 }

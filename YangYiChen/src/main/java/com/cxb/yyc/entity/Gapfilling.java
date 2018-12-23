@@ -145,6 +145,16 @@ public class Gapfilling {
 		this.gapfillingChapterId = gapfillingChapterId;
 	}
 
+	@Override
+	public String toString() {
+		return "Gapfilling [gapfillingId=" + gapfillingId + ", gapfillingQuestion=" + gapfillingQuestion
+				+ ", gapfillingImgurl=" + gapfillingImgurl + ", gapfillingScore=" + gapfillingScore
+				+ ", gapfillingCreateDateTime=" + gapfillingCreateDateTime + ", gapfillingLastUpdateTime="
+				+ gapfillingLastUpdateTime + ", gapfillingExt1=" + gapfillingExt1 + ", gapfillingExt2=" + gapfillingExt2
+				+ ", gapfillingCourseId=" + gapfillingCourseId + ", gapfillingChapterId=" + gapfillingChapterId
+				+ ", gapfillingAnswer=" + gapfillingAnswer + "]";
+	}
+
 	
 	
 	

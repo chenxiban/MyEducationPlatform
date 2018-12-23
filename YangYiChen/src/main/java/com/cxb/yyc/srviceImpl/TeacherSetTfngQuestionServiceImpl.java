@@ -53,8 +53,30 @@ public class TeacherSetTfngQuestionServiceImpl implements TeacherSetTfngQuestion
 	 * 根据章节Id和课程Id查询判断题问题
 	 */
 	@Override
-	public List<Tfng> queryTfng(Integer chapterId, Integer courseId) {
-		return tfngQuestionRepository.queryTfng(chapterId, courseId);
+	public List<Tfng> queryTfng(Integer chapterId) {
+		return tfngQuestionRepository.queryTfng(chapterId);
+	}
+
+	/**
+	 * 根据章节Id和课程Id查询判断题的数量
+	 */
+	@Override
+	public int queryTfngNumber(Integer chapterId, Integer courseId) {
+		return tfngQuestionRepository.queryTfngNumber(chapterId, courseId);
+	}
+
+	/**
+	 * @Description: 根据章节Id查询对应章节的判断题数目
+	 * @ClassName: selectCountByTfngChapterId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param chapterId
+	 * @return
+	 */
+	@Override
+	public int selectCountByTfngChapterId(Integer chapterId) {
+		return tfngQuestionRepository.selectCountByTfngChapterId(chapterId);
 	}
 
 }

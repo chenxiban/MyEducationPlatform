@@ -1,5 +1,7 @@
 package com.cxb.yyc.service;
 
+import org.springframework.data.repository.query.Param;
+
 import com.cxb.yyc.entity.GapfillingAnswer;
 
 /**
@@ -27,5 +29,11 @@ public interface TeacherSetGapfillingAnswerService{
 	 * @return
 	 */
 	int updateGapfillingAnswer(GapfillingAnswer gapfillingAnswer);
+	/**
+	 * 根据填空题问题查找正确答案
+	 * @param question
+	 * @return
+	 */
+	String queryGapfillingAnswer(String question);
 
 }

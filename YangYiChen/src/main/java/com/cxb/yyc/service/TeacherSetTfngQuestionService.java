@@ -36,7 +36,25 @@ public interface TeacherSetTfngQuestionService{
 	 * @param courseId
 	 * @return
 	 */
-	List<Tfng> queryTfng(Integer chapterId,Integer courseId);
+	List<Tfng> queryTfng(Integer chapterId);
 
+	/**
+	 * 根据章节Id和课程Id查询判断题的数量
+	 * @param chapterId
+	 * @param courseId
+	 * @return
+	 */
+	int queryTfngNumber(Integer chapterId,Integer courseId);
+	
+	/**
+	 * @Description: 根据章节Id查询对应章节的判断题数目
+	 * @ClassName: selectCountByTfngChapterId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param chapterId
+	 * @return
+	 */
+	int selectCountByTfngChapterId(Integer chapterId);
 
 }

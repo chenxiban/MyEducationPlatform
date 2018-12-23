@@ -67,4 +67,66 @@ public class TeacherSetTestServiceImpl implements TeacherSetTestService{
 		return testRepository.deleteTest(testId);
 	}
 
+	/**
+	 * @Description: 根据章节Id查询对应章节的判断题数目
+	 * @ClassName: updateTfngNumByChapterId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param num 数量
+	 * @param chapterId 章节Id
+	 * @return
+	 */
+	@Override
+	@Transactional
+	public int updateTfngNumByChapterId(Integer num, Integer chapterId) {
+		return testRepository.updateTfngNumByChapterId(num, chapterId);
+	}
+
+	/**
+	 * @Description: 根据章节Id查询对应章节的判断题数目
+	 * @ClassName: updateGapfillingNumByChapterId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param num 数量
+	 * @param chapterId 章节Id
+	 * @return
+	 */
+	@Override
+	@Transactional
+	public int updateGapfillingNumByChapterId(Integer num, Integer chapterId) {
+		return testRepository.updateGapfillingNumByChapterId(num, chapterId);
+	}
+
+	/**
+	 * @Description: 根据章节Id修改对应章节的判断题数目
+	 * @ClassName: updateChoiceNumByChapterId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param num 数量
+	 * @param chapterId 章节Id
+	 * @return
+	 */
+	@Override
+	@Transactional
+	public int updateChoiceNumByChapterId(Integer num, Integer chapterId) {
+		return testRepository.updateChoiceNumByChapterId(num, chapterId);
+	}
+
+	/**
+	 * @Description: 根据测试Id查询
+	 * @ClassName: selectByTestId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param testId 数量
+	 * @return
+	 */
+	@Override
+	public int selectByTestIdForChapterId(Integer testId) {
+		return testRepository.selectByTestIdForChapterId(testId);
+	}
+
 }

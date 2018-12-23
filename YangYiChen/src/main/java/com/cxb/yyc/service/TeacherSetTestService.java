@@ -2,6 +2,9 @@ package com.cxb.yyc.service;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
 import com.cxb.yyc.entity.TeacherCreateTest;
 /**
  * 记录教师发起的测试题
@@ -42,5 +45,52 @@ public interface TeacherSetTestService {
 	 * @return
 	 */
 	int deleteTest(Integer testId);
+	
+	/**
+	 * @Description: 根据章节Id修改对应章节的判断题数目
+	 * @ClassName: selectCountByTfngChapterId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param num 数量
+	 * @param chapterId 章节Id
+	 * @return
+	 */
+	int updateTfngNumByChapterId(Integer num,Integer chapterId);
+	
+	/**
+	 * @Description: 根据章节Id修改对应章节的判断题数目
+	 * @ClassName: updateGapfillingNumByChapterId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param num 数量
+	 * @param chapterId 章节Id
+	 * @return
+	 */
+	int updateGapfillingNumByChapterId(Integer num,Integer chapterId);
+	
+	/**
+	 * @Description: 根据章节Id修改对应章节的判断题数目
+	 * @ClassName: updateChoiceNumByChapterId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param num 数量
+	 * @param chapterId 章节Id
+	 * @return
+	 */
+	int updateChoiceNumByChapterId(Integer num,Integer chapterId);
+
+	/**
+	 * @Description: 根据测试Id查询
+	 * @ClassName: selectByTestId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param testId 数量
+	 * @return
+	 */
+	int selectByTestIdForChapterId(Integer testId);
 
 }

@@ -37,7 +37,29 @@ public interface TeacherSetTfngQuestionRepository extends JpaRepository<Tfng, In
 	 * @param courseId
 	 * @return
 	 */
-	@Query(value="select * from tfngtb where tfng_chapter_id=1 and tfng_course_id=1",nativeQuery=true)
-	List<Tfng> queryTfng(Integer chapterId,Integer courseId);
-
+	@Query(value="select * from tfngtb where tfng_chapter_id=1 ",nativeQuery=true)
+	List<Tfng> queryTfng(Integer chapterId);
+	
+	/**
+	 * 根据章节Id和课程Id查询判断题的数量
+	 * @param chapterId
+	 * @param courseId
+	 * @return
+	 */
+	@Query(value="SELECT COUNT(tfng_question) FROM tfngtb WHERE tfng_chapter_id=?1 AND tfng_course_id=?2",nativeQuery=true)
+	int queryTfngNumber(Integer chapterId,Integer courseId);
+	
+	/**
+	 * @Description: 根据章节Id查询对应章节的判断题数目
+	 * @ClassName: selectCountByTfngChapterId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param chapterId
+	 * @return
+	 */
+	@Query(value=" SELECT COUNT(*) FROM tfngtb WHERE tfng_chapter_id = ?1 ",nativeQuery=true)
+	int selectCountByTfngChapterId(Integer chapterId);
+	
+	
 }

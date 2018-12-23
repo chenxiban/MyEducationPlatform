@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: YangYiChen
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: 杨毅晨
+Built-By: lenovo
 Implementation-Vendor-Id: com.cxb
-Build-Jdk: 1.8.0_131
+Build-Jdk: 1.8.0_66
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/YangYiChen
 Created-By: Maven Integration for Eclipse

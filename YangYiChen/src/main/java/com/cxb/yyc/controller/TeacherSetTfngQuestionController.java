@@ -7,11 +7,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.yyc.entity.Tfng;
 import com.cxb.yyc.entity.TfngAnswer;
+import com.cxb.yyc.service.TeacherSetTestService;
 import com.cxb.yyc.service.TeacherSetTfngAnswerService;
 import com.cxb.yyc.service.TeacherSetTfngQuestionService;
 
@@ -23,6 +32,7 @@ import com.cxb.yyc.service.TeacherSetTfngQuestionService;
  */
 @RestController
 @RequestMapping(value = "tfngQuestion", name = "教师设置判断题")
+@CrossOrigin
 public class TeacherSetTfngQuestionController {
 
 	/**
@@ -35,6 +45,9 @@ public class TeacherSetTfngQuestionController {
 	 */
 	@Autowired
 	private TeacherSetTfngAnswerService tfngAnswerService;
+	
+	@Autowired
+	private TeacherSetTestService teacherSetTestService;
 
 	/**
 	 * 教师添加判断题 1.先添加判断题问题 2.添加判断题答案
@@ -44,23 +57,34 @@ public class TeacherSetTfngQuestionController {
 	 * @param tfngAnswer
 	 * @return
 	 */
-	@RequestMapping(value = "/insertTfngQuestion", name = "添加判断题问题及答案")
-	public Object insertTfngQuestion(Tfng tfng, TfngAnswer tfngAnswer) {
+	
+	@RequestMapping(value = "/insertTfngQuestion", name = "添加判断题问题及答案",method=RequestMethod.POST)
+	public Object insertTfngQuestion(@RequestParam("tfngQuestion")String tfngQuestion,
+			@RequestParam("tfnganswerAnswer")Integer tfnganswerAnswer,
+			@RequestParam("tfngScore")Integer tfngScore,
+			@RequestParam("tfngChapterId")Integer tfngChapterId,
+			@RequestParam("tfngCourseId")Integer tfngCourseId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		// 获取添加判断题问题的当前时间
+		Tfng tfng=new Tfng();
+		tfng.setTfngQuestion(tfngQuestion);
+		tfng.setTfngScore(tfngScore);
+		tfng.setTfngCourseId(tfngCourseId);
+		tfng.setTfngChapterId(tfngChapterId);
 		tfng.setTfngCreateDateTime(new Date());
-		if (tfngQuestionService.insertTfng(tfng) != null) {
-			// 获取添加判断题答案的当前时间
-			tfngAnswer.setTfnganswerCreateDateTime(new Date());
-			// 根据当前添加的判断题添加对应的答案
-			tfngAnswer.setTfng(tfng);
-			if (tfngAnswerService.insertTfngAnswer(tfngAnswer) != null) {
+		TfngAnswer tfngAnswer=new TfngAnswer();
+		tfngAnswer.setTfng(tfng);
+		tfngAnswer.setTfnganswerAnswer(tfnganswerAnswer);
+		tfngAnswer.setTfnganswerCreateDateTime(new Date());
+		if (tfngQuestionService.insertTfng(tfng)!=null&&tfngAnswerService.insertTfngAnswer(tfngAnswer)!=null) {
+			int num=tfngQuestionService.selectCountByTfngChapterId(tfngChapterId);
+			int n=teacherSetTestService.updateTfngNumByChapterId(num, tfngChapterId);
+			if (n>0) {
 				map.put("success", true);
-				map.put("msg", "判断题添加成功");
-			} else {
-				map.put("success", false);
-				map.put("msg", "判断题添加失败");
+				map.put("msg", "添加问题成功！");
 			}
+		}else {
+			map.put("success", false);
+			map.put("msg", "添加问题失败！");
 		}
 		return map;
 	}
@@ -72,8 +96,8 @@ public class TeacherSetTfngQuestionController {
 	 * @param tfngId 判断题主键
 	 * @return
 	 */
-	@RequestMapping(value = "/deleteTfng", name = "删除判断题及答案")
-	public Object deleteTfng(Integer tfngId, Integer tfngAnswerId) {
+	@DeleteMapping(value = "/deleteTfng", name = "删除判断题及答案")
+	public Object deleteTfng(@RequestParam(value="tfngId",required=false)Integer tfngId, @RequestParam(value="tfngAnswerId",required=false)Integer tfngAnswerId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 删除判断题
 		if (tfngAnswerService.deleteTfngAnswer(tfngAnswerId) > 0) {
@@ -97,8 +121,8 @@ public class TeacherSetTfngQuestionController {
 	 * @param tfngAnswer
 	 * @return
 	 */
-	@RequestMapping(value = "/updateTfng", name = "修改判断题及答案")
-	public Object updateTfng(Tfng tfng, TfngAnswer tfngAnswer) {
+	@PutMapping(value = "/updateTfng", name = "修改判断题及答案")
+	public Object updateTfng(@RequestBody Tfng tfng, @RequestBody TfngAnswer tfngAnswer) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (tfng.getTfngId() != null && tfng.getTfngId() != 0 && tfngAnswer.getTfnganswerId() != null
 				&& tfngAnswer.getTfnganswerId() != 0) {
@@ -131,23 +155,4 @@ public class TeacherSetTfngQuestionController {
 		return map;
 	}
 
-	/**
-	 * 根据章节Id和课程Id查询判断题
-	 * http://localhost:3060/YangYiChen/tfngQuestion/queryTfng?chapterId=1&courseId=1
-	 * 
-	 * @param chapterId
-	 * @param courseId
-	 * @param state 0:顺序 1：随机试题
-	 * @return
-	 */
-	@RequestMapping(value = "/queryTfng", name = "预览判断题")
-	public Object queryTfng(Integer chapterId, Integer courseId, Integer state) {
-		List<Tfng> list = tfngQuestionService.queryTfng(chapterId, courseId);
-		if (state == 0) {
-			return list;
-		} else {
-			Collections.shuffle(list);
-			return list;
-		}
-	}
 }

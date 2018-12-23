@@ -17,6 +17,7 @@ import com.cxb.yyc.entity.QuestionOption;
  */
 public interface TeacherSetChoiceQuestionRepository extends JpaRepository<ChoiceQuestion, Integer>{
 	
+	
 	/**
 	 * 根据问题Id主键删除问题
 	 * @param questionId
@@ -46,8 +47,8 @@ public interface TeacherSetChoiceQuestionRepository extends JpaRepository<Choice
 	 * @return
 	 */
 	@Query(value="SELECT a.choicequestiontb_issingleselection as otherState,a.choicequestion_question as otherQuestion,a.choicequestion_score as otherScore,a.choicequestion_imgurl as otherImgurl,a.choicequestion_course_id as otherCourseId,a.choicequestion_chapter_id as otherChapterId,\r\n"
-			+ "b.optiona as otherA,b.optionb as otherB,b.optionc as otherC,b.optiond as otherD FROM choicequestiontb a,optiontb b WHERE a.choicequestion_id=b.option_choicequestion_id AND a.choicequestion_course_id=:courseId AND a.choicequestion_chapter_id=:chapterId",nativeQuery=true)
-	List<QuestionOption> queryChoiceQuestion(@Param("chapterId")Integer chapterId,@Param("courseId")Integer courseId);
+			+ "b.optiona as otherA,b.optionb as otherB,b.optionc as otherC,b.optiond as otherD FROM choicequestiontb a,optiontb b WHERE a.choicequestion_id=b.option_choicequestion_id AND a.choicequestion_chapter_id=:chapterId",nativeQuery=true)
+	List<QuestionOption> queryChoiceQuestion(@Param("chapterId")Integer chapterId);
 	/**
 	 * 根据章节Id和课程Id查询选择题问题
 	 * @param chapterId
@@ -56,4 +57,24 @@ public interface TeacherSetChoiceQuestionRepository extends JpaRepository<Choice
 	 */
 	@Query(value="SELECT * FROM choicequestiontb WHERE choicequestion_chapter_id=?1 AND choicequestion_course_id=?2",nativeQuery=true)
 	List<ChoiceQuestion> queryChoiceQuestions(Integer chapterId,Integer courseId);
+	/**
+	 * 根据章节Id和课程Id查询选择题的数量
+	 * @param chapterId
+	 * @param courseId
+	 * @return
+	 */
+	@Query(value="select Count(choicequestion_question) from choicequestiontb where choicequestion_chapter_id=?1 and choicequestion_course_id=?2",nativeQuery=true)
+	int queryChoiceQuestionNumber(Integer chapterId,Integer courseId);
+	
+	/**
+	 * @Description: 根据章节Id查询对应章节的选择题数目
+	 * @ClassName: selectCountByChoiceChapterId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param chapterId
+	 * @return
+	 */
+	@Query(value=" SELECT COUNT(*) FROM choicequestiontb WHERE choicequestion_chapter_id = ?1 ",nativeQuery=true)
+	int selectCountByChoiceChapterId(Integer chapterId);
 }

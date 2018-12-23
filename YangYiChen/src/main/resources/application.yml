@@ -2,9 +2,9 @@
 eureka:
   client:
     #关闭eureka的客户端行为：注册服务
-    register-with-eureka: false
+    #register-with-eureka: false
     #关闭eureka的客户端行为：订阅服务
-    fetch-registry: false
+    #fetch-registry: false
     serviceUrl: 
     #eureka注册中心地址固定就这样写
       defaultZone: http://localhost:8888/eureka/

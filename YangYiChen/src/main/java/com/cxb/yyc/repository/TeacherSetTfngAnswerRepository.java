@@ -25,4 +25,12 @@ public interface TeacherSetTfngAnswerRepository extends JpaRepository<TfngAnswer
 	@Query(value="UPDATE tfnganswertb SET tfnganswer_answer=:#{#tfngAnswer.tfnganswerAnswer} WHERE tfnganswer_id=:#{#tfngAnswer.tfnganswerId}",nativeQuery=true)
 	@Modifying
 	int updateTfngAnswer(@Param("tfngAnswer")TfngAnswer tfngAnswer);
+	/**
+	 * 根据判断问题查找正确答案
+	 * @param question
+	 * @return
+	 */
+	@Query(value="select tfnganswer_answer from tfnganswertb where tfnganswer_tfng_id in(\r\n" + 
+			"select tfng_id from tfngtb where tfng_question=:question)",nativeQuery=true)
+	String queryTfngAnswer(@Param("question")String question);
 }

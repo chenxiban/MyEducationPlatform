@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,8 +32,8 @@ public class StudentTestController {
 	 * @param studentTest
 	 * @return
 	 */
-	@RequestMapping(value="/insertStudnetTest",name="记录学生测试")
-	public Object insertStudnetTest(StudentTest studentTest) {
+	@PostMapping(value="/insertStudnetTest",name="记录学生测试")
+	public Object insertStudnetTest(@RequestBody StudentTest studentTest) {
 		Map<String, Object> map=new HashMap<String, Object>();
 		studentTest.setStudenttestCreateDateTime(new Date());
 		StudentTest test=studentTestService.insertStudentTestRecord(studentTest);

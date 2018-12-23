@@ -30,4 +30,12 @@ public interface TeacherSetGapfillingAnswerRepository extends JpaRepository<Gapf
 	@Modifying
 	int updateGapfillingAnswer(@Param("gapfillingAnswer")GapfillingAnswer gapfillingAnswer);
 	
+	/**
+	 * 根据填空题问题查找正确答案
+	 * @param question
+	 * @return
+	 */
+	@Query(value="select gapfillinganswer_answer from gapfillinganswertb where gapfillinganswer_gapfilling_id in(\r\n" + 
+			"select gapfilling_id from gapfillingtb where gapfilling_question=:question)",nativeQuery=true)
+	String queryGapfillingAnswer(@Param("question") String question);
 }

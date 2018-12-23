@@ -1,5 +1,7 @@
 package com.cxb.yyc.srviceImpl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,10 @@ public class TeacherSetChoiceQuestionAnswerServiceImpl implements TeacherSetChoi
 	@Transactional
 	public int updateChoiceQuestionAnswer(Integer answerId, String choicequestionanswer_answer) {
 		return questionAnswerRepository.updateChoiceQuestionAnswer(answerId, choicequestionanswer_answer);
+	}
+	@Override
+	public List<String> queryChoiceQuestionAnswer(String question) {
+		return queryChoiceQuestionAnswer(question);
 	}
 
 }

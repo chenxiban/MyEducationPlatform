@@ -28,5 +28,12 @@ public interface TeacherSetTfngAnswerService{
 	 * @return
 	 */
 	int updateTfngAnswer(TfngAnswer tfngAnswer);
+	/**
+	 * 根据判断问题查找正确答案
+	 * @param question
+	 * @return
+	 */
+	String queryTfngAnswer(String question);
+
 
 }

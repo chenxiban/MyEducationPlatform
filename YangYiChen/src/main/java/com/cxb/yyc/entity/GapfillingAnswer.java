@@ -106,6 +106,21 @@ public class GapfillingAnswer {
 	public void setGapfilling(Gapfilling gapfilling) {
 		this.gapfilling = gapfilling;
 	}
+
+	@Override
+	public String toString() {
+		return "GapfillingAnswer [gapfillinganswerId=" + gapfillinganswerId + ", gapfillinganswerAnswer="
+				+ gapfillinganswerAnswer + ", gapfillinganswerCreateDateTime=" + gapfillinganswerCreateDateTime
+				+ ", gapfillinganswerLastUpdateTime=" + gapfillinganswerLastUpdateTime + ", gapfillinganswerExt1="
+				+ gapfillinganswerExt1 + ", gapfillinganswerExt2=" + gapfillinganswerExt2 + ", gapfilling=" + gapfilling
+				+ ", getGapfillinganswerId()=" + getGapfillinganswerId() + ", getGapfillinganswerAnswer()="
+				+ getGapfillinganswerAnswer() + ", getGapfillinganswerCreateDateTime()="
+				+ getGapfillinganswerCreateDateTime() + ", getGapfillinganswerLastUpdateTime()="
+				+ getGapfillinganswerLastUpdateTime() + ", getGapfillinganswerExt1()=" + getGapfillinganswerExt1()
+				+ ", getGapfillinganswerExt2()=" + getGapfillinganswerExt2() + ", getGapfilling()=" + getGapfilling()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
+	}
 	
 	
 	

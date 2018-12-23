@@ -7,13 +7,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.yyc.entity.Gapfilling;
 import com.cxb.yyc.entity.GapfillingAnswer;
 import com.cxb.yyc.service.TeacherSetGapfillingAnswerService;
 import com.cxb.yyc.service.TeacherSetGapfillingQuestionService;
+import com.cxb.yyc.service.TeacherSetTestService;
 
 /**
  * 教师设置测试题==>填空题
@@ -21,7 +29,8 @@ import com.cxb.yyc.service.TeacherSetGapfillingQuestionService;
  *
  */
 @RestController
-@RequestMapping(value="gapfillingQuestion",name="教师设置填空题")
+@RequestMapping(value="/gapfillingQuestion",name="教师设置填空题")
+@CrossOrigin
 public class TeacherSetGapfillingQuestionController {
 	
 	/**
@@ -34,34 +43,53 @@ public class TeacherSetGapfillingQuestionController {
 	 */
 	@Autowired
 	private TeacherSetGapfillingAnswerService gapfillingAnswerService;
+	
+	@Autowired
+	private TeacherSetTestService teacherSetTestService;
+	
 	/**
 	 * 教师添加填空题及答案
 	 * 根据页面设计，需要同时添加问题及答案
 	 * 1.首先添加填空题问题
 	 * 2.添加填空题问题答案
-	 * http://localhost:3060/YangYiChen/gapfillingQuestion/insertGapfillingQuestion?gapfillingQuestion=你好吗?&gapfillingScore=5&gapfillinganswerAnswer=很好,谢谢关心
-	 * http://localhost:3060/YangYiChen//choiceQuestion/updateChoiceQuestion?optionId=11&optiona=A:Yes&optionb=B:No&optionc=C:很好&optiond=D:No&gapfillingCourseId=2&gapfillingChapterId=3
+	 * 
+	 * http://localhost:3060/YangYiChen/gapfillingQuestion/insertGapfillingQuestion
+	 * 
+	 * http://localhost:3060/YangYiChen/choiceQuestion/updateChoiceQuestion?optionId=11&optiona=A:Yes&optionb=B:No&optionc=C:很好&optiond=D:No&gapfillingCourseId=2&gapfillingChapterId=3
 	 * @param gapfilling
 	 * @param gapfillingAnswer
 	 * @return
 	 */
-	@RequestMapping(value="/insertGapfillingQuestion",name="添加填空题及答案")
-	public Object insertGapfillingQuestion(Gapfilling gapfilling,GapfillingAnswer gapfillingAnswer) {
+	@RequestMapping(value="/insertGapfillingQuestion",name="添加填空题及答案",method = RequestMethod.POST)
+	public Object insertGapfillingQuestion(@RequestParam(value="gapfillingQuestion")String gapfillingQuestion,
+			@RequestParam(value="gapfillinganswerAnswer")String gapfillinganswerAnswer,
+			@RequestParam(value="gapfillingScore")Integer gapfillingScore,
+			@RequestParam(value="gapfillingChapterId")Integer gapfillingChapterId,
+			@RequestParam(value="gapfillingCourseId")Integer gapfillingCourseId) {
+		
+		
 		Map<String, Object> map=new HashMap<String, Object>();
-		//获取添加填空题问题的当前时间
+		Gapfilling gapfilling=new Gapfilling();
+		gapfilling.setGapfillingQuestion(gapfillingQuestion);
+		gapfilling.setGapfillingScore(gapfillingScore);
+		gapfilling.setGapfillingChapterId(gapfillingChapterId);
+		gapfilling.setGapfillingCourseId(gapfillingCourseId);
 		gapfilling.setGapfillingCreateDateTime(new Date());
-		if (gapfillingQuestionService.insertGapfilling(gapfilling)!=null) {
-			//获取添加填空题答案的当前时间
-			gapfillingAnswer.setGapfillinganswerCreateDateTime(new Date());
-			//根据当前添加填空题的问题获取问题主键添加该问题的答案
-			gapfillingAnswer.setGapfilling(gapfilling);
-			if (gapfillingAnswerService.insertGapfillingAnswer(gapfillingAnswer)!=null) {
+		
+		GapfillingAnswer gapfillingAnswer=new GapfillingAnswer();
+		gapfillingAnswer.setGapfillinganswerAnswer(gapfillinganswerAnswer);
+		gapfillingAnswer.setGapfilling(gapfilling);
+		gapfillingAnswer.setGapfillinganswerCreateDateTime(new Date());
+		if (gapfillingQuestionService.insertGapfilling(gapfilling)!=null&&gapfillingAnswerService.insertGapfillingAnswer(gapfillingAnswer)!=null) {
+			int num=gapfillingQuestionService.selectCountByGapfillingChapterId(gapfillingChapterId);
+			int n=teacherSetTestService.updateGapfillingNumByChapterId(num, gapfillingChapterId);
+			if (n>0) {
 				map.put("success", true);
-				map.put("msg", "填空题设置成功");
-			}else {
-				map.put("success", false);
-				map.put("msg", "填空题设置失败");
-			}
+				map.put("msg", "添加问题成功！");
+			}	
+		}else {
+			map.put("success", false);
+			map.put("msg", "添加问题失败！");
 		}
 		return map;
 	}
@@ -73,8 +101,8 @@ public class TeacherSetGapfillingQuestionController {
 	 * @param gapfillingId 填空题主键
 	 * @return
 	 */
-	@RequestMapping(value="/deleteGapfilling",name="删除填空题及答案")
-	public Object deleteGapfilling(Integer gapfillingId,Integer gapfillingAnswerId) {
+	@DeleteMapping(value="/deleteGapfilling",name="删除填空题及答案")
+	public Object deleteGapfilling(@RequestParam(value="gapfillingId",required=false)Integer gapfillingId,@RequestParam(value="gapfillingAnswerId",required=false)Integer gapfillingAnswerId) {
 		Map<String, Object> map=new HashMap<String, Object>();
 		//删除填空题问题答案
 		if (gapfillingAnswerService.deleteGapfillingAnswer(gapfillingId)>0) {
@@ -98,8 +126,8 @@ public class TeacherSetGapfillingQuestionController {
 	 * @param gapfillingAnswer
 	 * @return
 	 */
-	@RequestMapping(value="/updateGapfilling",name="修改填空题问题及答案")
-	public Object updateGapfilling(Gapfilling gapfilling,GapfillingAnswer gapfillingAnswer) {
+	@PutMapping(value="/updateGapfilling",name="修改填空题问题及答案")
+	public Object updateGapfilling(@RequestBody Gapfilling gapfilling,@RequestBody GapfillingAnswer gapfillingAnswer) {
 		Map<String, Object> map=new HashMap<String, Object>();
 		if (gapfilling.getGapfillingId()!=null && gapfilling.getGapfillingId()!=0 && gapfillingAnswer.getGapfillinganswerId()!=null && gapfillingAnswer.getGapfillinganswerId()!=0) {
 			if (gapfillingQuestionService.updateGapfillingQuestion(gapfilling)>0) {
@@ -141,8 +169,8 @@ public class TeacherSetGapfillingQuestionController {
 	 * @param state 0：顺序 1：随机试题
 	 * @return
 	 */
-	@RequestMapping(value="/queryGapfilling",name="预览填空题问题")
-	public Object queryGapfilling(Integer chapterId,Integer courseId,Integer state) {
+	//@GetMapping(value="/queryGapfilling",name="预览填空题问题")
+	/*public Object queryGapfilling(@RequestParam(value="chapterId",required=false)Integer chapterId,@RequestParam(value="courseId",required=false)Integer courseId,@RequestParam(value="state",required=false)Integer state) {
 		List<Gapfilling> list=gapfillingQuestionService.queryGapfilling(chapterId, courseId);
 		if (state==0) {
 			return list;
@@ -151,6 +179,6 @@ public class TeacherSetGapfillingQuestionController {
 			return list;
 		}
 		
-	}
+	}*/
 
 }

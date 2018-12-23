@@ -58,8 +58,8 @@ public class TeacherSetChoiceQuestionServiceServiceImpl implements TeacherSetCho
 	}
 
 	@Override
-	public List<QuestionOption> queryChoiceQuestion(Integer chapterId, Integer courseId) {
-		List<QuestionOption> list=choiceRepository.queryChoiceQuestion(chapterId, courseId);
+	public List<QuestionOption> queryChoiceQuestion(Integer chapterId) {
+		List<QuestionOption> list=choiceRepository.queryChoiceQuestion(chapterId);
 		//List<QuestionOption> list=(List<QuestionOption>) JpaObjectsToEntity.jpaResultToObjectList(objList, QuestionOption.class);
 		
 		return list;
@@ -71,6 +71,28 @@ public class TeacherSetChoiceQuestionServiceServiceImpl implements TeacherSetCho
 	@Override
 	public List<ChoiceQuestion> queryChoiceQuestions(Integer chapterId, Integer courseId) {
 		return choiceRepository.queryChoiceQuestions(chapterId, courseId);
+	}
+
+	/**
+	 * 根据章节Id和课程Id查询选择题的数量
+	 */
+	@Override
+	public int queryChoiceQuestionNumber(Integer chapterId, Integer courseId) {
+		return choiceRepository.queryChoiceQuestionNumber(chapterId, courseId);
+	}
+
+	/**
+	 * @Description: 根据章节Id查询对应章节的选择题数目
+	 * @ClassName: selectCountByChoiceChapterId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param chapterId
+	 * @return
+	 */
+	@Override
+	public int selectCountByChoiceChapterId(Integer chapterId) {
+		return choiceRepository.selectCountByChoiceChapterId(chapterId);
 	}
 
 	

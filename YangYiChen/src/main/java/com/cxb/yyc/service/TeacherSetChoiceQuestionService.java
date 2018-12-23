@@ -40,7 +40,7 @@ public interface TeacherSetChoiceQuestionService {
 	 * @param courseId
 	 * @return
 	 */
-	public List<QuestionOption> queryChoiceQuestion(Integer chapterId,Integer courseId);
+	public List<QuestionOption> queryChoiceQuestion(Integer chapterId);
 	/**
 	 * 根据章节Id和课程Id查询选择题问题
 	 * @param chapterId
@@ -49,5 +49,23 @@ public interface TeacherSetChoiceQuestionService {
 	 */
 	List<ChoiceQuestion> queryChoiceQuestions(Integer chapterId,Integer courseId);
 	
+	/**
+	 * 根据章节Id和课程Id查询选择题的数量
+	 * @param chapterId
+	 * @param courseId
+	 * @return
+	 */
+	int queryChoiceQuestionNumber(Integer chapterId,Integer courseId);
+
+	/**
+	 * @Description: 根据章节Id查询对应章节的选择题数目
+	 * @ClassName: selectCountByChoiceChapterId.method
+	 * @author yyc
+	 * @Date 2018年12月22日 下午18:07
+	 * @Email yangyichenshuai@163.com
+	 * @param chapterId
+	 * @return
+	 */
+	int selectCountByChoiceChapterId(Integer chapterId);
 
 }
