@@ -16,7 +16,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.cxb.cyj.dao.ClazzRepository;
+import com.cxb.cyj.dao.CollegeRepository;
 import com.cxb.cyj.entity.Clazz;
+import com.cxb.cyj.entity.College;
 import com.cxb.cyj.entitysearch.ClazzSearch;
 import com.cxb.cyj.service.ClazzService;
 import com.cxb.cyj.util.IsEmptyUtils;
@@ -27,9 +29,18 @@ public class ClazzServiceImpl implements ClazzService {
 	@Autowired
 	private ClazzRepository clazzRepository;
 	
+	@Autowired
+	private CollegeRepository collegeRepository;
+	
 	@Override
 	public boolean addClazz(Clazz c) {
 		try {
+			System.out.println("要添加的专业为====>"+c.getCollegeId());
+			College college=collegeRepository.findByCollegeId(c.getCollegeId());
+			c.setCollege(college);
+			
+			System.out.println("要添加的专业为====>"+college);
+			
 			clazzRepository.save(c);
 			return true;
 		} catch (Exception e) {

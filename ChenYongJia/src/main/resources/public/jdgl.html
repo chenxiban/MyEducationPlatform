@@ -28,30 +28,35 @@
 					},*/
 					onLoadSuccess: function() {
 						$(".easyui-linkbutton").linkbutton();
+						dg.datagrid("uncheckAll");//再取消选中所有行
 					}
 				});
 
 				//设置模块
+				var rolesId;
+
 				$("#setRoleModule").click(function() {
-					var data = $("#dg").datagrid("getRows");
+					var data = $("#dg").datagrid("getSelected");
 					var nodes = $('#rightTree').tree('getChecked', ['checked', 'indeterminate']);
 					var s = "";
 					//字符串拼接基本功，要求手熟
 					if(nodes.length != 0) {
 						for(var i = 0; i < nodes.length; i++) {
 							if(s == "") {
-								s += nodes[i].modules_id;
+								s += nodes[i].modulesId;
 							} else {
 								s += ",";
-								s += nodes[i].modules_id;
+								s += nodes[i].modulesId;
 							}
 						}
+						rolesId = data.rolesId;
+
 						$.messager.confirm('确认', '您确认保存么？', function(r) {
 							if(r) {
-								$.put('http://localhost:3011/chenyongjia/ChenYongJia/roles/setRoleModule', {
-									modulesId: s,
-									rolesId: rolesId,
-									//token: token
+								$.post('http://localhost:3011/chenyongjia/ChenYongJia/roles/setRoleModule', {
+									moduleId: s,
+									roleId: rolesId,
+									token: token
 								}, function(r) {
 									if(r.success) {
 										$.messager.alert("消息", "保存模块成功！");
@@ -75,7 +80,7 @@
 
 				});
 			});
-			
+
 			//表单序列化以后去掉表单中值为空的参数
 			function serializeNotNull(serStr) {
 				return serStr.split("&").filter(function(str) {
@@ -150,8 +155,7 @@
 			function resetValues() {
 				$("#fm").form('clear');
 			}
-			
-			
+
 			// 修改角色信息
 			function updteRoles() {
 				var row = $('#dg').datagrid('getSelected');
@@ -166,8 +170,8 @@
 					return;
 				}
 				$('#rolesIds').val(row.rolesId);
-				$('#rolesNames').textbox('setValue',row.rolesName);
-				$('#rolesEnames').textbox('setValue',row.rolesEname);
+				$('#rolesNames').textbox('setValue', row.rolesName);
+				$('#rolesEnames').textbox('setValue', row.rolesEname);
 				$('#dlgs').dialog("open").dialog("setTitle", "修改角色信息");
 			}
 
@@ -232,7 +236,6 @@
 			function resetValues() {
 				$("#fms").form('clear');
 			}
-			
 
 			function showRoles(index) {
 				var data = $("#dg").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
@@ -273,7 +276,7 @@
 					closed: false,
 					title: "您正在设置" + data[index].rolesName
 				});
-				
+
 				$.get("http://localhost:3011/chenyongjia/ChenYongJia/modules/queryRoleSetModuleTree", {
 					roleId: data[index].rolesId
 				}, function(r) {
@@ -409,12 +412,12 @@
 					</tr>
 				</table>
 			</form>
-		</div>		
+		</div>
 		<div id="dlg-buttons" style="background: url(img/xingk1.jpg) no-repeat; background-size: 100% 100%;">
 			<a href="javascript:saveRoles()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 			<a href="javascript:closeaddRoles()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
 		</div>
-		
+
 		<!--
             	作者：867647213@qq.com
             	时间：2018-06-14

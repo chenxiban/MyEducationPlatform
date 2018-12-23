@@ -27,6 +27,10 @@
 					fitColumns: true,
 					idField: 'collegeId',
 					treeField: 'collegeName',
+					onLoadSuccess: function() {
+						$(".easyui-linkbutton").linkbutton();
+						dg.datagrid("uncheckAll");//再取消选中所有行
+					}
 				});
 
 				$('#oid').combobox({
@@ -86,6 +90,16 @@
 					token: token
 				});
 			}
+			
+			//操作用户
+			function formatterOPTeacher(value, row, index) {
+				if(row.collegeRmark==1 || row.collegeRmark==2){
+					return "<a class='easyui-linkbutton' iconCls='icon-edit' style='cursor: pointer;' onclick='setTeacher(" + index + ")'>绑定教师</a>";
+				}
+				if(row.collegeRmark==0){
+					return '暂无操作';
+				}
+			}
 		</script>
 
 	</head>
@@ -99,9 +113,10 @@
 					<th data-options="field:'collegeId'" width="80">机构id</th>
 					<th data-options="field:'collegeParentId',hidden:true" width="80">父机构id</th>
 					<th data-options="field:'collegeFounder'" width="80">创建人</th>
-					<th data-options="field:'collegeCreatTime'" width="250">创建时间</th>
+					<th data-options="field:'collegeCreatTime'" width="160">创建时间</th>
 					<th data-options="field:'collegeUpdateMan'" width="80">修改人</th>
-					<th data-options="field:'collegeUpdateTime'" width="250">修改时间</th>
+					<th data-options="field:'collegeUpdateTime'" width="160">修改时间</th>
+					<th data-options="field:'setPassword',width:180,align:'center',formatter:formatterOPTeacher">操作</th>
 				</tr>
 			</thead>
 		</table>

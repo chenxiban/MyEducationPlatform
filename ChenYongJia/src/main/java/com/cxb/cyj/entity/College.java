@@ -96,5 +96,14 @@ public class College implements Serializable {
 		map.put("url", this.collegePath);
 		return map;
 	}
+
+	@Override
+	public String toString() {
+		return "College [collegeId=" + collegeId + ", collegeName=" + collegeName + ", collegeParentId="
+				+ collegeParentId + ", collegeRmark=" + collegeRmark + ", collegePath=" + collegePath
+				+ ", collegeWeight=" + collegeWeight + ", collegeCreatTime=" + collegeCreatTime + ", collegeUpdateTime="
+				+ collegeUpdateTime + ", collegeFounder=" + collegeFounder + ", collegeUpdateMan=" + collegeUpdateMan
+				+ "]";
+	}
 	
 }

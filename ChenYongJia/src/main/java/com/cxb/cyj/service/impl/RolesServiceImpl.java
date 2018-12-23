@@ -170,7 +170,6 @@ public class RolesServiceImpl implements RolesService {
 	 */
 	@Override
 	public Integer setRoleModule(Integer roleId, Integer moduleIds) {
-		// TODO Auto-generated method stub
 		return rolesRepository.setRoleModule(roleId, moduleIds);
 	}
 

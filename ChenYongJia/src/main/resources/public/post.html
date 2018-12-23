@@ -26,12 +26,11 @@
 						token: token, //必传
 						p: 1
 					},
-					onLoadSuccess: function() { //加载小图标
+					onLoadSuccess: function() {
 						$(".easyui-linkbutton").linkbutton();
-						handlePermission();
+						dg.datagrid("uncheckAll");//再取消选中所有行
 					}
 				});
-				handlePermission();
 			});
 
 			//查询
@@ -110,14 +109,13 @@
 				$.messager.confirm('确认', '您确认推荐该帖子么？', function(r) {
 					if(r) {
 						$.ajax({
-							type: "POST",
-							url: "http://localhost:3011/chenyongjia/ChenYongJia/post/savePostTui",
+							type: "put",
+							url: "http://localhost:3011/chenyongjia/ChenYongJia/post/savePostTui?token="+token+"&postId="+row.postId,
 							cache: false,
-							data: {
+							/*data: {
 								token:token,
 								postId:row.postId
-							},
-							dataType: "json",
+							},*/
 							success: function(res) {
 								if(res.success) {
 									$.messager.show({
@@ -176,13 +174,12 @@
 					if(r) {
 						$.ajax({
 							type: "DELETE",
-							url: "http://localhost:3011/chenyongjia/ChenYongJia/post/delPostTui",
+							url: "http://localhost:3011/chenyongjia/ChenYongJia/post/delPsotTui?token="+token+"&postId="+row.postId,
 							cache: false,
-							data: {
+							/*data: {
 								token:token,
 								postId:row.postId
-							},
-							dataType: "json",
+							},*/
 							success: function(res) {
 								if(res.success) {
 									$.messager.show({
@@ -225,14 +222,13 @@
 	</head>
 
 	<body class="easyui-layout">
-		<table id="dg" name="center" title="贴吧推荐列表" style="width:100%;height:auto" toolbar="#toolbar" pagination="true" idField="barId" rownumbers="true" fitColumns="true" singleSelect="false" pageSize=10>
+		<table id="dg" name="center" title="贴吧推荐列表" style="width:100%;height:auto" toolbar="#toolbar" pagination="true" idField="barId" rownumbers="true" fitColumns="true" singleSelect="false" pageSize=20>
 			<thead>
 				<tr>
 					<th data-options="field:'postId',width:40,hidden:false">帖子ID</th>
 					<th data-options="field:'postName',width:60" editor="{type:'validatebox',options:{validType:'postName'}}">发帖人名称</th>
 					<th data-options="field:'postTitle',width:60,formatter: formatterContent" editor="{type:'validatebox',options:{validType:'postTitle'}}">帖子标题</th>
 					<th data-options="field:'postContent',width:100,formatter: formatterContents" editor="{type:'validatebox',options:{validType:'postContent'}}">帖子内容</th>
-					<th data-options="field:'postTop',width:80,">是否置顶</th>
 					<th data-options="field:'postCreatetime',width:100,">创建时间</th>
 					<th data-options="field:'postUpdateTime',width:100,">最后修改时间</th>
 					<th data-options="field:'setRoleAction',width:240,align:'center',formatter:formatterSetRole ,iconCls:'icon-man'">操作</th>

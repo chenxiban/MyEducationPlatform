@@ -17,18 +17,27 @@
 			}
 		</style>
 		<script type="text/javascript">
-			//var token = window.localStorage.getItem("token"); //取出暂存的token数据
+			var token = window.localStorage.getItem("token"); //取出暂存的token数据
 			//var loginIds = window.localStorage.getItem("loginId"); // 登录用户的id
 			$(function() {
 				$("#dg").edatagrid({ //为了加载小图标
 					method: 'GET',
 					url: 'http://localhost:3011/chenyongjia/ChenYongJia/clazz/getAllPageClazz',
-//					queryParams: { //datagrid的固定参数
-//						token: token //必传
-//					}
+					queryParams: { //datagrid的固定参数
+						token: token //必传
+					},
 					onLoadSuccess: function() {
 						$(".easyui-linkbutton").linkbutton();
+						dg.datagrid("uncheckAll");//再取消选中所有行
 					}
+				});
+
+				$("#collegeId").combobox({
+					method: 'get',
+					valueField: "collegeId",
+					textField: "collegeName",
+					panelHeight: 'auto',
+					url: 'http://localhost:3011/chenyongjia/ChenYongJia/college/getCollegeInfos?token=' + token
 				});
 
 				//设置模块
@@ -75,7 +84,7 @@
 
 				});
 			});
-			
+
 			//表单序列化以后去掉表单中值为空的参数
 			function serializeNotNull(serStr) {
 				return serStr.split("&").filter(function(str) {
@@ -101,21 +110,33 @@
 								data: formData,
 								dataType: "json",
 								success: function(res) {
-									$.messager.show({
-										title: '提示信息',
-										msg: '添加成功!',
-										timeout: 3000, //推出时间
-										showType: 'slide', //动画效果
-										showSpeed: 3000
-										//显示时间
-									});
-									closeaddClass();
-									$("#dg").datagrid("reload");
+									if(res.success) {
+										$.messager.show({
+											title: '提示信息',
+											msg: res.message,
+											timeout: 3000, //推出时间
+											showType: 'slide', //动画效果
+											showSpeed: 3000
+											//显示时间
+										});
+										closeaddClass();
+										$("#dg").datagrid("reload");
+									} else {
+										$.messager.show({
+											title: '提示信息',
+											msg: res.message,
+											timeout: 3000, //推出时间
+											showType: 'slide', //动画效果
+											showSpeed: 3000
+											//显示时间
+										});
+									}
+
 								},
 								error: function(res) {
 									$.messager.show({
 										title: '提示信息',
-										msg: '添加失败!',
+										msg: res.message,
 										timeout: 3000, //推出时间
 										showType: 'slide', //动画效果
 										showSpeed: 3000
@@ -145,7 +166,7 @@
 				$('#dlg').dialog("close");
 				$("#fm").form('clear');
 			}
-			
+
 			// 修改班级信息
 			function updteClass() {
 				var row = $('#dg').datagrid('getSelected');
@@ -160,7 +181,7 @@
 					return;
 				}
 				$('#classIds').val(row.classId);
-				$('#classNames').textbox('setValue',row.className);
+				$('#classNames').textbox('setValue', row.className);
 				$('#dlgs').dialog("open").dialog("setTitle", "修改角色信息");
 			}
 
@@ -224,7 +245,6 @@
 			function resetValues() {
 				$("#fms").form('clear');
 			}
-			
 
 			function showRoles(index) {
 				var data = $("#dg").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
@@ -253,7 +273,7 @@
 		<script>
 			//操作用户
 			function formatterOPClazz(value, row, index) {
-				return "<a class='easyui-linkbutton' iconCls='icon-tip' style='cursor: pointer;' onclick='setRightData(" + index + ")'>设置模块</a>";
+				return "<a class='easyui-linkbutton' iconCls='icon-edit' style='cursor: pointer;' onclick='setTeacher(" + index + ")'>设置老师</a>";
 			}
 
 			//设置模块
@@ -266,7 +286,7 @@
 					closed: false,
 					title: "您正在设置" + data[index].rolesName
 				});
-				
+
 				$.get("http://localhost:3011/chenyongjia/ChenYongJia/modules/queryRoleSetModuleTree", {
 					roleId: data[index].rolesId
 				}, function(r) {
@@ -350,14 +370,14 @@
 	</head>
 
 	<body style="background: url(img/xingk2.jpg) no-repeat; background-size: 100% 710px">
-		<table name="center" class="easyui-datagrid" id="dg" toolbar="#toolbar" title="角色列表" collapsible="true" style="width:100%; height:auto;overflow:auto" 	data-options="rownumbers:true,split:true,pagination:true,pageSize:10">
+		<table name="center" class="easyui-datagrid" id="dg" toolbar="#toolbar" title="角色列表" collapsible="true" style="width:100%; height:auto;overflow:auto" data-options="rownumbers:true,split:true,pagination:true,pageSize:10">
 			<thead>
 				<tr>
 					<th data-options="field:'classId',width:280,hidden:true">ID</th>
 					<th data-options="field:'className',width:100" ">班级名称</th>
 					<th data-options="field: 'classNumber',width:100 "">班级编号</th>
-					<th data-options="field: 'classCreatTime',width:100 "">创建时间</th>
-					<th data-options="field: 'classUpdateTime',width:100 "">最后一次修改时间</th>
+					<th data-options="field: 'classCreatTime',width:160 " ">创建时间</th>
+					<th data-options="field: 'classUpdateTime',width:160 "">最后一次修改时间</th>
 					<th data-options="field:'setPassword',width:180,align:'center',formatter:formatterOPClazz">操作</th>
 				</tr>
 			</thead>
@@ -394,17 +414,25 @@
 					<tr>
 						<td>班级编号：</td>
 						<td>
-							<input name="classNumber" id="classNumber" class="easyui-textbox" data-options="validType:'english',required:true">
+							<input name="classNumber" id="classNumber" class="easyui-textbox" data-options="validType:'intPlus',required:true">
+						</td>
+					</tr>
+					<tr>
+						<td>所属专业：</td>
+						<td>
+							<select class="easyui-combobox" id="collegeId" name="collegeId" data-options="required:true" editable="false" style="width: 100px;" panelHeight="auto">
+								<option value=""></option>
+							</select>
 						</td>
 					</tr>
 				</table>
 			</form>
-		</div>		
+		</div>
 		<div id="dlg-buttons" style="background: url(img/xingk1.jpg) no-repeat; background-size: 100% 100%;">
 			<a href="javascript:saveClazz()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 			<a href="javascript:closeaddClass()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
 		</div>
-		
+
 		<!--
             	作者：867647213@qq.com
             	时间：2018-06-14

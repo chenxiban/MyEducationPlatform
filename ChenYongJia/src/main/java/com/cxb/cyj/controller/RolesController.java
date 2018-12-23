@@ -130,7 +130,7 @@ public class RolesController {
 		if (rolesService.delRole(list)) {
 			return new Result(true, "角色删除成功");
 		} else {
-			return new Result(false, "当前角色有用户正在使用,删除失败!");
+			return new Result(false, "当前角色有用户正在使用或拥有模块,删除失败!");
 		}
 	}
 
@@ -162,14 +162,15 @@ public class RolesController {
 	 * @param moduleId
 	 * @return
 	 */
-	@RequestMapping(value = "/setRoleModule", name = "角色设置菜单模块",method = RequestMethod.PUT)
+	@RequestMapping(value = "/setRoleModule", name = "角色设置菜单模块",method = RequestMethod.POST)
 	public Object setRoleModule(
 			Integer roleId,
-			@RequestParam(value = "moduleId", required = false) Integer[] moduleId) {
+			@RequestParam(value = "moduleId", required = false) String moduleId) {
 		String msg = null;
 		System.out.println("移除当前角色权限====>"+rolesService.delRoleModule(roleId));
-		for (Integer moduleIds:moduleId) {
-			int k = rolesService.setRoleModule(roleId, moduleIds);
+		String [] moduleIdss=moduleId.split(",");
+		for (String moduleIds:moduleIdss) {
+			int k = rolesService.setRoleModule(roleId, Integer.parseInt(moduleIds));
 			msg = "角色roleId=>" + roleId + "->成功设置" + k + "个菜单模块.";
 		}
 		return new Result(true, msg);// 设置成功

@@ -108,6 +108,7 @@ public class UserController {
 		String encodedPassword = passwordEncoder.encode(u.getUserPassword().trim());
 		u.setUserPassword(encodedPassword);
 		u.setUserPsdWrongTime(0);
+		u.setUserIsLookout("否");
 		User ulist = userService.findsLoginName(u.getUserName());
 		if (IsEmptyUtils.isEmpty(ulist)) {
 			if (userService.addUser(u)) {

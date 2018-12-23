@@ -27,6 +27,10 @@
 					fitColumns: true,
 					idField: 'modulesId',
 					treeField: 'text',
+					onLoadSuccess: function() {
+						$(".easyui-linkbutton").linkbutton();
+						dg.datagrid("uncheckAll");//再取消选中所有行
+					}
 				});
 				handlePermission();
 
@@ -52,7 +56,7 @@
 					};
 				});
 			}
-			
+
 			//查询
 			function doSearch() {
 				$('#tg').treegrid('load', {
@@ -80,104 +84,114 @@
 		</table>
 
 		<div id="toolbar" style="background: url(img/xingk1.jpg);">
-			<div id="tb" style="margin-bottom:5px">
+			<!--<div id="tb" style="margin-bottom:5px">
 				<from id="sousuo" method="post">
 					模块名称: <input class="easyui-textbox" id="namess" name="name" style="width:80px">
 					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="javascript:doSearch()">查询</a>
 				</from>
-			</div>
-			<a href="javascript:void(0)" data-require-permission='modules:addModules' class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加菜单</a>
-			<a href="javascript:void(0)" data-require-permission='modules:updModules' class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑菜单</a>
+			</div>-->
+			<a href="javascript:void(0)" data-require-permission='modules:addModules' class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newModule()">添加菜单</a>
+			<a href="javascript:void(0)" data-require-permission='modules:updModules' class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editModules()">编辑菜单</a>
 			<a href="javascript:void(0)" data-require-permission='modules:delModules' class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteUser()">删除菜单</a>
 		</div>
 
+		<!--
+            	作者：王传威
+            	时间：2018-12-16
+            	描述：添加模块
+            -->
 		<div id="dlg" class="easyui-dialog" style="width:400px;height:300px;padding:10px 20px;background: url(img/beijing.jpg) no-repeat; background-size: 100% 100%;" closed="true" buttons="#dlg-buttons">
 			<form id="fm" method="post">
 				<table cellspacing="10px;">
 					<tr>
-						<td>父亲菜单parentId：</td>
-						<td><input id="parentId" name="parentId" class="easyui-validatebox" required="true" readonly="true" style="width: 200px;"></td>
+						<td>父亲菜单modulesParentId：</td>
+						<td><input id="modulesParentId" name="modulesParentId" class="easyui-validatebox" required="true" readonly="true" style="width: 200px;"></td>
 					</tr>
 					<tr>
 						<td>菜单名称：</td>
-						<td><input id="name" name="name" class="easyui-validatebox" data-options="validType:'name'" required="true" style="width: 200px;"></td>
+						<td><input id="name" name="modulesName" class="easyui-validatebox" data-options="validType:'name'" required="true" style="width: 200px;"></td>
 					</tr>
 					<tr>
 						<td>菜单路径：</td>
-						<td><input id="path" name="path" class="easyui-validatebox" style="width: 200px;"></td>
+						<td><input id="modulesPath" name="modulesPath" class="easyui-validatebox" style="width: 200px;"></td>
 					</tr>
 					<tr>
 						<td>菜单权重：</td>
-						<td><input id="weight" name="weight" class="easyui-validatebox" data-options="validType:'intPlus'" style="width: 200px;"></td>
+						<td><input id="modulesWeight" name="modulesWeight" class="easyui-validatebox" data-options="validType:'intPlus'" style="width: 200px;"></td>
 					</tr>
 					<tr>
 						<td>创建人：</td>
-						<td><input id="founder" name="founder" class="easyui-validatebox" data-options="validType:'name'" required="true" style="width: 200px;"></td>
+						<td><input id="modulesFounder" name="modulesFounder" class="easyui-validatebox" data-options="validType:'name'" required="true" style="width: 200px;"></td>
 					</tr>
 				</table>
 			</form>
 		</div>
 
 		<div id="dlg-buttons" style="background: url(img/xingk1.jpg) no-repeat; background-size: 100% 100%;">
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">保存</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveModule()">保存</a>
 			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">关闭</a>
 		</div>
 
+		<!--
+            	作者：王传威
+            	时间：2018-12-16
+            	描述：修改模块
+            -->
 		<div id="dlgs" class="easyui-dialog" style="width:400px;height:300px;padding:10px 20px;background: url(img/beijing.jpg) no-repeat; background-size: 100% 100%;" closed="true" buttons="#dlg-buttonss">
 			<form id="fms" method="post">
 				<table cellspacing="10px;">
 					<tr>
 						<!-- 菜单id -->
-						<td><input id="modules_id" name="modules_id" class="easyui-validatebox" readonly="true" hidden="true" style="width: 200px;"></td>
+						<td><input id="modulesId" name="modulesId" class="easyui-validatebox" readonly="true" hidden="true" style="width: 200px;"></td>
 					</tr>
 					<tr>
-						<td>父亲菜单parentId：</td>
-						<td><input id="parentId" name="parentId" class="easyui-validatebox" required="true" readonly="true" style="width: 200px;"></td>
+						<td>父亲菜单modulesParentId：</td>
+						<td><input id="modulesParentId" name="modulesParentId" class="easyui-validatebox" required="true" readonly="true" style="width: 200px;"></td>
 					</tr>
 					<tr>
 						<td>菜单名称：</td>
-						<td><input id="names" name="name" class="easyui-validatebox" data-options="validType:'name'" required="true" style="width: 200px;"></td>
+						<td><input id="names" name="modulesName" class="easyui-validatebox" data-options="validType:'name'" required="true" style="width: 200px;"></td>
 					</tr>
 					<tr>
 						<td>菜单路径：</td>
-						<td><input id="path" name="path" class="easyui-validatebox" style="width: 200px;"></td>
+						<td><input id="modulesPath" name="modulesPath" class="easyui-validatebox" style="width: 200px;"></td>
 					</tr>
 					<tr>
 						<td>菜单权重：</td>
-						<td><input id="weight" name="weight" class="easyui-validatebox" data-options="validType:'intPlus'" style="width: 200px;"></td>
+						<td><input id="modulesWeight" name="modulesWeight" class="easyui-validatebox" data-options="validType:'intPlus'" style="width: 200px;"></td>
 					</tr>
 					<tr>
 						<td>修改人：</td>
-						<td><input id="updateMan" name="updateMan" class="easyui-validatebox" data-options="validType:'name'" required="true" style="width: 200px;"></td>
+						<td><input id="modulesUpdateMan" name="modulesUpdateMan" class="easyui-validatebox" data-options="validType:'name'" required="true" style="width: 200px;"></td>
 					</tr>
 				</table>
 			</form>
 		</div>
 
 		<div id="dlg-buttonss" style="background: url(img/xingk1.jpg) no-repeat; background-size: 100% 100%;">
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUsers()">保存</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveModules()">保存</a>
 			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlgs').dialog('close')">关闭</a>
 		</div>
 
 		<script type="text/javascript">
 			//新增一个菜单
-			function newUser() {
+			function newModule() {
 				$('#fm').form('clear'); //清空表单
 				var row = $('#tg').treegrid('getSelected'); //获取选中的父菜单
 				if(row) {
 					$("#dlg").dialog('open').dialog('setTitle', '添加' + row.text + '的子菜单');
 					$('#fm').form('load', {
-						parentId: row.modules_id
-					}); //菜单parentid设置为选中的菜单
-					url = 'http://localhost:8080/SpringBootJpaTows/modules/addModules?token='+token;
+						modulesParentId: row.modulesId
+					}); //菜单modulesParentId设置为选中的菜单
+					url = 'http://localhost:3011/chenyongjia/ChenYongJia/modules/addModules?token=' + token;
 				} else {
 					$.messager.confirm('新增确认', '请选中一个父菜单,否则将新增一个根菜单。您是否要新增一个根菜单？', function(r) {
 						if(r) {
 							$("#dlg").dialog('open').dialog('setTitle', '添加根菜单');
 							$('#fm').form('load', {
-								parentId: 0
-							}); //菜单parentid设置为0,则为根菜单
-							url = 'http://localhost:8080/SpringBootJpaTows/modules/addModules?token='+token;
+								modulesParentId: 0
+							}); //菜单modulesParentId设置为0,则为根菜单
+							url = 'http://localhost:3011/chenyongjia/ChenYongJia/modules/addModules?token=' + token;
 						}
 					});
 				}
@@ -185,20 +199,21 @@
 			}
 
 			//保存新增菜单对象
-			function saveUser() {
+			function saveModule() {
 				var row = $('#tg').treegrid('getSelected'); //获取选中的父菜单
 				$.messager.confirm('保存确认', '您确定要保存么？', function(r) {
+					/*console.log(111);*/
 					if(r) {
 						var formData = $('#fm').serialize();
 						var boo = $('#fm').form('validate');
 						if(boo) {
 							$.ajax({
-								type: "POST",
-								url: url,
+								type: "PUT",
+								url: 'http://localhost:3011/chenyongjia/ChenYongJia/modules/addModules?token=' + token,
 								cache: false,
 								data: formData,
 								dataType: "json",
-								success: function(result) {
+								success:function(result) {
 									$.messager.alert({
 										title: '系统提示',
 										msg: result.message,
@@ -227,6 +242,16 @@
 									return;
 								}
 							});
+						} else {
+							$.messager.show({
+								title: '提示信息',
+								msg: '表单验证失败!',
+								timeout: 3000, //推出时间
+								showType: 'slide', //动画效果
+								showSpeed: 3000
+								//显示时间
+							});
+							//closeupdTeachers();
 						}
 					}
 				});
@@ -234,7 +259,7 @@
 			}
 
 			//修改一个菜单
-			function editUser() {
+			function editModules() {
 				$('#fms').form('clear'); //清空表单
 				//			var row=$('#tg').treegrid('getSelected');//获取选中的菜单
 				var rows = $('#tg').treegrid('getSelections'); //获取被选中的菜单
@@ -246,14 +271,14 @@
 					$("#dlgs").dialog('open').dialog('setTitle', '修改' + row.text + '菜单');
 					$("#names").val(row.text);
 					$('#fms').form('load', row); //菜单内容
-					url = 'http://localhost:8080/SpringBootJpaTows/modules/updModules?token=' + token;
+					url = 'http://localhost:3011/chenyongjia/ChenYongJia/modules/updModules?token=' + token;
 				} else {
 					$.messager.alert("系统提示", "请选中一个你要修改的数据");
 				}
 			}
 
 			//保存修改的菜单对象
-			function saveUsers() {
+			function saveModules() {
 				var row = $('#tg').treegrid('getSelected'); //获取选中的父菜单
 				$.messager.confirm('保存确认', '您确定要保存么？', function(r) {
 					if(r) {
@@ -294,6 +319,16 @@
 									return;
 								}
 							});
+						}else {
+							$.messager.show({
+								title: '提示信息',
+								msg: '表单验证失败!',
+								timeout: 3000, //推出时间
+								showType: 'slide', //动画效果
+								showSpeed: 3000
+								//显示时间
+							});
+							//closeupdTeachers();
 						}
 
 					}

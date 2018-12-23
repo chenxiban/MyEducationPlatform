@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,7 @@ public interface ConsumerServiceWang {
 	 * @return
 	 */
 	@RequestMapping(value="/WangMengXia/post/selectPostListByPostId",method=RequestMethod.GET)
-	public Map<String,Object> selectPostListByPostId(@RequestParam(value="postId")List<Integer> postId);
+	public Map<String,Object> selectPostListByPostId(@RequestBody List<Integer> postId);
 	
 	/**
 	 * 评论最多帖子前20条

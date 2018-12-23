@@ -20,6 +20,13 @@ import com.cxb.cyj.entity.College;
 public interface CollegeRepository extends JpaRepository<College, Integer>, JpaSpecificationExecutor<College> {
 	
 	/**
+	 * 根据id查询
+	 * @param collegeId
+	 * @return
+	 */
+	College findByCollegeId(Integer collegeId);
+	
+	/**
 	 * 根据collegeRmark=2查询
 	 * 
 	 * @param collegeRmark

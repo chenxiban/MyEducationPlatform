@@ -12,6 +12,7 @@ import com.cxb.cyj.entity.PsotTui;
 import com.cxb.cyj.entity.Result;
 import com.cxb.cyj.fegin.ConsumerServiceWang;
 import com.cxb.cyj.service.PsotTuiService;
+import com.cxb.cyj.util.IsEmptyUtils;
 
 /**
  * 
@@ -41,7 +42,11 @@ public class PostController {
 	public Object getCollege(PsotTui psotTui) {
 		List<Integer> list=psotTuiService.countPostTuiPostId();
 		if (psotTui.getP()==0) {
-			return consumerServiceWang.selectPostListByPostId(list);
+			if (IsEmptyUtils.isEmpty(list)) {
+				return "暂无推荐帖子!!!!";
+			} else {
+				return consumerServiceWang.selectPostListByPostId(list);
+			}
 		} else if (psotTui.getP()==1) {
 			return consumerServiceWang.selectPostListByTopD(psotTui.getPage(), psotTui.getRows());
 		}else if (psotTui.getP()==2) {
@@ -58,8 +63,8 @@ public class PostController {
 	 * @author ChenYongJia
 	 * @return
 	 */
-	@RequestMapping(value = "/savePostTui", name = "添加贴吧推荐信息", method = RequestMethod.POST)
-	public Object savePostTui(@RequestBody PsotTui psotTui) {
+	@RequestMapping(value = "/savePostTui", name = "添加贴吧推荐信息", method = RequestMethod.PUT)
+	public Object savePostTui(PsotTui psotTui) {
 		if (psotTuiService.countPostTui()>10) {
 			return new Result(false, "推荐帖子已满十条,请先移除其他推荐帖子在进行推荐操作");
 		} else if (psotTuiService.savePostTui(psotTui)) {
@@ -76,7 +81,7 @@ public class PostController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delPsotTui", name = "删除贴吧推荐信息", method = RequestMethod.DELETE)
-	public Object delPsotTui(@RequestBody PsotTui psotTui) {
+	public Object delPsotTui(PsotTui psotTui) {
 		if (psotTuiService.delPsotTui(psotTui.getPostId())) {
 			return new Result(true, "推荐帖子移除成功");
 		} else {

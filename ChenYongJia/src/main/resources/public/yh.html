@@ -2,11 +2,7 @@
 <html>
 
 	<head>
-<<<<<<< HEAD
 		<meta charset="UTF-8" http-equiv="X-Frame-Options" content="deny">
-=======
-		<meta charset="UTF-8">
->>>>>>> branch 'master' of https://github.com/chenxiban/MyEducationPlatform.git
 		<title>用户管理</title>
 		<link rel="icon" href="img/timg.jpg">
 		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/icon.css" />
@@ -49,6 +45,7 @@
 					},
 					onLoadSuccess: function() {
 						$(".easyui-linkbutton").linkbutton();
+						dg.datagrid("uncheckAll");//再取消选中所有行
 					}
 				});
 			});

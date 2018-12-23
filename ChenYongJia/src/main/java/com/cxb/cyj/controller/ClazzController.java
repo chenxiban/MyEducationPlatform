@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.cyj.entity.Clazz;
+import com.cxb.cyj.entity.College;
 import com.cxb.cyj.entity.Result;
 import com.cxb.cyj.entitysearch.ClazzSearch;
 import com.cxb.cyj.service.ClazzService;
@@ -37,8 +38,7 @@ public class ClazzController {
 	 * @param c
 	 * @return
 	 */
-	@RequestMapping(value = "/addClazzs", method = RequestMethod.PUT)
-	//@RequestMapping(value = "/addClazzs")
+	@RequestMapping(value = "/addClazzs",name = "添加班级", method = RequestMethod.PUT)
 	public Object addClazzs(Clazz c) {
 		c.setClassCreatTime(new Date(System.currentTimeMillis()));
 		Clazz ulist = clazzService.findsClassName(c.getClassName());
@@ -61,7 +61,7 @@ public class ClazzController {
 	 * @param u
 	 * @return
 	 */
-	@RequestMapping(value = "/updClazz", name = "修改用户", method = RequestMethod.POST)
+	@RequestMapping(value = "/updClazz", name = "修改班级", method = RequestMethod.POST)
 	//@RequestMapping(value = "/updClazz", name = "修改班级")
 	public Object updClazz(Clazz c) {
 		Clazz clazz = clazzService.updClazzById(c.getClassId());
@@ -77,7 +77,7 @@ public class ClazzController {
 		}
 
 		clazz.setClassId(c.getClassId());
-		if (clazzService.addClazz(c)) {
+		if (clazzService.addClazz(clazz)) {
 			return new Result(true, "班级修改成功");
 		} else {
 			return new Result(false, "班级名重复,请重新填写!");

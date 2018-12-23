@@ -35,5 +35,7 @@ public class PsotTui {
 	private int rows=10;
 	@Transient
 	private int p;
+	@Transient
+	private String token;
 	
 }

@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -55,6 +56,7 @@ public class Clazz implements Serializable {
 	@JoinColumn(name="clazz_college_id")	//副表中的外键字段名称
 	private College college;
 	
-	
+	@Transient
+	private Integer collegeId;
 
 }
