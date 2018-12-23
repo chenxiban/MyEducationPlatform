@@ -75,8 +75,8 @@ public class ClazzServiceImpl implements ClazzService {
 	}
 
 	@Override
-	public Page<Clazz> sreachByClazz(ClazzSearch clazzSearch, Pageable pageable) {
-		return clazzRepository.findAll(this.getWhereClause(clazzSearch), pageable);
+	public Page<Clazz> sreachByClazz(Clazz clazz, Pageable pageable) {
+		return clazzRepository.findAll(this.getWhereClause(clazz), pageable);
 	}
 	
 	/**
@@ -87,22 +87,22 @@ public class ClazzServiceImpl implements ClazzService {
 	 * @author ChenYongJia
 	 */
 	@SuppressWarnings({ "serial" })
-	private Specification<Clazz> getWhereClause(final ClazzSearch cs) {
+	private Specification<Clazz> getWhereClause(final Clazz cs) {
 		return new Specification<Clazz>() {
 
 			@Override
 			public Predicate toPredicate(Root<Clazz> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 				Predicate predicate = cb.conjunction();// 动态SQL表达式
+				Join<Clazz, College> join = root.join("college", JoinType.INNER);
 				List<Expression<Boolean>> exList = predicate.getExpressions();// 动态SQL表达式集合
 
 				if (!IsEmptyUtils.isEmpty(cs.getClassName())) {
 					exList.add(cb.like(root.<String>get("className"), "%" + cs.getClassName() + "%"));
 				}
-				if (!IsEmptyUtils.isEmpty(cs.getClassCreatTimeStart())) {
-					exList.add(cb.greaterThanOrEqualTo(root.<Date>get("classCreatTimeStart"), cs.getClassCreatTimeStart()));
-				}
-				if (!IsEmptyUtils.isEmpty(cs.getClassCreatTimeEnd())) {
-					exList.add(cb.lessThanOrEqualTo(root.<Date>get("classCreatTimeEnd"), cs.getClassCreatTimeEnd()));
+				if (cs.getCollegeName() != null && !"".equals(cs.getCollegeName())) {
+					Path<String> collegeName = join.<String>get("collegeName");
+					Predicate p1 = cb.like(collegeName, "%" + cs.getCollegeName() + "%");
+					exList.add(p1);
 				}
 				return predicate;
 			}

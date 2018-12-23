@@ -185,5 +185,13 @@ public class RolesServiceImpl implements RolesService {
 			return false;
 		}
 	}
+	
+	/**
+	 * 查询所有
+	 */
+	@Override
+	public List<Roles> findAll() {
+		return rolesRepository.findAll();
+	}
 
 }

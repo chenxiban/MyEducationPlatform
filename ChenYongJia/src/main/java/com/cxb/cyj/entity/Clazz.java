@@ -59,4 +59,17 @@ public class Clazz implements Serializable {
 	@Transient
 	private Integer collegeId;
 
+	@Transient
+	private String collegeName;
+	
+	public String getCollegeName() {
+		if(college != null) {
+			System.out.println("贴吧分类的名称为");
+			return college.getCollegeName();
+		}else {
+			return collegeName;
+		}
+		
+	}
+	
 }

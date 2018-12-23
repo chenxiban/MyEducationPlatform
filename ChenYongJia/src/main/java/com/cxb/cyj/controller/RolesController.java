@@ -213,5 +213,14 @@ public class RolesController {
 			return new Result(false, "角色移除失败");
 		}
 	}
+	
+	/**
+	 * 获取所有角色
+	 * @return
+	 */
+	@RequestMapping(value="/getAllRoles",method=RequestMethod.GET)
+	public List<Roles> getAllRoles(){
+		return rolesService.findAll();
+	}
 
 }

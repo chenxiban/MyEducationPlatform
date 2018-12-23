@@ -110,4 +110,10 @@ public interface RolesService {
 	 */
 	boolean delRoleModule(Integer roleId);
 	
+	/**
+	 * 查询所有
+	 * @return
+	 */
+	List<Roles> findAll();
+	
 }

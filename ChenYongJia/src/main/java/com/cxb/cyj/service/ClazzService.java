@@ -51,6 +51,6 @@ public interface ClazzService {
 	 * @param rows
 	 * @return
 	 */
-	Page<Clazz> sreachByClazz(ClazzSearch clazzSearch, Pageable pageable);
+	Page<Clazz> sreachByClazz(Clazz clazz, Pageable pageable);
 	
 }
