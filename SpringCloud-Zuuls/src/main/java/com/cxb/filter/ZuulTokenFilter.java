@@ -49,7 +49,6 @@ public class ZuulTokenFilter extends ZuulFilter {
 		HttpServletRequest request = ctx.getRequest();
 		log.info(String.format("%s >>> %s", request.getMethod(), request.getRequestURL().toString()));
 		Object accessToken = request.getParameter("token");
-		String refer = request.getHeader("refer");
 
 		/*if (accessToken != null) {
 			return null;// 网关路由放行
@@ -61,8 +60,9 @@ public class ZuulTokenFilter extends ZuulFilter {
 			// 令牌是空的! ! !请先登录! ! !
 			ctx.getResponse().getWriter().write("Token is empty ！！！Please log in first ！！！");
 		} catch (Exception e) {
+			
 		}*/
-		ctx.getResponse().setHeader("x-frame-options","SAMEORIGIN");
+		//ctx.getResponse().setHeader("x-frame-options","SAMEORIGIN");
 		return null;// 网关路由放行
 
 	}
