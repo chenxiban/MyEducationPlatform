@@ -62,6 +62,4 @@ public class Disreport {
 	@JoinColumn(name="dispost_id")	//副表中的外键字段名称
 	private Dispost dispost;
 	
-	@OneToMany(mappedBy="disreport",fetch=FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
-	private List<Disrepcount> list = new ArrayList<>();
 }

@@ -1,0 +1,32 @@
+[
+	{
+		"id": 1,
+		"text": "课程讨论管理",
+		"iconCls": "icon-save",
+		"children": [
+		{
+				"id": 2,
+				"text": "课程讨论评论最多表",
+				"attributes":{
+					"url": "ho_dispostcommit.html",
+					"price": 100
+				}
+		},
+			{
+				"id": 3,
+				"text": "课程讨论点赞最多表",
+				"attributes":{
+					"url": "ho_dispostlike.html",
+					"price": 100
+				}
+			}, {
+				"id": 4,
+				"text": "课程踩赞最多表",
+				"attributes":{
+					"url": "ho_dispostdlike.html",
+					"price": 100
+				}
+			}
+		]
+	}
+] 

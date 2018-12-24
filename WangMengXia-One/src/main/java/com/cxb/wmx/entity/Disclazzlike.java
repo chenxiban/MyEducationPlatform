@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import com.cxb.wmx.entity.Dislike.DislikeBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -49,7 +48,7 @@ public class Disclazzlike {
 	@Column(columnDefinition = "tinyint unsigned DEFAULT 0 COMMENT '状态'  ")
 	private Integer disclazzlikeStuts;
 	@Column(columnDefinition = "datetime COMMENT '创建时间' ")
-	private Date ddisclazzlikeCreatetime;
+	private Date disclazzlikeCreatetime;
 	@Column(columnDefinition = "timestamp COMMENT '最后一次修改时间'", nullable = false, updatable = false, insertable = false)
 	private Timestamp disclazzlikeUpdatetime;
 	

@@ -17,8 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import com.cxb.wmx.entity.Disbar.DisbarBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -46,22 +46,28 @@ public class Discommit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy
-	@Column(columnDefinition = "int unsigned NOT NULL  COMMENT '课程评论id主键'")
+	@Column(columnDefinition = "int unsigned NOT NULL COMMENT '帖子评论id'")
 	private Integer discommitId;
 	@Column(columnDefinition = "int  NOT NULL COMMENT '评论人id'")
 	private Integer userId;
-	@Column(columnDefinition = "varchar(30) NOT NULL COMMENT '课程评论人姓名'  ")
-	private  String discommitName;
-	@Column(columnDefinition = "tinyint unsigned DEFAULT 0 COMMENT '是否举报成功'  ")
+	@Column(columnDefinition = "varchar(50) NOT NULL COMMENT '评论人昵称'  ")
+	private String discommitName;
+	@Column(columnDefinition = "varchar(500) NOT NULL COMMENT '评论内容'  ")
+	private String discommitCount;
+	@Column(columnDefinition = "tinyint unsigned DEFAULT 0 COMMENT '是否举报成功' ")
 	private Integer discommitReport;
-	@Column(columnDefinition = "varchar(200) NOT NULL COMMENT '课程评论内容'  ")
-	private  String discommitCount;
-	@Column(columnDefinition = "datetime COMMENT '创建时间 ")
+	@Column(columnDefinition = "datetime COMMENT '创建时间' ")
 	private Date discommitCreatetime;
 	@Column(columnDefinition = "timestamp COMMENT '最后一次修改时间'", nullable = false, updatable = false, insertable = false)
-	private Timestamp discommitUpdatetime;
+	private Timestamp discommitUpdatetime; 
 	
-	
+	@Transient
+	private Integer number;
+	@Transient
+	private int page=0;
+	@Transient
+	private int rows=10;
+
 	@JsonIgnore
 	@ManyToOne(targetEntity = Dispost.class)
 	@JoinColumn(name="dispost_id")	//副表中的外键字段名称

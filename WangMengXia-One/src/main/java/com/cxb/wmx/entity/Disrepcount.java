@@ -42,7 +42,7 @@ public class Disrepcount {
 	@OrderBy
 	@Column(columnDefinition = "int unsigned NOT NULL  COMMENT '帖子举报主键'")
 	private Integer disrepcountId;
-	@Column(columnDefinition = "varchar(200) NOT NULL COMMENT 返还的举报内容'  ")
+	@Column(columnDefinition = "varchar(200) NOT NULL COMMENT '返还的举报内容' ")
 	private  String disrepcountContent;
 	@Column(columnDefinition = "datetime COMMENT '发表时间' ")
 	private Date disrepcountCreatetime;
@@ -50,7 +50,8 @@ public class Disrepcount {
 	private Timestamp disreportUpdatetime;
 	
 	@JsonIgnore
-	@ManyToOne(targetEntity = Disreport.class)
-	@JoinColumn(name="disreport_id")	//副表中的外键字段名称
-	private Disreport disreport;
+	@ManyToOne(targetEntity = Dispost.class)
+	@JoinColumn(name="dispost_id")	//副表中的外键字段名称
+	private Dispost dispost;
+	
 }

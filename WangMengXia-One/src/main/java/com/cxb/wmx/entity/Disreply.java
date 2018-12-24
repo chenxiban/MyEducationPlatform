@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import com.cxb.wmx.entity.Discomreport.DiscomreportBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;

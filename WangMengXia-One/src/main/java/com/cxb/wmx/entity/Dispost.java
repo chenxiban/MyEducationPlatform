@@ -16,9 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,10 +26,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 /**
  * 
- * @Description:   课程讨论
+ * @Description:   课程讨论表
  * @ClassName:     dispost.java
  * @author         刘森川
  */
+
 @SuppressWarnings("serial")
 @Getter
 @Setter
@@ -41,20 +42,6 @@ import lombok.Setter;
 public class Dispost {
 
 
-	/**
-	 * dispost_id字段,int类型,非空,自增,主键,备注:课程帖子主键
-disbar_id字段, int类型,外键,备注:课程分类外键
-user_id字段,int类型,非空,备注:发帖人id需要个人中心提供数据
-dispost_name字段,varchar(30)类型,非空,备注:发帖人姓名
-chapter_id字段,int类型,非空,备注:章节id需老师和学生提供数据
-dispost_title字段,varchar(100)类型,非空,备注:课程帖子标题
-dispost_count字段,varchar类型,非空,备注:课程帖子内容
-fightouts字段,int类型(默认为0),备注:投票数
-dispost_report字段,tinyint(0否,1是),备注:是否举报成功
-dispost_like字段,tinyint(0否,1是,2反对),备注:是否点赞
-dispost_createtime字段,datetime类型,非空,备注:创建时间
-dispost_updatetime字段,时间戳,非空,备注:修改时间
-	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy
@@ -78,7 +65,10 @@ dispost_updatetime字段,时间戳,非空,备注:修改时间
 	private Date dispostCreatetime;
 	@Column(columnDefinition = "timestamp COMMENT '最后一次修改时间'", nullable = false, updatable = false, insertable = false)
 	private Timestamp dispostUpdatetime;
-	
+	@Transient
+	private int page=0;
+	@Transient
+	private int rows=10;
 	
 	@JsonIgnore
 	@ManyToOne(targetEntity = Disbar.class)
@@ -94,5 +84,7 @@ dispost_updatetime字段,时间戳,非空,备注:修改时间
 	@OneToMany(mappedBy="dispost",fetch=FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
 	private List<Dislike> list2 = new ArrayList<>();
 	
+	
+
 	
 }

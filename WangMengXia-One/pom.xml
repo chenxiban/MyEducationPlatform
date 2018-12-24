@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 	<name>WangMengXia-One</name>
 	<url>https://repo.spring.io/milestone</url>
-	<description>CYJ:WangMengXia 课程讨论区</description>
+	<description>CYJ:WangMengXia-One 课程讨论区</description>
   
   <!-- SpringBoot 项目 统一 父依赖 -->
 	<parent>
@@ -49,10 +49,10 @@
 		
 		<!-- 权限控制Spring-Oauth2.0的认证模式依赖暂时不用,由于一些注解和API从spring security5.0中移除，所以需要导入下面的依赖包 -->
 		<!-- spring-cloud-starter-oauth2 -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-oauth2</artifactId>
-		</dependency> -->
+		</dependency>
 		
 		<!-- SpringCloud Feign 依赖 -->
 		<dependency>
