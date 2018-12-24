@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class DefaultController {
 
 	/**
-	 * http://localhost:3011/chenyongjia/ChenYongJia/
+	 * http://localhost:3011/chenyongjia/ChenYongJia/organization.html
 	 * @return
 	 */
 	@GetMapping("/login")

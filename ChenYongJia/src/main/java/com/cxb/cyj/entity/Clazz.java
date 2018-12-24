@@ -58,6 +58,9 @@ public class Clazz implements Serializable {
 	
 	@Transient
 	private Integer collegeId;
+	
+	private int page = 0;
+	private int rows = 10;
 
 	@Transient
 	private String collegeName;

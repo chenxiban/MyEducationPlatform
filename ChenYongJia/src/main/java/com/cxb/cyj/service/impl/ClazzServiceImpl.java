@@ -1,11 +1,13 @@
 package com.cxb.cyj.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -19,7 +21,6 @@ import com.cxb.cyj.dao.ClazzRepository;
 import com.cxb.cyj.dao.CollegeRepository;
 import com.cxb.cyj.entity.Clazz;
 import com.cxb.cyj.entity.College;
-import com.cxb.cyj.entitysearch.ClazzSearch;
 import com.cxb.cyj.service.ClazzService;
 import com.cxb.cyj.util.IsEmptyUtils;
 

@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // 自动无参的构造方法方法
 public class RolesSearch {
 	
-	private String name;
+	private String rolesName;
 	private int page = 0;
 	private int rows = 10;
 	

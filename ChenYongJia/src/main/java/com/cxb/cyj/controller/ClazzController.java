@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.cyj.entity.Clazz;
-import com.cxb.cyj.entity.College;
 import com.cxb.cyj.entity.Result;
-import com.cxb.cyj.entitysearch.ClazzSearch;
 import com.cxb.cyj.service.ClazzService;
 import com.cxb.cyj.util.IsEmptyUtils;
 
@@ -115,7 +113,7 @@ public class ClazzController {
 	 */
 	@PreAuthorize(value = "hasAuthority('clazz:getAllPageClazz')")
 	@RequestMapping(value = "/getAllPageClazz", name = "查询班级", method = RequestMethod.GET)
-	public Object getAllPageUsers(ClazzSearch clazzSearch) {
+	public Object getAllPageUsers(Clazz clazzSearch) {
 		System.out.println("当前查询参数===>" + clazzSearch);
 		Pageable pageable = PageRequest.of(clazzSearch.getPage() - 1, clazzSearch.getRows(), Sort.Direction.ASC,
 				"classId");

@@ -153,8 +153,8 @@ public class RolesServiceImpl implements RolesService {
 			public Predicate toPredicate(Root<Roles> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 				Predicate predicate = cb.conjunction();// 动态SQL表达式
 				List<Expression<Boolean>> exList = predicate.getExpressions();// 动态SQL表达式集合
-				if (!IsEmptyUtils.isEmpty(rs.getName())) {
-					exList.add(cb.like(root.<String>get("rolesName"), "%" + rs.getName() + "%"));
+				if (!IsEmptyUtils.isEmpty(rs.getRolesName())) {
+					exList.add(cb.like(root.<String>get("rolesName"), "%" + rs.getRolesName() + "%"));
 				}
 				/*if (!IsEmptyUtils.isEmpty(rs.getName())) {
 					exList.add(cb.like(root.<String>get("rolesName"), "%" + rs.getName() + "%"));
