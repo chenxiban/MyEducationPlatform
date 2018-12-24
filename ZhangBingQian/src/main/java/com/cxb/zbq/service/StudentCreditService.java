@@ -3,8 +3,11 @@ package com.cxb.zbq.service;
 import java.util.List;
 
 import com.cxb.zbq.entity.StudentCredit;
+import com.cxb.zbq.entityquery.StudentCreditQuery;
 
 public interface StudentCreditService {
+	
+	List<StudentCredit> getStudentCredits(StudentCreditQuery sQuery);//多条件检索学分信息
 	
 	int insertStudentCredit(Double credit, Integer currId, Integer stuId);// 添加学生学分信息
 

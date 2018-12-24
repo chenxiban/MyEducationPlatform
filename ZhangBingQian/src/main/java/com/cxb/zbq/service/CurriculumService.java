@@ -27,10 +27,18 @@ public interface CurriculumService {
 
 	Curriculum findBycurriculumId(Integer curriculumId);// 根据课程id获取对应课程
 	
-	int updateSubscriptionNum(Integer currId);//添加订阅人数
+	int updateSubscriptionNum(Integer currId);//添加订阅人数+1
+	
+	int delSubscriptionNum(Integer currId);//课程订阅人数-1
 	
 	int updateIsReleaseToTrue(Integer currId,Date startTime,Date endTime);//发布课程
 	
 	int updateIsReleaseToFalse(Integer currId);//取消发布课程
+	
+	List<Curriculum> getAllCurr();//获取所有课程信息
+	
+	 List<Integer> getCurrIdBySubscriptionNum();//根据订阅人数获取前12条课程id
+	 
+	 String getCurrNameByCurrId(Integer currId);//根据课程id获取课程名称
 
 }

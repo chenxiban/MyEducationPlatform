@@ -1,5 +1,7 @@
 package com.cxb.zbq.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +16,7 @@ public interface NoticeRepository extends JpaRepository<Notice, Integer>{
 	Notice getNewNoticeByCurrId(Integer currId);
 	
 	//修改公告信息
-	@Query(value="UPDATE notice_tb notice SET notice.announcement_content=:#{#n.announcementContent} WHERE notice.curriculum_id=:#{#n.curriculumId}",nativeQuery=true)
+	@Query(value="UPDATE notice_tb notice SET notice.announcement_content=:#{#n.announcementContent} WHERE notice.notice_id=:#{#n.noticeId}",nativeQuery=true)
 	@Transactional@Modifying
 	int updateNotice(@Param("n")Notice notice);
 	
@@ -22,5 +24,7 @@ public interface NoticeRepository extends JpaRepository<Notice, Integer>{
 	@Query(value="DELETE FROM notice_tb WHERE notice_id=?1",nativeQuery=true)
 	@Transactional@Modifying
 	int deleteNotice(Integer noticeId);
+	
+	List<Notice> findByTeacherId(Integer teaId);//根据老师id查询所有公告信息
 
 }

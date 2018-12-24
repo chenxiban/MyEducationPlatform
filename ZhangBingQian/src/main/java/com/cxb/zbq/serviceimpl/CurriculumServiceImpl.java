@@ -102,5 +102,25 @@ public class CurriculumServiceImpl implements CurriculumService {
 		};
 	  }
 
+	@Override
+	public int delSubscriptionNum(Integer currId) {
+		return curriculumRepository.delSubscriptionNum(currId);
+	}
+
+	@Override
+	public List<Curriculum> getAllCurr() {
+		return curriculumRepository.findAll();
+	}
+
+	@Override
+	public List<Integer> getCurrIdBySubscriptionNum() {
+		return curriculumRepository.getCurrIdBySubscriptionNum();
+	}
+
+	@Override
+	public String getCurrNameByCurrId(Integer currId) {
+		return curriculumRepository.findBycurriculumId(currId).getCurriculumName();
+	}
+
 
 }

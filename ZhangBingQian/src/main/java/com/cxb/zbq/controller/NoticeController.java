@@ -1,10 +1,13 @@
 package com.cxb.zbq.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.zbq.entity.Notice;
+import com.cxb.zbq.service.CurriculumService;
 import com.cxb.zbq.service.NoticeService;
 import com.cxb.zbq.utils.Result;
 
@@ -13,6 +16,21 @@ import com.cxb.zbq.utils.Result;
 public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
+	@Autowired
+	private CurriculumService currService;
+	
+	@RequestMapping(value="getAllNotice",name="查询所有公告信息")
+	public Object getAllNotice(Integer teaId) {
+		List<Notice> list= noticeService.findByTeacherId(teaId);
+		if (list!=null) {
+			for (int i = 0; i < list.size(); i++) {
+				int currId=list.get(i).getCurriculumId();
+				String currName=currService.getCurrNameByCurrId(currId);
+				list.get(i).setCurriculumName(currName);
+			}
+		}
+		return list;
+	}	
 	
 	@RequestMapping(value="insertNotice",name="添加公告信息")
 	public Object insertNotice(Notice notice) {

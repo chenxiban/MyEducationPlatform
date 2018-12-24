@@ -1,5 +1,7 @@
 package com.cxb.zbq.service;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,4 +16,6 @@ public interface NoticeService {
 	int updateNotice(Notice notice);//修改公告信息
 	
 	int deleteNotice(Integer noticeId);//删除公告信息
+	
+	List<Notice> findByTeacherId(Integer teaId);//根据老师id查询所有公告信息
 }

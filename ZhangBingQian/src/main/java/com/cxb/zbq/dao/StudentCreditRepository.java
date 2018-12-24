@@ -3,13 +3,15 @@ package com.cxb.zbq.dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cxb.zbq.entity.Curriculum;
 import com.cxb.zbq.entity.StudentCredit;
 
-public interface StudentCreditRepository extends JpaRepository<StudentCredit, Integer>{
+public interface StudentCreditRepository extends JpaRepository<StudentCredit, Integer>,JpaSpecificationExecutor<StudentCredit>{
 	
 	@Query(value="INSERT INTO student_credit_tb (credit,curriculum_id,student_id)VALUES (?1,?2,?3)",nativeQuery=true)
 	@Transactional@Modifying

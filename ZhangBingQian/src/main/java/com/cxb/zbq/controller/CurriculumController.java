@@ -10,14 +10,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cxb.zbq.entity.CoverMap;
 import com.cxb.zbq.entity.Curriculum;
 import com.cxb.zbq.entity.Notice;
 import com.cxb.zbq.entity.ScoringStandard;
 import com.cxb.zbq.entityquery.CurriculumQuery;
 import com.cxb.zbq.service.ChapterService;
+import com.cxb.zbq.service.CoverMapService;
 import com.cxb.zbq.service.CurriculumService;
 import com.cxb.zbq.service.NoticeService;
 import com.cxb.zbq.service.ScoringStandardService;
@@ -35,6 +38,8 @@ public class CurriculumController {
 	private ChapterService chapterService;
 	@Autowired
 	private ScoringStandardService scService;
+	@Autowired
+	private CoverMapService covermapService;
 	
 	//http://localhost:3050/ZhangBingQian/curriculum/queryCurriculumByPage?curriculumName=s
 	@RequestMapping(value="queryCurriculumByPage",name="多条件检索课程")
@@ -65,7 +70,7 @@ public class CurriculumController {
 		return new Result("课程" + curriculum.getCurriculumName() + "添加失败,请稍后再试", 0);
 	}
 
-	@RequestMapping(value = "updateCurriculum", name = "修改课程信息")
+	@PutMapping(value = "updateCurriculum", name = "修改课程信息")
 	public Object updateCurriculum(Curriculum curriculum) {
 		Result result = this.isTimeTrue(curriculum.getStartTime(), curriculum.getEndTime());
 		if (result.getState() == 0)
@@ -84,7 +89,7 @@ public class CurriculumController {
 		if (curr.getWhetherToIssue() == 1) {
 			return new Result("很抱歉,该课程已发布不能进行删除,可先下架再行操作", 0);
 		}
-		if (chapterService.getChapterListByCurriculumId(curriculumId).size() != 0)
+		if (chapterService.findByCurriculumId(curriculumId).size() != 0)
 			return new Result("很抱歉,该课程下还存有章节信息,请逐步删除", 0);
 		if (curriculumService.deleteCurriculum(curriculumId) > 0) {
 			scService.deleteScStan(curriculumId);// 删除课程对应的评分标准
@@ -94,14 +99,27 @@ public class CurriculumController {
 	}
 
 	/**
-	 * 服务提供：添加课程订阅人数
+	 * 服务提供：添加课程订阅人数+1
 	 * 
 	 * @param currId 课程id
 	 * @return 是否成功 布尔
 	 */
-	@RequestMapping(value = "updateSubscriptionNum", name = "添加课程订阅人数")
-	public boolean updateSubscriptionNum(Integer currId) {
+	@RequestMapping(value = "addSubscriptionNum", name = "添加课程订阅人数")
+	public boolean addSubscriptionNum(Integer currId) {
 		if (curriculumService.updateSubscriptionNum(currId) > 0) {
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * 服务提供：减少课程订阅人数-1
+	 * 
+	 * @param currId 课程id
+	 * @return 是否成功 布尔
+	 */
+	@RequestMapping(value = "delSubscriptionNum", name = "减少课程订阅人数")
+	public boolean delSubscriptionNum(Integer currId) {
+		if (curriculumService.delSubscriptionNum(currId) > 0) {
 			return true;
 		}
 		return false;
@@ -148,7 +166,22 @@ public class CurriculumController {
 		map.put("notice", notice);
 		return map;
 	}
-
+	//服务提供：获取所有课程信息及课程封面图
+	@RequestMapping(value="getCurrAndCoverMap",name="获取所有课程信息及课程封面图")
+	public Object getCurrAndCoverMap() {
+		Map<String, Object> map = new HashMap<>();
+		List<Curriculum> curriculums=curriculumService.getAllCurr();
+		List<CoverMap> coverMaps=covermapService.getAllCovermap();
+		map.put("curriculums", curriculums);
+		map.put("coverMaps", coverMaps);
+		return map;
+	}
+    
+	//服务提供：根据订阅人数获取前12条课程id
+	@RequestMapping(value="getCurrIdBySubscriptionNum",name="根据订阅人数获取前12条课程id")
+	public List<Integer> getCurrIdBySubscriptionNum(){
+		return curriculumService.getCurrIdBySubscriptionNum();
+	}
 	/**
 	 * 判断时间是否符合标准
 	 */

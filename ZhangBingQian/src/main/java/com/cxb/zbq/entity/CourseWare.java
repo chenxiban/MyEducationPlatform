@@ -22,19 +22,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseWare {//课件表
-	@Id     /*:#{# }*/
-	@GeneratedValue
-	private Integer courseWareId;
+	@Id 
+	private String courseWareId;
 	@Column(columnDefinition="varchar(1000) DEFAULT NULL")
-	private String coursewareDescription;
-	private Integer classHourId;
-	private String coursewarePath;
-	private String coursewareType;
+	private String coursewareDescription;//课件描述
+	private Integer classHourId;//课时id
+	private String coursewarePath;//课件路径
+	private String coursewareType;//课件类型
 	@Column(columnDefinition="int unsigned DEFAULT 0")
-	private Integer coursewareDuration;
-	private Date coursewareCreationTime;
+	private Integer coursewareDuration;//课件时长（秒）
+	private String coursewareSize;//课件大小
+	private Date coursewareCreationTime=new Date();//创建时间
 	@Column(columnDefinition="timestamp")
-	private Timestamp lastUpdateTime;
+	private Timestamp lastUpdateTime;//最后一次修改时间
 	@Transient
 	private String coursewareParam;//临时参数
 

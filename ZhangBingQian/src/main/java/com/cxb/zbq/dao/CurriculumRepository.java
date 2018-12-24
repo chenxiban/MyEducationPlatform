@@ -22,9 +22,9 @@ import com.cxb.zbq.entityquery.CurriculumQuery;
  * @author zhangbignqian 课程方法接口
  */
 public interface CurriculumRepository extends JpaRepository<Curriculum, Integer>,JpaSpecificationExecutor<Curriculum> {
-		
+	
 	// 修改课程信息
-	@Query(value = "UPDATE curriculum_tb cu SET cu.course_introduction=:#{#c.courseIntroduction},cu.courses_cover=:#{#c.coursesCover},cu.curriculum_category_id=:#{#c.curriculumCategoryId},cu.curriculum_name=:#{#c.curriculumName},cu.start_time=:#{#c.startTime},cu.end_time=:#{#c.endTime},cu.whether_to_issue=:#{#c.whetherToIssue}  WHERE cu.curriculum_id=:#{#c.curriculumId}", nativeQuery = true)
+	@Query(value = "UPDATE curriculum_tb cu SET cu.course_introduction=:#{#c.courseIntroduction},cu.curriculum_category_id=:#{#c.curriculumCategoryId},cu.curriculum_name=:#{#c.curriculumName},cu.start_time=:#{#c.startTime},cu.end_time=:#{#c.endTime},cu.whether_to_issue=:#{#c.whetherToIssue}  WHERE cu.curriculum_id=:#{#c.curriculumId}", nativeQuery = true)
 	@Modifying
 	@Transactional
 	int updateCurriculum(@Param("c") Curriculum curriculum);
@@ -43,6 +43,10 @@ public interface CurriculumRepository extends JpaRepository<Curriculum, Integer>
 	@Transactional@Modifying
 	int updateSubscriptionNum(Integer currId);//添加订阅人数
 	
+	@Query(value="UPDATE curriculum_tb c SET c.subscription_num=c.subscription_num-1 WHERE c.curriculum_id=?1",nativeQuery=true)
+	@Transactional@Modifying
+	int delSubscriptionNum(Integer currId);//课程订阅人数-1
+	
 	@Query(value="UPDATE curriculum_tb c SET c.whether_to_issue=1,c.start_time=?2,c.end_time=?3 WHERE c.curriculum_id=?1",nativeQuery=true)
 	@Transactional@Modifying
 	int updateIsReleaseToTrue(Integer currId,Date startTime,Date endTime);//发布课程
@@ -51,5 +55,6 @@ public interface CurriculumRepository extends JpaRepository<Curriculum, Integer>
 	@Transactional@Modifying
 	int updateIsReleaseToFalse(Integer currId);//取消发布课程
 
-
+	@Query(value="SELECT curriculum_id FROM curriculum_tb ORDER BY subscription_num DESC LIMIT 12",nativeQuery=true)
+    List<Integer> getCurrIdBySubscriptionNum();//根据订阅人数获取前12条课程id
 }

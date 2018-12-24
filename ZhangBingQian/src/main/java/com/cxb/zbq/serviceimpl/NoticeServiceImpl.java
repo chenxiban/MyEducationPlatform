@@ -1,5 +1,7 @@
 package com.cxb.zbq.serviceimpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,11 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public int deleteNotice(Integer noticeId) {
 		return noticeRepository.deleteNotice(noticeId);
+	}
+
+	@Override
+	public List<Notice> findByTeacherId(Integer teaId) {
+		return noticeRepository.findByTeacherId(teaId);
 	}
 
 }
