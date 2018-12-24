@@ -15,6 +15,13 @@ import com.cxb.wmx.entity.Post;
 public interface PostRpository extends JpaRepository<Post, Integer>, JpaSpecificationExecutor<Post>{
 
 	/**
+	 * 根据postId查询Post帖子
+	 * @param postId
+	 * @return
+	 */
+	Post findByPostId(Integer postId);
+	
+	/**
 	 * 通过管理员的审查后的删除
 	 * @param postId
 	 * @author 王梦霞
@@ -90,6 +97,49 @@ public interface PostRpository extends JpaRepository<Post, Integer>, JpaSpecific
 	@Modifying
 	@Transactional
 	int deleteUserPostByPid(@Param(value="pid") Integer pid);
+	
+	/**
+	 * 根据帖子id查询帖子的评论总数
+	 * @author 王梦霞
+	 * @param pid
+	 * @return
+	 */
+	@Query(value="SELECT COUNT(*) AS postCommit FROM tb_postcommit WHERE post_id=:pid",nativeQuery=true)
+	int queryPostComByPid(@Param("pid") Integer pid);
+	
+	/**
+	 * 根据帖子id查询帖子的点赞总数,,,,,,也是点赞最多的帖子进行降序排列
+	 * @author 王梦霞
+	 * @param pid
+	 * @return
+	 z */
+	@Query(value="SELECT COUNT(*) AS number FROM tb_postlike WHERE post_id=:pid AND postlike_stuts=1",nativeQuery=true)
+	int queryPostLikeByPidDz(@Param("pid") Integer pid);
+	
+	/**
+	 * 根据帖子id查询帖子的踩赞总数
+	 * @author 王梦霞
+	 * @param pid
+	 * @return
+	 */
+	@Query(value="SELECT COUNT(*) AS number FROM tb_postlike WHERE post_id=:pid AND postlike_stuts=2",nativeQuery=true)
+	int queryPostLikeByPidCz(@Param("pid") Integer pid);
+	/**
+	 * 根据时间降序排列帖子
+	 * @author 王梦霞
+	 * @return
+	 */
+	@Query(value="SELECT  post_id,post_content,post_createtime,post_name,post_report,post_title,post_top,post_update_time,user_id,user_touurl,bar_id FROM tb_post ORDER BY post_createtime DESC",nativeQuery=true)
+	List<Post> queryPostTimeDesc();
+	
+	/**
+	 * 给陈永佳组提供的查询帖子详细信息的方法
+	 * @author 王梦霞
+	 * @param postId
+	 * @return
+	 */
+	@Query(value="SELECT * FROM tb_post WHERE post_id IN(:pid)",nativeQuery=true)
+	List<Post> selectPostListByPostId(@Param("pid") List<Integer> postId);
 	
 	
 }

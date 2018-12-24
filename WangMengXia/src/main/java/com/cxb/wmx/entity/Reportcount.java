@@ -3,16 +3,13 @@ package com.cxb.wmx.entity;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
@@ -31,7 +28,6 @@ import lombok.Setter;
  * @author         王梦霞
  */
 
-@SuppressWarnings("serial")
 @Getter
 @Setter
 @AllArgsConstructor // 自动所有参数的构造方法方法
@@ -58,5 +54,7 @@ public class Reportcount {
 	@JoinColumn(name="post_id")	//副表中的外键字段名称
 	private Post post;
 	
+	@Column(columnDefinition = "int unsigned COMMENT '帖子举报用户id'")
+	private Integer userId;
 	
 }

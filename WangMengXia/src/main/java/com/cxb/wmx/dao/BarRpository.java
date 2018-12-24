@@ -14,7 +14,9 @@ import com.cxb.wmx.entity.Bar;
 
 
 public interface BarRpository extends JpaRepository<Bar, Integer>, JpaSpecificationExecutor<Bar>{
-
+	
+	Bar findByBarId(Integer barId);
+	
 	/**
 	 * 查询贴吧分类的名称
 	 * 王梦霞

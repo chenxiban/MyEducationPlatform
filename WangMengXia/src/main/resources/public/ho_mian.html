@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>应用模块</title>
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/icon.css" />
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/default/easyui.css" />
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+
+		<style type="text/css">
+			#dlName {
+				color: red;
+				font-size: 20px;
+			}
+			
+			.datagrid-td-rownumber {
+				height: 26px;
+			}
+		</style>
+		<script>
+			const token = window.localStorage.getItem("token"); //取出暂存的token数据
+			const refreshToken = window.localStorage.getItem("refreshToken");
+			//树形结构显示
+			$(function() {
+				loadTree();
+			});
+
+			function loadTree() {
+				var userName = window.localStorage.getItem("userName");
+				$("#dengluName").html(userName);
+
+				$("#treeUlId").tree({
+					method: 'get',
+					url: "tree.json",
+					animate: true,
+					lines: true,
+					onClick: onclickTree
+				}); //让easyUI引擎重新将treeUIId中的html代码转变成树并显示
+
+				//安全退出
+				$("#tc").click(function() {
+					$.messager.confirm("确认", "您确定要退出吗？", function(r) {
+						if(r) {
+							window.localStorage.clear();
+							window.location.href = "ho_login.html";
+						}
+
+					})
+				})
+			}
+
+			//左边树
+			var isLeaf;
+
+			function onclickTree(node) {
+				console.log("被单击的节点是  => " + node.text);
+				isLeaf = $("#treeUlId").tree('isLeaf', node.target);
+				if(node.attributes) { //子菜单
+					openTab(node.text, node.attributes.url);
+				} else if(node.id == "00") { //全部展开收缩菜单
+					$("#treeUlId").tree(
+						node.state === 'closed' ? 'expandAll' : 'collapseAll');
+					node.state = node.state === 'closed' ? 'open' : 'closed';
+				} else { //其它根菜单
+					$("#treeUlId").tree(
+						node.state === 'closed' ? 'expand' : 'collapse',
+						node.target);
+					node.state = node.state === 'closed' ? 'open' : 'closed';
+				}
+
+			}
+			//新增tab(选项卡)
+			function openTab(text, url) {
+				if($("#tt").tabs('exists', text)) {
+					$("#tt").tabs('select', text);
+				} else {
+					var content = "<iframe frameborder='0' scrolling='auto' style='width:100%;height:100%;' src=" +
+						url + "></iframe>";
+					if(isLeaf) {
+						$("#tt").tabs('add', {
+							title: text,
+							url: url,
+							closable: true,
+							content: content
+						});
+					}
+				}
+			}
+		</script>
+	</head>
+
+	<body class="easyui-layout">
+		<div data-options="region:'north'" style="height:70px;">
+			<h3>
+				<img src="img/txiang.png" style=" height: 40px; width: 40px;" />
+				贴吧管理员&nbsp;&nbsp;
+				<a id="tc" style="cursor: pointer; color: slateblue;">安全退出</a>
+			</h3>
+		</div>
+
+		<div data-options="region:'west',title:'导航',split:true" style="width:150px;">
+			<div id="menuTree">
+				<!--这个地方显示树状结构-->
+				<ul id="treeUlId">
+
+				</ul>
+			</div>
+		</div>
+
+		<div id="centerTabs" data-options="region:'center'" style="padding:0 5px;">
+			<div id="tt" class="easyui-tabs" fit="true">
+				<div title="首页" fit="true">
+					<strong style="font-size: 30px;">欢迎使用贴吧管理系统！</strong>
+				</div>
+				<!--这个地方采用tabs控件进行布局-->
+
+			</div>
+		</div>
+
+		</div>
+	</body>
+
+</html>

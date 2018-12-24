@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>贴吧回复</title>
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/icon.css" />
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/default/easyui.css" />
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+		<script type="text/jscript" src="js/jquery.edatagrid.js"></script>
+		<script type="text/javascript" src="js/easyUIvalidate.js"></script>
+		<style>
+			.datagrid-td-rownumber {
+				height: 26px;
+			}
+		</style>
+		<script type="text/javascript">
+		//	var barCategory = window.localStorage.getItem("barCategory");
+			$(function() {
+				$("#dg").datagrid({
+					method:'GET',
+					url: 'http://localhost:3011/wangmengxia/WangMengXia/postReply/queryPostreply',
+					onLoadSuccess: function() { //加载小图标
+						$(".easyui-linkbutton").linkbutton();
+						handlePermission();
+					}
+				});
+				handlePermission();
+			});
+
+			//remove权限按钮
+			function handlePermission() {
+				let permission = window.localStorage.getItem("permission"); //从session缓存中取出权限数组
+				console.log("权限控制permission=>" + permission);
+				$("*[data-require-permission]").map((i, ele) => {
+					let elePer = $(ele).attr('data-require-permission');
+					console.log("elePer=>" + elePer);
+					let p = permission.split(",");
+					let requireRemove = true;
+					for(var i = 0; i < p.length; i++) {
+						if(elePer == p[i]) requireRemove = false;
+					}
+					if(requireRemove) {
+						$(ele).remove();
+					};
+				});
+			}
+
+			//查询
+			function doSearch() {
+				var boo = $('#sousuo').form('validate');
+				if(boo) {
+					$("#dg").datagrid('load', {
+						userName: $("#userName").val()
+					});
+				}
+			}
+			
+		
+			function formatterContents(value, row, index) {
+				if(row.postreplyCount==null ){
+					return "暂无";
+				}
+				if(row.postreplyCount.length > 0) {
+					return row.postreplyCount.substr(0, 10) + "...";
+				}
+			}
+			
+			
+			//表单序列化去空值
+			function serializeNotNull(serStr) {
+				return serStr.split("&").filter(
+					function(str) {
+						return !str.endsWith("=")
+					}).join("&");
+			}
+		</script>
+	<script>
+		//操作
+			function formatterSetRole(value, row, index) {
+				return "<a class='easyui-linkbutton' iconCls='icon-tip' style='cursor: pointer;' onclick='lookCount(" +
+					index + ")'>查看内容</a>";
+			}
+			function lookCount(index) {
+				var data = $("#dg").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+
+				$.messager.alert('内容信息', row.postreplyCount, 'info');
+			}
+	</script>
+		<script>
+			
+			
+		function deluser() {
+				var row = $('#dg').datagrid('getSelected');
+				if(row == null || row == '') {
+					$.messager.show({
+						title: '提示信息',
+						msg: '请选中要删除的回复',
+						timeout: 1000, //推出时间
+						showType: 'slide', //动画效果
+						showSpeed: 1000
+						//显示时间
+					});
+					return;
+				}
+				$.messager.confirm('确认', '您确认删除么？', function(r) {
+					if(r) {
+						$.post("http://localhost:3011/wangmengxia/WangMengXia/postReply/deletePostRepById", {
+							hfId: row.postreplyId
+						}, function(res) {
+							if(res) {
+								$.messager.show({
+									title: '提示信息',
+									msg: '删除成功!',
+									timeout: 1000, //推出时间
+									showType: 'slide', //动画效果
+									showSpeed: 1000
+								});
+								$("#dg").datagrid("reload");
+							} else {
+								$.messager.show({
+									title: '提示信息',
+									msg: '该回复未被举报,或未举报成功,删除失败',
+									timeout: 3000, //推出时间
+									showType: 'slide', //动画效果
+									showSpeed: 3000
+								});
+								$("#dg").datagrid("reload");
+							}
+						});
+					}
+				});
+			}
+	
+		</script>
+	</head>
+
+	<body class="easyui-layout">
+		<table id="dg" name="center" title="帖子回复列表" style="width:100%;height:auto" toolbar="#toolbar" pagination="true" idField="postreplyId" rownumbers="true" fitColumns="true" singleSelect="false" pageSize=10>
+			<thead>
+				<tr>
+					<th data-options="field:'postreplyId',width:40,hidden:false">回复ID</th>
+					<th data-options="field:'userName',width:60" editor="{type:'validatebox',options:{validType:'userName'}}">回复人名称</th>
+					<th data-options="field:'postreplyCount',width:100,formatter: formatterContents" editor="{type:'validatebox',options:{validType:'postreplyCount'}}">回复内容</th>
+					<th data-options="field:'postreplyCreatetime',width:100,">创建时间</th>
+					<th data-options="field:'postreplyUpdateTime',width:100,">最后修改时间</th>
+					<th data-options="field:'setRoleAction',width:240,align:'center',formatter:formatterSetRole ,iconCls:'icon-man'">操作</th>
+				</tr>
+			</thead>
+		</table>
+
+		<div id="toolbar" style="padding:5px; height:auto">
+			<div style="margin-bottom:5px">
+				<from id="sousuo">
+					回复名称:&nbsp;&nbsp;  <input class="easyui-textbox" id="userName" name="userName" style="width:80px"> &nbsp;&nbsp;&nbsp; 
+					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doSearch()">查询</a>
+				</from>
+			</div>
+			<div>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deluser()">删除回复</a>
+			</div>
+	</body>
+
+</html>

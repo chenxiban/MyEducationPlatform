@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.cxb.wmx.entity.Postcommit.PostcommitBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -61,7 +62,8 @@ public class Postreply {
 	private Date postreplyCreatetime;
 	@Column(columnDefinition = "timestamp COMMENT '最后一次修改时间'", nullable = false, updatable = false, insertable = false)
 	private Timestamp postreplyUpdateTime;
-	
+	@Transient
+	private Integer replyCount;
 	@JsonIgnore
 	@ManyToOne(targetEntity = Postcommit.class)
 	@JoinColumn(name="postcommit_id")	//副表中的外键字段名称

@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.print.attribute.standard.RequestingUserName;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,11 @@ public class PostComServiceImpl implements PostComService {
 	@Autowired
 	private PostreplyRpository postreplyRpository;
 
+	
+	
+	public List<Postcommit> selectPostCommitByPid(Integer pid){
+		return postComRpository.findAll();
+	}
 	private Specification<Postcommit> getWhereClause(PostComSearch postComSearch) {
 		return new Specification<Postcommit>() {
 			private static final long serialVersionUID = 1L;
@@ -86,6 +92,21 @@ public class PostComServiceImpl implements PostComService {
 	@Override
 	public boolean deleteUserPostComByPid(Integer pid) {
 		return postComRpository.deleteUserPostComByPid(pid)>0?true:false;
+	}
+
+	@Override
+	public int queryPostReplyByPid(Integer pid) {
+		return postComRpository.queryPostReplyByPid(pid);
+	}
+
+	@Override
+	public int queryPostReplyLikeByPidDz(Integer pid) {
+		return postComRpository.queryPostReplyLikeByPidDz(pid);
+	}
+
+	@Override
+	public int queryPostReplyLikeByPidCz(Integer pid) {
+		return postComRpository.queryPostReplyLikeByPidCz(pid);
 	}
 	
 }

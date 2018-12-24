@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.cxb.wmx.dao.BarRpository;
 import com.cxb.wmx.dao.PostComRpository;
 import com.cxb.wmx.dao.PostLikeRpository;
 import com.cxb.wmx.dao.PostRpository;
@@ -30,6 +31,11 @@ import com.cxb.wmx.entity.Result;
 import com.cxb.wmx.service.PostService;
 import com.cxb.wmx.util.IsEmptyUtils;
 
+/**
+ * 帖子Service层
+ * @author 王梦霞
+ *
+ */
 @SuppressWarnings("unused")
 @Service
 public class PostServiceImpl implements PostService {
@@ -45,9 +51,17 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	private PostLikeRpository postLikeRpository;
+	
+	@Autowired
+	private BarRpository barRpository;
 
 	protected Path<Post> join;
 
+	
+	
+	public List<Post> selectPostByPid(Integer pid){
+		return postRpository.findAll();
+	}
 	/**
 	 * @author 王梦霞 删除帖子 先查询要删除那个帖子,判断该帖子是否举报,未举报,不能删除
 	 *         若举报,先查看该帖子下是否有评论,若有,查询一下评论下是否有回复,有就先删除回复,在删除评论,最后删除帖子
@@ -103,7 +117,6 @@ public class PostServiceImpl implements PostService {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public Page<Post> queryAllPage(Post post, Pageable pageable) {// 分页
 		return postRpository.findAll(this.getWhereClause(post), pageable);
@@ -111,7 +124,6 @@ public class PostServiceImpl implements PostService {
 
 	/**
 	 * 查询条件动态组装 动态生成where语句 匿名内部类形式
-	 * 
 	 * @param
 	 * @author 王梦霞
 	 * @return
@@ -224,6 +236,41 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public boolean deleteUserPostByPid(Integer pid) {
 		return postRpository.deleteUserPostByPid(pid) > 0 ? true : false;
+	}
+
+	@Override
+	public int queryPostComByPid(Integer pid) {
+		return postRpository.queryPostComByPid(pid);
+	}
+
+	@Override
+	public int queryPostLikeByPidDz(Integer pid) {
+		return postRpository.queryPostLikeByPidDz(pid);
+	}
+
+	@Override
+	public int queryPostLikeByPidCz(Integer pid) {
+		return postRpository.queryPostLikeByPidCz(pid);
+	}
+	@Override
+	public List<Post> queryPostTimeDesc() {
+		return postRpository.queryPostTimeDesc();
+	}
+	@Override
+	public List<Post> selectPostListByPostId(List<Integer> postId) {
+		return postRpository.selectPostListByPostId(postId);
+	}
+	@Override
+	public boolean addLauyiPost(Post post) {
+		try {
+			Bar bar=barRpository.findByBarId(post.getBarId());
+			post.setBar(bar);
+			postRpository.save(post);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+		 
 	}
 
 }

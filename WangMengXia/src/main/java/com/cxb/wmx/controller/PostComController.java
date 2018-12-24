@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cxb.wmx.entity.Post;
 import com.cxb.wmx.entity.Postcommit;
 import com.cxb.wmx.entitysearch.PostComSearch;
 import com.cxb.wmx.service.PostComService;
@@ -81,5 +82,19 @@ public class PostComController {
 			return false;
 		}
 	} 
-	
+	/**
+	 * 根据某个评论的回复点赞,以及踩赞总数
+	 * http://localhost:3011/wangmengxia/WangMengXia/postCom/queryPostReplyByPid?pid=1
+	 * @param pid
+	 * @return
+	 */
+	@RequestMapping(value="/queryPostReplyByPid")
+	public Object queryPostReplyByPid(Integer pid) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		List<Postcommit> pid1=postComService.selectPostCommitByPid(pid);
+		map.put("replyCount",postComService.queryPostReplyByPid(pid));
+		map.put("commitLike", postComService.queryPostReplyLikeByPidDz(pid));
+		map.put("commitDisLike",postComService.queryPostReplyLikeByPidCz(pid));
+		return map;
+	}
 }

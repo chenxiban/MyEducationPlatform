@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>贴吧评论</title>
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/icon.css" />
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/default/easyui.css" />
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+		<script type="text/jscript" src="js/jquery.edatagrid.js"></script>
+		<script type="text/javascript" src="js/easyUIvalidate.js"></script>
+		<style>
+			.datagrid-td-rownumber {
+				height: 26px;
+			}
+		</style>
+		<script type="text/javascript">
+			var barId = window.localStorage.getItem("postId");
+		//	var barCategory = window.localStorage.getItem("barCategory");
+			$(function() {
+				$("#dg").datagrid({
+					method:'GET',
+					url: 'http://localhost:3011/wangmengxia/WangMengXia/postCom/queryPostCom',
+					onLoadSuccess: function() { //加载小图标
+						$(".easyui-linkbutton").linkbutton();
+						handlePermission();
+					}
+				});
+				handlePermission();
+			});
+
+			//remove权限按钮
+			function handlePermission() {
+				let permission = window.localStorage.getItem("permission"); //从session缓存中取出权限数组
+				console.log("权限控制permission=>" + permission);
+				$("*[data-require-permission]").map((i, ele) => {
+					let elePer = $(ele).attr('data-require-permission');
+					console.log("elePer=>" + elePer);
+					let p = permission.split(",");
+					let requireRemove = true;
+					for(var i = 0; i < p.length; i++) {
+						if(elePer == p[i]) requireRemove = false;
+					}
+					if(requireRemove) {
+						$(ele).remove();
+					};
+				});
+			}
+
+			//查询
+			function doSearch() {
+				var boo = $('#sousuo').form('validate');
+				if(boo) {
+					$("#dg").datagrid('load', {
+						postcommitName: $("#postcommitName").val()
+					});
+				}
+			}
+			
+			function formatterContents(value, row, index) {
+				if(row.postcommitCount==null ){
+					return "暂无";
+				}
+				if(row.postcommitCount.length > 0) {
+					return row.postcommitCount.substr(0, 10) + "...";
+				}
+			}
+			
+			
+			//表单序列化去空值
+			function serializeNotNull(serStr) {
+				return serStr.split("&").filter(
+					function(str) {
+						return !str.endsWith("=")
+					}).join("&");
+			}
+		</script>
+	<script>
+		//操作
+			function formatterSetRole(value, row, index) {
+				return "<a class='easyui-linkbutton' iconCls='icon-tip' style='cursor: pointer;' onclick='lookCount(" +
+					index + ")'>查看内容</a>";
+			}
+			function lookCount(index) {
+				var data = $("#dg").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+
+				$.messager.alert('内容信息', row.postcommitCount, 'info');
+			}
+
+		
+	</script>
+		<script>
+			
+		function deluser() {
+				var ids = "";
+				var row = $('#dg').datagrid('getSelected');
+				if(row == null || row == '') {
+					$.messager.show({
+						title: '提示信息',
+						msg: '请选中要删除的评论',
+						timeout: 1000, //推出时间
+						showType: 'slide', //动画效果
+						showSpeed: 1000
+						//显示时间
+					});
+					return;
+				}
+
+				$.messager.confirm('确认', '您确认删除么？', function(r) {
+					if(r) {
+						$.post("http://localhost:3011/wangmengxia/WangMengXia/postCom/deletePostCommitById", {
+							postcommitId: row.postcommitId
+						}, function(res) {
+							if(res.success) {
+								$.messager.show({
+									title: '提示信息',
+									msg: res.message,
+									timeout: 1000, //推出时间
+									showType: 'slide', //动画效果
+									showSpeed: 1000
+								});
+								$("#dg").datagrid("reload");
+							} else {
+								$.messager.show({
+									title: '提示信息',
+									msg: res.message,
+									timeout: 1000, //推出时间
+									showType: 'slide', //动画效果
+									showSpeed: 1000
+								});
+								$("#dg").datagrid("reload");
+							}
+						});
+					}
+				});
+			}
+		</script>
+	</head>
+
+	<body class="easyui-layout">
+		<table id="dg" name="center" title="贴吧分类列表" style="width:100%;height:auto" toolbar="#toolbar" pagination="true" idField="barId" rownumbers="true" fitColumns="true" singleSelect="false" pageSize=10>
+			<thead>
+				<tr>
+					<th data-options="field:'postcommitId',width:40,hidden:false">评论ID</th>
+					<th data-options="field:'postcommitName',width:60" editor="{type:'validatebox',options:{validType:'postcommitName'}}">评论人名称</th>
+					<th data-options="field:'postcommitCount',width:100,formatter: formatterContents" editor="{type:'validatebox',options:{validType:'postcommitCount'}}">评论内容</th>
+					<th data-options="field:'postcommitCreatetime',width:100,">创建时间</th>
+					<th data-options="field:'postcommitUpdateTime',width:100,">最后修改时间</th>
+					<th data-options="field:'setRoleAction',width:240,align:'center',formatter:formatterSetRole ,iconCls:'icon-man'">操作</th>
+				</tr>
+			</thead>
+		</table>
+
+		<div id="toolbar" style="padding:5px; height:auto">
+			<div style="margin-bottom:5px">
+				<from id="sousuo">
+					评论人名称:&nbsp;&nbsp;  <input class="easyui-textbox" id="postcommitName" name="postcommitName" style="width:80px"> &nbsp;&nbsp;&nbsp; 
+					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doSearch()">查询</a>
+				</from>
+			</div>
+			<div>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deluser()">删除评论</a>
+			</div>
+	</body>
+
+</html>

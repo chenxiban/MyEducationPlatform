@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>评论最多帖子</title>
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/icon.css" />
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/default/easyui.css" />
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+		<script type="text/jscript" src="js/jquery.edatagrid.js"></script>
+		<script type="text/javascript" src="js/easyUIvalidate.js"></script>
+		<style>
+			.datagrid-td-rownumber {
+				height: 26px;
+			}
+		</style>
+		<script type="text/javascript">
+			$(function() {
+				$("#dg").datagrid({
+					method: 'GET',
+					url: 'http://localhost:3011/wangmengxia/WangMengXia/post/queryByTop',
+					onLoadSuccess: function() { //加载小图标
+						$(".easyui-linkbutton").linkbutton();
+						handlePermission();
+					}
+				});
+
+
+				handlePermission();
+			});
+
+			//remove权限按钮
+			function handlePermission() {
+				let permission = window.localStorage.getItem("permission"); //从session缓存中取出权限数组
+				console.log("权限控制permission=>" + permission);
+				$("*[data-require-permission]").map((i, ele) => {
+					let elePer = $(ele).attr('data-require-permission');
+					console.log("elePer=>" + elePer);
+					let p = permission.split(",");
+					let requireRemove = true;
+					for(var i = 0; i < p.length; i++) {
+						if(elePer == p[i]) requireRemove = false;
+					}
+					if(requireRemove) {
+						$(ele).remove();
+					};
+				});
+			}
+
+			//查询
+			function doSearch() {
+			}
+
+			function formatterContent(value, row, index) {
+				if(row.postTitle == null) {
+					return "暂无";
+				}
+				if(row.postTitle.length > 0) {
+					return row.postTitle.substr(0, 5) + "...";
+				}
+			}
+
+			function formatterContents(value, row, index) {
+				if(row.postContent == null) {
+					return "暂无";
+				}
+				if(row.postContent.length > 0) {
+					return row.postContent.substr(0, 10) + "...";
+				}
+			}
+
+			//表单序列化去空值
+			function serializeNotNull(serStr) {
+				return serStr.split("&").filter(
+					function(str) {
+						return !str.endsWith("=")
+					}).join("&");
+			}
+		</script>
+		
+		<script>
+			//操作
+			function formatterSetRole(value, row, index) {
+				return "<a class='easyui-linkbutton' iconCls='icon-tip' style='cursor: pointer;' onclick='lookBiao(" +
+					index + ")'>查看标题</a><a class='easyui-linkbutton' iconCls='icon-tip' style='cursor: pointer;' onclick='lookCount(" +
+					index + ")'>查看内容</a>";
+			}
+
+			function lookBiao(index) {
+				var data = $("#dg").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+
+				$.messager.alert('标题信息', row.postTitle, 'info');
+			}
+
+			function lookCount(index) {
+				var data = $("#dg").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+
+				$.messager.alert('内容信息', row.postContent, 'info');
+			}
+		</script>
+	</head>
+
+	<body class="easyui-layout">
+		<table id="dg" name="center" title="贴吧分类列表" style="width:100%;height:auto" toolbar="#toolbar" pagination="true" idField="barId" rownumbers="true" fitColumns="true" singleSelect="false" pageSize=10>
+			<thead>
+				<tr>
+					<th data-options="field:'postId',width:40,hidden:false">帖子ID</th>
+					<th data-options="field:'postName',width:60" editor="{type:'validatebox',options:{validType:'postName'}}">发帖人名称</th>
+					<th data-options="field:'postTitle',width:60,formatter: formatterContent" editor="{type:'validatebox',options:{validType:'postTitle'}}">帖子标题</th>
+					<th data-options="field:'postContent',width:100,formatter: formatterContents" editor="{type:'validatebox',options:{validType:'postContent'}}">帖子内容</th>
+					<th data-options="field:'postCreatetime',width:100,">创建时间</th>
+					<th data-options="field:'postUpdateTime',width:100,">最后修改时间</th>
+					<th data-options="field:'setRoleAction',width:200,align:'center',formatter:formatterSetRole ,iconCls:'icon-man'">操作</th>
+				</tr>
+			</thead>
+		</table>
+
+	</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>贴吧管理员登陆</title>
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/icon.css" />
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/default/easyui.css" />
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+		<!--<script src="js/easyui-all.js" type="text/javascript" charset="utf-8"></script>-->
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+		<script>
+			$(function() {
+				$("#aa").dialog({
+					title: '欢迎登陆',
+					width: 400,
+					height: 220,
+					iconCls: 'icon-man',
+					closable: false
+				});
+			})
+		</script>
+
+		<script>
+			function submitForm() {
+				var data = $("#loginForm").serialize();
+				var isValid = $('#form').form('validate');
+				if(isValid) {
+					$.ajax({
+						type: 'post',
+						url: 'http://localhost:3011/wangmengxia/WangMengXia/user/loginUsers',
+						cache: false,
+						data: data,
+						dataType: 'json',
+						success: function(resObj) {
+						//	alert(resObj.userName);
+							if(resObj.success) {
+					
+								window.localStorage.setItem("userName",resObj.message.userName);
+								window.localStorage.setItem("userPwd",resObj.message.userPwd);
+								window.location.href = "ho_mian.html"; //将token暂存后跳转向main页面
+							} else {
+								$.messager.alert('错误提示', "用户不存在,或者密码错误");
+							}
+						},
+						error: function(resObj) {
+							$.messager.alert('错误提示', "信息错误");
+						}
+					});
+				}
+			}
+
+			function clearForm() {
+				$("#loginForm").form('clear');
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="aa">
+			<div style="padding: 10px 60px 20px 60px; ">
+				<form id="loginForm" method="post">
+					<table cellpadding="10">
+						<tr>
+							<td>登&nbsp;录&nbsp;名：</td>
+							<td><input type="text" name="userName" id="userName" value="" data-options="required:true" class="easyui-validatebox" missingMessage="姓名不能为空" /></td>
+						</tr>
+						<tr>
+							<td>密&nbsp;&nbsp;&nbsp;码：</td>
+							<td><input type="password" name="userPwd" id="userPwd" value="" data-options="required:true" class="easyui-validatebox" missingMessage="密码不能为空" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<a href="javascript:void(0)" class="easyui-linkbutton" type="button" data-options="iconCls:'icon-ok'" onclick="submitForm()">登录</a>
+								<a href="javascript:void(0)" class="easyui-linkbutton" type="button" data-options="iconCls:'icon-clear'" onclick="clearForm()">清除</a>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</body>
+
+</html>			

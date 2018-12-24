@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -56,11 +57,15 @@ public class Postreport {
 	@Column(columnDefinition = "timestamp COMMENT '最后一次修改时间'", nullable = false, updatable = false, insertable = false)
 	private Timestamp postreportUpdateTime; 
 	
+	@Transient
+	private String reportcountContent;
+	
 	@JsonIgnore
 	@ManyToOne(targetEntity = Post.class)
 	@JoinColumn(name="post_id")	//副表中的外键字段名称
 	private Post post;
 	
-	
+	@Transient
+	private Integer postId;
 	
 }

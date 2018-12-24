@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.cxb.wmx.entity.Postcommit.PostcommitBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -55,6 +56,10 @@ public class Commitlike {
 	@Column(columnDefinition = "timestamp COMMENT '最后一次修改时间'", nullable = false, updatable = false, insertable = false)
 	private Timestamp commitlikeUpdateTime;
 	
+	@Transient
+	private Integer commitLike;
+	@Transient
+	private Integer commitDisLike;
 	@JsonIgnore
 	@ManyToOne(targetEntity = Postcommit.class)
 	@JoinColumn(name="postcommit_id")	//副表中的外键字段名称

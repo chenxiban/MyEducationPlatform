@@ -69,6 +69,7 @@ public interface PostComRpository extends JpaRepository<Postcommit, Integer>, Jp
 	List<Postcommit> selectPostComiByPostId(@Param(value="postId") Integer postId);
 	
 	/**
+	 * 评论最多的帖子desc
 	 * @param postId
 	 * @author 王梦霞
 	 * @return
@@ -87,4 +88,31 @@ public interface PostComRpository extends JpaRepository<Postcommit, Integer>, Jp
 	@Modifying
 	@Transactional
 	int deleteUserPostComByPid(@Param(value="pid") Integer pid);
+	
+	/**
+	 * 根据评论id查询评论的回复总数
+	 * @author 王梦霞
+	 * @param pid
+	 * @return
+	 */
+	@Query(value="SELECT COUNT(*) AS replyConut FROM tb_postreply WHERE postcommit_id=:pid",nativeQuery=true)
+	int queryPostReplyByPid(@Param("pid") Integer pid);
+	
+	/**
+	 * 根据评论id查询评论的点赞总数
+	 * @author 王梦霞
+	 * @param pid
+	 * @return
+	 */
+	@Query(value="SELECT COUNT(*) AS commitLike FROM tb_commitlike WHERE postcommit_id=:pid AND commitlike_stuts=1",nativeQuery=true)
+	int queryPostReplyLikeByPidDz(@Param("pid") Integer pid);
+	
+	/**
+	 * 根据评论id查询评论的踩赞总数
+	 * @author 王梦霞
+	 * @param pid
+	 * @return
+	 */
+	@Query(value="SELECT COUNT(*) AS commitDisLike FROM tb_commitlike WHERE postcommit_id=:pid AND commitlike_stuts=2",nativeQuery=true)
+	int queryPostReplyLikeByPidCz(@Param("pid") Integer pid);
 }

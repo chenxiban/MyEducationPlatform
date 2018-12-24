@@ -1,0 +1,63 @@
+[
+	{
+		"id": 1,
+		"text": "贴吧管理",
+		"iconCls": "icon-save",
+		"children": [
+		{
+				"id": 2,
+				"text": "贴吧分类表",
+				"attributes":{
+					"url": "ho_bar.html",
+					"price": 100
+				}
+		},
+			{
+				"id": 3,
+				"text": "帖子表",
+				"attributes":{
+					"url": "ho_post.html",
+					"price": 100
+				}
+			}, {
+				"id": 4,
+				"text": "评论表",
+				"attributes":{
+					"url": "ho_commit.html",
+					"price": 100
+				}
+			}, {
+				"id": 5,
+				"text": "回复表",
+				"attributes":{
+					"url": "ho_count.html",
+					"price": 100
+				}
+			} 
+			, {
+				"id": 6,
+				"text": "评论最多帖子表",
+				"attributes":{
+					"url": "ho_countpost.html",
+					"price": 100
+				}
+			} 
+			, {
+				"id": 7,
+				"text": "点赞最多帖子表",
+				"attributes":{
+					"url": "ho_postlike.html",
+					"price": 100
+				}
+			} 
+			, {
+				"id": 8,
+				"text": "踩赞最多帖子表",
+				"attributes":{
+					"url": "ho_postdislike.html",
+					"price": 100
+				}
+			} 
+		]
+	}
+] 

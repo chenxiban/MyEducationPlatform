@@ -4,12 +4,20 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.cxb.wmx.entity.Post;
 import com.cxb.wmx.entity.Postlike;
 
 public interface PostService {
+	
+	/**
+	 * 根据pid查询所有帖子
+	 * @param pid
+	 * @return
+	 */
+	public List<Post> selectPostByPid(Integer pid);
 	
 	/**
 	 * @author 王梦霞
@@ -75,4 +83,51 @@ public interface PostService {
 	 * @return
 	 */
 	public boolean deleteUserPostByPid(Integer pid);
+	
+	/**
+	 * 根据帖子id查询帖子的评论总数
+	 * @author 王梦霞
+	 * @param pid
+	 * @return
+	 */
+	public int queryPostComByPid(Integer pid);
+	
+	/**
+	 * 根据帖子id查询帖子的点赞总数
+	 * @author 王梦霞
+	 * @param pid
+	 * @return
+	 */
+	public int queryPostLikeByPidDz(Integer pid);
+	
+	/**
+	 * 根据帖子id查询帖子的踩赞总数
+	 * @author 王梦霞
+	 * @param pid
+	 * @return
+	 */
+	public int queryPostLikeByPidCz(Integer pid);
+	
+	/**
+	 * 根据时间排序帖子
+	 * @author 王梦霞
+	 * @return
+	 */
+	public List<Post> queryPostTimeDesc();
+	
+	/**
+	 * 给陈永佳组提供的查询帖子详细信息的方法
+	 * @author 王梦霞
+	 * @param postId
+	 * @return
+	 */
+	public List<Post> selectPostListByPostId(List<Integer> postId);
+	
+	/**
+	 * 发帖人进行发帖
+	 * @author 王梦霞
+	 * @param post
+	 * @return
+	 */
+	public boolean addLauyiPost(Post post);
 }

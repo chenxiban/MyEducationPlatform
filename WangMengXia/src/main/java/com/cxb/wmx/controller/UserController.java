@@ -45,7 +45,6 @@ public class UserController {
 			int uid = u.getUserId();
 			String userName = users.getUserName();
 			String userPwd = users.getUserPwd();
-			/*return new Result(true,"登录成功");*/
 					
 			if (userPwd.equals(u.getUserPwd())) {
 				users.getUserPwd();

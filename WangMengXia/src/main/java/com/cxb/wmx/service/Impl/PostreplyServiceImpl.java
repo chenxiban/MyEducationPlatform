@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.cxb.wmx.dao.PostreplyRpository;
 import com.cxb.wmx.entity.Bar;
 import com.cxb.wmx.entity.Postreply;
+import com.cxb.wmx.entity.Postreplylike;
 import com.cxb.wmx.entitysearch.PostreplySearch;
 import com.cxb.wmx.service.PostreplyService;
 
@@ -52,6 +53,18 @@ public class PostreplyServiceImpl implements PostreplyService{
 	@Override
 	public boolean deleteUserPostreplyById(Integer hfId) {
 		return postreplyRpository.deleteUserPostreplyById(hfId)>0?true:false;
+	}
+	@Override
+	public List<Postreply> selectAllRelByhfId(Integer hfId) {
+		return postreplyRpository.findAll();
+	}
+	@Override
+	public int queryPostReplyLikeByhfIdDz(Integer hfId) {
+		return postreplyRpository.queryPostReplyLikeByhfIdDz(hfId);
+	}
+	@Override
+	public int queryPostReplyLikeByhfIdCz(Integer hfId) {
+		return postreplyRpository.queryPostReplyLikeByhfIdCz(hfId);
 	}
 
 }

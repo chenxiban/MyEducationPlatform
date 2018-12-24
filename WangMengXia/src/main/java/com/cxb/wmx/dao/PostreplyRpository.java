@@ -51,4 +51,23 @@ public interface PostreplyRpository extends JpaRepository<Postreply, Integer>, J
 	@Modifying
 	@Transactional
 	int deleteUserPostreplyById(@Param(value="hfId") Integer hfId);
+	
+	
+	/**
+	 * 根据回复id查询回复的点赞总数
+	 * @author 王梦霞
+	 * @param hfId
+	 * @return
+	 */
+	@Query(value="SELECT COUNT(*) AS replyLike FROM tb_postreplylike WHERE postreply_id=:hfId AND postreplylike_stuts=1",nativeQuery=true)
+	int queryPostReplyLikeByhfIdDz(@Param("hfId") Integer hfId);
+	
+	/**
+	 * 根据回复id查询回复的踩赞总数
+	 * @author 王梦霞
+	 * @param hfId
+	 * @return
+	 */
+	@Query(value="SELECT COUNT(*) AS replyLike FROM tb_postreplylike WHERE postreply_id=:hfId AND postreplylike_stuts=2",nativeQuery=true)
+	int queryPostReplyLikeByhfIdCz(@Param("hfId") Integer hfId);
 }

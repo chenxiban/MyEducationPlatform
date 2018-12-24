@@ -1,4 +1,4 @@
-package com.cxb.wmx.controller;
+	package com.cxb.wmx.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +19,11 @@ import com.cxb.wmx.entitysearch.BarSearch;
 import com.cxb.wmx.entitysearch.PostreplySearch;
 import com.cxb.wmx.service.PostreplyService;
 
+/**
+ * 回复控制层
+ * @author 王梦霞
+ *
+ */
 @RestController
 @RequestMapping(value="/postReply")
 public class PostreplyController {
@@ -80,6 +85,23 @@ public class PostreplyController {
 		} else {
 			return false;
 		}
-	} 
+	}
+	
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/postReply/selectAllRepByhfId?hfId=1
+	 * 根据回复id,查询回复下的点赞,踩赞总数
+	 * @author 王梦霞
+	 * @param hfId
+	 * @return
+	 */
+	@RequestMapping(value="/selectAllRepByhfId")
+	public Object selectAllRepByhfId(Integer hfId) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		List<Postreply> rid=postreplyService.selectAllRelByhfId(hfId);
+		map.put("replyLike", postreplyService.queryPostReplyLikeByhfIdDz(hfId));
+		map.put("replyDisLike", postreplyService.queryPostReplyLikeByhfIdCz(hfId));
+		return map;
+	}
 	
 }

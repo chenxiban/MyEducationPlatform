@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>用户管理</title>
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/icon.css" />
+		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/default/easyui.css" />
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+		<style>.datagrid-td-rownumber {
+	height: 26px;
+}</style>
+		<script type="text/javascript">var barId = window.localStorage.getItem("barId");
+var barCategory = window.localStorage.getItem("barCategory");
+$(function() {
+	$("#dg").datagrid({
+		method: 'GET',
+		url: 'http://localhost:3011/wangmengxia/WangMengXia/bar/queryBar',
+		onLoadSuccess: function() { //加载小图标
+			$(".easyui-linkbutton").linkbutton();
+			handlePermission();
+		}
+	});
+	handlePermission();
+});
+
+//remove权限按钮
+function handlePermission() {
+	let permission = window.localStorage.getItem("permission"); //从session缓存中取出权限数组
+	console.log("权限控制permission=>" + permission);
+	$("*[data-require-permission]").map((i, ele) => {
+		let elePer = $(ele).attr('data-require-permission');
+		console.log("elePer=>" + elePer);
+		let p = permission.split(",");
+		let requireRemove = true;
+		for(var i = 0; i < p.length; i++) {
+			if(elePer == p[i]) requireRemove = false;
+		}
+		if(requireRemove) {
+			$(ele).remove();
+		};
+	});
+}
+
+//查询
+function doSearch() {
+	var boo = $('#sousuo').form('validate');
+	if(boo) {
+		$("#dg").datagrid('load', {
+			barCategory: $("#barCategory").val()
+		});
+	}
+}
+
+//表单序列化去空值
+function serializeNotNull(serStr) {
+	return serStr.split("&").filter(
+		function(str) {
+			return !str.endsWith("=")
+		}).join("&");
+}</script>
+	
+		<script>//弹出框添加用户
+function openDepartmentAddDialog() {
+	$('#dlgs').dialog('open').dialog("setTitle", "添加用户");
+}
+
+function addDepartment() {
+	var depname = $("#departmentNames").val();
+	var desc = $("#departmentDescs").val();
+	$.messager.confirm('确认', '您确认想要添加该分类吗？', function(r) {
+		if(r) { // 用户点击了确认按钮
+			var formData = serializeNotNull($('#fms').serialize());
+			var boo = $('#fms').form('validate');
+			if(boo) {
+				$.ajax({
+					type: "PUT",
+					url: "http://localhost:3011/wangmengxia/WangMengXia/bar/addBar",
+					cache: false,
+					data: formData,
+					dataType: "json",
+					success: function(result) {
+						$.messager.alert("系统提示", result.message);
+						resetValues();
+						$("#dlgs").dialog("close");
+						$("#dg").datagrid("reload");
+						$("#fms").form('clear');
+					},
+					error: function(result) {
+						$.messager.alert("系统提示", result.message);
+						return;
+					}
+				});
+			}
+		}
+	});
+}
+
+function closeDepartmentDialogs() {
+	$('#dlgs').dialog("close");
+	resetValues();
+}
+
+function resetValues() {
+	$('#departmentNames').val("");
+	$('#departmentDescs').val("");
+}
+
+function deluser() {
+	var ids = "";
+	var row = $('#dg').datagrid('getChecked');
+	if(row == null || row == '') {
+		$.messager.show({
+			title: '提示信息',
+			msg: '请选中要删除的分类',
+			timeout: 1000, //推出时间
+			showType: 'slide', //动画效果
+			showSpeed: 1000
+			//显示时间
+		});
+		return;
+	}
+	$.each(row, function(i, e) {
+		if(i == 0) {
+			ids += e.barId;
+		} else {
+			ids += "," + e.barId;
+		}
+	});
+
+	$.messager.confirm('确认', '您确认删除么？', function(r) {
+		if(r) {
+			/*$.ajax({
+				type: "DELETE",
+				url: "http://localhost:3011/wangmengxia/WangMengXia/bar/deleteBarByIds",
+				cache: false,
+				data: {
+					barId: ids
+				},
+				dataType: "json",
+				success: function(res) {
+					if(res) {
+						$.messager.show({
+							title: '提示信息',
+							msg: '删除成功!',
+							timeout: 1000, //推出时间
+							showType: 'slide', //动画效果
+							showSpeed: 1000
+						});
+						$("#dg").datagrid("reload");
+					} else {
+						$.messager.show({
+							title: '提示信息',
+							msg: '删除失败!',
+							timeout: 1000, //推出时间
+							showType: 'slide', //动画效果
+							showSpeed: 1000
+						});
+						$("#dg").datagrid("reload");
+					}
+				},
+				error: function(res) {
+					$.messager.alert("系统提示", res.message);
+					return;
+				}
+			});*/
+			$.post("http://localhost:3011/wangmengxia/WangMengXia/bar/deleteBarByIds", {
+				barId: ids
+			}, function(res) {
+				if(res) {
+					$.messager.show({
+						title: '提示信息',
+						msg: '删除成功!',
+						timeout: 1000, //推出时间
+						showType: 'slide', //动画效果
+						showSpeed: 1000
+					});
+					$("#dg").datagrid("reload");
+				} else {
+					$.messager.show({
+						title: '提示信息',
+						msg: '删除失败!',
+						timeout: 1000, //推出时间
+						showType: 'slide', //动画效果
+						showSpeed: 1000
+					});
+					$("#dg").datagrid("reload");
+				}
+			});
+		}
+	});
+}
+
+// 修改用户信息
+function upduser() {
+	var row = $('#dg').datagrid('getSelected');
+	if(row == null || row == '') {
+		$.messager.show({
+			title: '提示信息',
+			msg: '请选中要修改的分类',
+			timeout: 1000, //推出时间
+			showType: 'slide', //动画效果
+			showSpeed: 1000 //显示时间
+		});
+		return;
+	}
+	$('#ids').val(row.barId);
+	$('#barCategorys').textbox('setValue', row.barCategory);
+	$('#xg').dialog("open").dialog("setTitle", "修改分类信息");
+}
+
+function updteuser() {
+	var formData = serializeNotNull($('#fm').serialize());
+	console.log(formData)
+	var boo = $('#fm').form('validate');
+	if(boo) {
+		$.messager.confirm('确认', '您确认修改该分类信息么？', function(r) {
+			if(r) {
+				$.ajax({
+					type: "POST",
+					url: "http://localhost:3011/wangmengxia/WangMengXia/bar/updateBar",
+					cache: false,
+					data: formData,
+					dataType: "json",
+					success: function(res) {
+						$.messager.show({
+							title: '提示信息',
+							msg: '修改成功!',
+							timeout: 1000, //推出时间
+							showType: 'slide', //动画效果
+							showSpeed: 1000
+							//显示时间
+						});
+						closeupduser();
+						$("#dg").datagrid("reload");
+					},
+					error: function(res) {
+						$.messager.show({
+							title: '提示信息',
+							msg: '修改失败!',
+							timeout: 1000, //推出时间
+							showType: 'slide', //动画效果
+							showSpeed: 1000
+							//显示时间
+						});
+						closeupduser();
+						$("#dg").datagrid("reload");
+					}
+				});
+			}
+		});
+	} else {
+		$.messager.show({
+			title: '提示信息',
+			msg: '表单验证失败!',
+			timeout: 1000, //推出时间
+			showType: 'slide', //动画效果
+			showSpeed: 1000
+			//显示时间
+		});
+	}
+}
+
+// 关闭修改玩家窗体
+function closeupduser() {
+	$('#xg').dialog("close");
+	resetValues();
+}
+
+function resetValues() {
+	$("#fm").form('clear');
+}</script>
+	</head>
+
+	<body class="easyui-layout">
+		<table id="dg" name="center" title="贴吧分类列表" style="width:100%;height:auto" toolbar="#toolbar" pagination="true" idField="barId" rownumbers="true" fitColumns="true" singleSelect="false" pageSize=10>
+			<thead>
+				<tr>
+					<th data-options="field:'barId',width:20,hidden:false">贴吧分类ID</th>
+					<th data-options="field:'barCategory',width:80" editor="{type:'validatebox',options:{validType:'barCategory'}}">贴吧分类名称</th>
+					<th data-options="field:'barCreatetime',width:100,">创建时间</th>
+					<th data-options="field:'barUpdateTime',width:100,">最后修改时间</th>
+				</tr>
+			</thead>
+		</table>
+
+		<div id="toolbar" style="padding:5px; height:auto">
+			<div style="margin-bottom:5px">
+				<from id="sousuo">
+					贴吧分类名称: <input class="easyui-textbox" id="barCategory" style="width:80px"> 
+					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doSearch()">查询</a>
+				</from>
+			</div>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true"  onclick="javascript:openDepartmentAddDialog()">添加分类</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deluser()">删除分类</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="upduser()">修改分类</a>
+			
+			<!--添加用户-->
+			<div id="dlgs" class="easyui-dialog" style="width:300px;height:auto;padding:10px 20px;" closed="true" buttons="#dlg-buttonss">
+				<form id="fms" method="put">
+					<table>
+						<tr>
+							<td>贴吧分类名：</td>
+							<td><input name="barCategory" id="barCategory" class="easyui-textbox" data-options="validType:'name',required:true">
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div id="dlg-buttonss">
+				<a href="javascript:addDepartment()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+				<a href="javascript:closeDepartmentDialogs()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+			</div>
+
+
+<!--
+			修改
+            -->
+		<div id="xg" class="easyui-dialog" closed="true" buttons="#dlg-buttonss">
+			<form id="fm" method="post">
+					
+					<table>
+						<input type="text" id="ids" name="barId" hidden="true" />
+						<tr>
+							<td>分类名：</td>
+							<td><input name="barCategory" id="barCategorys" class="easyui-textbox" data-options="validType:'name'">
+							</td>
+						</tr>
+					</table>
+			</form>
+		</div>
+		<div id="dlg-buttonss">
+			<a href="javascript:updteuser()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+			<a href="javascript:closeupduser()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+		</div>
+	</body>
+
+</html>
