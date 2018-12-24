@@ -12,7 +12,7 @@ spring:
     name: service-zuul
   http: 
     multipart: 
-      file-size-threshold: 1Mb
+      file-size-threshold: 10Mb
       max-file-size: 1000Mb
       max-request-size: 1000Mb
     
@@ -29,19 +29,18 @@ zuul: #需要忽略的头部信息，不在传播到其他服务
     connect-timeout-millis: 60000
     max-total-connections: 60000
 
-cloudplatform-service-local: 
 #设置ribbon的请求超时时间，大文件上传必须调高此时间
-  ribbon: 
-    ConnectTimeout: 80000 
-    ReadTimeout: 30000 
-    #同一个Server重试的次数(除去首次) 
-    MaxAutoRetries: 3 
-    #切换到不同Server的次数 
-    MaxAutoRetriesNextServer: 3 
-    #对所有方法进行重试 
-    okToRetryOnAllOperations: true 
-    eureka: 
-      enabled: true
+ribbon: 
+  ConnectTimeout: 80000 
+  ReadTimeout: 30000 
+  #同一个Server重试的次数(除去首次) 
+  MaxAutoRetries: 3 
+  #切换到不同Server的次数 
+  MaxAutoRetriesNextServer: 3 
+  #对所有方法进行重试 
+  okToRetryOnAllOperations: true 
+  eureka: 
+    enabled: true
 
 security: 
   oauth2: 
