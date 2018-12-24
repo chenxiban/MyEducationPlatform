@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>晨曦 | 预览试卷</title>
+		<link rel="stylesheet" type="text/css" href="css/tiku_fatstyle.css" />
+		<link rel="stylesheet" type="text/css" href="css/tiku_manage.css" />
+		<link rel="stylesheet" type="text/css" href="css/tiku.css" />
+		<link rel="stylesheet" type="text/css" href="css/sidebar.css" />
+
+		<!-- 引入element样式-->
+		<link rel="stylesheet" href="css/element-ui.css" />
+		<!--vue语法环境-->
+		<script type="text/javascript" src="js/vue.min.js"></script>
+		<!--vue使用ajax-->
+		<script type="text/javascript" src="js/axios.min.js"></script>
+		<!--element组件库-->
+		<script type="text/javascript" src="js/element-ui.js"></script>
+	</head>
+	<style>
+		#question {
+			color: red;
+		}
+		
+		#index {
+			color: black;
+		}
+	</style>
+
+	<body>
+
+		<!-- Vue start -->
+		<div id="app">
+			<!-- header start -->
+
+			<el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+				<el-menu-item index="1" @click="goMain">教师-测试</el-menu-item>
+				<el-submenu index="2">
+					<template slot="title">我的工作台</template>
+					<el-menu-item index="2-1" @click="createTest">创建测试题</el-menu-item>
+					<el-menu-item index="2-2" @click="createChoiceQuestion">创建选择题</el-menu-item>
+					<el-menu-item index="2-3" @click="createChoiceTfng">创建判断题</el-menu-item>
+					<el-menu-item index="2-3" @click="createChoiceGap">创建填空题</el-menu-item>
+				</el-submenu>
+				<el-menu-item index="3" disabled>消息中心</el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="6" disabled></el-menu-item>
+				<el-menu-item index="7" disabled></el-menu-item>
+				<el-menu-item index="8" disabled></el-menu-item>
+				<el-menu-item index="9" disabled></el-menu-item>
+				<el-menu-item index="10" disabled></el-menu-item>
+				<el-menu-item index="11" disabled></el-menu-item>
+				
+				<el-submenu index="12">
+					<template slot="title">个人中心</template>
+					<el-menu-item index="12-1" @click="">安全退出</el-menu-item>
+				</el-submenu>
+			</el-menu>
+			<!-- header end -->
+
+			<!---------- 页面主体内容 开始 ------------>
+
+			<div class="full-wrap navbar smbar">
+				<div class="header tiHeader">
+					<!--<a href="javascript:;" class="navbar-brand">
+						<span id="tiku">计算机基础</span></a>
+					<ul class="nav nav-left navspace tikuhader">
+
+					</ul>-->
+				</div>
+			</div>
+
+			<div class="u-wrap tiku">
+				<!--<div class="mainbackground nopadding">
+					<div class="classes-type">
+						<p class="c title-p clear">
+							<span class="t-title fl-left margin-t3">科目</span>
+							<span class="t-content fl-left">
+                   	
+                   		<a class="btn btn-sm btn-success subject" href="javascript:;" >计算机</a>
+                   	
+               			 </span>
+						</p>
+
+					</div>
+				</div>-->
+			</div>
+
+			<div class="u-wrap tiku">
+				<div class="mainbackground nopadding">
+					<p>
+						<div id="app">
+							<template>
+								<el-form ref="form" v-for="(item,index) in anArrs" label-width="200px" class="demo-form">
+									<el-form-item>
+										<el-button type="text" id="index" size="small">{{index+1}} </el-button>
+										<el-button type="primary" size="mini" v-text="item.otherState==0?msgSingle:msgTwin"></el-button>
+										<el-button type="text">{{item.otherScore}}分</el-button>
+										<el-button id="question" type="text">{{item.otherQuestion}}</el-button>
+										<el-button type="danger" icon="el-icon-delete"  circle @click="deleteChoice">删除</el-button>
+									</el-form-item>
+									<el-form-item v-if="item.otherState==0">
+										<el-radio v-model="radios[index]" disabled  label="A">{{item.otherA}}</el-radio>
+										<el-radio v-model="radios[index]" disabled  label="B">{{item.otherB}}</el-radio>
+										<el-radio v-model="radios[index]" disabled  label="C">{{item.otherC}}</el-radio>
+										<el-radio v-model="radios[index]" disabled  label="D">{{item.otherD}}</el-radio>
+									</el-form-item>
+
+									<el-form-item v-else="item.otherState==1">
+										<el-checkbox-group v-model="checked">
+											<el-checkbox label="A" disabled >{{item.otherA}}</el-checkbox>
+											<el-checkbox label="B" disabled >{{item.otherB}}</el-checkbox>
+											<el-checkbox label="C" disabled >{{item.otherC}}</el-checkbox>
+											<el-checkbox label="D" disabled >{{item.otherD}}</el-checkbox>
+										</el-checkbox-group>
+									</el-form-item>
+
+								</el-form>
+								<el-form ref="form1" label="填空" v-for="(item1, index1) in arrays1" label-width="200px" class="demo-form">
+									<el-form-item>
+										<el-button type="text" id="index" size="small">{{index1+1}} </el-button>
+										<el-button type="primary" size="mini">填空</el-button>
+										<el-button type="text">{{item1.gapfillingScore}}分</el-button>
+										<el-button id="question" type="text">{{item1.gapfillingQuestion}}</el-button>
+									</el-form-item>
+									<el-form-item>
+										<el-input type="textareas" disabled  autosize placeholder="请输入您的答案"></el-input>
+									</el-form-item>
+								</el-form>
+								<el-form ref="form1" v-for="(item2, index2) in arrays2" label-width="200px" class="demo-form">
+									<el-form-item>
+										<el-button type="text" id="index" size="small">{{index2+1}} </el-button>
+										<el-button type="primary" size="mini">判断</el-button>
+										<el-button type="text">{{item2.tfngScore}}分</el-button>
+										<el-button id="question" type="text">{{item2.tfngQuestion}}</el-button>
+									</el-form-item>
+									<el-form-item>
+										<el-radio disabled  v-model="radios[index2]" label="1">正确</el-radio>
+										<el-radio disabled  v-model="radios[index2]" label="2">错误</el-radio>
+									</el-form-item>
+								</el-form>
+							</template>
+						</div>
+					</p>
+				</div>
+
+			</div>
+
+		</div>
+		<!-- Vue end -->
+
+		<!-- footer start -->
+
+		<footer class="footer pmb-0">
+			<div class="u-wrap">
+
+				<p class="copyright">
+					Copyright © 2018.河南工业大学晨曦 版权所有
+					<a href="javascript:;">京ICP备15011506号</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;热线：123-456-7890（产品咨询） 789-456-1230（售后服务）
+				</p>
+
+			</div>
+		</footer>
+
+		<style>
+			/*vue table style*/
+			
+			.demo-table-expand {
+				font-size: 0;
+			}
+			
+			.demo-table-expand label {
+				width: 90px;
+				color: #99a9bf;
+			}
+			
+			.demo-table-expand .el-form-item {
+				margin-right: 0;
+				margin-bottom: 0;
+				width: 50%;
+			}
+		</style>
+		<!--<style>
+			.pmb-0 {
+				position: absolute;
+				width: 100%;
+				bottom: 0px;
+			}
+		</style>-->
+
+	</body>
+	<script>
+		var an = window.localStorage.getItem("arrays");
+		var anArray = JSON.parse(an); // 转成JSON对象
+		var arrays;
+		var arrays1;
+		var arrays2;
+		for(var i = 0; i < anArray.length; i++) {
+			arrays = anArray[0];
+			arrays1 = anArray[1];
+			arrays2 = anArray[2];
+		}
+		var single;
+		var twin;
+		for(var j = 0; j < arrays.length; j++) {
+			single = arrays[0].otherState;
+			twin = arrays[1].otherState;
+		}
+		//处理单选多选
+	</script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				activeIndex: '1',
+				activeIndex2: '2',
+				radios: [],
+				checked: [],
+				anArrs: arrays,
+				anArrs1: arrays1,
+				arrays2: arrays2,
+				msgSingle: '单选',
+				msgTwin: '多选',
+				choice: true,
+				msg: "选择题",
+				tfng: true,
+				msg1: "判断题",
+				gapfilling: true,
+				msg2: "填空题",
+				textareas: '',
+			},
+			methods:{
+				goMain(){
+					window.location.href = "main.html";
+				},
+				createChoiceQuestion() { //创建选择题,跳转页面
+					window.location.href = "choicequestion.html";
+				},
+				createChoiceTfng() { //创建选择题,跳转页面
+					window.location.href = "tfng.html";
+				},
+				createChoiceGap() { //创建选择题,跳转页面
+					window.location.href = "gap.html";
+				},
+				createTest() {
+					window.location.href = "testpages.html";
+				},
+				deleteChoice(){
+					console.log('进来了');
+				}
+			}
+		})
+	</script>
+
+</html>

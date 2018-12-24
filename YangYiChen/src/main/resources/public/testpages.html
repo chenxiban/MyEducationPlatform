@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>编辑测试题信息</title>
+		<link rel="stylesheet" type="text/css" href="css/tiku_fatstyle.css" />
+		<link rel="stylesheet" type="text/css" href="css/tiku_manage.css" />
+		<link rel="stylesheet" type="text/css" href="css/tiku.css" />
+		<link rel="stylesheet" type="text/css" href="css/sidebar.css" />
+
+		<!-- 引入饿了么Element样式 -->
+		<link rel="stylesheet" href="css/element-ui.css">
+		<!-- 引入自定义样式 -->
+		<link rel="stylesheet" type="text/css" href="css/testpages.css" />
+		<!-- vue语法环境 -->
+		<script src="js/vue.min.js"></script>
+		<!-- vue使用Ajax -->
+		<script src="js/axios.min.js"></script>
+		<!-- vue使用路由 -->
+		<!--<script src="js/router.js"></script>-->
+		<!-- 引入饿了么Element组件库 -->
+		<script src="js/element-ui.js"></script>
+	</head>
+
+	<body>
+
+		<!-- header start -->
+		<div id="app">
+			<el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+				<el-menu-item index="1" @click="goMain">教师-测试</el-menu-item>
+				<el-submenu index="2">
+					<template slot="title">我的工作台</template>
+					<el-menu-item index="2-1" @click="createTest">创建测试题</el-menu-item>
+					<el-menu-item index="2-2" @click="createChoiceQuestion">创建选择题</el-menu-item>
+					<el-menu-item index="2-3" @click="createChoiceTfng">创建判断题</el-menu-item>
+					<el-menu-item index="2-3" @click="createChoiceGap">创建填空题</el-menu-item>
+				</el-submenu>
+				<el-menu-item index="3" disabled>消息中心</el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="6" disabled></el-menu-item>
+				<el-menu-item index="7" disabled></el-menu-item>
+				<el-menu-item index="8" disabled></el-menu-item>
+				<el-menu-item index="9" disabled></el-menu-item>
+				<el-menu-item index="10" disabled></el-menu-item>
+				<el-menu-item index="11" disabled></el-menu-item>
+
+				<el-submenu index="12">
+					<template slot="title">个人中心</template>
+					<el-menu-item index="12-1" @click="">安全退出</el-menu-item>
+				</el-submenu>
+			</el-menu>
+			<!-- header end -->
+
+			<!---------- 页面主体内容 开始 ------------>
+
+			<div class="u-wrap tiku">
+				<div class="mainbackground nopadding">
+
+					<!--
+            	作者：offline
+            	时间：2018-12-11
+            	描述：vue页面-测试说明
+            -->
+					<div id="elform">
+						<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+							<el-form-item label="测试名称" prop="textname">
+								<el-input placeholder="请填写第几章测试名称" v-model="ruleForm.textname" clearable>
+								</el-input>
+							</el-form-item>
+							<el-form-item label="测试说明" prop="desc">
+								<el-input type="textarea" v-model="ruleForm.desc" placeholder="请简要说明一下测试题型，学生需要注意的关键字信息和注意事项">
+								</el-input>
+								<span id="explain">总共可输入120字</span>
+							</el-form-item>
+							<el-form-item label="截止时间" required prop="deadLineTime">
+								<el-date-picker v-model="ruleForm.deadLineTime" value-format=" yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择日期时间">
+								</el-date-picker>
+							</el-form-item>
+							<el-form-item label="测验时间" prop="resource">
+								<el-radio-group v-model="ruleForm.resource">
+									<el-radio label="无限制" @change="radioDisabled2">
+
+									</el-radio>
+									<el-radio label="需要在几分钟完成" @change="radioDisabled1">
+
+									</el-radio>
+									<el-input-number size="mini" v-model="num" :min="0" :max="5" :disabled="isDisabled">
+
+									</el-input-number>
+
+								</el-radio-group>
+							</el-form-item>
+							<el-form-item label="是否随机" prop="isRandom">
+								<el-radio-group v-model="ruleForm.isRandom">
+									<el-radio label="是">
+
+									</el-radio>
+									<el-radio label="否">
+
+									</el-radio>
+								</el-radio-group>
+							</el-form-item>
+							<el-form-item label="选择课程/章节" prop="course">
+								<el-cascader v-model="selectedOptions" placeholder="试试搜索" :options="options" filterable change-on-select></el-cascader>
+							</el-form-item>
+							<!--<el-form-item label="题目个数" prop="type">
+								<el-checkbox-group v-model="ruleForm.type">
+									<el-checkbox label="单选/多选题" name="type" @change="checkDisabled1"></el-checkbox>
+									<el-input-number size="mini" v-model="choicenum" :min="0" :max="5" :disabled="true"></el-input-number>
+									<el-checkbox label="判断题" name="type" @change="checkDisabled2"></el-checkbox>
+									<el-input-number size="mini" v-model="tfngnum" :min="0" :max="5" :disabled="true"></el-input-number>
+									<el-checkbox label="填空题" name="type" @change="checkDisabled3"></el-checkbox>
+									<el-input-number size="mini" v-model="gapfillingnum" :min="0" :max="5" :disabled="true"></el-checkbox>
+								</el-checkbox-group>
+							</el-form-item>-->
+							<el-form-item label="允许次数">
+								<el-input-number v-model="allows" size="mini" :min="1" :max="3"></el-input-number>
+							</el-form-item>
+							<el-form-item>
+								<el-button type="primary" @click="submitForm('ruleForm')">下一步</el-button>
+								<el-button @click="resetForm('ruleForm')">重置</el-button>
+							</el-form-item>
+						</el-form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- footer start -->
+
+		<footer class="footer pmb-0">
+			<div class="u-wrap">
+
+				<p class="copyright">
+					Copyright © 2018.河南工业大学晨曦 版权所有
+					<a href="javascript:;">京ICP备yyc666号</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;热线：123-456-6666（产品咨询） 789-456-6666（售后服务）
+				</p>
+
+			</div>
+		</footer>
+
+		<style>
+			.pmb-0 {
+				position: absolute;
+				width: 100%;
+				bottom: 0px;
+			}
+		</style>
+
+		<div class="side-bar-wrap">
+			<div class="side-bar side-bar-fixed">
+				<div class="nv">
+					<div class="wrap-box">
+						<a class="wechat" href="javascript:;" title="公众账号" target="_blank"> <i class="iconfont"></i> <span>公众账号</span> </a>
+					</div>
+					<div class="wrap-box">
+						<a class="leyu" id="udesk-im-89" href="javascript:;" title="在线客服" target="_blank"> <i class="iconfont"></i> <span>在线客服</span> </a>
+					</div>
+					<div class="wrap-box">
+						<a class="mobile" href="javascript:;" title="客服热线" target="_blank"> <i class="iconfont"></i> <span>客服热线</span> </a>
+					</div>
+
+					<div class="wrap-box">
+						<a class="help" title="文档帮助" target="_blank"> <i class="iconfont"></i> <span>文档帮助</span> </a>
+					</div>
+				</div>
+				<div class="bar detail-wechat">
+					<a href="#" target="_blank">
+						<p>关注微信公众号<br>服务号 weixin@yuuxin.com</p> <img src="%E8%AF%95%E9%A2%98_files/m.jpg" alt="扫描二维码" title="使用微信扫描二维码"> </a>
+				</div>
+
+			</div>
+
+	</body>
+
+	<script type="text/javascript">
+		var vm1 = new Vue({
+			el: "#app",
+			data: {
+				activeIndex: '1',
+				activeIndex2: '2',
+				options: [], //选项
+				selectedOptions: [], //选中时
+				num: '', //几分钟内完成测验
+				choicenum: '', // 单/多选
+				tfngnum: '', //判断
+				gapfillingnum: '', //填空
+				deadLineTime: '', //截止时间
+				textname: '', //测试名称
+				allows: '', //允许次数
+
+				activeNames: ['1', '2', '3', '4'], //折叠面板
+				isDisabled: true, //控制选择
+
+				isCheck1: true, //选择题 多选按钮
+				isCheck2: true, //选择题 多选按钮
+				isCheck3: true, //选择题 多选按钮
+				ruleForm: { //表单
+					name: '',
+					region: '',
+					type: [],
+					resource: '',
+					isRandom: '', //是否随机生成题目
+					deadLineTime: '', //截止时间
+					textname: '', //测试名称
+					desc: ''
+				},
+				rules: {
+					textname: [{ //测试名称
+						required: true,
+						message: '请填写测试名称',
+						trigger: 'blur'
+					}],
+					deadLineTime: [{ //校验截止时间
+						required: true,
+						message: '请选择截止时间',
+						trigger: 'blur'
+					}],
+					name: [{
+							required: true,
+							message: '请输入活动名称',
+							trigger: 'blur'
+						},
+						{
+							min: 3,
+							max: 5,
+							message: '长度在 3 到 5 个字符',
+							trigger: 'blur'
+						}
+					],
+					region: [{
+						required: true,
+						message: '请选择活动区域',
+						trigger: 'change'
+					}],
+					date1: [{
+						type: 'date',
+						required: true,
+						message: '请选择日期',
+						trigger: 'change'
+					}],
+					date2: [{
+						type: 'date',
+						required: true,
+						message: '请选择时间',
+						trigger: 'change'
+					}],
+					type: [{
+						type: 'array',
+						required: true,
+						message: '请至少选择一个题型',
+						trigger: 'change'
+					}],
+					resource: [{
+						required: true,
+						message: '请选择测验时间',
+						trigger: 'change'
+					}],
+					isRandom: [{
+						required: true,
+						message: '请选择是否随机生成题目',
+						trigger: 'change'
+					}],
+					desc: [{
+						required: true,
+						message: '请填写测试说明',
+						trigger: 'blur'
+					}]
+				}
+
+			},
+			methods: {
+				goMain() {
+					window.location.href = "main.html";
+				},
+				createChoiceQuestion() { //创建选择题,跳转页面
+					window.location.href = "choicequestion.html";
+				},
+				createChoiceTfng() { //创建选择题,跳转页面
+					window.location.href = "tfng.html";
+				},
+				createChoiceGap() { //创建选择题,跳转页面
+					window.location.href = "gap.html";
+				},
+				createTest() {
+					window.location.href = "testpages.html";
+				},
+				submitForm(formName) { //提交表单
+					var sub = this;
+					this.$refs[formName].validate((valid) => {
+						if(valid) {
+							//获取当前时间
+							var myDate = new Date(); //获取系统当前时间
+							var year = myDate.getFullYear();
+							var month = myDate.getMonth() + 1;
+							var day = myDate.getDate();
+							var hour = myDate.getHours();
+							var minutes = myDate.getMinutes();
+							var seconds = myDate.getSeconds();
+							var time = " " + year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds;
+							var dTime = sub.ruleForm.deadLineTime; //截止时间
+							if(dTime <= time) {
+								sub.$notify({
+									title: '错误',
+									message: '截止时间不能小于当前时间',
+									type: 'error'
+								});
+							} else {
+								let chapterId; //章节
+								let courseId; //课程
+								for(i = 0; i < sub.selectedOptions.length; i++) {
+									chapterId = sub.selectedOptions[0];
+									courseId = sub.selectedOptions[1];
+								}
+								axios({
+										method: 'post',
+										url: 'http://localhost:3011/yangyichen/YangYiChen/teacherTest/insertTeacherCreateTest',
+										data: {
+											teachercratetestChoicenum: 0, //选择题（包含单/多）数量
+											teachercratetestTfngnum: 0, //判断题数量
+											teachercratetestGapfillingnum: 0, //填空题数量
+											teachercreatetestTesttime: sub.num, //测验时间
+											teachercreatetestEndtime: sub.ruleForm.deadLineTime, //截止时间
+											teachercreatetestExplain: sub.ruleForm.desc, //说明
+											teachercreatetestNumber: sub.allows, //允许测验的次数
+											teachercratetestRandom: sub.ruleForm.isRandom, //是否随机
+											teachercratetestTestname: sub.ruleForm.textname, //测试题名称
+											teachercreatetestChapterId: chapterId, //章节外键
+											teachercreatetestTeacherId: 1 //教师外键
+										}
+									})
+									.then(function(response) { //成功时候
+										if(response.data.success = true) {
+											sub.$notify({
+												title: '成功',
+												message: response.data.msg,
+												type: 'success'
+											});
+											const loading = sub.$loading({
+												lock: true,
+												text: 'Loading',
+												spinner: 'el-icon-loading',
+												background: 'rgba(0, 0, 0, 0.7)'
+											});
+											setTimeout(() => {
+												loading.close();
+												location.href = 'main.html';
+											}, 1500);
+
+										}
+									})
+									.catch(function(error) { //错误时候
+										console.log(error);
+									});
+							}
+
+						} else {
+
+							console.log('error submit!!');
+							return false;
+						}
+					});
+				},
+				resetForm(formName) { //重置表单
+					this.$refs[formName].resetFields();
+				},
+				radioDisabled1() { //设置单选按钮是否禁用
+					this.isDisabled = false;
+				},
+				radioDisabled2() { //设置单选按钮是否禁用
+					this.isDisabled = true;
+				},
+				checkDisabled1() { //设置多选按钮是否禁用
+					this.isCheck1 = false;
+				},
+				checkDisabled2() { //设置多选按钮是否禁用
+					this.isCheck2 = false;
+				},
+				checkDisabled3() { //设置多选按钮是否禁用
+					this.isCheck3 = false;
+				}
+			},
+			mounted: function() {
+				var _this = this;
+				axios({
+						method: 'get',
+						url: 'http://localhost:3050/ZhangBingQian/chapte/queryId',
+					})
+					.then(function(res) {
+						_this.options = res.data;
+					})
+					.catch(function(error) {
+						console.log(error);
+					});
+			}
+		});
+	</script>
+
+</html>

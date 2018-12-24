@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/tiku_fatstyle.css" />
+		<link rel="stylesheet" type="text/css" href="css/tiku_manage.css" />
+		<link rel="stylesheet" type="text/css" href="css/tiku.css" />
+		<link rel="stylesheet" type="text/css" href="css/sidebar.css" />
+
+		<!-- 引入饿了么Element样式 -->
+		<link rel="stylesheet" href="css/element-ui.css">
+		<!-- 引入自定义样式 -->
+		<link rel="stylesheet" type="text/css" href="css/testpages.css" />
+		<!-- vue语法环境 -->
+		<script src="js/vue.min.js"></script>
+		<!-- vue使用Ajax -->
+		<script src="js/axios.min.js"></script>
+		<!-- 引入饿了么Element组件库 -->
+		<script src="js/element-ui.js"></script>
+		<div id="app">
+			
+			<el-button plain type="success" @click="axios01">开始测验</el-button>
+		</div>
+		<script>
+			new Vue({
+				el: '#app',
+				data: {
+
+				},
+				methods: {
+					axios01: function() {
+						var vm = this;
+						axios({
+							method: 'get',
+							url: 'http://localhost:3011/yangyichen/YangYiChen/studentTest/queryQuestion',
+							params: {
+								chapterId:2,
+								courseId:1
+							}
+						}).then(function(response) {
+							console.log(response.data);
+							var anArrayList=response.data;
+							window.localStorage.setItem('anArray',JSON.stringify(anArrayList));//转成json格式
+							console.log(">>>>>"+JSON.stringify(anArrayList));
+							window.location.href="preview.html";
+						}).catch(function(error) {
+							console.log(error);
+						});
+					}
+				}
+			})
+		</script>
+
+	</head>
+
+</html>

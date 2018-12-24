@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>晨曦 | 创建选择题</title>
+		<link rel="stylesheet" type="text/css" href="css/tiku_fatstyle.css" />
+		<link rel="stylesheet" type="text/css" href="css/tiku_manage.css" />
+		<link rel="stylesheet" type="text/css" href="css/tiku.css" />
+		<link rel="stylesheet" type="text/css" href="css/sidebar.css" />
+
+		<!-- 引入饿了么Element样式 -->
+		<link rel="stylesheet" href="css/element-ui.css">
+		<!-- 引入自定义样式 -->
+		<link rel="stylesheet" type="text/css" href="css/testpages.css" />
+		<!-- vue语法环境 -->
+		<script src="js/vue.min.js"></script>
+		<!-- vue使用Ajax -->
+		<script src="js/axios.min.js"></script>
+		<!-- 引入饿了么Element组件库 -->
+		<script src="js/element-ui.js"></script>
+	</head>
+
+	<body>
+
+		<!-- Vue start -->
+		<div id="app">
+			<!-- header start -->
+
+			<el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+				<el-menu-item index="1">教师-测试</el-menu-item>
+				<el-submenu index="2">
+					<template slot="title" @click="goMain">我的工作台</template>
+					<el-menu-item index="2-1" @click="createTest">创建测试题</el-menu-item>
+					<el-menu-item index="2-2" @click="createChoiceQuestion">创建选择题</el-menu-item>
+					<el-menu-item index="2-3" @click="createChoiceTfng">创建判断题</el-menu-item>
+					<el-menu-item index="2-3" @click="createChoiceGap">创建填空题</el-menu-item>
+				</el-submenu>
+				<el-menu-item index="3" disabled>消息中心</el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="6" disabled></el-menu-item>
+				<el-menu-item index="7" disabled></el-menu-item>
+				<el-menu-item index="8" disabled></el-menu-item>
+				<el-menu-item index="9" disabled></el-menu-item>
+				<el-menu-item index="10" disabled></el-menu-item>
+				<el-menu-item index="11" disabled></el-menu-item>
+				
+				<el-submenu index="12">
+					<template slot="title">个人中心</template>
+					<el-menu-item index="12-1" @click="">安全退出</el-menu-item>
+				</el-submenu>
+			</el-menu>
+			<!-- header end -->
+
+			<!---------- 页面主体内容 开始 ------------>
+
+			<div class="full-wrap navbar smbar">
+				<div class="header tiHeader">
+					<!--<a href="javascript:;" class="navbar-brand">
+						<span id="tiku" style="color: red;">创建选择题</span>
+					</a>-->
+					<ul class="nav nav-left navspace tikuhader">
+
+					</ul>
+				</div>
+			</div>
+
+			<div class="u-wrap tiku">
+				<!--<div class="mainbackground nopadding">
+					<div class="classes-type">
+						<p class="c title-p clear">
+							<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+								
+							</el-form>
+						</p>
+
+					</div>
+				</div>-->
+			</div>
+
+			<div class="u-wrap tiku">
+				<div class="mainbackground nopadding">
+					<p>
+						<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+							<el-form-item label="选择题题目" prop="desc">
+								<el-input type="textarea" v-model="ruleForm.desc" placeholder="请填写选择题题目"></el-input>
+							</el-form-item>
+							<el-form-item label="A选项" prop="optionA">
+								<el-input placeholder="请填写A选项答案" v-model="ruleForm.optionA" clearable>
+								</el-input>
+								<el-form-item prop="radioA">
+									<el-radio v-model="ruleForm.radioA" label="A">该题为正确答案</el-radio>
+								</el-form-item>
+							</el-form-item>
+							<el-form-item label="B选项" prop="optionB">
+								<el-input placeholder="请填写B选项答案" v-model="ruleForm.optionB" clearable>
+								</el-input>
+								<el-form-item prop="radioB">
+									<el-radio v-model="ruleForm.radioB" label="B">该题为正确答案</el-radio>
+								</el-form-item>
+							</el-form-item>
+							<el-form-item label="C选项" prop="optionC">
+								<el-input placeholder="请填写C选项答案" v-model="ruleForm.optionC" clearable>
+								</el-input>
+								<el-form-item prop="radioC">
+									<el-radio v-model="ruleForm.radioC" label="C">该题为正确答案</el-radio>
+								</el-form-item>
+							</el-form-item>
+							<el-form-item label="D选项" prop="optionD">
+								<el-input placeholder="请填写D选项答案" v-model="ruleForm.optionD" clearable>
+								</el-input>
+								<el-form-item prop="radioD">
+									<el-radio v-model="ruleForm.radioD" label="D">该题为正确答案</el-radio>
+								</el-form-item>
+							</el-form-item>
+							<el-form-item>
+								<span style="color: red;">注意！若该题设置多个答案则该题为多选</span>
+							</el-form-item>
+							<el-form-item label="分数">
+								<el-input-number v-model="score" controls-position="right" :min="1" :max="10"></el-input-number> <span style="font-size: 12px;">分</span>
+							</el-form-item>
+							<el-form-item label="选择课程/章节" prop="course">
+								<el-cascader v-model="selectedOptions" placeholder="试试搜索" :options="options" filterable change-on-select></el-cascader>
+							</el-form-item>
+							<el-form-item>
+								<el-button @click="saveAndContinue('ruleForm')" type="primary">保存并继续创建</el-button>
+								<el-button @click="resetForm('ruleForm')">重置</el-button>
+								<el-button type="primary" @click="saveForm('ruleForm')">保存</el-button>
+							</el-form-item>
+						</el-form>
+					</p>
+
+				</div>
+
+			</div>
+
+		</div>
+		<!-- Vue end -->
+
+		<!-- footer start -->
+
+		<footer class="footer pmb-0">
+			<div class="u-wrap">
+
+				<p class="copyright">
+					Copyright © 2018.河南工业大学晨曦 版权所有
+					<a href="javascript:;">京ICP备15011506号</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;热线：123-456-7890（产品咨询） 789-456-1230（售后服务）
+				</p>
+
+			</div>
+		</footer>
+
+		<style>
+			/*vue table style*/
+			
+			.demo-table-expand {
+				font-size: 0;
+			}
+			
+			.demo-table-expand label {
+				width: 90px;
+				color: #99a9bf;
+			}
+			
+			.demo-table-expand .el-form-item {
+				margin-right: 0;
+				margin-bottom: 0;
+				width: 50%;
+			}
+		</style>
+		<!--<style>
+			.pmb-0 {
+				position: absolute;
+				width: 100%;
+				bottom: 0px;
+			}
+		</style>-->
+
+	</body>
+
+	<script type="text/javascript">
+		new Vue({
+			el: '#app',
+			data: {
+				activeIndex: '1',
+				activeIndex2: '2',
+				score: 1, //分数，默认为1分
+				options: [], //选项
+				selectedOptions: [], //选中时
+				ruleForm: {
+					desc: '', //选择题题目
+					optionA: '',
+					optionB: '',
+					optionC: '',
+					optionD: '',
+					radioA: '',
+					radioB: '',
+					radioC: '',
+					radioD: ''
+				},
+				rules: {
+					desc: [{
+						required: true,
+						message: '请填写选择题题目',
+						trigger: 'blur'
+					}],
+					optionA: [{
+						required: true,
+						message: '请填写A选项答案',
+						trigger: 'blur'
+					}],
+					optionB: [{
+						required: true,
+						message: '请填写B选项答案',
+						trigger: 'blur'
+					}],
+					optionC: [{
+						required: true,
+						message: '请填写C选项答案',
+						trigger: 'blur'
+					}],
+					optionD: [{
+						required: true,
+						message: '请填写D选项答案',
+						trigger: 'blur'
+					}]
+				}
+			},
+			methods: {
+				goMain(){
+					window.location.href = "main.html";
+				},
+				createChoiceQuestion() { //创建选择题,跳转页面
+					window.location.href = "choicequestion.html";
+				},
+				createChoiceTfng() { //创建选择题,跳转页面
+					window.location.href = "tfng.html";
+				},
+				createChoiceGap() { //创建选择题,跳转页面
+					window.location.href = "gap.html";
+				},
+				createTest() {
+					window.location.href = "testpages.html";
+				},
+				resetForm(formName) { //重置表单
+					this.$refs[formName].resetFields();
+					this.$message('重置成功');
+				},
+				saveForm(formName) { //保存表单
+					this.$refs[formName].validate((valid) => {
+						var sub = this;
+						if(valid) {
+							let chapterId; //章节
+							let courseId; //课程
+							let isSingleSelection = 0; // 单0/多1 选
+							for(i = 0; i < sub.selectedOptions.length; i++) {
+								chapterId = sub.selectedOptions[0];
+								courseId = sub.selectedOptions[1];
+							}
+							if(sub.ruleForm.radioA == "A" && sub.ruleForm.radioB == "B") {
+								isSingleSelection = 1;
+							}
+							if(sub.ruleForm.radioA == "A" && sub.ruleForm.radioC == "C") {
+								isSingleSelection = 1;
+							}
+							if(sub.ruleForm.radioA == "A" && sub.ruleForm.radioD == "D") {
+								isSingleSelection = 1;
+							}
+
+							if(sub.ruleForm.radioB == "B" && sub.ruleForm.radioC == "C") {
+								isSingleSelection = 1;
+							}
+							if(sub.ruleForm.radioB == "B" && sub.ruleForm.radioD == "D") {
+								isSingleSelection = 1;
+							}
+							if(sub.ruleForm.radioC == "C" && sub.ruleForm.radioD == "D") {
+								isSingleSelection = 1;
+							}
+
+							axios({
+								method: 'post',
+								url: 'http://localhost:3011/yangyichen/YangYiChen/choiceQuestion/insertChoiceQuestion?',
+								params: {
+									choicequestionQuestion: sub.ruleForm.desc,
+									choicequestionScore: sub.score,
+									choicequestiontbIssingleselection: isSingleSelection,
+									choicequestionChapterId: chapterId,
+									choicequestionCourseId: courseId, //end
+									selectA: sub.ruleForm.radioA,
+									selectB: sub.ruleForm.radioB,
+									selectC: sub.ruleForm.radioC,
+									selectD: sub.ruleForm.radioD,
+									optionA: 'A、' + sub.ruleForm.optionA,
+									optionB: 'B、' + sub.ruleForm.optionB,
+									optionC: 'C、' + sub.ruleForm.optionC,
+									optionD: 'D、' + sub.ruleForm.optionD //end
+								}
+							}).then(function(res) { //成功时候
+								sub.$message.success(res.data.msg);
+								setTimeout(function() { //设置延迟
+									window.location.href = "main.html"; //跳转到main.html页面
+								}, 1500);
+							}).catch(function(error) { //错误时候
+								console.log(error);
+							});
+						} else {
+							this.$message.error('错了哦，请检查填写的信息');
+						}
+					});
+
+				},
+				saveAndContinue(formName) { //保存并继续添加
+					this.$refs[formName].validate((valid) => {
+						var sub = this;
+						if(valid) {
+							let chapterId; //章节
+							let courseId; //课程
+							let isSingleSelection = 0; // 单0/多1 选
+							for(i = 0; i < sub.selectedOptions.length; i++) {
+								chapterId = sub.selectedOptions[0];
+								courseId = sub.selectedOptions[1];
+							}
+							if(sub.ruleForm.radioA == "A" && sub.ruleForm.radioB == "B") {
+								isSingleSelection = 1;
+							}
+							if(sub.ruleForm.radioA == "A" && sub.ruleForm.radioC == "C") {
+								isSingleSelection = 1;
+							}
+							if(sub.ruleForm.radioA == "A" && sub.ruleForm.radioD == "D") {
+								isSingleSelection = 1;
+							}
+
+							if(sub.ruleForm.radioB == "B" && sub.ruleForm.radioC == "C") {
+								isSingleSelection = 1;
+							}
+							if(sub.ruleForm.radioB == "B" && sub.ruleForm.radioD == "D") {
+								isSingleSelection = 1;
+							}
+							if(sub.ruleForm.radioC == "C" && sub.ruleForm.radioD == "D") {
+								isSingleSelection = 1;
+							}
+							this.$confirm('您确定创建该项选择题并继续创建吗？', '确认信息', {
+									distinguishCancelAndClose: true,
+									confirmButtonText: '保存并继续',
+									cancelButtonText: '放弃创建'
+								})
+								.then(() => {
+									axios({
+										method: 'post',
+										url: 'http://localhost:3011/yangyichen/YangYiChen/choiceQuestion/insertChoiceQuestion?',
+										params: {
+											choicequestionQuestion: sub.ruleForm.desc,
+											choicequestionScore: sub.score,
+											choicequestiontbIssingleselection: isSingleSelection,
+											choicequestionChapterId: chapterId,
+											choicequestionCourseId: courseId, //end
+											selectA: sub.ruleForm.radioA,
+											selectB: sub.ruleForm.radioB,
+											selectC: sub.ruleForm.radioC,
+											selectD: sub.ruleForm.radioD,
+											optionA: 'A、' + sub.ruleForm.optionA,
+											optionB: 'B、' + sub.ruleForm.optionB,
+											optionC: 'C、' + sub.ruleForm.optionC,
+											optionD: 'D、' + sub.ruleForm.optionD //end
+										}
+									}).then(function(res) { //成功时候
+										sub.$message.success(res.data.msg);
+										setTimeout(function() { //设置延迟
+											window.location.reload(); //页面刷新
+										}, 1500);
+									}).catch(function(error) { //错误时候
+										console.log(error);
+									});
+								})
+								.catch(action => {
+									this.$message({
+										type: 'info',
+										message: action === 'cancel' ?
+											'放弃保存' : '停留在当前页面'
+									})
+								});
+
+						} else {
+							this.$message.error('错了哦，请检查填写的信息');
+						}
+					});
+				}
+			},
+			mounted: function() {
+				var _this = this;
+				axios.get('http://localhost:3050/ZhangBingQian/chapte/queryId').then(function(res) {
+					_this.options = res.data;
+				}).catch(function(error) {
+					console.log(error);
+				});
+			},
+		});
+	</script>
+
+</html>

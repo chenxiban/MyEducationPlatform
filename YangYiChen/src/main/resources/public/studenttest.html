@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>晨曦 | 预览试卷</title>
+		<!-- 引入element样式-->
+		<link rel="stylesheet" href="css/element-ui.css" />
+		<!--vue语法环境-->
+		<script type="text/javascript" src="js/vue.min.js"></script>
+		<!--vue使用ajax-->
+		<script type="text/javascript" src="js/axios.min.js"></script>
+		<!--element组件库-->
+		<script type="text/javascript" src="js/element-ui.js"></script>
+	</head>
+	<style>
+		#question {
+			color: red;
+		}
+		
+		#index {
+			color: black;
+		}
+	</style>
+	<div id="box">
+		<p style="display: block; color: red;text-align: center; font-size: 30px;">倒计时：{{minute}}:{{second}}</p>
+		<!--<button @click='add'>点击倒计时</button>-->
+	</div>
+	<div id="app">
+		<template>
+			<el-form v-for="(item,index) in anArrs" label-width="200px">
+				<el-form-item>
+					<el-button type="text" id="index" size="medium">{{index+1}} </el-button>
+					<el-button type="primary" size="mini" v-text="item.otherState==0?msgSingle:msgTwin"></el-button>
+					<el-button type="text">{{item.otherScore}}分</el-button>
+					<el-button id="question" type="text">{{item.otherQuestion}} ?</el-button>
+				</el-form-item>
+				<el-form-item ref="answers" v-if="item.otherState==0">
+					<el-radio v-model="radios[index]" :label="'A。'+item.otherQuestion+'。'+item.otherScore+'=='">{{item.otherA}}</el-radio>
+				</el-form-item>
+				<el-form-item v-if="item.otherState==0" prop="radioB">
+					<el-radio v-model="radios[index]" :label=" 'B。'+item.otherQuestion+'。'+item.otherScore+'=='">{{item.otherB}}</el-radio>
+				</el-form-item>
+				<el-form-item v-if="item.otherState==0" prop="radioC">
+					<el-radio v-model="radios[index]" :label="'C。'+item.otherQuestion+'。'+item.otherScore+'=='">{{item.otherC}}</el-radio>
+				</el-form-item>
+				<el-form-item v-if="item.otherState==0" prop="radioD">
+					<el-radio v-model="radios[index]" :label="'D。'+item.otherQuestion+'。'+item.otherScore+'=='">{{item.otherD}}</el-radio>
+				</el-form-item>
+				<el-form-item v-if="item.otherState==1" v-model="checked">
+					<el-checkbox true-label="A" @change="aaa(item,index,$event)">{{item.otherA}}</el-checkbox>
+				</el-form-item>
+				<el-form-item v-if="item.otherState==1" v-model="checked">
+					<el-checkbox true-label="B" @change="aaa(item,index,$event)">{{item.otherB}}</el-checkbox>
+				</el-form-item>
+				<el-form-item v-if="item.otherState==1" v-model="checked">
+					<el-checkbox true-label="C" @change="aaa(item,index,$event)">{{item.otherC}}</el-checkbox>
+				</el-form-item>
+				<el-form-item v-if="item.otherState==1" v-model="checked">
+					<el-checkbox @change="aaa(item,index,$event)" true-label="D">{{item.otherD}}</el-checkbox>
+				</el-form-item>
+			</el-form>
+			<el-form label="填空" v-for="(item1, index1) in arrays1" label-width="200px">
+				<el-form-item>
+					<el-button type="text" id="index" size="medium">{{index1+1}} </el-button>
+					<el-button type="primary" size="mini">填空</el-button>
+					<el-button type="text">{{item1.gapfillingScore}}分</el-button>
+					<el-button id="question" type="text">{{item1.gapfillingQuestion}}</el-button>
+				</el-form-item>
+				<el-form-item>
+					<el-input type="textarea" style="width: 600px;" v-model="textarea[index1]" @change="aa(item1,index1)" autosize placeholder="请输入您的答案"></el-input>
+				</el-form-item>
+			</el-form>
+			<el-form v-for="(item2, index2) in arrays2" label-width="200px">
+				<el-form-item>
+					<el-button type="text" id="index" size="medium">{{index2+1}} </el-button>
+					<el-button type="primary" size="mini">判断</el-button>
+					<el-button type="text">{{item2.tfngScore}}分</el-button>
+					<el-button id="question" type="text">{{item2.tfngQuestion}}</el-button>
+				</el-form-item>
+				<el-form-item>
+					<el-radio v-model="radio[index2]" :label="'1。'+item2.tfngQuestion+'。'+item2.tfngScore+'=='">正确</el-radio>
+					<el-radio v-model="radio[index2]" :label="'0。'+item2.tfngQuestion+'。'+item2.tfngScore+'=='">错误</el-radio>
+				</el-form-item>
+			</el-form>
+			<el-form style="margin-left: 200px;">
+				<template>
+					<el-row>
+						<el-button type="primary" plain v-on:click="submitAnswer">提交答案</el-button>
+					</el-row>
+				</template>
+			</el-form>
+		</template>
+	</div>
+	<script>
+		var an = window.localStorage.getItem('anArray');
+		var anArray = JSON.parse(an); // 转成JSON对象
+		console.log(">>>>>" + anArray);
+		var arrays;
+		var arrays1;
+		var arrays2;
+		for(var i = 0; i < anArray.length; i++) {
+			arrays = anArray[0];
+			arrays1 = anArray[1];
+			arrays2 = anArray[2];
+		}
+		var single;
+		var twin;
+		var question1;
+		for(var j = 0; j < arrays.length; j++) {
+			single = arrays[0].otherState;
+			twin = arrays[1].otherState;
+			question1 = arrays[j].otherQuestion;
+		}
+	</script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				checked: [],
+				radios: [],
+				radio: [],
+				anArrs: arrays, //选择题
+				anArrs1: arrays1, //判断题
+				arrays2: arrays2, //填空题
+				msgSingle: '单选',
+				msgTwin: '多选',
+				choice: true,
+				msg: "选择题",
+				tfng: true,
+				msg1: "判断题",
+				gapfilling: true,
+				msg2: "填空题",
+				textarea: [],
+				twin: [], //多选填空题及答案
+				twinScore: '', //多选题分数
+				gapScore: [], //填空题分数
+				question: []//填空题及答案
+			},
+			methods: {
+				aa: function(item, index) { //填空题及答案
+					this.gapScore = item.gapfillingScore;
+					var answer = this.textarea[index];
+					var qu = item.gapfillingQuestion;
+					var gapfilling1 = "";
+						gapfilling1 += answer;
+						gapfilling1 += '。';
+						gapfilling1 += qu;
+						gapfilling1 += "。";
+						gapfilling1 += this.gapScore;
+						gapfilling1 += "==";
+					this.question.push(gapfilling1);
+					
+					console.log(this.gapfilling1 + "aaa");
+					console.log("答案" + answer + "问题" + qu)
+
+				},
+				aaa: function(item, index, e) { //多选及答案
+					this.twinScore = item.otherScore; //多选分数
+					var an = e; //答案
+					var question = item.otherQuestion;
+					var twins = "";
+					twins += question;
+					twins += '。';
+					twins += an;
+					twins += "。";
+					twins += this.twinScore;
+					twins +="==";
+					this.twin.push(twins);
+					console.log(this.twin)
+					console.log("问题==>" + question + "答案==>" + an);
+				},
+				submitAnswer: function() {
+					console.log("99999===>"+this.twin);
+					console.log("777777==>"+this.question);//填空题及答案
+					console.log("6656" + this.radios); //单选 \答案
+					console.log("多选==>" + this.twin); //多选及答案
+					var choice = this.radios.toString(); //单选、判断题、答案、分数
+					var tfng = this.radio.toString(); //判断、答案
+					console.log("lllllll" + choice);
+					console.log("nnnnnnnnnnnn===>" + tfng);
+					var gap = this.question.toString(); //填空题及答案
+					var gapScore = this.gapScore.toString(); //填空题分数
+					console.log("wwwww===>" + gap + "bbbbb=>" + gapScore);
+					var twins = this.twin.toString(); //多选及答案
+					var twinScore = this.twinScore; //多选分数
+
+					this.$confirm('提交后本次测验尝试的答案将不可修改，确定要提交？', '提示', {
+						type: 'warning',
+						cancelButtonText: '取消',
+						confirmButtonText: '确定',
+						center: true
+					}).then(() => {
+						axios({
+							method: 'post',
+							url: 'http://localhost:3060/YangYiChen/studentTestRecord/insertStudentTestRecord',
+							params: {
+								choice: choice, //单选及答案
+								tfng: tfng, //判断、答案
+								twinchoice: twins, //多选及答案
+								gap: gap, //填空题及答案
+							//	gapScore: gapScore, //填空题分数
+								twinScore: twinScore, //多选题分数
+								studenttestrecordCourseId: 1,
+								studenttestrecordChapterId: 2,
+								studenttestrecordStudentId: 1,
+								studenttestrecordStudenttestId: 1
+							}
+						}).then(function(response) {
+							//console.log(response.data.msg+"uuuuu")
+							alert("得分："+response.data.sum);
+						}).catch(action => {
+							this.$message({
+								type: 'warning',
+								message: action === 'cancel' ? '取消' : '继续'
+							})
+						});
+					})
+				}
+			}
+		})
+	</script>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#box',
+			data: {
+				minutes: 30, //从另外一个页面获取
+				seconds: 0 //同上
+			},
+			methods: {
+				num: function(n) {
+					return n < 10 ? "0" + n : "" + n
+				}
+			},
+			mounted: function() {
+				var _this = this;
+				var time = window.setInterval(function() {
+					if(_this.seconds == 00 && _this.minutes != 00) {
+						_this.seconds = 59;
+						_this.minutes -= 1;
+					} else if(_this.minutes == 00 && _this.seconds == 00) {
+						_this.seconds = 0;
+						window.clearInterval(time);
+						alert('测试时间已到，请提交');
+					} else {
+						_this.seconds -= 1
+					}
+
+				}, 1000);
+			},
+			watch: {
+				second: {
+					handler(newVal) {
+						this.num(newVal)
+					}
+				},
+				minute: {
+					handler(newVal) {
+						this.num(newVal)
+					}
+				}
+			},
+			computed: {
+				second: function() {
+					return this.num(this.seconds)
+				},
+				minute: function() {
+					return this.num(this.minutes)
+				}
+			}
+		})
+	</script>
+
+</html>
