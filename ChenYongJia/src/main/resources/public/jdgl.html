@@ -28,8 +28,15 @@
 					},*/
 					onLoadSuccess: function() {
 						$(".easyui-linkbutton").linkbutton();
-						dg.datagrid("uncheckAll");//再取消选中所有行
 					}
+				});
+				
+				$("#rolesIdss").combobox({
+					method: 'get',
+					valueField: "rolesName",
+					textField: "rolesName",
+					panelHeight: 'auto',
+					url: 'http://localhost:3011/chenyongjia/ChenYongJia/roles/getAllRoles?token=' + token
 				});
 
 				//设置模块
@@ -255,7 +262,7 @@
 			//查询
 			function doSearch() {
 				$('#dg').datagrid('load', {
-					name: $("#namess").val()
+					rolesName: $("#rolesIdss").combobox('getValue')
 				});
 			}
 		</script>
@@ -369,8 +376,8 @@
 			<thead>
 				<tr>
 					<th data-options="field:'rolesId',width:280,hidden:true">ID</th>
-					<th data-options="field:'rolesName',width:100" ">角色名称</th>
-					<th data-options="field: 'rolesEname',width:100 "">角色英文显示</th>
+					<th data-options="field:'rolesName',width:100" >角色名称</th>
+					<th data-options="field: 'rolesEname',width:100 ">角色英文显示</th>
 					<th data-options="field:'setPassword',width:180,align:'center',formatter:formatterOPUser">操作</th>
 				</tr>
 			</thead>
@@ -379,15 +386,16 @@
 		<div id="toolbar" style="padding:5px; height:auto; background: url(img/xingk1.jpg) no-repeat;background-size: 100% auto">
 			<div id="tb" style="margin-bottom:5px">
 				<from id="sousuo" method="post">
-					角色名: <input class="easyui-textbox" id="namess" name="namess" style="width:80px">
+					角色名:
+					<select class="easyui-combobox" id="rolesIdss" name="rolesIdss" editable="true" style="width: 100px;" panelHeight="auto">
+						<option value=""></option>
+					</select>
 					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="javascript:doSearch()">查询</a>
 				</from>
 			</div>
 			<a href="javascript:void(0)" data-require-permission='roles:addRoles' class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addRoles()">添加 角色</a>
 			<a href="javascript:void(0)" data-require-permission='roles:delRoles' class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delRoles()">删除角色</a>
 			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updteRoles()">修改角色</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#dg').edatagrid('saveRow')">保存</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#dg').edatagrid('cancelRow')">撤销</a>
 		</div>
 
 		<!--

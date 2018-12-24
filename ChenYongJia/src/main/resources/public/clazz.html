@@ -28,13 +28,12 @@
 					},
 					onLoadSuccess: function() {
 						$(".easyui-linkbutton").linkbutton();
-						dg.datagrid("uncheckAll");//再取消选中所有行
 					}
 				});
 
 				$("#collegeId").combobox({
 					method: 'get',
-					valueField: "collegeId",
+					valueField: "collegeName",
 					textField: "collegeName",
 					panelHeight: 'auto',
 					url: 'http://localhost:3011/chenyongjia/ChenYongJia/college/getCollegeInfos?token=' + token
@@ -264,7 +263,8 @@
 			//查询
 			function doSearch() {
 				$('#dg').datagrid('load', {
-					className: $("#classNamesss").val()
+					className: $("#classNamesss").val(),
+					collegeName: $("#collegeId").combobox('getValue')
 				});
 			}
 		</script>
@@ -374,10 +374,11 @@
 			<thead>
 				<tr>
 					<th data-options="field:'classId',width:280,hidden:true">ID</th>
-					<th data-options="field:'className',width:100" ">班级名称</th>
-					<th data-options="field: 'classNumber',width:100 "">班级编号</th>
-					<th data-options="field: 'classCreatTime',width:160 " ">创建时间</th>
-					<th data-options="field: 'classUpdateTime',width:160 "">最后一次修改时间</th>
+					<th data-options="field:'className',width:100">班级名称</th>
+					<th data-options="field: 'classNumber',width:100 ">班级编号</th>
+					<th data-options="field: 'collegeName',width:100 ">班级专业</th>
+					<th data-options="field: 'classCreatTime',width:160 ">创建时间</th>
+					<th data-options="field: 'classUpdateTime',width:160 ">最后一次修改时间</th>
 					<th data-options="field:'setPassword',width:180,align:'center',formatter:formatterOPClazz">操作</th>
 				</tr>
 			</thead>
@@ -386,15 +387,16 @@
 		<div id="toolbar" style="padding:5px; height:auto; background: url(img/xingk1.jpg) no-repeat;background-size: 100% auto">
 			<div id="tb" style="margin-bottom:5px">
 				<from id="sousuo" method="post">
-					班级名: <input class="easyui-textbox" id="classNamesss" name="classNamesss" style="width:80px">
+					班级名: <input class="easyui-textbox" id="classNamesss" name="classNamesss" style="width:80px"> 查询方式:&nbsp;&nbsp;
+					<select class="easyui-combobox" id="collegeId" name="collegeId" editable="true" style="width: 100px;" panelHeight="auto">
+						<option value=""></option>
+					</select>
 					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="javascript:doSearch()">查询</a>
 				</from>
 			</div>
 			<a href="javascript:void(0)" data-require-permission='clazz:addClazz' class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addClazz()">添加班级</a>
 			<a href="javascript:void(0)" data-require-permission='clazz:delClass' class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delClass()">删除班级</a>
 			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updteClass()">修改班级</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#dg').edatagrid('saveRow')">保存</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#dg').edatagrid('cancelRow')">撤销</a>
 		</div>
 
 		<!--
