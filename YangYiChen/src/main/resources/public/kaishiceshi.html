@@ -36,15 +36,14 @@
 							method: 'get',
 							url: 'http://localhost:3011/yangyichen/YangYiChen/studentTest/queryQuestion',
 							params: {
-								chapterId:2,
-								courseId:1
+								chapterId:2
 							}
 						}).then(function(response) {
 							console.log(response.data);
 							var anArrayList=response.data;
 							window.localStorage.setItem('anArray',JSON.stringify(anArrayList));//转成json格式
 							console.log(">>>>>"+JSON.stringify(anArrayList));
-							window.location.href="preview.html";
+							window.location.href="studenttest.html";
 						}).catch(function(error) {
 							console.log(error);
 						});
