@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>课件视频页</title>
+		<link rel="stylesheet" href="../css/learn.css" />
+		<link rel="stylesheet" href="../css/pt_web_course_into.css" />
+		<link rel="stylesheet" href="../css/bulma.min.css" />
+		<link rel="stylesheet" href="../css/xuexiyemian.css" />
+		<script type="text/javascript" src="../js/core.js"></script>
+		<script type="text/javascript" src="../js/DATracker.sync.js"></script>
+		<script type="text/javascript" src="../js/ga.js"></script>
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../js/libBabelPolyfill.js"></script>
+		<script type="text/javascript" src="../js/libClamp.js"></script>
+		<script type="text/javascript" src="../js/libDevice.js"></script>
+		<script type="text/javascript" src="../js/libHammer.js"></script>
+		<script type="text/javascript" src="../js/libMoment.js"></script>
+		<script type="text/javascript" src="../js/libRegular.js"></script>
+		<script type="text/javascript" src="../js/libRxJS.js"></script>
+		<script type="text/javascript" src="../js/MIne.js"></script>
+		<script type="text/javascript" src="../js/netease.js"></script>
+		<script type="text/javascript" src="../js/NIMWEB.js"></script>
+		<script type="text/javascript" src="../js/pathb_message.js"></script>
+		<script type="text/javascript" src="../js/pt_learn_learn.js"></script>
+		<script type="text/javascript" src="../js/tool.min.js"></script>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script type="text/javascript" src="../js/watchman.min.js"></script>
+		<script type="text/javascript" src="../js/WebSDKBase.js"></script>
+		<script type="text/javascript" src="../js/WebSDKChatroom.js"></script>
+	</head>
+
+	<body>
+		<div class="m-lessonDetail">
+			<div class="u-learn-moduletitle titleBar f-cb">
+				<div class="j-breadcb f-fl">
+					<div class="u-learnBCUI f-cb">
+						<a href="#/learn/content" target="_self" class="f-fl f-fc3 f-f0 link">课件</a><span class="f-icon f-fl icon u-icon-caret-right2"></span>
+						<div class="f-fl j-chapter">
+							<div class="u-select">
+								<script>
+									var noApplicationRecord = document.getElementById('noApplicationRecord')
+									//模拟数据
+									var data = [{
+											business: '万达影院(万胜广场店)',
+											count: '325',
+											num: '20170012565863565656',
+											time: '2017-10-12 16:30',
+											license: '粤A88888'
+										},
+										{
+											business: '麦当劳',
+											count: '111',
+											num: '20170012565863565656',
+											time: '2017-10-12 16:30',
+											license: '粤A99999'
+										},
+										{
+											business: '肯德基',
+											count: '456',
+											num: '20170012565863565656',
+											time: '2017-10-12 16:30',
+											license: '粤A45466'
+										}
+									]
+									//绘制单个div
+									function setDiv(item) {
+										var div = '<div class="up j-up f-thide" id="' + item.count + '">' + item.business + '(68min)</div>' +
+											'<div class="down f-bg j-list" style="display: none;">' +
+											'<div class="f-thide list" title="' + item.business + '(68min)" id="auto-id-1545293907219">1' + item.business + '(68min)</div>' +
+											'</div>' +
+											'</div>' +
+											'</div><span class="f-icon f-fl icon u-icon-caret-right2"></span>' +
+											'<div class="f-fl j-lesson">' +
+											'<div class="u-select">' +
+											'<div class="up j-up f-thide" id="auto-id-1545293907249">101' + item.license + '(8min)</div>' +
+											'<div class="down f-bg j-list" style="display: none;">' +
+											'<div class="f-thide list" title="' + item.license + '(8min)" id="auto-id-1545293907231">101家庭助手(8min)</div>' +
+											'</div>' +
+											'</div>' +
+											'</div>' 
+											return div
+									}
+									//循环加载到页面
+									function getnoApplicationData() {
+										var html = ''
+										for(var i = 0; i < data.length; i++) {
+											html += setDiv(data[i])
+										}
+										noApplicationRecord.innerHTML = html
+									}
+									
+									window.onload = getnoApplicationData();
+								</script>
+							</div>
+						</div>
+						<div id="noApplicationRecord"></div>
+						<div class="j-askt f-fr" id="auto-id-1545293907208">
+							<a class="u-btn u-btn-default u-btn-sm f-fr">向老师提问</a>
+						</div>
+					</div>
+					<div class="empty j-empty" style="display: none;"><span class="f-ib">老师还没有发布任何学习内容，请耐心等待</span></div>
+					<div class="j-lscontent lscontent">
+						<ul class="j-unitslist unitslist f-cb">
+							<li class="f-fl current" title="视频：101家庭助手" data-id="1006784202" style="width:50%;" id="auto-id-1545293907209"><span class="f-icon u-icon-video2"></span></li>
+						</ul>
+						<div class="j-unitct unitct">
+							<div class="b-10"></div>
+							<div class="m-learnunitUI f-pr learn-plan-container">
+								<div class="j-unitctBox unitctBox f-pr" style="height: 500.625px; overflow-y: visible;">
+									<div></div>
+									<div class="ux-video-player">
+										<div class="u-edu-h5player" id="auto-id-1545293907267">
+											<div class="bg f-pa"></div>
+											<div class="u-edu-h5player-pcdisplay f-pa j-display f-cn" id="auto-id-1545293907266">
+												<div class="bbg"></div>
+												<a class="statewrap f-pa j-statewrap" style="display: none;">
+													<div class="sbg"></div>
+													<div class="buffering f-pa j-buffering" style="display: none; transform: rotate(0deg);"></div>
+													<div class="replay f-pa j-replay" style="display: none;">
+														<div class="ic"></div>
+														<p class="txt">重播</p>
+													</div>
+												</a>
+											</div>
+											<div>
+												<div class="u-edu-h5player-pread f-pa j-pread" style="display: none;"></div>
+												<div class="u-edu-h5player-pread-cover j-pread-cover"></div>
+											</div>
+											<div class="u-edu-h5player-controlwrap j-controlwrap">
+												<div class="u-edu-h5player-srt j-srt">
+													<div class="srt_item z-show" style="font-size: 26px;">{视频文字}</div>
+												</div>
+												<div class="m-progressbar progresswrap" id="auto-id-1545293907287">
+													<div class="backgroundbar"></div>
+													<div class="bufferbar" style="width: 16.7926%;"></div>
+													<div class="progressbar" style="width: 3.62595%;"></div>
+													<div class="drag_item" style="left: 24.1126px;"></div>
+													<div class="time" style="left: 47.6374px;">00:41</div>
+													<div class="placeholder"></div>
+												</div>
+												<!--播放按钮-->
+												<a href="javascript:void(0);" class="bigplaybtn j-bigplaybtn" id="auto-id-1545293907273">
+													<i class="u-edu-h5player-icon icon-big_play_btn"></i>
+												</a>
+												<!--控制条-->
+												<div class="m-controlbar j-controlbar f-cb">
+													<div class="g-left f-fl">
+														<div class="controlbar_btn pausebtn j-pausebtn z-show" id="auto-id-1545293907269">
+															<i class="u-edu-h5player-icon icon-pause"></i>
+														</div>
+														<div class="controlbar_btn playbtn j-playbtn z-hide" id="auto-id-1545293907268">
+															<i class="u-edu-h5player-icon icon-play"></i>
+														</div>
+														<span class="current_time j-current_time">00:19</span>
+														<span class="seperator">/</span>
+														<span class="duration j-duration">08:44</span>
+													</div>
+													<div class="g-right f-fr">
+														<div class="controlbar_btn volumebtn j-volumebtn" id="auto-id-1545293907272">
+															<i class="u-edu-h5player-icon icon-volume"></i>
+															<div class="m-popover m-popover-volume j-popover-volume">
+																<div class="m-progressbar m-progressbar-vb volumebar" id="auto-id-1545293907285">
+																	<div class="backgroundbar"></div>
+																	<div class="bufferbar"></div>
+																	<div class="progressbar" style="height: 80%;"></div>
+																	<div class="drag_item" style="bottom: 59.2px;"></div>
+																</div>
+															</div>
+														</div>
+														<div class="controlbar_btn ratebtn j-ratebtn" id="auto-id-1545293907277">
+															<span class="ratebtn_text j-ratebtn_text">1x</span>
+															<div class="m-popover m-popover-rate" id="auto-id-1545293907278">
+																<ul>
+																	<li class="item" data-index="0">0.75倍速</li>
+																	<li class="item z-sel" data-index="1">1倍速</li>
+																	<li class="item" data-index="2">1.25倍速</li>
+																	<li class="item" data-index="3">1.5倍速</li>
+																	<li class="item" data-index="4">1.75倍速</li>
+																	<li class="item" data-index="5">2倍速</li>
+																</ul>
+															</div>
+														</div>
+														<div class="controlbar_btn captionbtn j-captionbtn" id="auto-id-1545293907279">
+															<span class="captionbtn_text">字幕</span>
+															<div class="m-popover m-popover-multi m-popover-caption" id="auto-id-1545293907280">
+																<ul>
+																	<li class="item z-sel" data-index="0">中文</li>
+																</ul>
+															</div>
+														</div>
+														<div class="controlbar_btn cdnbtn j-cdnbtn z-hide">
+															<span class="cdnbtn_text">线路</span>
+														</div>
+														<div class="controlbar_btn qualitybtn j-qualitybtn" id="auto-id-1545293907281">
+															<span class="qualitybtn_text j-qualitybtn_text">标清</span>
+															<div class="m-popover m-popover-quality" id="auto-id-1545293907282">
+																<ul>
+																	<li class="item" data-index="0">超高清</li>
+																	<li class="item" data-index="1">高清</li>
+																	<li class="item z-sel" data-index="2">标清</li>
+																</ul>
+															</div>
+														</div>
+														<div class="controlbar_btn notfullscreen j-notfullscreen" id="auto-id-1545293907271">
+															<i class="u-edu-h5player-icon icon-notfullscreen"></i>
+														</div>
+														<div class="controlbar_btn fullscreen j-fullscreen" id="auto-id-1545293907270">
+															<i class="u-edu-h5player-icon icon-fullscreen"></i>
+														</div>
+													</div>
+												</div>
+
+												<!-- 自动联播提示 -->
+												<div class="u-edu-h5player-controlwrap_autoplaynexttip j-autoplaynexttip">
+													<div class="u-edu-h5player-controlwrap_autoplaynexttip_bg"></div>
+													<p class="u-edu-h5player-controlwrap_autoplaynexttip_content">即将自动播放下一个</p>
+												</div>
+											</div>
+											<div class="u-edu-h5player-watermark f-pa j-watermark" style="display: none;">
+												<span class="u-edu-h5player-watermark_content j-content"></span>
+											</div>
+											<div class="u-edu-h5player-popmenu f-pa j-popmenu">
+												<ul>
+													<li class="u-edu-h5player-popmenu_item u-edu-h5player-popmenu_item-noclick j-item">eduPlayer v0.29.0</li>
+													<li class="u-edu-h5player-popmenu_item j-item" id="auto-id-1545293907274">显示统计信息</li>
+												</ul>
+											</div>
+											<div class="u-edu-h5player-cover f-pa j-cover" id="auto-id-1545293907275" style="display: none;">
+												<img class="cimg f-pa j-coverimg">
+												<a class="playbtnwrap f-pa">
+													<div class="cbg"></div>
+													<div class="playbtn f-pa"></div>
+												</a>
+											</div>
+											<div class="u-edu-h5player-error f-pa j-error" style="display: none;">
+												<div class="emid">
+													<div class="f-ib eic"></div>
+													<span class="f-ib j-error-txt"></span>
+												</div>
+
+												<div class="bwarp">
+													<a class="reloadbtn f-ib j-error-cdn">
+														<span class="">切换线路</span>
+													</a>
+												</div>
+											</div>
+											<div class="u-edu-h5player-log f-pa j-log">
+												<a class="u-edu-h5player-log_close f-pa j-close" id="auto-id-1545293907276">[X]</a>
+												<p class="j-content"></p>
+											</div>
+											<div class="u-edu-h5player-mainvideo f-pa j-mainVideo">
+												<video autoplay="" id="{课时ID}">
+													<source src="" type="video/mp4" id="课时ID">
+												</video>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="j-loginBar loginBar f-f0 f-pr" style="display:none">
+									<p class="txt">可试看 3 分钟，登录后观看完整视频&nbsp;&nbsp;&nbsp;
+										<a class="j-login login" id="auto-id-1545293907253">登录</a>
+									</p>
+								</div>
+								<div class="j-unitctBar unitctBar f-cb">
+									<div class="f-fl"><input class="j-autoNext" type="checkbox" checked=""><span class="f-fc9 f-f0">自动播放下一视频</span></div>
+									<div class="f-fl right j-switchPlayer" style="display: block;"><span class="f-fc9">当前播放器为html5，如播放不畅可</span>
+										<a id="auto-id-1545293907254">切换到flash播放器</a>
+									</div>
+									<a class="f-fl f-fc6 report" href="//www.icourse163.org/about/contactus.htm#/contactus?type=4&amp;playFeedback=1" target="_blank">报告故障&gt;</a>
+									<a class="j-downsrt u-btn u-btn-whiteGreen f-fl" target="_blank" id="auto-id-1545293907255" style="display: none;">字幕下载</a>
+									<div class="j-share f-fr" id="j-share">
+										<div class="ux-share-share-embedded">
+											<div class="ux-share_wrap f-cb">
+												<a class="ux-share_weixin ux-icon-wechat ux-share_solo f-fl f-pr" title="分享到微信">
+													<div class="ux-share_cnt f-f0 f-pa f-dn ux-share_up">
+														<img src="http://edu-image.nosdn.127.net/_PhotoUploadUtils_6e48c0c3-0271-4b0f-81d2-1173b6d868ec.png" width="125" alt="分到到微信">
+														<div class="ux-share_tip">用微信扫描二维码<br>分享至好友和朋友圈</div>
+														<div class="ux-share_tipBg f-pa"></div>
+														<div class="ux-share_tipTp f-pa"></div>
+													</div>
+												</a>
+												<a class="ux-share_sina ux-icon-weibo ux-share_solo f-fl" title="分享到新浪微博"></a>
+												<a class="ux-share_qzone ux-icon-QQ ux-share_solo f-fl" title="分享到QQ空间"></a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="j-learning-plan f-fr" id="j-learning-plan">
+							<div class="u-learningState" id="j-learningState-container" style="right: 40px; bottom: 20px;">
+								<!--Regular if3-->
+								<!--Regular if4-->
+							</div>
+						</div>
+						<div class="j-unithelplink f-cb"></div>
+					</div>
+				</div>
+	</body>
+
+</html>

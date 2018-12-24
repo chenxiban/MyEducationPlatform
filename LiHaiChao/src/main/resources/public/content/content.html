@@ -32,7 +32,7 @@
 	</head>
 
 	<body>
-		<div class="j-moduletitle u-learn-moduletitle f-cb">
+		<div class="j-moduletitle u-learn-moduletitle f-cb" id="kejianzhutidiv">
 			<h2 class="f-fl j-moduleName">课件</h2>
 			<p class="u-helplink f-fc9 f-fr">
 				<a class="f-fcgreen" href="/help/help.htm#/hf?t=2" target="_blank">查看帮助</a>
@@ -69,7 +69,16 @@
 					license: '粤A45466'
 				}
 			]
+			var dates=[];
+			var token = window.localStorage.getItem("token");
+			var courseId = window.localStorage.getItem("courseId");
+			var url="http://localhost:3011/lihaichao/LiHaiChao/stuSelectionCourse/getCurrAndCoverMap";
+			$.post(url,courseId,function(res){
+				alert("ss");
+				dates=res;
+			},"json");
 			//绘制单个div
+			alert(dates);
 			function setDiv(item) {
 								var div='<!--课件章节显示-->'
 									+'<div class="titleBox j-titleBox f-cb" id="auto-id-1544679583886">'
@@ -77,14 +86,14 @@
 										+'<div class="f-icon cpicon j-down f-fl u-icon-caret-up" style=""></div>'
 										+'<div class="f-icon cpicon j-up f-fl u-icon-caret-down" style="display: none;"></div>'
 										+'<div class="cpicon j-noContent f-fl" style="display: none;">&nbsp;</div>'
-										+'<h3 class="j-titleName name f-fl f-thide">' + item.business + '{章节名称}(章节总分钟精确到min)</h3>'
+										+'<h3 class="j-titleName name f-fl f-thide" id="'+item.chapterId+'">' + item.chapterName + '{章节名称}(章节总分钟精确到min)</h3>'
 									+'</div>'
 									+'<div class="f-pa line j-line"></div>'
 									+'<!--课件课时显示主体-->'
 									+'<div class="lessonBox j-lessoBox">'
-										+'<div class="u-learnLesson normal f-cb f-pr" id="auto-id-1544679583889">'
+										+'<div class="u-learnLesson normal f-cb f-pr" id="">'
 											+'<div class="j-icon icon f-pa icon-3"></div>'
-											+'<h4 class="j-name name f-fl f-thide">' + item.count + '101{课时名称}(课时的时间min)</h4>'
+											+'<h4 class="j-name name f-fl f-thide">' + item.chapterName + '101{课时名称}(课时的时间min)</h4>'
 											+'<div class="j-typebox f-cb f-fr">'
 												+'<div>'
 													+'<div class="f-icon lsicon f-fl learned" data-cid="1006784202" title="视频：101{课时名称}" id="auto-id-1544679584469"><span class="u-icon-video2">{视频连接路径}</span></div>'
@@ -98,13 +107,36 @@
 			//循环加载到页面
 			function getnoApplicationData() {
 				var html = ''
-				for(var i = 0; i < data.length; i++) {
-					html += setDiv(data[i])
+				for(var i = 0; i < dates.length; i++) {
+					html += setDiv(dates[i])
 				}
 				noApplicationRecord.innerHTML = html
 			}
 
-			window.onload = getnoApplicationData()
+			window.onload = getnoApplicationData();
+			var num = true;
+			$('.titleBox.j-titleBox.f-cb').on('click', function() {
+				//itemIndex = $(this).index();
+				var t=$(".titleBox.j-titleBox.f-cb").index(this);
+				$('.titleBox.j-titleBox.f-cb').eq(t).each(function() {
+					if(num) {
+						$(".f-icon.cpicon.j-up.f-fl.u-icon-caret-down").eq(t).css("display", 'none');
+						$(".f-icon.cpicon.j-down.f-fl.u-icon-caret-up").eq(t).css("display", 'block');
+						$(".lessonBox.j-lessoBox").eq(t).css('display', 'block');
+						return num=false;
+					} else{
+						$(".f-icon.cpicon.j-up.f-fl.u-icon-caret-down").eq(t).css("display", 'block');
+						$(".f-icon.cpicon.j-down.f-fl.u-icon-caret-up").eq(t).css("display", 'none');
+						$(".lessonBox.j-lessoBox").eq(t).css('display', 'none');
+						return num=true;
+					}
+				}); //
+			});
+			$('.j-name.name.f-fl.f-thide').on('click', function() {
+				var tt=$(".j-name.name.f-fl.f-thide").index(this);
+				$("#kejianzhutidiv").load('test.html');
+				$('#noApplicationRecord').css("display","none");
+			});
 		</script>
 	</body>
 

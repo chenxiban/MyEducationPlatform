@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.lhc.entity.StuCourseComment;
-import com.cxb.lhc.entity.queryCountAndAvgState;
 import com.cxb.lhc.service.StuCourseCommentService;
 import com.cxb.lhc.util.Result;
 
@@ -51,8 +50,6 @@ public class StuCourseCommentController {
 		  map.put("rows", rList);
 		  return map;
 	}
-	
-	
 	/**
 	 * 根据课程id
 	 * 该课程的评价总条数

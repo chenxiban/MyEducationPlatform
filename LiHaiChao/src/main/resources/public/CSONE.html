@@ -1047,19 +1047,33 @@
 					<a hidefocus="true" target="_blank" class="schoolImg f-fl" title="北京大学" href="/university/PKU">
 						<img class="" id="" src="https://nos.netease.com/edu-image/370D4ADD98FE6993DE1970DB0060ACCA.png?imageView&amp;thumbnail=220y80&amp;quality=100" alt="北京大学" width="108" height="40">
 					</a>
+					<script>
+						$(function(){
+							var token = window.localStorage.getItem("token");
+							var courseId = window.localStorage.getItem("courseId");
+							var url="http://localhost:3011/lihaichao/LiHaiChao/stuSelectionCourse/getCurrAndNoticeByCurrId";
+							$.post(url,courseId,function(res){
+								$("#chapterName").text(res.chapterName);
+							},"json")
+						})
+					</script>
 					<div class="f-fl info">
 						<div class="f-cb">
 							<a hidefocus="true" class="f-fl" target="_blank" href="/course/PKU-1003471009">
-								<h4 class="f-fc3 courseTxt">人工智能与信息社会</h4>
+								<h4 class="f-fc3 courseTxt" id="chapterName">人工智能与信息社会</h4>
 							</a>
-
 						</div>
 						<h5 class="f-fc6 padding-top-5">
-<a class="f-fcgreen" href="/u/ykt1432655824951" target="_blank">陈斌</a>
-</h5>
+							<a class="f-fcgreen" href="/u/ykt1432655824951" target="_blank">陈斌</a>
+						</h5>
 					</div>
 					<div class="f-fr comment">
-						<div class="comment_link" id="j-comment-link">评价课程</div>
+						<script>
+							function PJKC(){
+								window.location.href="selectCourse/selectCourse.html";
+							}
+						</script>
+						<div class="comment_link" id="j-comment-link" onclick="PJKC()">评价课程</div>
 						<div class="comment_rating" id="j-comment-rating"></div>
 					</div>
 				</div>
@@ -1067,8 +1081,19 @@
 			<div class="g-wrap f-cb">
 				<div class="g-sd1">
 					<div class="m-learnleft">
+						<script>
+							$(function(){
+								var token = window.localStorage.getItem("token");
+								var courseId = window.localStorage.getItem("courseId");
+								var url="http://localhost:3011/lihaichao/LiHaiChao/stuSelectionCourse/getCurrAndCoverMap";
+								$.post(url,courseId,function(res){
+									console.log(res.covermapUrl)
+									$("#chapterURL").src=res.covermapUrl;
+								},"json")
+							})
+						</script>
 						<div class="top f-pr">
-							<img class="" id="" src="https://edu-image.nosdn.127.net/166E901A949622FAC6CE55E006059141.jpeg?imageView&amp;thumbnail=510y288&amp;quality=100" alt="人工智能与信息社会" width="230" height="130">
+							<img class="" id="chapterURL" src="https://edu-image.nosdn.127.net/166E901A949622FAC6CE55E006059141.jpeg?imageView&amp;thumbnail=510y288&amp;quality=100" alt="人工智能与信息社会" width="230" height="130">
 
 							<div class="u-searchIpt search" style="display:none;">
 								<form action="/search.htm" autocomplete="off" target="_blank">
@@ -1122,14 +1147,10 @@
 											} else if(number == 2) {
 												$("#courseLearn-inner-box").load('score/score.html');
 											} else if(number == 3) {
-												$.ajax({
-													url: "content/content.html",
-													cache: true,
-													async: false,
-													success: function(html) {
-														$("#courseLearn-inner-box").html(html);
-													}
-												});
+												var url = "content/content.html";
+												$('#courseLearn-inner-box').html('');
+												$('#courseLearn-inner-box').append(' <iframe name="testLoad" style="width:100%;height: 100%;"></iframe>');
+												window.open(url, 'testLoad');
 											} else if(number == 4) {
 												$("#courseLearn-inner-box").load('testlist/testlist.html');
 											} else if(number == 6) {

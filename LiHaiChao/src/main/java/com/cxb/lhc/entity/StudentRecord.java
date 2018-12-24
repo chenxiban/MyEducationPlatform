@@ -33,8 +33,8 @@ public class StudentRecord {
 	private Integer unitCourseId;
 	@Column(columnDefinition="int  DEFAULT 0 NOT NULL comment '备注:视频学习时长'  ")
 	private int videoStudentingTime;
-	@Column(columnDefinition="int  DEFAULT 0 NOT NULL comment '备注:视频退出时间'  ")
-	private int videoExitTime;
+	@Column(columnDefinition="double  DEFAULT 0 NOT NULL comment '备注:视频退出时间'  ")
+	private Double videoExitTime;
 	@Column(columnDefinition="int DEFAULT 0 NOT NULL comment '备注:视频学习状态'  ")
 	private int studentState;
 	@Transient 

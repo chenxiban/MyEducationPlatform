@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+
+<head>
+	<title>人工智能与信息社会_北京大学_中国大学MOOC(慕课)</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<link rel="stylesheet" href="css/bulma.min.css" />
+	<link rel="stylesheet" href="css/element-ui.css" />
+
+	<link rel="stylesheet" href="css/pt_web_course_into.css" />
+
+	<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css" />
+
+	<link rel="stylesheet" href="css/font-awesome.min.css" />
+
+	<link rel="stylesheet" href="css/style.css">
+	<link href="layer/mobile/need/layer.css" />
+	<script src="layer/jquery-1.8.2.min.js"></script>
+	<script src="layer/layer.js"></script>
+	
+	<!--<script type="text/javascript" src="easyui/jquery.min.js"></script>-->
+	<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/element-ui.js"></script>
+	<script type="text/javascript" src="js/axios.min.js"></script>
+
+	<script type="text/javascript" src="js/pathb_message.js"></script>
+	<script type="text/javascript" src="js/tool.min.js"></script>
+	<script type="text/javascript" src="js/DATracker.sync.js"></script>
+	
+
+</head>
+
+<body>
+	<div id="j-activityBanner" class="f-dn ga-click" data-cate="小黄条" data-action="点击" style="position:relative;z-index:300;"></div>
+	<div id="j-activityRightBanner" class="ga-click" style="position:fixed;z-index:300;text-align:right;right: 16px;bottom:143px;"></div>
+	<div id="j-appbanner" style="position:relative;z-index:300;"></div>
+	<div id="g-container">
+		<div class="web-nav-container">
+			<div class="m-navTop-func">
+				<div class="m-navTop-func-i">
+					<div class="u-navLogin-container">
+						<div class="u-navLogin-logo new-nav-spoc-logo">
+							<a href="//www.icourse163.org" target="_top">
+								<img width="190" height="28" src="//edu-image.nosdn.127.net/C0124E0336721FF65563B76A16A8143F.png?imageView&thumbnail=190y28&quality=100">
+							</a>
+						</div>
+						<div class="e-hover-source u-navLogin-course">
+							<a href="//www.icourse163.org/category/all" target="_top">
+								<span class="nav">课程</span>
+							</a>
+							<div class="e-hover-target">
+								<div class="e-hover-arrow"></div>
+								<div class="e-hover-arrow-border"></div>
+								<div class="e-hover-content">
+									<div class="j-nav-CateBox u-cateBox-container"></div>
+								</div>
+							</div>
+						</div>
+						<div class="u-navLogin-school">
+							<a href="//www.icourse163.org/university/view/all.htm" target="_top">
+								<span class="nav">名校</span>
+							</a>
+						</div>
+						<div class="u-navLogin-discuss">
+							<a href="//kaoyan.icourse163.org" target="_top">
+								<span class="nav">2019考研</span>
+							</a>
+						</div>
+						<div class=" u-navLogin-cloud">
+							<a href="//www.icourse163.org/spoc/schoolcloud/index.htm" target="_blank">
+								<span class="nav">学校云</span>
+							</a>
+						</div>
+						<div class="j-kaoyan-link u-navLogin-kaoyan">
+							<a href="//www.icourse163.org/topics/mszl/" target="_blank">
+								<span class="nav">名师专栏</span>
+							</a>
+						</div>
+						<div class="j-latest-mark u-navLogin-mark f-f0 f-dn">
+							<span>新</span>
+						</div>
+						<div class="web-nav-right-part">
+							<div class="u-navLogin-app">
+								<img width="13" height="21" src="//edu-image.nosdn.127.net/03CC83FA97B35119DFB8C772754765CC.png?imageView&thumbnail=13y22&quality=100">
+							</div>
+							<div class="e-hover-source u-navLogin-appText">
+								<a href="//www.icourse163.org/mobile.htm?from=navibar&mobiletopbar=hidden" target="_top">
+									<span class="nav">客户端</span>
+								</a>
+								<div class="e-hover-target">
+									<div class="e-hover-arrow"></div>
+									<div class="e-hover-arrow-border"></div>
+									<div class="e-hover-content">
+										<div class="u-app-download-container">
+											<div class="u-app-tip">
+												<span>扫码下载官方APP</span>
+											</div>
+											<div class="u-app-qrcode">
+												<img width="140" height="140" src="//img-ph-mirror.nosdn.127.net/Rg6muO26iMOFWx9vwEHC-g==/6630234335885341999.png">
+											</div>
+											<div class="u-app-iphone-link">
+												<a href="//itunes.apple.com/cn/app/id977883304" target="_blank"></a>
+											</div>
+											<div class="u-app-android-link">
+												<a href="//study.163.com/pub/ucmooc/ucmooc-android-official.apk" target="_blank"></a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--
+                                	作者：offline
+                                	时间：2018-12-11
+                                	描述：头部搜索框与按钮re
+                                -->
+
+							<div class="u-navLogin-searchFunc">
+								<div class="u-navLogin-searchFunc-i">
+
+									<div class="j-search-box u-search-container">
+										<div class="j-input u-search-input"></div>
+
+										<div class="u-search-icon">
+											<span class="u-icon-search2 j-searchBtn"></span>
+										</div>
+									</div>
+
+									<!--<div class="u-searchIpt search" >
+									<form action="/search.htm" autocomplete="off" target="_blank">
+										
+										<input type="text" name="search"><input class="f-icon" type="submit" value="">
+									<div class="j-search-box u-search-container">
+									<div class="u-search-icon" style="margin-right:-20px;">			
+										<input class="f-icon" type="submit" value="">
+										</div>
+										</div>
+									</form>
+								  </div>-->
+
+								</div>
+
+							</div>
+
+							<!--个人中心
+                                    	作者：offline
+                                    	时间：2018-12-11
+                                    	描述：
+                                    -->
+							<div class="ga-click u-navLogin-myCourse" data-cate="首页_头部导航" data-action="个人中心">
+								<div class="u-navLogin-myCourse-t">
+									<div class="ga-click u-navLogin-myCourse u-navLogin-center-container" data-cate="首页_头部导航" data-action="个人中心">
+										<a href="//www.icourse163.org/home.htm?userId=1140075698" target="_top">
+											<span class="nav">个人中心</span>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="u-navLogin-loginBox">
+								<div class="u-navLogin-loginBox-i">
+									<div class="m-navlinks" id='j-topnav'>
+										<div class="login f-cb">
+											<div class="info f-pr j-nav-info-box __e2e__test__nav">
+												<div class="face f-fl f-thide">
+													<a class="" href="/home.htm?userId=1140075698" target="_self">
+														<img class="" id="my-img" src="https://img1.ph.126.net/i8oChoaVh6C7r3BlaUYmUg==/6597355639682264170.jpg" width="30" height="30" alt="陌沫mooc35">
+													</a>
+												</div>
+												<div class="j-nav-set sets __e2e__test__menu" style="display:none">
+													<div class="e-hover-arrow"></div>
+													<div class="e-hover-arrow-border"></div>
+													<ul class="set">
+														<li class="text"><span class="f-fc9">正使用“腾讯QQ”帐号登录</span></li>
+														<!--<li class="f-dn j-my-live">
+																<a class="f-fc6 ga-click" data-cate="导航栏" href="/live/liveRoom.htm" data-action="头像下点击" target="_blank">我的直播</a>
+															</li>-->
+														<li class="j-cert-card" style="display:none;">
+															<a class="f-fc6" href="/home.htm?userId=1140075698#/home/mycert" target="_blank">我的认证证书</a>
+														</li>
+														<li class="j-coupons">
+															<a class="f-fc6" href="/user/myCoupons.htm" target="_blank">我的优惠券</a>
+														</li>
+														<!--	<li class="j-partner-man" style="display:none;">
+																<a class="f-fc6" href="/partnerAdmin/superAdmin.htm" target="_blank">高教社管理员</a>
+															</li>
+															<li class="j-editor-man" style="display:none;">
+																<a class="f-fc6 j-editor-txt" href="/partnerAdmin/editorAdmin.htm" target="_blank"></a>
+															</li>
+															<li class="j-columnist" style="display:none;">
+																<a class="f-fc6" href="/column/management/index.htm" target="_blank">专栏管理后台</a>
+															</li>
+															<li class="j-school-man" style="display:none;">
+																<a class="f-fc6" href="/collegeAdmin/schoolPanel.htm" target="_blank">高校管理后台</a>
+															</li>
+															<li class="j-bsite" style="display:none;">
+																<a class="f-fc6" href="/bsite/list.htm" target="_blank">站点管理</a>
+															</li>
+															<li class="j-postgrade-man" style="display:none;">
+																<a class="f-fc6" href="/collegeAdmin/postgradExamSchoolPanel.htm" target="_blank">考研高校管理后台</a>
+															</li>
+															<li class="j-offline-nonteacher-entry" style="display:none;">
+																<a class="f-fc6" href="/offlineClass/teacherPanel.htm#/oct" target="_blank">慕课堂管理</a>
+															</li>
+															<li class="j-teacher-man" style="display:none;">
+																<a class="f-fc6" href="/collegeAdmin/teacherPanel.htm" target="_blank">课程管理后台</a>
+															</li>
+															<li class="j-kaoyan-order" style="display:none;">
+																<a class="f-fc6" href="/collegeAdmin/kaoyanOrder.htm" target="_blank">考研订单</a>
+															</li>
+															<li class="j-column-order __e2e__test__columnorder" style="display:none;">
+																<a class="f-fc6" href="/collegeAdmin/columnOrder.htm" target="_blank">专栏订单</a>
+															</li>
+															<li class="j-teacher-main" style="display:none;">
+																<a class="f-fc6" href="/u/mooc1525497192540" target="_blank">老师主页</a>
+															</li>-->
+														<li>
+															<a class="f-fc6" href="/user/setting/personInfoEdit.htm" target="_blank">设置</a>
+														</li>
+														<li class="exit">
+															<a class="f-fc6" href="/member/logout.htm">退出</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+											<div class="j-passportforplug" style="display:none;">C931A258DF19592DB87DE8A4D689D92D</div>
+											<div class="arrow"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="g-body">
+			<div class="m-top f-cb f-pr f-f0">
+				<!--
+                	作者：offline
+                	时间：2018-12-12
+                	描述：左边图片显示
+                -->
+				<div class="g-flow">
+					<div id="j-breadcrumb"></div>
+
+					<div class="g-sd1 video-intro">
+						<div id="j-courseImg" class="m-recimg">
+							<img class="img" id="" src="https://edu-image.nosdn.127.net/166E901A949622FAC6CE55E006059141.jpeg?imageView&thumbnail=510y288&quality=100" width="510" height="288" alt="图片">
+							<div class="click-btn-wrapper f-pa">
+								<a class="clickBtn">
+									<span class="u-icon-play f-ib f-vam"></span>
+									<span class="f-ib f-vam">播放视频简介</span>
+								</a>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!--
+            	作者：offline
+            	时间：2018-12-12
+            	描述：右边显示的课时内容
+            -->
+				<div class="g-mn1 course-enroll-info-wrapper">
+					<div class="title-wrapper">
+						<div class="f-cb f-pr">
+							<div class="f-fl course-title-wrapper">
+								<span class="course-title f-ib f-vam" style="margin-left:0px;">人工智能与信息社会</span>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="course-show">
+					<div style="margin-left:20px; padding-top:15px;" class="term-select">第几次开课</div>
+					<div style="display: block; margin-left: 20px;" class="term-info">
+						<span>开课时间:</span>
+						<span style="display: inline-block; margin-left: 320px;" class="term-progress">进行至第几周</span>
+
+					</div>
+
+					<div class="term-workload">
+						<span style="margin-left: 20px;">学时安排:</span>
+					</div>
+
+				</div>
+
+				<div class="f-fl course-button">
+					<div class="f-fl course-count">
+						<span>已有多少人参加</span>
+					</div>
+					<div>
+						<a href="" id="successbutton" class="button is-success" style="width:180px; height:45px; font-size:14px;margin-top: 10px; background-color:orangered;">立即参加</a>
+					</div>
+
+				</div>
+
+			</div>
+
+			<!--
+        	作者：offline
+        	时间：2018-12-12
+        	描述：选项卡页面
+        -->
+			<script>
+				$(function() {
+					var itemIndex = 0;
+
+					$('.m-infomation_tabs .ga-click.m-infomation_tabs_tab').on('click', function() {
+						var $this = $(this);
+						itemIndex = $this.index();
+						$this.addClass('selected f-ib f-vam').siblings('.f-ib.f-vam').removeClass("selected f-ib f-vam");
+						//alert(itemIndex);
+						$('.course').eq(itemIndex).show().siblings('.course').hide();
+					});
+				})
+			</script>
+
+			<div class="g-flow">
+				<div class="b-40"></div>
+				<div class="g-wrap f-cb">
+					<div class="g-mn2">
+						<div class="g-mn2c f-bgw m-infomation f-f0" id="bigContent">
+							<div class="m-infomation_tabs" style="display: inline-block;">
+								<div class="ga-click m-infomation_tabs_tab selected f-ib f-vam" id="detail-tag-button" style="display: inline-block;">课程详情</div>
+								<div class="ga-click m-infomation_tabs_tab f-ib f-vam" id="review-tag-button" @click="reviewbutton" style="display: inline-block;">课程评价<span  class="commentCount">({{cnum}})</span></div>
+							</div>
+							<!--课程详情
+	作者：offline
+	时间：2018-12-17
+	描述：
+  -->
+
+							<div id="content-section" class="course">
+								<!--<div id="j-rectxt" class="f-dn">spContent=本课程是教育部-微软产学合作协同育人项目成果，课程面向大学生和社会公众，结合社会热点和算法实践项目，介绍人工智能技术的基本概念、发展历史、经典算法、应用领域和对人类社会的深远影响，展示信息社会各领域中人工智能的应用发展前景，为大学生和社会公众提供一个深入理解人工智能的入门基础。</div>-->
+								<div id="j-course-heading-intro" class="course-heading-intro">
+									<div class="course-heading-intro_intro" id="j-rectxt2"></div>
+									<div class="course-heading-intro_team">—— 课程团队</div>
+								</div>
+								<div class="category-title f-f0">
+									<span class="category-title_icon f-ib f-vam u-icon-categories"></span>
+									<span class="f-ib f-vam">课程概述</span>
+								</div>
+								<div class="category-content j-cover-overflow">
+									<div class="f-richEditorText">
+
+									</div>
+								</div>
+								<div class="category-title f-f0">
+									<span class="category-title_icon f-ib f-vam u-icon-scholar"></span>
+									<span class="f-ib f-vam">授课目标</span>
+								</div>
+								<div class="category-content j-cover-overflow">
+									<div class="f-richEditorText">
+
+									</div>
+								</div>
+								<div class="category-title f-f0">
+									<span class="category-title_icon f-ib f-vam u-icon-bookmark"></span>
+									<span class="f-ib f-vam">课程大纲</span>
+								</div>
+								<div class="category-content j-cover-overflow">
+
+								</div>
+								<div class="category-title f-f0">
+									<span class="category-title_icon f-ib f-vam u-icon-scholar"></span>
+									<span class="f-ib f-vam">预备知识</span>
+								</div>
+								<div class="category-content j-cover-overflow">
+									<div class="f-richEditorText">
+
+									</div>
+								</div>
+								<div class="category-title f-f0" id="requirements">
+									<span class="category-title_icon  f-ib f-vam f-15 u-icon-cert2"></span>
+									<span class="f-ib f-vam">证书要求</span>
+								</div>
+								<div class="category-content j-cover-overflow">
+									<div class="f-richEditorText">
+
+									</div>
+								</div>
+								<div class="category-title f-f0">
+									<span class="category-title_icon f-ib f-vam f-18 u-icon-stacks"></span>
+									<span class="f-ib f-vam">参考资料</span>
+								</div>
+								<div class="category-content j-cover-overflow">
+									<div class="f-richEditorText">
+
+									</div>
+								</div>
+								<div class="category-title f-f0">
+									<span class="category-title_icon f-ib f-vam f-18 u-icon-questioning"></span>
+									<span class="f-ib f-vam">常见问题</span>
+								</div>
+								<div class="category-content j-cover-overflow">
+									<div class="f-richEditorText">
+
+									</div>
+								</div>
+							</div>
+
+							
+
+							<!--点踩赞/取消赞/踩
+                                	作者：offline
+                                	时间：2018-12-18
+                                	描述：
+                                -->
+							<script>
+								$(function() {
+									$(".fa.fa-thumbs-up").click(function() {
+
+										$(this).toggleClass('cs');
+									})
+									$(".fa.fa-thumbs-down").click(function() {
+										$(this).toggleClass('cs');
+									})
+								})
+							</script>
+
+							
+
+							<div id="comment-section" class="course" style="display: none;  ">
+								<div class="ux-mooc-comment-course-comment" id="commentRate">
+									<nav class="level" id="showSumComments" style="font-size:24px;color: orangered;">
+										<!-- Left side -->
+										<div class="level-left">
+											<div class="level-item">
+												<p class="subtitle is-2">
+													<strong id="rating" style="color: orangered;">{{cavg}}</strong>
+												</p>
+											</div>
+											<div class="level-item has-text-centered">
+												<div>
+													<div class="heading">
+														<el-rate
+  															v-model="value6"
+ 															 disabled						 
+  															 text-color="#ff9900"
+  															 score-template="{value}" style="padding-top:10px;">
+													</el-rate>
+													</div>
+													<span class="commentCount2" style="color: gray;font-size: 12px;">共{{cnum}}条评价</span>
+												</div>
+											</div>
+
+										</div>
+
+										<!-- Right side -->
+										<div class="level-right" id="divBtn">
+											<p class="level-item">
+												<a id="commentBtn" v-show="isShow"  @click="dialogVisiblee = true" class="button is-success" style="margin-left:0px; width: 90px; height: 30px;font-size:12px;">我来评价</a>
+
+											</p>
+										</div>
+
+									</nav>
+
+								</div>
+								<!--
+                                	作者：offline
+                                	时间：2018-12-22
+                                	描述：添加评价课程的弹框
+                                -->
+                                <div>
+                                	
+                                
+								<el-dialog :visible.sync="dialogVisiblee" width="30%"  :before-close="handleClose">
+									<el-form :model="ruleForm" :rules="addrule" ref="ruleForm">
+										<el-form-item prop="name">
+											<span style="font-size: 20px; display: block;">撰写《{课程名称}》的评价</span>
+										</el-form-item>
+										<el-form-item>
+											<p style=" display: block;"><span style="color: red;">*</span><span>总评</span></p>
+										</el-form-item>
+										<el-form-item prop="rate">
+											<el-rate v-model="ruleForm.rate"  score-template="{value}" show-text="true"   :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+											</el-rate>
+										</el-form-item>
+										<el-form-item>
+											<span style="color:red; margin-left:1px;">*&nbsp;</span><span>评价内容</span>
+										</el-form-item>
+										<el-form-item prop="context">
+											<el-input type="textarea" v-model="ruleForm.context" placeholder="*可以从评价内容、授课方式等角度评价课程">
+											</el-input>
+											<span id="explain">总共可输入5-1200字</span>
+										</el-form-item>
+									</el-form>
+
+									<span slot="footer" class="dialog-footer">
+											
+												<a type="primary" @click="commitBtn('ruleForm')" class="button is-success" style="width:70px; font-size: 14px;">提交</a>
+												
+												<a  id="clearBtn" @click="callOf('ruleForm')" class="button" style="width:70px;font-size: 14px; background-color: gainsboro;">重置</a>
+
+											
+											</span>
+
+									
+
+								</el-dialog>
+								</div>
+
+								<!--
+                                	作者：offline
+                                	时间：2018-12-19
+                                	描述：显示评价信息
+                                -->
+
+								<div id="startShow">
+                                
+									<table id="showComments" v-for="(item,index) in items" :data="commentList.slice((currentPage-1)*pagesize,currentPage*pagesize)" >
+										<tr>
+											<td style="border:0;">
+												<img src="img/head.jpg" style="width:50px; height:50px;border-radius:50%">
+											</td>
+											<td style="border:0;">
+												<p style="margin-left:20px;margin-top:10px;">昵称
+													<span style="margin-left:15px;">显示星级:{{item.commentStart}}
+												     <el-rate
+  															v-model="value3"
+ 															 disabled
+ 														 
+  															 text-color="#ff9900"
+  															 score-template="{value}" style="padding-top:10px;">
+													</el-rate>
+													</span>
+												</p>
+												<p style="margin-left:20px;padding-top: 10px;">{{item.commentContext}}</p>
+												<p style="color: gray;margin-left:20px;margin-top:10px;">发表于{{item.commentTime}} <span>{{item.courseCount}}</span></p>
+
+											</td>
+											<td>
+												<div style="margin-left:300px; margin-bottom: 0px;">
+													<p>
+														<a  style="margin-left: 20px;"  v-on:click="updComment(item)" @click="dialogVisible = true">编辑</a>&nbsp;&nbsp
+														<a id="delComment"  @click="delComment(item)">删除</a>
+													</p>
+
+												</div>
+											</td>
+											<td style="padding-left:50px;">
+												<i @click="dianZan(item)" class="fa fa-thumbs-up" aria-hidden="true">
+											<span class="count1">0</span>
+											
+	
+									    </td>
+									    
+										<td style="padding-left: 10px;">
+													<i @click="caiZan(item,index)"  :class="{ red:changeRed == index}"  class="fa fa-thumbs-down" aria-hidden="true">
+										      	 	<span class="count2">0</span>
+										      	 	
+										</td>
+										
+										</tr>
+									</table>
+									
+									
+											<!--
+                                	作者：offline
+                                	时间：2018-12-22
+                                	描述：修改课程评价的弹框
+                                -->
+                                <div>
+                                	
+                                
+									<el-dialog :visible.sync="dialogVisible" width="30%">
+									<el-form :model="updaForm" :rules="rules" ref="updaForm">
+										<el-form-item prop="name">
+											<span style="font-size: 20px; display: block;">撰写《{课程名称}》的评价</span>
+										</el-form-item>
+										<el-form-item>
+											<p style=" display: block;"><span style="color: red;">*</span><span>总评</span></p>
+										</el-form-item>
+										<el-form-item prop="rate">
+											<el-rate v-model="updaForm.urate"  score-template="{value}" show-text="true"  :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+											{{commentStart}}
+											</el-rate>
+										</el-form-item>
+										<el-form-item>
+											<span style="color:red; margin-left:1px;">*&nbsp;</span><span>评价内容</span>
+										</el-form-item>
+										<el-form-item prop="context">
+											<el-input type="textarea" v-model="updaForm.ucontext" placeholder="*可以从评价内容、授课方式等角度评价课程">
+											  {{commentContext}}
+											</el-input>
+											<span id="explain">总共可输入5-1200字</span>
+										</el-form-item>
+									</el-form>
+
+									<span slot="footer" class="dialog-footer">
+											
+												<a @click="updCommitBtn('updaForm')" class="button is-success" style="width:70px; font-size: 14px;">提交</a>
+												<a id="clearBtn" @click="callOf('updaForm')"  class="button" style="width:70px;font-size: 14px; background-color: gainsboro;">重置</a>
+
+											
+											</span>
+
+									
+
+								</el-dialog>
+								</div>	
+									
+									<!--
+                                	作者：offline
+                                	时间：2018-12-19
+                                	描述：评价信息中的分页显示
+                                -->
+
+									<div id="page">
+										<el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="pagesize"
+      background
+      layout="total,sizes, prev, pager, next, jumper"
+      :total="commentList.length">
+    </el-pagination>
+
+    
+									</div>
+									
+									
+									
+									
+
+								</div>
+						
+								
+								
+								
+								
+							<script type="text/javascript">
+                                                    	//qweqweqwe
+                                                   
+							new Vue({
+									el:'#bigContent',
+									data:{
+										changeRed:0,
+										cnum:'',
+										cavg:'',
+										items:[],
+										dialogVisible: false,
+										dialogVisiblee: false,
+										value3:[],//为什么一直以最后一个分值显示？
+										value6:null,
+										//修改所需参数
+										commentId:'',
+										commentContext:'',
+										commentStart:'',
+										cId:'',
+										//
+										dcId:'',
+										dcourseId:'',
+										ccId:'',
+										ccourseId:'',
+										//
+										commId:'',
+										updaForm:{
+											urate:'',
+											ucontext:''
+										},
+										ruleForm:{
+											rate:'',
+											context:''
+											
+										},
+										
+										rules:{
+											 ucontext: [
+                                                { required:true, message: '请填写评价内容', trigger: 'blur' },
+                                                 { min: 1, max: 6, message: '至少填写5个字符', trigger: 'blur' }
+                                                
+											 ],
+											 urate:[
+											  {required: true, message: '请选择评价星级', trigger: 'change' }
+											 ]
+											},
+											addrule:{
+											
+											context:[
+                                                { required:true, message: '请填写评价内容', trigger: 'blur' },
+                                                 { min: 1, max: 6, message: '至少填写5个字符', trigger: 'blur' }
+                                                
+											 ],
+											 rate:[
+											  {required: true, message: '请选择评价星级', trigger: 'change' }
+											 ]	
+											
+											},
+											isShow:true,
+											
+											 
+											
+										
+										//分页参数
+										currentPage:1,//初始页
+										pagesize:10,//每页显示10条数据
+										commentList:[],
+										//星级显示内容
+										texts:["非常失望", "比较失望，不推荐", "马马虎虎，不太推荐", "课程很不错，有待提高", "棒！强烈推荐"],
+										msg:"欢迎使用饿了么Element"
+											
+											//token:"xxxyyyzzz"
+
+									},
+									//已创建就调用
+									created() {
+                                      /*this.handleUserList()*/
+                                     this.commentNum();
+                                     this.commentAvg();
+                                     //this.updComment();
+   									 },
+									methods:{
+										//获取评价总条数
+										commentNum:function(){
+											var vm = this;
+											axios({
+													method:'post',
+													url:'http://localhost:3011/lihaichao/LiHaiChao/stuCourseComment/queryCountNum',
+													params:{
+													 courseId:1
+													  
+							
+						  							}
+												}).then(function(res) {
+													vm.cnum=res.data;
+													//console.log(vm.cnum+"999999");
+												})
+													
+											
+										},
+										//获取评价平均分
+										commentAvg:function(){
+											var vm = this;
+											axios({
+													method:'post',
+													url:'http://localhost:3011/lihaichao/LiHaiChao/stuCourseComment/queryCommentStart',
+													params:{
+													 courseId:1
+													  
+							
+						  							}
+												}).then(function(res) {
+													vm.cavg=res.data;
+													vm.value6=res.data;
+													//console.log(vm.value6+"999999");
+												})
+										},
+										 //点击课程评价选项卡按钮
+										reviewbutton:function(){	
+									
+											var vm = this;
+											//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);						
+												axios({
+													method:'post',
+													url:'http://localhost:3011/lihaichao/LiHaiChao/stuCourseComment/getStuCourseCommentByPage',
+													params:{
+													 courseId:1,
+													 page:1,
+													 size:10  
+							
+						  							}
+												})
+												.then(function(res) {
+													/*if(res){
+														vm.isShow=false;
+													}
+													*/
+													vm.items =res.data.rows;
+													vm.commentList=vm.items;
+													
+													for(var i=0;i<vm.items.length;i++){
+														vm.value3=vm.items[i].commentStart;
+														vm.commId=vm.items[i].commentId;
+													console.log(vm.commId+vm.msg+"哈哈哈哈");
+
+													}
+													
+													//window.location.reload();
+																										vm.msg = `服务器响应的数据是${res}`;
+													
+
+												})
+												.catch(function(error) {
+													
+													vm.msg = `请求服务器失败`;
+												});
+										},
+										//添加弹出层里的提交方法
+										commitBtn:function(formName) {
+        								 this.$refs[formName].validate((valid) => {
+        								 	var vm=this;
+        								 	var commentContext=vm.ruleForm.context;
+        								 	var commentStart=vm.ruleForm.rate;
+        								 	alert(commentContext+"lllll")
+          									if (valid){
+            									axios({
+													method:'post',
+													url:'http://localhost:3011/lihaichao/LiHaiChao/stuCourseComment/saveStuCourseComment',
+													params:{
+													 commentContext:commentContext,
+												     commentStart:commentStart,
+												     courseId: 1,//
+												     studentId: 2 //登录用户 的id
+							
+						  							}
+												}).then(function(res){
+													var datas=res.data;
+													
+													if(datas.state==1){
+														
+														layer.alert(datas.msg, {
+														icon: 6
+													});
+													
+													//location.reload();
+													
+													}else{
+														layer.alert(datas.msg, {
+														icon: 5
+													});
+													}
+												})
+          										}else{
+           												 console.log('error submit!!');
+           												 return false;
+         											 }
+        								});
+     								},
+     								
+     						//点击弹框中取消按钮时的方法		
+                        callOf(formName){
+　　                                          //this.dialogVisible=false;
+　　                       this.$refs[formName].resetFields();//对该表单项进行重置，将其值重置为初始值并移除校验结果
+                        },
+                        //点击弹框中x时的方法
+                        handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
+						//让原先的内容显示在弹框中
+						 updComment:function(event){
+								var vm = this;
+							    vm.commentId=event.commentId;
+							    vm.commentContext=event.commentContext;
+							    vm.commentStart=event.commentStart;
+							    
+                                   
+						 },
+    
+     						
+     								//修改弹出层里的提交方法
+										updCommitBtn(formName) {
+        								 this.$refs[formName].validate((valid) => {
+        								 	var vm=this;
+        								 	var commentId=vm.commentId;
+        								 	var commentContext=vm.updaForm.ucontext;
+        								 	var commentStart=vm.updaForm.urate;
+        								 	alert(commentContext+"lllll")
+          									if (valid){
+            									axios({
+													method:'post',
+													url:'http://localhost:3011/lihaichao/LiHaiChao/stuCourseComment/upDateStuCourseComment',
+													params:{
+													 commentContext:commentContext,
+												     commentStart:commentStart,
+												     commentId:commentId
+												     
+							
+						  							}
+												}).then(function(res){
+													var datas=res.data;
+													
+													if(datas.state==1){
+														
+														layer.alert(datas.msg, {
+														icon: 6
+													});
+													//location.reload();
+													
+													}else{
+														layer.alert(datas.msg, {
+														icon: 5
+													});
+													}
+												})
+          										}else{
+           												 console.log('error submit!!');
+           												 return false;
+         											 }
+        								});
+     								},
+     								
+     								
+							        delComment:function(item){
+							        	//alert(item)
+							        var vm = this;
+							        vm.cId=item.commentId;
+							        var comm=vm.cId;
+							        //alert(vm.cId+"1111")
+							        alert(comm+"22222")
+							         
+							         axios({
+													method:'post',
+													url:'http://localhost:3011/lihaichao/LiHaiChao/stuCourseComment/delStuCourseComment',
+													params:{
+													 
+												     commentId:comm
+												     
+							
+						  							}
+													})
+							         			.then(function(res){
+													var datas=res.data;
+													
+													if(datas.state==1){
+														
+														layer.alert(datas.msg, {
+														icon: 6
+													});
+													
+													//window.location.reload();
+													
+													}else{
+														layer.alert(datas.msg, {
+														icon: 5
+													});
+													}
+												})
+							         
+     									
+     								},
+     								
+     								dianZan:function(item){
+     									var vm=this;
+     									vm.dcId=item.commentId;
+     									var d=vm.dcId;
+     									var el = item.target; //点击时获取当前元素
+     									alert(d+"1111111")
+     									axios({
+													method:'post',
+													url:'http://localhost:3011/lihaichao/LiHaiChao/stuGivePraise/saveStuGivePraise',
+													params:{
+													 studentId:2,//登录用户的id
+												     commentId:d
+												     
+												     
+							
+						  							}
+												}).then(function(res){
+													var datas=res.data;
+													
+													if(datas.state==1){
+														
+														layer.alert(datas.msg, {
+														icon: 6
+													});
+													
+													
+													}else{
+														layer.alert(datas.msg, {
+														icon:5
+													});
+													}
+												});
+											
+     									
+     									
+     								},
+     								//踩赞方法
+     								caiZan:function(item){
+     									var vm=this;
+     									vm.ccId=item.commentId;
+     									var d=vm.ccId;
+     									alert(d+"222222")
+     									axios({
+													method:'post',
+													url:'http://localhost:3011/lihaichao/LiHaiChao/stuGivePraise/updStuNoPraise',
+													params:{
+													 studentId:2,//登录用户的id
+												     commentId:d
+						  							}
+												})
+     									.then(function(res){
+													var datas=res.data;
+													
+													if(datas.state==1){
+														
+														layer.alert(datas.msg, {
+														icon: 6
+													});
+													vm.changeRed = index;
+													}else{
+														layer.alert(datas.msg, {
+														icon:5
+													});
+													}
+												})
+     									
+     									
+     								},
+     								
+     								//分页方法
+     								 handleSizeChange:function(size) {
+     								 	 this.pagesize = size;
+                                      console.log(this.pagesize);
+                                    },
+                                     handleCurrentChange:function(page) {
+                                     	 this.currentPage = page;
+                                     console.log(this.currentPage);
+                                    }
+                                 
+									}
+										
+										
+									})
+								
+												
+								
+							</script>
+
+								
+   								 													
+
+							</div>
+
+						</div>
+
+					</div>
+					<!--老师详情
+	作者：offline
+	时间：2018-12-17
+	描述：
+-->
+
+					<div class="g-sd2 m-sd2">
+						<div class="m-sdCourse" id="j-sdCourse"></div>
+						<div class="m-sdinfo">
+							<div id="j-center" class="m-center f-dn"></div>
+							<div class="f-bgw">
+								<div class="m-teachers">
+									<a data-cate="课程介绍页" data-action="点击学校logo" data-label="13001-北京大学" class="ga-click m-teachers_school-img f-ib" href="/university/PKU" target="_blank">
+										<img class="" id="" src="https://nos.netease.com/edu-image/370D4ADD98FE6993DE1970DB0060ACCA.png?imageView&thumbnail=220y80&quality=100" width="220" height="80" alt="北京大学">
+									</a>
+									<div class="m-teachers_teacher-list">
+										<div class="t-title f-fc3 f-f0">授课老师</div>
+										<a data-cate="课程介绍页" data-action="点击课程团队头像" data-label="1003708010-陈斌" class="ga-click u-tchcard f-cb" href="/u/ykt1432655824951" target="_blank">
+											<img class="f-fl" id="" src="https://edu-image.nosdn.127.net/10636448AE4BA3F5B8B1A4F84B2254FE.jpg?imageView&thumbnail=180y180&quality=100" width="55" height="55" alt="陈斌">
+
+											<div class="cnt f-fl">
+												<h3 class="f-fc3">陈斌</h3>
+												<p class="lector-title f-fc9 f-f0">副教授</p>
+											</div>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="g-wrap m-foot f-pr" id="j-footer">
+				<div class="g-flow f-cb">
+					<div class="f1 f-fl">
+						<div class="logo"></div>
+						<p class="f-fc14 f-fc9">由高教社联手网易推出，让每一个有提升愿望的用户能够学到中国知名高校的课程，并获得认证。</p>
+					</div>
+					<div class="f4 f-fr f-pr">
+						<h4 class="f-fcc">友情链接</h4>
+						<div class="f-cb">
+							<a href="http://163.lu/dwEyu0" target="_blank" class="f-fc9 f4a">网易卡搭</a>
+							<a href="//study.163.com/" target="_blank" class="f-fc9 f4a">网易云课堂</a>
+							<a href="//100.163.com/" target="_blank" class="f-fc9 f4a">网易100分</a>
+						</div>
+					</div>
+					<div class="f3 f-fr f-pr">
+						<h4 class="f-fcc">关注我们</h4>
+						<div class="f-cb">
+							<a class="f-icon f-fc9 u-icon-weixin weixin gzIc f-pr f-fl">
+								<div class="tipQrcode f-pa">
+									<div class="qrImag">
+										<img src="//edu-image.nosdn.127.net/ceff46a7-e151-4a3a-b208-90e41721870c.jpg?imageView&thumbnail=860y860&quality=100" width="120px" height="120px" alt="加中M微信好友">
+									</div>
+									<div class="tip f-pa"></div>
+								</div>
+							</a>
+							<a href="//weibo.com/icourse163" target="_blank" class="f-icon f-fc9 gzIc f-fs1 f-fl u-icon-weibo weibo"></a>
+						</div>
+					</div>
+					<div class="f2 f-fr f-pr">
+						<h4 class="f-fcc">关于我们</h4>
+						<div class="f-cb">
+							<a href="/about/aboutus.htm" target="_blank" class="f-fc9 f2a">关于我们</a>
+							<a href="/spoc/schoolcloud/index.htm" target="_blank" class="f-fc9 f2a">学校云</a>
+							<a href="/about/contactus.htm#/contactus?type=2" target="_blank" class="f-fc9 f2a">联系我们</a>
+							<a href="/help/help.htm" target="_blank" class="f-fc9 f2a">常见问题</a>
+							<a href="/about/contactus.htm#/contactus?type=4" target="_blank" class="f-fc9 f2a">意见反馈</a>
+							<a href="/about/contactus.htm#/contactus?type=5" target="_blank" class="f-fc9 f2a">法律条款</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="beian">
+					<p class="f-fc12 f-fc6">
+						<a class="f-fc6" target="_blank" href="//www.miitbeian.gov.cn/state/outPortal/loginPortal.action">粤B2-20090191-26</a> | 京ICP备12020869号-2 |
+						<a class="f-fc6" target="_blank" href="//www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010602000207">京公网安备44010602000207</a> <br>?2014-2018 icourse163.org </p>
+				</div>
+
+			</div>
+		</div>
+
+		<!--<script>
+			window.courseDefaultImg = "//edu-image.nosdn.127.net/65d6907b-b4ff-4409-bbcc-e4dcc285e00b.jpg?imageView&quality=100";
+			window.termDto = {
+				duration: "",
+				startTime: "1543456800000",
+				endTime: "1550158200000",
+				termId: "1003708010",
+				videoId: "1010751190",
+				enrollCount: "3921",
+				testName: 'test123',
+				bigPhoto: "https://edu-image.nosdn.127.net/166E901A949622FAC6CE55E006059141.jpeg?imageView&thumbnail=510y288&quality=100",
+				closeVisableStatus: "1",
+				publishStatus: "2",
+				chargeableCert: "",
+				id: "1003708010",
+				specialChargeableTerm: "0",
+				courseLoad: "2小时左右每周",
+				courseStyle: "",
+				mode: "0",
+				chargable: "false",
+				price: "0",
+				originalPrice: "0"
+			};
+
+			window.courseDto = {
+				name: "人工智能与信息社会",
+				id: "1003471009",
+				videoId: "1010751190",
+				shortName: "0809PKU037",
+				channel: "1",
+				mode: "0"
+			};
+			window.chiefLector = {
+				memberId: 6537518
+			};
+			window.staffLectors = [];
+			window.staffAssists = [];
+			window.schoolDto = {
+				shortName: "PKU",
+				name: "北京大学"
+			};
+			window.termInfoList = [{
+				id: "1003708010",
+				courseId: "1003471009",
+				startTime: "1543456800000",
+				endTime: "1550158200000",
+				duration: "",
+				text: "2018年11月29日-2019年02月14日"
+			}];
+			window.categories = [{
+				id: "1001043131",
+				name: "计算机",
+				type: "4",
+				linkName: "computer"
+			}];
+			window.isPreview = "0";
+			window.certApplyPrefix = "/cert/apply.htm";
+			window.pkuCourseCloseTime = "";
+			window.hasPassword = "0";
+		</script>
+		<script onerror="javascript:window.errorEventHandler && window.errorEventHandler(event)" src="//mc.stu.126.net/pub/s/core_4472e314360ce01112b05aa36630eae7.js"></script>
+		<script onerror="javascript:window.errorEventHandler && window.errorEventHandler(event)" src="//mc.stu.126.net/pub/s/pt_web_course_intro_230b3404bae6c20693377722014ecc5b.js"></script>
+		<script type="text/javascript">
+			(function() {
+				var bp = document.createElement('script');
+				var curProtocol = window.location.protocol.split(':')[0];
+				if(curProtocol === 'https') {
+					bp.src = '//zz.bdstatic.com/linksubmit/push.js';
+				} else {
+					bp.src = '//push.zhanzhang.baidu.com/push.js';
+				}
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(bp, s);
+			})();
+			(function() {
+				var src = (document.location.protocol == "http:") ? "//js.passport.qihucdn.com/11.0.1.js?8c55f3ce5a3a2c16bf18ef5d07963b1f" : "//jspassport.ssl.qhimg.com/11.0.1.js?8c55f3ce5a3a2c16bf18ef5d07963b1f";
+				document.write('<script src="' + src + '" id="sozz"><\/script>');
+			})();
+		</script>-->
+
+</body>
+
+</html>

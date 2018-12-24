@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cxb.lhc.entity.StuCourseComment;
-import com.cxb.lhc.entity.queryCountAndAvgState;
 import com.cxb.lhc.repository.StuCourseCommentRepository;
 import com.cxb.lhc.service.StuCourseCommentService;
 /**

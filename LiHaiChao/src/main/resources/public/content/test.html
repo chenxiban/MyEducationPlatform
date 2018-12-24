@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>测试课程页面</title>
+		<link rel="stylesheet" href="../css/learn.css" />
+		<link rel="stylesheet" href="../css/xuexiyemian.css" />
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<!--<script type="text/javascript" src="../js/vue.js"></script>-->
+	</head>
+
+	<body>
+		<div class="m-lessonDetail">
+			<div class="u-learn-moduletitle titleBar f-cb">
+				<div class="j-breadcb f-fl">
+					<div class="u-learnBCUI f-cb">
+						<a href="#/learn/content" target="_self" class="f-fl f-fc3 f-f0 link">课件</a><span class="f-icon f-fl icon u-icon-caret-right2"></span>
+						<script>
+							//数据集
+
+							var schools = [{
+									'id': 1,
+									'name': '南京大学'
+								},
+								{
+									'id': 2,
+									'name': '北京大学'
+								},
+								{
+									'id': 3,
+									'name': '浙江大学'
+								},
+								{
+									'id': 4,
+									'name': '清华大学'
+								},
+								{
+									'id': 5,
+									'name': '湖南大学'
+								},
+							];
+							var token = window.localStorage.getItem("token");
+							var courseId = window.localStorage.getItem("courseId");
+							var url = "http://localhost:3011/lihaichao/LiHaiChao/stuSelectionCourse/getCurrAndCoverMap";
+							var schoolschool = [];
+							$.post(url, courseId, function(res) {
+								console.log(res); //输出课程 
+								schoolschool = res; //调用课程的章节名称
+							}, "json")
+							//页面加载运行，将数据集绑定select，显示默认选中学校
+							$(function() {
+								bindSelect();
+								$('#info').text($('#courseSelect').val());
+							});
+							var courseIdas = 0;
+							//将数据集绑定select，重新选择学校后显示选中学校
+							bindSelect = function() {
+									var $schoolSelect = $('#courseSelect');
+									$schoolSelect.change(function() {
+										courseIdas = $('#info').text($(this).val());
+										$.post(url, courseIdas, function(res) {
+											var $schoolSelect = $('#classSelect');
+											if(res.length > 0) {
+												for(var i = 0; i < res.length; i++) {
+													var item = res[i];
+													if(item.id == 2) {
+														$schoolSelect.append('<option value="' + item.id + '" selected>' + item.name + '</option>');
+													} else {
+														$schoolSelect.append('<option value="' + item.id + '">' + item.name + '</option>');
+													}
+												}
+											}
+										}, "json")
+									});
+									var DYschools = [];
+									$.post(url, courseIdas, function(res) {
+											DYschools = res;
+											if(DYschools.length > 0) {
+												for(var i = 0; i < DYschools.length; i++) {
+													var item = DYschools[i];
+													if(item.id == 2) {
+														$schoolSelect.append('<option value="' + item.id + '" selected>' + item.name + '</option>');
+													} else {
+														$schoolSelect.append('<option value="' + item.id + '">' + item.name + '</option>');
+													}
+												}
+											}, "json")
+										/*if(schools.length > 0) {
+											for(var i = 0; i < schools.length; i++) {
+												var item = schools[i];
+												if(item.id == 2) {
+													$schoolSelect.append('<option value="' + item.id + '" selected>' + item.name + '</option>');
+												} else {
+													$schoolSelect.append('<option value="' + item.id + '">' + item.name + '</option>');
+												}
+											}
+										}*/
+									}
+						</script>
+						<div class="f-fl j-chapter">
+							<select class="up j-up f-thide" id="courseSelect">
+							</select>
+							<label class="f-thide list" id="info"></label>
+						</div>
+						<span class="f-icon f-fl icon u-icon-caret-right2"></span>
+						<div class="f-fl j-lesson">
+							<select class="up j-up f-thide" id="classSelect">
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="j-askt f-fr" id="auto-id-1545293907208">
+					<a class="u-btn u-btn-default u-btn-sm f-fr" href="">向老师提问</a>
+				</div>
+			</div>
+			<div class="empty j-empty" style="display: none;"><span class="f-ib">老师还没有发布任何学习内容，请耐心等待</span></div>
+			<div class="j-lscontent lscontent">
+				<ul class="j-unitslist unitslist f-cb">
+					<li class="f-fl current" title="视频：101家庭助手" data-id="1006784202" style="width:50%;" id="auto-id-1545293907447"><span class="f-icon u-icon-video2"></span></li>
+				</ul>
+				<div class="j-unitct unitct">
+					<div class="b-10"></div>
+					<div class="m-learnunitUI f-pr learn-plan-container">
+						<div class="j-unitctBox unitctBox f-pr" style="height: 500.625px; overflow-y: visible;">
+							<div></div>
+							<div class="ux-video-player">
+								<div class="u-edu-h5player" id="auto-id-1545293907492">
+									<div class="bg f-pa"></div>
+									<div class="u-edu-h5player-pcdisplay f-pa j-display f-cn" id="auto-id-1545293907491">
+										<div class="u-edu-h5player-mainvideo f-pa j-mainVideo" style="text-align:center">
+											<div style="text-align:center" class="u-edu-h5player-mainvideo f-pa j-mainVideo">
+												<video id="video1">
+													<source src="../MP4/GX.mp4" type="video/mp4">
+												</video>
+											</div>
+											<script type="text/javascript">
+												//获取视频dom
+												var myVideo = document.getElementById("video1");
+												//设置视频播放和暂停
+												myVideo.onclick = function() {
+													if(myVideo.paused) {
+														myVideo.controls = true;
+														myVideo.load();
+														myVideo.play();
+													} else {
+														myVideo.pause();
+													}
+												}
+												//获取视频总时长
+
+												//获取当前视频时间
+												var currentTime = '';
+												myVideo.ontimeupdate = function() {
+													console.log(this.currentTime);
+													currentTime = this.getCurrentTime();
+													var url2 = "http://localhost:3011/lihaichao/LiHaiChao/stuSelectionCourse/SelStucourse";
+													var studentIds = window.localStorage.getItem("studentId");
+													var studentState = 0;
+													$.post(url, {
+															studentState: studentState,
+															videoExitTime: currentTime,
+															videoStudentingTime: currentTime,
+															studentId: studentIds,
+															unitCourseId: courseIds
+														},
+														function(res) {
+															if(res) {
+																console.log("成功");
+															} else {
+																console.log("失败");
+															}
+														}, "json")
+												};
+												/*//根据上次记忆时间设置视频进度
+												myVideo.addEventListener("loadedmetadata", function() {
+													this.currentTime = currentTime;
+												});*/
+												var tokens = window.localStorage.getItem("token");
+												var courseIds = window.localStorage.getItem("courseId");
+												var urls = "http://localhost:3011/lihaichao/LiHaiChao/stuSelectionCourse/getCurrAndCoverMap";
+												var schoolschools = [];
+												$.post(url, courseIdas, function(res) {
+													console.log(res.coursewarePath);
+													$("#video1").attr("src", res.coursewarePath);
+												}, "json")
+											</script>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--<div class="j-loginBar loginBar f-f0 f-pr" style="display:none">
+								<p class="txt">可试看 3 分钟，登录后观看完整视频&nbsp;&nbsp;&nbsp;
+									<a class="j-login login" id="auto-id-1545293907253">登录</a>
+								</p>
+							</div>-->
+						</div>
+					</div>
+					<div class="j-learning-plan f-fr" id="j-learning-plan">
+						<div class="u-learningState" id="j-learningState-container" style="right: 40px; bottom: 20px;">
+						</div>
+					</div>
+					<div class="j-unithelplink f-cb"></div>
+				</div>
+			</div>
+	</body>
+
+</html>
