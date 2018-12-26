@@ -7,7 +7,7 @@ package com.cxb.lhc.util;
  * @Email          1119616605@qq.com
  */
 public class ResultConst {
-	
+	 
 	//Token
 	public static final  String UNLOGIN = "未登录或请求没有携带合法Token!";	
 	public static final String TOKENEXPIRED = "请求Token过期或携带信息不安全!";

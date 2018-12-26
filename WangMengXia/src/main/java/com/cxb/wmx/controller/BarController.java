@@ -70,7 +70,6 @@ public class BarController {
 		}
 	}
 	
-	
 	/**
 	 * 修改贴吧分类
 	 * http://localhost:3011/wangmengxia/WangMengXia/bar/updateBar

@@ -152,6 +152,7 @@
 	<script type="text/javascript">
 		const token = window.localStorage.getItem("token"); //取出暂存的token数据
 		const refreshToken = window.localStorage.getItem("refreshToken");
+		const loginIds = window.localStorage.getItem("userIds"); // 登录用户的id
 		new Vue({
 			el: '#tables',
 			data: function() {

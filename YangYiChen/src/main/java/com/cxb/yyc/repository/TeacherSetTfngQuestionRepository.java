@@ -37,7 +37,7 @@ public interface TeacherSetTfngQuestionRepository extends JpaRepository<Tfng, In
 	 * @param courseId
 	 * @return
 	 */
-	@Query(value="select * from tfngtb where tfng_chapter_id=1 ",nativeQuery=true)
+	@Query(value="select * from tfngtb where tfng_chapter_id=?1 ",nativeQuery=true)
 	List<Tfng> queryTfng(Integer chapterId);
 	
 	/**
@@ -67,6 +67,6 @@ public interface TeacherSetTfngQuestionRepository extends JpaRepository<Tfng, In
 	 * @param courseId
 	 * @return
 	 */
-	@Query(value="select * from tfngtb where tfng_chapter_id=1 and tfng_course_id=1",nativeQuery=true)
+	@Query(value="select * from tfngtb where tfng_chapter_id=?1 and tfng_course_id=?2",nativeQuery=true)
 	List<Tfng> queryTfng(Integer chapterId,Integer courseId);
 }

@@ -430,4 +430,14 @@ public class PostServiceImpl implements PostService {
 		return postRpository.selectPostCom(postId);
 	}
 
+	@Override
+	public Page<Post> findByPostReport(Integer postReport,Pageable pageable) {
+		return postRpository.findByPostReport(postReport,pageable);
+	}
+
+	@Override
+	public Post findByPostId(Integer postId) {
+		return postRpository.findByPostId(postId);
+	}
+
 }

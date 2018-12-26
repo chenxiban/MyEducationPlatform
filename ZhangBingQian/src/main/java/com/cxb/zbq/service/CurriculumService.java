@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cxb.zbq.OtherEntity.SelectCurriculum;
+import com.cxb.zbq.OtherEntity.TeacherCurriculum;
 import com.cxb.zbq.entity.Curriculum;
 import com.cxb.zbq.entityquery.CurriculumQuery;
 
@@ -37,8 +39,14 @@ public interface CurriculumService {
 	
 	List<Curriculum> getAllCurr();//获取所有课程信息
 	
-	 List<Integer> getCurrIdBySubscriptionNum();//根据订阅人数获取前12条课程id
+	List<Curriculum> getCurrIdBySubscriptionNum();//根据订阅人数获取前20条课程数据
 	 
 	 String getCurrNameByCurrId(Integer currId);//根据课程id获取课程名称
+	 
+ List<TeacherCurriculum> queryByTeacherId(Integer teacherId);//根据老师id获取所有的课程
+	 
+	 List<Integer> queryCurriculumIdByTeacherId(Integer teacherId);//根据登录的老师id获取该老师的所有课程id
+	 
+	 List<SelectCurriculum> queryAllIdAndName(Integer teacherId);//用于课程的下拉列表
 
 }

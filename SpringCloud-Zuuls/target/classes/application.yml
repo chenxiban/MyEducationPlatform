@@ -10,11 +10,11 @@ spring:
   application: 
   #服务名称,随便写
     name: service-zuul
-  http: 
-    multipart: 
-      file-size-threshold: 1Mb
-      max-file-size: 1000Mb
-      max-request-size: 1000Mb
+  #http: 
+    #multipart: 
+      #file-size-threshold: 1Mb
+      #max-file-size: 1000Mb
+      #max-request-size: 1000Mb
     
 # 下面整个树都非必须，如果不配置，
 #将默认使用 http://GATEWAY:GATEWAY_PORT/想要访问的Eureka服务id的小写/** 
@@ -25,10 +25,10 @@ zuul: #需要忽略的头部信息，不在传播到其他服务
   sensitive-headers: Access-Control-Allow-Origin 
   ignored-headers: Access-Control-Allow-Origin,H-APP-Id,Token,APPToken
   host: 
-    socket-timeout-millis: 60000
-    connect-timeout-millis: 60000
-    max-total-connections: 60000
-
+    socket-timeout-millis: 80000
+    connect-timeout-millis: 80000
+    max-total-connections: 80000
+    
 security: 
   oauth2: 
     resource: 

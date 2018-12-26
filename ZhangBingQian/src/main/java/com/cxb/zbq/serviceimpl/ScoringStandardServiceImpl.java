@@ -1,5 +1,7 @@
 package com.cxb.zbq.serviceimpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,24 @@ public class ScoringStandardServiceImpl implements ScoringStandardService {
 	@Override
 	public ScoringStandard findByCurriculumId(Integer currId) {
 		return scRepository.findByCurriculumId(currId);
+	}
+
+	@Override
+	public List<ScoringStandard> queryScoringStandardBycurriculumId(List<Integer> curriculumId) {
+		// TODO Auto-generated method stub
+		return scRepository.queryScoringStandardBycurriculumId(curriculumId);
+	}
+
+	@Override
+	public int updateScStan(Integer scoringStandardId, Integer proportion) {
+		// TODO Auto-generated method stub
+		return scRepository.updateScStan(scoringStandardId, proportion);
+	}
+
+	@Override
+	public ScoringStandard insertScoringStandard(ScoringStandard s) {
+		// TODO Auto-generated method stub
+		return scRepository.save(s);
 	}
 
 }

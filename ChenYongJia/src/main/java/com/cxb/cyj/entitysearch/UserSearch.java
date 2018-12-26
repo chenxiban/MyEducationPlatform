@@ -23,9 +23,9 @@ public class UserSearch {
 
 	private String userName;
 	private String userIsLookout;
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd")
 	private Date birthStart;
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd")
 	private Date birthEnd;
 	private String userProtectEMail;
 	private String userProtectMTel;

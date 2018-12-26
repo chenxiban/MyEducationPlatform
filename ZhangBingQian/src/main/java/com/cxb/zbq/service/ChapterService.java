@@ -2,6 +2,7 @@ package com.cxb.zbq.service;
 
 import java.util.List;
 
+import com.cxb.zbq.OtherEntity.CurriculumChapter;
 import com.cxb.zbq.entity.Chapter;
 
 public interface ChapterService {
@@ -33,4 +34,10 @@ public interface ChapterService {
 
 	// 根据父章节ID查询出该父章节所有子课时的对象
 	List<Chapter> findChapterChildrenById(Integer parentId);
+	
+	//根据章节课时id查询出章节名称
+	String queryChapterIdBychapterName(Integer chapterId);
+	
+	// 查询出一门课程下的所有父章节对象,参数条件为课程ID
+		List<CurriculumChapter> findChapterById(Integer curriculumId);
 }

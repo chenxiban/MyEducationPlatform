@@ -72,6 +72,11 @@ public class Post {
 	@JoinColumn(name="bar_id")	//副表中的外键字段名称
 	private Bar bar;
 	
+	
+	@Transient
+	private Integer postLikeNum;//帖子点赞数
+	@Transient
+	private Integer postCommitNume;//帖子评论数
 	@Transient
 	private String barCategory;
 	@Transient

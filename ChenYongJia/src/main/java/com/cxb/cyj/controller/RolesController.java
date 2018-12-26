@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cxb.cyj.entity.Result;
 import com.cxb.cyj.entity.Roles;
 import com.cxb.cyj.entitysearch.RolesSearch;
+import com.cxb.cyj.service.PermissionService;
 import com.cxb.cyj.service.RolesService;
 import com.cxb.cyj.service.UserService;
 import com.cxb.cyj.util.IsEmptyUtils;
@@ -38,9 +39,12 @@ public class RolesController {
 
 	@Autowired
 	private RolesService rolesService;
+	
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private PermissionService permissionService;
 	/**
 	 * 分页检索查询 http://localhost:3011/chenyongjia/ChenYongJia/roles/getAllPageRoles
 	 * 
@@ -194,9 +198,13 @@ public class RolesController {
 	@RequestMapping(value = "/addByRole", name = "增加角色", method = RequestMethod.GET)
 	public Object addByRole(Integer usersId, Integer rolesId, Integer userId) {
 		if (rolesService.addByRole(rolesId, usersId)) {
+			// 根据用户Id查询出该用户的所有权限
+			List<String> permissionValueList = userService
+					.queryPermissionValueByUserId(userId);
 			List<Integer> urRoles = userService.getUserRole(userId);
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("roleIds", urRoles);
+			map.put("permission",permissionValueList);
 			return new Result(true, map);
 		} else {
 			return new Result(false, "角色增加失败");
@@ -211,13 +219,19 @@ public class RolesController {
 	 */
 	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/delRolesId", name = "移除角色", method = RequestMethod.DELETE)
-	//public Object delRolesId(Integer rolesId, Integer usersId, Integer userId) {
-	public Object delRolesId(Integer rolesId, Integer usersId) {
+	public Object delRolesId(Integer rolesId, Integer usersId, Integer userId) {
 		if (rolesService.deleteByRoleId(rolesId, usersId)) {
 			// 根据用户Id查询出该用户的所有权限
-			/*List<Integer> urRoles = userService.getUserRole(userId);
+			List<Integer> urRoles = userService.getUserRole(userId);
+			// 根据用户Id查询出该用户的所有权限
+						List<String> permissionValueList = userService
+								.queryPermissionValueByUserId(userId);
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("roleIds", urRoles);*/
+			map.put("roleIds", urRoles);
+			map.put("permission",permissionValueList);
+			if (rolesId==3) {// 如果移除的是老师
+				userService.updateUser(usersId,21);
+			}
 			return new Result(true, "角色移除成功");
 		} else {
 			return new Result(false, "角色移除失败");
@@ -232,6 +246,45 @@ public class RolesController {
 	@RequestMapping(value="/getAllRoles",method=RequestMethod.GET)
 	public List<Roles> getAllRoles(){
 		return rolesService.findAll();
+	}
+	
+	/**
+	 * 角色设置权限 http://localhost:3011/chenyongjia/ChenYongJia/roles/setRolePermission
+	 * 
+	 * @author WangChuanWei
+	 * @param roleId
+	 * @param moduleId
+	 * @return
+	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
+	@RequestMapping(value = "/setRolePermission", name = "角色设置操作权限", method = RequestMethod.POST)
+	public Object setRolePermission(Integer roleId, String permissionIds, int id) {
+		if (permissionService.deletePermission(roleId)) {
+			List<Integer> list = new ArrayList<Integer>();
+			String[] ids = permissionIds.split(",");
+			for (int i = 0; i < ids.length; i++) {
+				if (!IsEmptyUtils.isEmpty(ids[i])) {
+					list.add(Integer.parseInt(ids[i]));
+				}
+			}
+			System.out.println("list=>" + list);
+			//String msg=null;
+			boolean k;
+			for (Integer permissionId2 : list) {
+				k = permissionService.setRolePermission(roleId, permissionId2);
+				//msg = "角色roleId=>" + roleId + "->成功设置" + k + "个操作权限.";
+				if (!k) {
+					return new Result(false, "设置失败");// 设置成功
+				}
+			}
+			// 根据用户Id查询出该用户的所有权限
+			List<String> permissionValueList = userService.queryPermissionValueByUserId(id);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("permission", permissionValueList);// 响应给客户端的当前用户权限
+			return new Result(true, map);// 设置成功
+		} else {
+			return new Result(false, "设置失败");// 设置成功
+		}
 	}
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cxb.zbq.entity.CoverMap;
+import com.cxb.zbq.feign.UploadFeign;
 import com.cxb.zbq.service.CoverMapService;
 import com.cxb.zbq.utils.Result;
 
@@ -20,10 +21,12 @@ import com.cxb.zbq.utils.Result;
 public class CoverMapController {
 	@Autowired
 	private CoverMapService coverMapService;
+	@Autowired
+	private UploadFeign uploadFeign;
 
 	@RequestMapping(value = "uploadCoverMap", name = "上传课程封面图")
 	public Object uploadCoverMap(@RequestParam("fileName") MultipartFile file, Integer curriculumId) {
-		Object object=coverMapService.uploadFile(file);
+		Object object=uploadFeign.uploadFile(file);
 		if (object==null) {
 			return new Result("系统错误!!", 0);
 		}

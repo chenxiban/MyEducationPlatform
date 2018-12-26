@@ -84,9 +84,34 @@
 										window.localStorage.setItem("token", res.data.message.object.access_token); //将resObj的message消息中的参数存入token中
 										window.localStorage.setItem("refreshToken", res.data.message.object.refresh_token); //将resObj的message消息中的参数存入token中
 										window.localStorage.setItem("roleIds", res.data.message.roleIds);
+										window.localStorage.setItem("permission", res.data.message.permission);
 										window.localStorage.setItem("loginName", usernames);
-										//vm.$router.go(-1)//返回上一级
-										window.location.href = "http://localhost:3011/chenyongjia/ChenYongJia/mian"; //将token暂存后跳转向main页面
+										axios({
+											method: "put",
+											url: "http://localhost:3011/chenyongjia/ChenYongJia/tokens/saveMyToken",
+											params: {
+												tokenAcc: res.data.message.object.access_token,
+												usersName: usernames
+											}
+										})
+										.then(function(res) {
+											if(res.data.success) {
+												window.location.href = "http://localhost:3011/chenyongjia/ChenYongJia/mian"; //将token暂存后跳转向main页面
+											} else {
+												window.location.href = "http://localhost:3011/chenyongjia/ChenYongJia/mian"; //将token暂存后跳转向main页面
+											}
+										})
+										.catch(function(error) {
+											$alert('请求失败出现错误', '登陆失败', {
+												confirmButtonText: '确定',
+												callback: action => {
+													this.$message({
+														type: 'error',
+														message: '请求失败出现错误'
+													});
+												}
+											});
+										});
 									} else {
 										vm.$alert(res.data.message, '登陆失败', {
 											confirmButtonText: '确定',

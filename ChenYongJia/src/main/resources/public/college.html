@@ -11,10 +11,16 @@
 		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
 		<script type="text/javascript" src="js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
 		<script type="text/jscript" src="js/easyUIvalidate.js"></script>
+		<style type="text/css">
+			.datagrid-td-rownumber {
+				height: 26px;
+			}
+		</style>
 		<!-- 复选框-->
 		<script>
 			var token = window.localStorage.getItem("token"); //取出暂存的token数据
 			var roleId = window.localStorage.getItem("roleIds"); // 登录用户拥有的角色
+			var loginIds = window.localStorage.getItem("userIds"); // 登录用户的id
 			$(function() {
 				$('#tg').treegrid({
 					url: 'http://localhost:3011/chenyongjia/ChenYongJia/college/getCollege?token=' + token,
@@ -74,13 +80,188 @@
 			
 			//操作用户
 			function formatterOPTeacher(value, row, index) {
-				if(row.collegeRmark==1 || row.collegeRmark==2){
-					return "<a class='easyui-linkbutton' iconCls='icon-edit' style='cursor: pointer;' onclick='setTeacher(" + index + ")'>绑定教师</a>";
-				}
-				if(row.collegeRmark==0){
+				if(row.collegeRmark==1){
+					return "<a class='easyui-linkbutton' iconCls='icon-edit' style='cursor: pointer;' onclick='setTeacher()'>绑定教师</a>";
+				}else{
 					return '暂无操作';
 				}
 			}
+			
+			var rowsss;
+			function setTeacher () {
+				var row=$("#tg").treegrid('getSelected');
+				rowsss=$("#tg").treegrid('getSelected');
+				
+				if(row == null || row == '') {
+					$.messager.show({
+						title: '提示信息',
+						msg: '请选中要绑定老师的院系!',
+						timeout: 3000, //推出时间
+						showType: 'slide', //动画效果
+						showSpeed: 3000
+						//显示时间
+					});
+					return;
+				}
+				
+				$("#logDny").window('open');
+				
+				$("#dnys").datagrid({ //为了加载小图标
+					method: 'get',
+					url: 'http://localhost:3011/chenyongjia/ChenYongJia/user/getByTeacher',
+					queryParams: { //datagrid的固定参数
+						access_token: token, //必传
+						collegeId: row.collegeId,
+						p:2
+					},
+					columns: [
+						[{
+								field: 'userId',
+								align: 'center',
+								title: '老师ID',
+								width: 80
+							},
+							{
+								field: 'userName',
+								align: 'center',
+								title: '老师名称',
+								width: 100
+							},
+							{
+								field: 'setPassword',
+								width: 200,
+								align: 'center',
+								title: '操作',
+								formatter: formatterOPUser
+							}
+						]
+					],
+					onLoadSuccess: function(data) {
+						$(".easyui-linkbutton").linkbutton();
+						if(data.length == 0) {
+							alert("暂时没有老师数据！");
+						}
+					}
+				});
+				$("#dnyYes").datagrid({ //为了加载小图标
+					method: 'get',
+					url: 'http://localhost:3011/chenyongjia/ChenYongJia/user/getByTeacher',
+					queryParams: { //datagrid的固定参数
+						access_token: token, //必传
+						collegeId: row.collegeId,
+						p:1
+					},
+					columns: [
+						[{
+								field: 'userId',
+								align: 'center',
+								title: '老师ID',
+								width: 80
+							},
+							{
+								field: 'userName',
+								align: 'center',
+								title: '老师名称',
+								width: 80
+							},
+							{
+								field: 'setPassword',
+								width: 200,
+								align: 'center',
+								title: '操作',
+								formatter: formatterMessOPUser
+							}
+						]
+					],
+					onLoadSuccess: function(data) {
+						$(".easyui-linkbutton").linkbutton();
+						if(data.length == 0) {
+							alert("暂时没有老师数据！");
+						}
+					}
+				});
+			}
+			
+			//操作用户
+			function formatterOPUser(value, row, index) {
+				return "<a class='easyui-linkbutton' iconCls='icon-edit' style='cursor: pointer;' onclick='updBang(" + index + ")'>绑定该院系</a>";
+			}
+
+			//操作用户
+			function formatterMessOPUser(value, row, index) {
+				return "<a class='easyui-linkbutton' iconCls='icon-edit' style='cursor: pointer;' onclick='updJie(" + index + ")'>解除绑定</a>";
+			}
+			
+			function updBang (index) {
+				var data = $("#dnys").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+				
+				if(row == null || row == '') {
+					$.messager.show({
+						title: '提示信息',
+						msg: '请选中要绑定该专业的老师！',
+						timeout: 3000, //推出时间
+						showType: 'slide', //动画效果
+						showSpeed: 3000 //显示时间
+					});
+					return;
+				}
+				
+				$.messager.confirm('确认', '您确认想要为该老师绑定该专业吗？', function(r) {
+						if(r) {
+							$.post("http://localhost:3011/chenyongjia/ChenYongJia/user/updateUser", {
+								access_token: token, //必传
+								userId:row.userId,
+								collegeId:rowsss.collegeId
+							}, function(res) {
+								$.messager.alert({
+									title: '提示信息',
+									msg: res.message,
+									showType: 'show',
+								});
+								$("#dnys").datagrid("load");
+								$("#dnyYes").datagrid("load");
+							});
+						}
+					});
+				
+			}
+			
+			function updJie (index) {
+				var data = $("#dnyYes").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+				
+				if(row == null || row == '') {
+					$.messager.show({
+						title: '提示信息',
+						msg: '请选中要解除绑定的老师！',
+						timeout: 3000, //推出时间
+						showType: 'slide', //动画效果
+						showSpeed: 3000 //显示时间
+					});
+					return;
+				}
+				
+				$.messager.confirm('确认', '您确认想要为该老师解除绑定该专业吗？', function(r) {
+						if(r) {
+							$.post("http://localhost:3011/chenyongjia/ChenYongJia/user/updateUser", {
+								access_token: token, //必传
+								userId:row.userId,
+								collegeId:21
+							}, function(res) {
+								$.messager.alert({
+									title: '提示信息',
+									msg: res.message,
+									showType: 'show',
+								});
+								$("#dnys").datagrid("load");
+								$("#dnyYes").datagrid("load");
+							});
+						}
+					});
+				
+			}
+			
 		</script>
 
 	</head>
@@ -211,6 +392,22 @@
 			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUsers()">保存</a>
 			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlgs').dialog('close')">关闭</a>
 		</div>
+		
+		<!-- 查看老师绑定信息 -->
+			<div id="logDny" class="easyui-window" title="查看老师绑定信息" data-options="iconCls:'icon-search',minimizable:false,closed:true," style="width:35%;height:400px;">
+				<div id="tt" class="easyui-tabs" fit="true">
+					<div title="未划分的老师" fit="true">
+						<table name="center" class="easyui-datagrid" id="dnys" collapsible="true" style="width:100%; height:auto;overflow:auto" data-options="fitColumns:false,rownumbers:true,split:true,pagination:true,pageSize:10,singleSelect: true">
+
+						</table>
+					</div>
+					<div title="该院系的老师" fit="true">
+						<table name="center" class="easyui-datagrid" id="dnyYes" collapsible="true" style="width:100%; height:auto;overflow:auto" data-options="fitColumns:false,rownumbers:true,split:true,pagination:true,pageSize:10,singleSelect: true">
+
+						</table>
+					</div>
+				</div>
+			</div>
 
 		<script type="text/javascript">
 			//新增一个机构

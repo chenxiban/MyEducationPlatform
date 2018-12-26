@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cxb.cyj.entity.Permission;
 
@@ -18,6 +20,8 @@ import com.cxb.cyj.entity.Permission;
  * @Email 867647213@qq.com
  */
 public interface PermissionRepository extends JpaRepository<Permission, Integer>, JpaSpecificationExecutor<Permission>  {
+	
+	
 	
 	/**
 	 * 查询所有权限
@@ -34,5 +38,34 @@ public interface PermissionRepository extends JpaRepository<Permission, Integer>
 	 */
 	@Query(value="SELECT permission_id,permission_name,permission_last_update_time,permission_value,permission_module FROM tb_permission WHERE permission_module=:permissionModule",nativeQuery=true)
 	List<Permission> findsByPermissionModule(@Param(value="permissionModule") String permissionModule);
+	
+	/**
+	 * 根据角色id查询权限id
+	 * @param roleId
+	 * @return
+	 */
+	@Query(value="SELECT permission_id FROM tb_rolepermission WHERE role_id IN (:roleId)",nativeQuery=true)
+	List<Integer> queryPermissionIdsByRoleIds(@Param(value="roleId")List<Integer> roleId);
+	
+	/**
+	 * 设置权限
+	 * @param roleId
+	 * @param permissionIds
+	 * @return
+	 */
+	@Query(value="INSERT INTO tb_rolepermission (role_id,permission_id) VALUES(:roleId,:permissionIds)",nativeQuery=true)
+	@Modifying
+	@Transactional
+	Integer setRolePermission(@Param("roleId")Integer roleId,@Param("permissionIds") Integer permissionIds);
+	
+	/**
+	 * 移除角色权限
+	 * @param roleId
+	 * @return
+	 */
+	@Query(value = "DELETE FROM tb_rolepermission WHERE role_id=:roleId", nativeQuery = true)
+	@Modifying
+	@Transactional
+	Integer deletePermission(@Param(value = "roleId") Integer roleId);
 	
 }

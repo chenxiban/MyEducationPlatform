@@ -1,6 +1,9 @@
 package com.cxb.zbq.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +15,7 @@ import com.cxb.zbq.utils.Result;
 
 @RestController
 @RequestMapping("/scoringStandard")
+@CrossOrigin
 public class ScoringStandardController {
 	@Autowired
 	private ScoringStandardService scStandardService;
@@ -35,6 +39,29 @@ public class ScoringStandardController {
 		if(scStandardService.updateScStan(scoringStandard)>0)
 			return new Result("课程评分标准修改成功", 1);
 		return new Result("课程评分标准修改失败,请稍后再试", 0);
+	}
+	@RequestMapping(value="queryAll",name="根据登录的老师id查询出所有课程的评分标准")
+	public Object queryAll(Integer teacherId) {
+		//先获取老师所拥有的所有课程id
+		List<Integer> listId=curriculumService.queryCurriculumIdByTeacherId(teacherId);
+		//根据获取到的课程id的集合获取评分标准集合
+		List<ScoringStandard> listScoring=scStandardService.queryScoringStandardBycurriculumId(listId);
+		for (int i = 0; i < listScoring.size(); i++) {
+			listScoring.get(i).setCurriculumName(curriculumService.findBycurriculumId(listScoring.get(i).getCurriculumId()).getCurriculumName());
+			listScoring.get(i).setExam(100-listScoring.get(i).getProportion());
+		}
+		return listScoring;
+	}
+	@RequestMapping(value="updateScStanById",name="根据id修改一条信息")
+	public Object updateScStanById(Integer scoringStandardId,Integer proportion) {
+		return scStandardService.updateScStan(scoringStandardId, proportion);
+	}
+	@RequestMapping(value="insert",name="添加一条信息")
+	public Object insertScStandard(ScoringStandard s) {
+		if(scStandardService.insertScoringStandard(s)!=null) {
+			return 1;
+		}
+		return 0;
 	}
 	
 	

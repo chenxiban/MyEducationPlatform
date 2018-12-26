@@ -8,8 +8,6 @@ import com.cxb.zbq.entity.CoverMap;
 
 public interface CoverMapService {
 	
-	Object uploadFile(MultipartFile file);
-	
 	CoverMap insertCoverMap(CoverMap coverMap);//添加课程封面图信息
 
 	/*Integer deleteCoverMap(String covermapId);//根据id删除课程封面图信息

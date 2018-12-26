@@ -18,7 +18,7 @@
 		</style>
 		<script type="text/javascript">
 			var token = window.localStorage.getItem("token"); //取出暂存的token数据
-			var loginIds = window.localStorage.getItem("loginId"); // 登录用户的id
+			var loginIds = window.localStorage.getItem("userIds"); // 登录用户的id
 			$(function() {
 				$("#dg").edatagrid({ //为了加载小图标
 					method: 'GET',
@@ -28,10 +28,10 @@
 					},
 					onLoadSuccess: function() {
 						$(".easyui-linkbutton").linkbutton();
-						$("#dg").datagrid('clearSelections');//再取消选中所有行
+						//$("#dg").datagrid('clearSelections'); //再取消选中所有行
 					}
 				});
-				
+
 				$("#rolesIdss").combobox({
 					method: 'get',
 					valueField: "rolesName",
@@ -87,6 +87,76 @@
 					}
 
 				});
+
+				//设置权限
+				$("#setRolePermission").click(function() {
+					var data = $("#dg").datagrid("getSelected");
+					var nodes = $('#menu').tree('getChecked', ['checked', 'indeterminate']);
+
+					//var nodes = $('#rightTree').tree('getChecked', ['checked', 'indeterminate']);
+
+					var s = "";
+					//字符串拼接基本功，要求手熟
+					if(nodes.length != 0) {
+						for(var i = 0; i < nodes.length; i++) {
+							if(s == "") {
+								if(typeof(nodes[i].permissionId) != "undefined" && nodes[i].permissionId != null && nodes[i].permissionId != "") {
+									s += nodes[i].permissionId;
+								}
+							} else {
+								if(typeof(nodes[i].permissionId) != "undefined" && nodes[i].permissionId != null && nodes[i].permissionId != "") {
+									s += ",";
+									s += nodes[i].permissionId;
+								}
+							}
+						}
+						loginIds = "1";
+						//alert(s);
+						//alert(loginIds);
+						$.messager.confirm('确认', '您确认保存么？', function(r) {
+							if(r) {
+								$.ajax({
+									type: "post",
+									url: "http://localhost:3011/chenyongjia/ChenYongJia/roles/setRolePermission?permissionIds=" + s + "&roleId=" + data.rolesId + "&access_token=" + token + "&id=" + loginIds,
+									cache: false,
+									dataType: "json",
+									success: function(r) {
+										if(r.success) {
+											$.messager.alert("消息", "保存权限成功！");
+											$("#permissionDiv").dialog({
+												closed: true
+											});
+											//roleId = "";
+											//权限设置后，有可能自己的导航中的功能树有改变，需要刷新。
+											//调用顶层窗口的方法，重新加载功能树。
+											//window.localStorage.setItem("permission", r.message.permission);
+											window.top.loadTree();
+										} else {
+											$.messager.alert("消息", r.message);
+										}
+									},
+									function(result) {
+										$.messager.show({
+											title: '提示信息',
+											msg: '请求失败!!!!',
+											timeout: 3000, //推出时间
+											showType: 'slide', //动画效果
+											showSpeed: 3000
+											//显示时间
+										});
+									}
+								});
+							}
+
+						});
+
+					} else {
+						$.messager.alert("消息", "请先选择要添加的权限,再进行保存!");
+						return;
+					}
+
+				});
+
 			});
 
 			//表单序列化以后去掉表单中值为空的参数
@@ -110,7 +180,7 @@
 						if(r) {
 							$.ajax({
 								type: "PUT",
-								url: "http://localhost:3011/chenyongjia/ChenYongJia/roles/addRoles?access_token="+token,
+								url: "http://localhost:3011/chenyongjia/ChenYongJia/roles/addRoles?access_token=" + token,
 								cache: false,
 								data: formData,
 								dataType: "json",
@@ -192,7 +262,7 @@
 						if(r) {
 							$.ajax({
 								type: "POST",
-								url: "http://localhost:3011/chenyongjia/ChenYongJia/roles/updRoles?access_token="+token,
+								url: "http://localhost:3011/chenyongjia/ChenYongJia/roles/updRoles?access_token=" + token,
 								cache: false,
 								data: formData,
 								dataType: "json",
@@ -263,7 +333,7 @@
 			//查询
 			function doSearch() {
 				$('#dg').datagrid('load', {
-					access_token:token,
+					access_token: token,
 					rolesName: $("#rolesIdss").combobox('getValue')
 				});
 			}
@@ -276,6 +346,10 @@
 				return "<a class='easyui-linkbutton' iconCls='icon-tip' style='cursor: pointer;' onclick='setRightData(" + index + ")'>设置模块</a>";
 			}
 
+			function formatterOPPPress(value, row, index) {
+				return "<a class='easyui-linkbutton' iconCls='icon-tip' style='cursor: pointer;' onclick='setQuanXian(" + index + ")'>设置权限</a>";
+			}
+			
 			//设置模块
 			var roleId;
 
@@ -288,10 +362,28 @@
 
 				$.get("http://localhost:3011/chenyongjia/ChenYongJia/modules/queryRoleSetModuleTree", {
 					roleId: data[index].rolesId,
-					access_token:token
+					access_token: token
 				}, function(r) {
 					roleId = data[index].rolesId;
 					$("#rightTree").tree("loadData", r);
+				}, "json");
+
+			}
+
+			//设置权限
+			function setQuanXian(index) {
+				var data = $("#dg").datagrid("getRows"); //getRows相当于getData;
+				$("#permissionDiv").dialog({
+					closed: false,
+					title: "您正在设置" + data[index].rolesName
+				});
+
+				$.get("http://localhost:3011/chenyongjia/ChenYongJia/permission/queryNodess", {
+					token: token,
+					roleId: data[index].rolesId
+				}, function(r) {
+					roleId = data[index].rolesId;
+					$("#menu").tree("loadData", r);
 				}, "json");
 
 			}
@@ -324,7 +416,7 @@
 					if(r) {
 						$.ajax({
 							type: "DELETE",
-							url: "http://localhost:3011/chenyongjia/ChenYongJia/roles/delRoles?roleId=" + ids+"&access_token="+token,
+							url: "http://localhost:3011/chenyongjia/ChenYongJia/roles/delRoles?roleId=" + ids + "&access_token=" + token,
 							cache: false,
 							/*data: {
 								roleId: ids
@@ -379,9 +471,10 @@
 			<thead>
 				<tr>
 					<th data-options="field:'rolesId',width:280,hidden:true">ID</th>
-					<th data-options="field:'rolesName',width:100" >角色名称</th>
+					<th data-options="field:'rolesName',width:100">角色名称</th>
 					<th data-options="field: 'rolesEname',width:100 ">角色英文显示</th>
 					<th data-options="field:'setPassword',width:180,align:'center',formatter:formatterOPUser">操作</th>
+					<th data-options="field:'setPasswords',width:180,align:'center',formatter:formatterOPPPress">操作</th>
 				</tr>
 			</thead>
 		</table>
@@ -469,6 +562,20 @@
 			</table>
 			<div id="setbtn1" style="background: url(img/xingk1.jpg) no-repeat; background-size: 100% 100%;">
 				<a id="setRoleModule" href="#" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+			</div>
+		</div>
+		
+		<!--设置权限-->
+		<div id="permissionDiv" class="easyui-dialog" title="设置权限" style="width:300px;height:450px;" data-options="iconCls: 'icon-save',resizable:true,modal:true,closed:true,buttons: '#setbtn2'">
+			<table id="tabEdit" style="width:100%;height:100%;align-content: center;background: url(img/beijing.jpg) no-repeat; background-size:300px 100%;">
+				<tr>
+					<td>
+						<ul id="menu" class="easyui-tree" data-options="animate:true,lines:true,checkbox:true">
+					</td>
+				</tr>
+			</table>
+			<div id="setbtn2" style="background: url(img/xingk1.jpg) no-repeat;">
+				<a id="setRolePermission" href="#" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 			</div>
 		</div>
 

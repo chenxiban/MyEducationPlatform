@@ -60,5 +60,11 @@ public class CourseWareServiceImpl implements CourseWareService {
 		return cRepository.findByClassHourId(classHourId);
 	}
 
+	@Override
+	public int updateCourseWare(String courseWareId, String coursewareDescription) {
+		// TODO Auto-generated method stub
+		return cRepository.updateCourseWare(courseWareId, coursewareDescription);
+	}
+
 
 }

@@ -127,7 +127,7 @@ public class CollegeController {
 			if (collegeService.delCollge(list)) {
 				return new Result(true, "机构删除成功");
 			} else {
-				return new Result(false, "删除失败");
+				return new Result(false, "删除失败，请先删除绑定的老师或班级");
 			}
 		}
 
@@ -144,7 +144,7 @@ public class CollegeController {
 			if (collegeService.delCollge(list)) {
 				return new Result(true, "机构删除成功");
 			} else {
-				return new Result(false, "删除失败");
+				return new Result(false, "删除失败，请先删除绑定的老师或班级");
 			}
 		} else {
 			List<String> list2 = new ArrayList<String>();
@@ -167,7 +167,7 @@ public class CollegeController {
 			if (collegeService.delCollge(list)) {
 				return new Result(true, "机构删除成功");
 			} else {
-				return new Result(false, "删除失败");
+				return new Result(false, "删除失败，请先删除绑定的老师或班级");
 			}
 		}
 

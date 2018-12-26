@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -86,12 +87,27 @@ public class User implements Serializable {//UserDetails,
 	@NotFound(action = NotFoundAction.IGNORE) // NotFound : 意思是找不到引用的外键数据时忽略，NotFound默认是exception
 	private Set<Roles> rolesSet = new HashSet<Roles>();// 用户所拥有的角色集合
 	
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER) // 指定多对多关系
+	@Cascade(value = { CascadeType.ALL }) // 设置级联关系
+	@JoinTable(name = "tb_userclazz", // 指定第三张中间表名称
+			joinColumns = { @JoinColumn(name = "users_id") }, // 本表主键userId与第三张中间表user_role_tb的外键user_role_tb_user_id对应
+			inverseJoinColumns = { @JoinColumn(name = "clazz_id") }) // 多对多关系另一张表与第三张中间表表的外键的对应关系
+	@NotFound(action = NotFoundAction.IGNORE) // NotFound : 意思是找不到引用的外键数据时忽略，NotFound默认是exception
+	private Set<Clazz> clazzSet = new HashSet<Clazz>();// 老师用户所拥有的班级集合
+	
+	@ManyToOne(targetEntity = College.class)
+	@JoinColumn(name="user_college_id")	//副表中的外键字段名称
+	private College college;
+	
 	@Transient
 	private String Pass;
 	@Transient
 	private String backUrl;
 	@Transient
 	private String token;
+	@Transient
+	private Integer user_college_id;
 	
 	/*@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

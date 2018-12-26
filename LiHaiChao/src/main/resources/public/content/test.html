@@ -16,47 +16,25 @@
 				<div class="j-breadcb f-fl">
 					<div class="u-learnBCUI f-cb">
 						<a href="#/learn/content" target="_self" class="f-fl f-fc3 f-f0 link">课件</a><span class="f-icon f-fl icon u-icon-caret-right2"></span>
-						<script>
-							//数据集
-
-							var schools = [{
-									'id': 1,
-									'name': '南京大学'
-								},
-								{
-									'id': 2,
-									'name': '北京大学'
-								},
-								{
-									'id': 3,
-									'name': '浙江大学'
-								},
-								{
-									'id': 4,
-									'name': '清华大学'
-								},
-								{
-									'id': 5,
-									'name': '湖南大学'
-								},
-							];
-							var token = window.localStorage.getItem("token");
-							var courseId = window.localStorage.getItem("courseId");
-							var url = "http://localhost:3011/lihaichao/LiHaiChao/stuSelectionCourse/getCurrAndCoverMap";
-							var schoolschool = [];
-							$.post(url, courseId, function(res) {
-								console.log(res); //输出课程 
-								schoolschool = res; //调用课程的章节名称
-							}, "json")
+						<script type="text/javascript">
 							//页面加载运行，将数据集绑定select，显示默认选中学校
 							$(function() {
 								bindSelect();
+								var token = window.localStorage.getItem("token");
+								var courseId = window.localStorage.getItem("courseId");
+								var url = "http://localhost:3011/lihaichao/LiHaiChao/stuSelectionCourse/queryId";
+								var schoolschool = [];
+								$.post(url, 9, function(res) {
+									console.log(res); //输出课程 
+									schoolschool = res; //调用课程的章节名称
+								}, "json")
 								$('#info').text($('#courseSelect').val());
 							});
 							var courseIdas = 0;
 							//将数据集绑定select，重新选择学校后显示选中学校
 							bindSelect = function() {
 									var $schoolSelect = $('#courseSelect');
+									console.log("courseId"+5)
 									$schoolSelect.change(function() {
 										courseIdas = $('#info').text($(this).val());
 										$.post(url, courseIdas, function(res) {
@@ -86,16 +64,6 @@
 													}
 												}
 											}, "json")
-										/*if(schools.length > 0) {
-											for(var i = 0; i < schools.length; i++) {
-												var item = schools[i];
-												if(item.id == 2) {
-													$schoolSelect.append('<option value="' + item.id + '" selected>' + item.name + '</option>');
-												} else {
-													$schoolSelect.append('<option value="' + item.id + '">' + item.name + '</option>');
-												}
-											}
-										}*/
 									}
 						</script>
 						<div class="f-fl j-chapter">
@@ -136,54 +104,69 @@
 											</div>
 											<script type="text/javascript">
 												//获取视频dom
-												var myVideo = document.getElementById("video1");
-												//设置视频播放和暂停
-												myVideo.onclick = function() {
-													if(myVideo.paused) {
-														myVideo.controls = true;
-														myVideo.load();
-														myVideo.play();
-													} else {
-														myVideo.pause();
-													}
-												}
-												//获取视频总时长
+												$(function() {
+													var myVideo = document.getElementById("video1");
+													var currentTime = 0.000000;
+													//设置视频播放和暂停
+													myVideo.onclick = function() {
+														if(myVideo.paused) {
+															myVideo.controls = true;
+															//myVideo.load();
+															myVideo.play();
 
-												//获取当前视频时间
-												var currentTime = '';
-												myVideo.ontimeupdate = function() {
-													console.log(this.currentTime);
-													currentTime = this.getCurrentTime();
-													var url2 = "http://localhost:3011/lihaichao/LiHaiChao/stuSelectionCourse/SelStucourse";
-													var studentIds = window.localStorage.getItem("studentId");
-													var studentState = 0;
-													$.post(url, {
-															studentState: studentState,
-															videoExitTime: currentTime,
-															videoStudentingTime: currentTime,
-															studentId: studentIds,
-															unitCourseId: courseIds
+														} else {
+															myVideo.pause();
+														}
+													}
+													//获取当前视频时间
+													$.ajax({
+														type: "get",
+														url: "http://localhost:3011/lihaichao/LiHaiChao/stuSelectionCourse/SelStucourseByID",
+														async: false, //改为同步方式
+														data: {
+															studentId: 1,
+															unitCourseId: 9
 														},
-														function(res) {
-															if(res) {
-																console.log("成功");
-															} else {
-																console.log("失败");
-															}
-														}, "json")
-												};
-												/*//根据上次记忆时间设置视频进度
-												myVideo.addEventListener("loadedmetadata", function() {
-													this.currentTime = currentTime;
-												});*/
+														success: function(res) {
+															currentTime = res
+															console.log("res.currentTime  29.651941=>" + currentTime);
+															return currentTime;
+														}
+													});
+													myVideo.currentTime = currentTime;
+													// 为 video 元素添加 ontimeupdate 事件，如果当前播放位置改变则执行函数  
+													myVideo.ontimeupdate = function() {
+														myFunction()
+													};
+
+													function myFunction() {
+														var url2 = "http://localhost:3011/lihaichao/LiHaiChao/stuSelectionCourse/SelStucourse";
+														console.log("url2===>" + myVideo.currentTime)
+														$.post(url2, {
+																studentId: 1,
+																studentState: 0,
+																videoExitTime: myVideo.currentTime,
+																videoStudentingTime: 0,
+																unitCourseId: 9
+															},
+															function(res) {
+																if(res) {
+																	console.log("成功");
+																} else {
+																	console.log("失败");
+																}
+															}, "json")
+													}
+												})
+												/*//获取视频总时长
 												var tokens = window.localStorage.getItem("token");
 												var courseIds = window.localStorage.getItem("courseId");
 												var urls = "http://localhost:3011/lihaichao/LiHaiChao/stuSelectionCourse/getCurrAndCoverMap";
 												var schoolschools = [];
-												$.post(url, courseIdas, function(res) {
+												$.post(urls, 9, function(res) {
 													console.log(res.coursewarePath);
 													$("#video1").attr("src", res.coursewarePath);
-												}, "json")
+												}, "json")*/
 											</script>
 										</div>
 									</div>

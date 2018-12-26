@@ -17,10 +17,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name="studentCreditTb")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class StudentCredit {//学分表
 	@Id
 	@GeneratedValue
@@ -32,5 +29,60 @@ public class StudentCredit {//学分表
 	private Timestamp lastUpdateTime;//最后一次修改时间
 	@Transient
 	private String studentCreditParam;//临时参数
+	public Integer getStudentCreditId() {
+		return studentCreditId;
+	}
+	public void setStudentCreditId(Integer studentCreditId) {
+		this.studentCreditId = studentCreditId;
+	}
+	public Integer getStudentId() {
+		return studentId;
+	}
+	public void setStudentId(Integer studentId) {
+		this.studentId = studentId;
+	}
+	public Integer getCurriculumId() {
+		return curriculumId;
+	}
+	public void setCurriculumId(Integer curriculumId) {
+		this.curriculumId = curriculumId;
+	}
+	public Double getCredit() {
+		return credit;
+	}
+	public void setCredit(Double credit) {
+		this.credit = credit;
+	}
+	public Timestamp getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+	public void setLastUpdateTime(Timestamp lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
+	}
+	public String getStudentCreditParam() {
+		return studentCreditParam;
+	}
+	public void setStudentCreditParam(String studentCreditParam) {
+		this.studentCreditParam = studentCreditParam;
+	}
+	@Override
+	public String toString() {
+		return "StudentCredit [studentCreditId=" + studentCreditId + ", studentId=" + studentId + ", curriculumId="
+				+ curriculumId + ", credit=" + credit + ", lastUpdateTime=" + lastUpdateTime + ", studentCreditParam="
+				+ studentCreditParam + "]";
+	}
+	public StudentCredit(Integer studentCreditId, Integer studentId, Integer curriculumId, Double credit,
+			Timestamp lastUpdateTime, String studentCreditParam) {
+		super();
+		this.studentCreditId = studentCreditId;
+		this.studentId = studentId;
+		this.curriculumId = curriculumId;
+		this.credit = credit;
+		this.lastUpdateTime = lastUpdateTime;
+		this.studentCreditParam = studentCreditParam;
+	}
+	public StudentCredit() {
+		super();
+	}
 
 }

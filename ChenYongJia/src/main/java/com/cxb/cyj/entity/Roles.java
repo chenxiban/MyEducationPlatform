@@ -85,7 +85,6 @@ public class Roles implements Serializable {
 	// 关联模块
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER, cascade = javax.persistence.CascadeType.ALL) // 指定多对多关系
-																							// //默认懒加载,只有调用getter方法时才加载数据
 	@JoinTable(name = "tb_rolemodules", // 指定第三张中间表名称
 			joinColumns = { @JoinColumn(name = "role_id") }, // 本表主键userId与第三张中间表user_role_tb的外键user_role_tb_user_id对应
 			inverseJoinColumns = { @JoinColumn(name = "modules_id") }) // 多对多关系另一张表与第三张中间表表的外键的对应关系

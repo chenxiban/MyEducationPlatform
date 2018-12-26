@@ -5,16 +5,12 @@
 		<meta charset="utf-8" />
 		<title>学问讨论区</title>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
-		<script type="text/javascript" async="" src="js/qian8.js"></script>
-		<script onerror="javascript:window.errorEventHandler &amp;&amp; window.errorEventHandler(event)" src="js/qian9.js"></script>
-		<script onerror="javascript:window.errorEventHandler &amp;&amp; window.errorEventHandler(event)" src="js/qian1.js"></script>
-		<script onerror="javascript:window.errorEventHandler &amp;&amp; window.errorEventHandler(event)" src="js/qian2.js"></script>
-		<script onerror="javascript:window.errorEventHandler &amp;&amp; window.errorEventHandler(event)" src="js/qian3.js"></script>
-		<script onerror="javascript:window.errorEventHandler &amp;&amp; window.errorEventHandler(event)" src="js/qian4.js"></script>
-		<script onerror="javascript:window.errorEventHandler &amp;&amp; window.errorEventHandler(event)" src="js/qian5.js"></script>
-		<script type="text/javascript" src="js/qian6.js"></script>
-		<script type="text/javascript" src="js/qian7.js"></script>
 		<link rel="stylesheet" href="css/qian.css">
+		<link rel="stylesheet" href="css/element-ui.css">
+		<script src="js/Vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/element-ui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js"></script>
 	</head>
 
 	<body id="auto-id-1544855700305" class="auto-1544855700346-parent">
@@ -29,134 +25,178 @@
 			<div id="j-content" class="g-flow g-flow-1">
 				<div id="j-forum">
 					<div class="forum-wrapper f-pr" href="qian_user.html">
-						<div class="personInfo">
-							<div class="u-personUI">
-								<a href="qian_user.html">
-									<div class="person f-f0">
-										<img src="img/txiang.png" href="qian_user.html" />
-										<p class="f-f0"><span class="nicknam">mooc45861818133533276</span></p>
-										<div class="status f-f0">
-											<p class="shareTxt">分享经验，交流想法</p>
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
 						<div class="forumCnt f-cb">
 							<div class="tabs f-f0 f-cb">
-								<div class="m-tabs">
+								<div class="m-tabs" id="barCategorys">
 									<ul class="tabs_hd">
-										<li class="z-crt">全部</li>
-										<li class="">四周年</li>
-										<li class="">精选</li>
-										<li class="">站内活动</li>
-										<li class="">学习分享</li>
-										<li class="">课程推荐</li>
-										<li class="">优质问答</li>
-										<li class="">问题库</li>
-										<li class="">学识体系</li>
-										<li class="">慕客大V</li>
-										<li class="">2017奖学金</li>
-										<li class="">2016奖学金</li>
-										<li class="">新手帮助</li>
-										<li class="">招人啦</li>
-									</ul>
-									<div class="tabs_bd">
-									</div>
-								</div>
-							</div>
-							<div class="lineWrap f-cb">
-								<div class="sort f-fl f-f0"><span class="timeSort active">时间排序</span><span class="vertical-line" style="margin: 0px 5px;">|</span><span class="hotSort">点赞排序</span></div>
-								<div class="postNew f-fr f-f0">
-									<a class="u-btn-gh" href="qian_fabiao.html"><span class="plus">+</span> 发表主题</a>
-								</div>
-							</div>
-							<div class="forumList f-f0" href="qian_postinfo.html">
-								<div class="listSort"></div>
-								<div class="forum-module-content j-panels u-forumlist-wrapper">
-									<ul class="u-forumlist ">
-										<li class="forum-item f-f0">
-											<div class="face">
-												<a href="qian_user.html" target="_blank">
-													<img alt="我是管理员大人" src="img/txiang.png"></a>
-											</div>
-											<div class="forum-item-info-mobile">
-												<a class="name f-fcgreen" title="我是管理员大人">我是管理员大人</a>
-												<span class="time">11月8日</span>
-											</div>
-											<div class="itemWrap">
-												<div class="title">
-													<a class="f-fcgreen forum-item-title" target="_blank" href="qian_postinfo.html?sortType=1&amp;pageIndex=1">
-														学习使人暴富，千万礼包等你拿！
-													</a>
-													<span class="reply-top-btn f-f0">置顶</span>
-												</div>
-												<div class="cnt ">
-													<p class="postCnt f-f0">
-														<a href="qian_postinfo.html?sortType=1&amp;pageIndex=1" target="_blank">参与活动，点击下方图片↓↓↓----------------------------签到活动奖励领取通知（1206）-------------------------------------------------最终更新11.30日18:26日更新（全部获奖名单）--------------------Hi,各位MOOCer，本次签到学习活动已经全部结束啦~11月的你有没有变得更加勤快优秀呢~以</a>
-													</p>
-													<p class="postImg">
-														<a href="/forum/1001974001/topic-1007520472.htm?sortType=1&amp;pageIndex=1" target="_blank"><img src="//nos.netease.com/edu-image/50c7570eeecf4d2b95e3bc3d03a93bd1.jpg?imageView&amp;thumbnail=520x520&amp;quality=100" alt=""></a>
-														<a href="/forum/1001974001/topic-1007520472.htm?sortType=1&amp;pageIndex=1" target="_blank"><img src="//nos.netease.com/edu-image/608ff44d04fe4d848af890506b8d3adc.png?imageView&amp;thumbnail=520x520&amp;quality=100" alt=""></a>
-														<a href="/forum/1001974001/topic-1007520472.htm?sortType=1&amp;pageIndex=1" target="_blank"><img src="//nos.netease.com/edu-image/c063e2d259a14b62bf68f038350db82b.png?imageView&amp;thumbnail=520x520&amp;quality=100" alt=""></a>
-													</p>
-												</div>
-												<div class="forum-item-info">
-													<a class="name f-fcgreen" title="我是管理员大人" href="qian_user.html" target="_blank">我是管理员大人</a>
-													<span class="time">发表于2018年11月08日</span>
-												</div>
-												<div class="forum-item-func">
-													<span class="browsenum u-icon-vote">&nbsp;4180</span>
-													<span class="replynum u-icon-reply">&nbsp;1726</span>
-												</div>
-											</div>
+										<li class="z-crt" @clike="aa()">全部</li>
+										<li v-for="tab in barCategory" @clike="aa()">
+											{{tab.barCategory}}
+											<!--
+                                            	作者：offline
+                                            	时间：2018-12-27
+                                            	描述：<span v-text="l">{{barCategory}}</span>
+                                            -->
 										</li>
 									</ul>
 								</div>
 							</div>
-							<div id="j-bottom">
+							<div class="lineWrap f-cb">
+								<div class="sort f-fl f-f0"><span class="timeSort active">时间排序</span></div>
+								<div class="postNew f-fr f-f0">
+									<a class="u-btn-gh" href="qian_fabiao.html"><span class="plus">+</span> 发表主题</a>
+								</div>
+								<!--
+                                	作者：offline
+                                	时间：2018-12-27
+                                	描述：:data="listPost.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+                                -->
 							</div>
-							<ul class="m-pager m-pager-right">
-								<li class="pager_prev z-dis">
-									<a>上一页</a>
-								</li>
-								<li class="z-crt">
-									<a>1</a>
-								</li>
-								<li class="">
-									<a>2</a>
-								</li>
-								<li class="">
-									<a>3</a>
-								</li>
-								<li class="">
-									<a>4</a>
-								</li>
-								<li class="">
-									<a>5</a>
-								</li>
-								<li class="">
-									<a>6</a>
-								</li>
-								<li class="">
-									<a>7</a>
-								</li>
-								<li><span>...</span></li>
-								<li class="">
-									<a>1324</a>
-								</li>
-								<li class="">
-									<a>1325</a>
-								</li>
-								<li class="pager_next">
-									<a>下一页</a>
-								</li>
-							</ul>
+							<div class="forumList f-f0" href="qian_postinfo.html">
+								<div class="forum-module-content j-panels u-forumlist-wrapper" id="postWang" data="listPost.slice((currentPage-1)*pagesize,currentPage*pagesize)">
+									<ul class="u-forumlist ">
+										<li class="forum-item f-f0" v-for="tab in listPost" @clike="post()">
+											<div class="face">
+												<a href="qian_user.html" target="_blank">
+													<img src="img/txiang.png">{{tab.userTouurl}}</a>
+											</div>
+											<div class="forum-item-info-mobile">
+												<a class="name f-fcgreen">{{tab.postName}}</a>
+												<span class="time">{{tab.postCreatetime}}</span>
+											</div>
+											<div class="itemWrap">
+												<div class="title">
+													<a class="f-fcgreen forum-item-title" target="_blank" href="qian_postinfo.html?sortType=1&amp;pageIndex=1">
+														{{tab.postTitle}}
+													</a>
+													<!--
+                                                    	作者：offline
+                                                    	时间：2018-12-27
+                                                    	描述：<span class="reply-top-btn f-f0">置顶</span>
+                                                    -->
+												</div>
+												<div class="cnt ">
+													{{tab.postContent}}
+												</div>
+												<div class="forum-item-info">
+													<a class="name f-fcgreen" href="qian_user.html" target="_blank">{{tab.postName}}</a>
+													<span class="time">发表于{{tab.postCreatetime}}</span>
+												</div>
+												<div class="forum-item-func">
+													<span class="browsenum u-icon-vote">&nbsp;{{tab.postLikeNum}}</span>
+													<span class="replynum u-icon-reply">&nbsp;{{tab.postCommitNume}}</span>
+												</div>
+											</div>
+										</li>
+										<div id="page">
+											<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pagesize" background layout="prev, pager, next" :total="total">
+											</el-pagination>
+										</div>
+									</ul>
+
+								</div>
+								<!--<div id="j-pager" class="main-pager">
+									<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background layout="prev, pager, next" :total="listPost.length">
+									</el-pagination>
+								</div>-->
+
+							</div>
+
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
 	</body>
+	<script type="text/javascript">
+		new Vue({
+			el: '#g-body',
+			data: {
+				barCategory: [
+
+				],
+				listPost: [
+
+				],
+				currentPage: 1,
+				pagesize: 9,
+				total: 20
+			},
+			mounted: function() {
+				this.getBarName();
+				this.getPost();
+			},
+			methods: {
+				getBarName() {
+					const vm = this;
+					//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
+					axios({
+							method: "get",
+							url: "http://localhost:3011/wangmengxia/WangMengXia/bar/selectAllBar"
+						})
+						.then(function(res) {
+							vm.barCategory = res.data;
+						})
+				},
+				getPost() {
+					const vm = this;
+					//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
+					axios({
+							method: 'get',
+							url: 'http://localhost:3011/wangmengxia/WangMengXia/post/findByPostReport',
+							params: {
+								//courseId:1,
+								page: 1,
+								size: 10
+
+							}
+						})
+						.then(function(res) {
+							vm.listPost = res.data.rows;
+							vm.total = res.data.total;
+							//window.location.reload();
+
+						})
+				},
+				//分页方法
+				handleSizeChange: function(size) {
+					var vm = this;
+					vm.pagesize = size;
+
+					console.log(pagesize);
+				},
+				handleCurrentChange: function(page) {
+					var vm = this;
+					vm.currentPage = page;
+
+					//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);						
+					axios({
+							method: 'get',
+							url: 'http://localhost:3011/wangmengxia/WangMengXia/post/findByPostReport',
+							params: {
+								//courseId:1,
+								page: vm.currentPage,
+								size: 10
+
+							}
+						})
+						.then(function(res) {
+							vm.listPost = res.data.rows;
+							vm.total = res.data.total;
+							//window.location.reload();
+
+						})
+						.catch(function(error) {
+
+							vm.msg = `请求服务器失败`;
+						});
+
+					console.log(vm.currentPage);
+				}
+
+			}
+		});
+	</script>
 
 </html>

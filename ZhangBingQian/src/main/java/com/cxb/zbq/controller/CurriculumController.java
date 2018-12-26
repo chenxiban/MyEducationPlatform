@@ -1,5 +1,7 @@
 package com.cxb.zbq.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,15 +12,26 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cxb.zbq.OtherEntity.College;
+import com.cxb.zbq.OtherEntity.SelectCurriculum;
+import com.cxb.zbq.OtherEntity.TeacherCurriculum;
+import com.cxb.zbq.OtherEntity.Usersdetails;
 import com.cxb.zbq.entity.CoverMap;
 import com.cxb.zbq.entity.Curriculum;
 import com.cxb.zbq.entity.Notice;
 import com.cxb.zbq.entity.ScoringStandard;
 import com.cxb.zbq.entityquery.CurriculumQuery;
+import com.cxb.zbq.feign.ChenFeign;
+import com.cxb.zbq.feign.MiFeign;
 import com.cxb.zbq.service.ChapterService;
 import com.cxb.zbq.service.CoverMapService;
 import com.cxb.zbq.service.CurriculumService;
@@ -27,6 +40,12 @@ import com.cxb.zbq.service.ScoringStandardService;
 import com.cxb.zbq.utils.DataGrid;
 import com.cxb.zbq.utils.Result;
 
+/**
+ * 课程信息管理Controller
+ * @author zhangbingqian
+ *
+ */
+@CrossOrigin
 @RestController
 @RequestMapping("/curriculum")
 public class CurriculumController {
@@ -40,29 +59,36 @@ public class CurriculumController {
 	private ScoringStandardService scService;
 	@Autowired
 	private CoverMapService covermapService;
+	@Autowired
+	private ChenFeign chenFeign;
+	@Autowired
+	private MiFeign miFeign;
 	
 	//http://localhost:3050/ZhangBingQian/curriculum/queryCurriculumByPage?curriculumName=s
-	@RequestMapping(value="queryCurriculumByPage",name="多条件检索课程")
+	@RequestMapping(value="queryCurriculumByPage",name="多条件检索课程" ,method=RequestMethod.GET)
 	public Object queryCurriculumByPage(CurriculumQuery currQuery) {
+		//List<College> list=chenFeign.getCollegeInfos();
 		List<Curriculum> pages=curriculumService.getCurriculumByPage(currQuery);
+		////List<Usersdetails> usersdetails=miFeign.queryTeacherIdAndName();
+		//for (int i = 0; i < list.size(); i++) {
+			///for (int j = 0; j < pages.size(); j++) {
+				///for (int m = 0; m < usersdetails.size(); m++) {
+					///if (pages.get(j).getCurriculumCategoryId()==list.get(i).getCollegeId()) {
+					//	pages.get(j).setCurriculumName(list.get(i).getCollegeName());
+					//}
+					///if (pages.get(j).getTeacherId()==usersdetails.get(m).getUsersId()) {
+					///	pages.get(j).setTeacherName(usersdetails.get(m).getUsersName());
+					//}
+				//}
+			//}
+		//}
 		return pages;
 	}
 	
-	/*@RequestMapping(value="queryCurriculumByPage",name="多条件分页检索课程")
-	public Object queryCurriculumByPage(CurriculumQuery currQuery) {
-		Pageable pageable = PageRequest.of(currQuery.getPage() - 1, currQuery.getRows(), Sort.Direction.ASC,
-				"curriculumId");
-		Page<Curriculum> pages=null;
-		pages=curriculumService.queryCurriculumByPage(currQuery, pageable);
-		long total=pages.getTotalElements();
-		List<Curriculum> list=pages.getContent();
-		return new DataGrid(total, list);
-	}*/
-	
-
 	// http://localhost:3050/ZhangBingQian/curriculum/insertCurriculum?curriculumName=111
-	@RequestMapping(value = "insertCurriculum", name = "添加课程信息")
-	public Object insertCurriculum(Curriculum curriculum) {
+	@RequestMapping(value = "insertCurriculum", name = "添加课程信息" ,method=RequestMethod.POST)
+	public Object insertCurriculum(@RequestBody Curriculum curriculum) {
+		System.out.println(curriculum);
 		if (curriculumService.findByCurriculumName(curriculum.getCurriculumName()) != null)
 			return new Result("课程名已存在,请勿重复添加", 0);
 		if (curriculumService.insertCurriculum(curriculum) != null)
@@ -70,8 +96,9 @@ public class CurriculumController {
 		return new Result("课程" + curriculum.getCurriculumName() + "添加失败,请稍后再试", 0);
 	}
 
-	@PutMapping(value = "updateCurriculum", name = "修改课程信息")
-	public Object updateCurriculum(Curriculum curriculum) {
+	@RequestMapping(value = "updateCurriculum", name = "修改课程信息",method=RequestMethod.PUT)
+	public Object updateCurriculum(@RequestBody Curriculum curriculum) {
+		System.out.println(">>>>>>>>>"+curriculum);
 		Result result = this.isTimeTrue(curriculum.getStartTime(), curriculum.getEndTime());
 		if (result.getState() == 0)
 			return result;
@@ -83,7 +110,7 @@ public class CurriculumController {
 	}
 
 	// http://localhost:3050/ZhangBingQian/curriculum/deleteCurriculum?curriculumId=1
-	@RequestMapping(value = "deleteCurriculum", name = "删除课程信息")
+	@RequestMapping(value = "deleteCurriculum", name = "删除课程信息",method=RequestMethod.DELETE)
 	public Object deleteCurriculum(Integer curriculumId) {
 		Curriculum curr = curriculumService.findBycurriculumId(curriculumId);
 		if (curr.getWhetherToIssue() == 1) {
@@ -131,23 +158,28 @@ public class CurriculumController {
 	 * @param startTime 开课时间
 	 * @param endTime 结束时间
 	 * @return 0：失败  1：成功  2：没有设置评分标准
+	 * @throws ParseException 
 	 */
-	@RequestMapping(value = "updateIsReleaseToTrue", name = "发布课程")
-	public Object updateIsReleaseToTrue(Integer currId,Date startTime,Date endTime) {
+	@RequestMapping(value = "updateIsReleaseToTrue", name = "发布课程" ,method=RequestMethod.PUT)
+	public Object updateIsReleaseToTrue(Integer currId,String startTime,String endTime) throws ParseException {
 		ScoringStandard standard=scService.findByCurriculumId(currId);
 		if (standard==null) {
 			return new Result("该课程还没有设置学分评分标准,点击确定前往设置", 2);
 		}
-		Result result = this.isTimeTrue(startTime, endTime);//判断时间是否符合格式
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 Date startDate=sdf.parse(startTime);
+		 Date enDate=sdf.parse(endTime);
+		Result result = this.isTimeTrue(startDate, enDate);//判断时间是否符合格式
 		if (result.getState() == 0)
 			return result;
-		if (curriculumService.updateIsReleaseToTrue(currId, startTime, endTime) > 0)
+		if (curriculumService.updateIsReleaseToTrue(currId, startDate, enDate) > 0)
 				return new Result("课程发布成功", 1);
 		return new Result("课程发布失败,请稍后再试", 0);
 	}
 	
-	@RequestMapping(value = "updateIsReleaseToFalse", name = "取消发布课程")
+	@RequestMapping(value = "updateIsReleaseToFalse", name = "取消发布课程" ,method=RequestMethod.POST)
 	public Object updateIsReleaseToFalse(Integer currId) {
+		System.out.println(currId);
 		if (curriculumService.updateIsReleaseToFalse(currId) > 0)
 				return new Result("课程取消发布成功", 1);
 		return new Result("课程取消发布失败,请稍后再试", 0);
@@ -177,10 +209,14 @@ public class CurriculumController {
 		return map;
 	}
     
-	//服务提供：根据订阅人数获取前12条课程id
-	@RequestMapping(value="getCurrIdBySubscriptionNum",name="根据订阅人数获取前12条课程id")
-	public List<Integer> getCurrIdBySubscriptionNum(){
-		return curriculumService.getCurrIdBySubscriptionNum();
+	//服务提供：根据订阅人数获取前20条课程信息
+	@RequestMapping(value="getCurrIdBySubscriptionNum",name="根据订阅人数获取前20条课程数据")
+	public Map<String, Object> getCurrIdBySubscriptionNum(){
+		List<Curriculum> list=curriculumService.getCurrIdBySubscriptionNum();
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("total", list.size());
+		map.put("rows", list);
+		return map;
 	}
 	/**
 	 * 判断时间是否符合标准
@@ -192,5 +228,20 @@ public class CurriculumController {
 		if (beginTime != null && endTime != null && beginTime.after(endTime))
 			return new Result("结束开课时间不能早于开课时间", 0);
 		return new Result(" ", 1);
+	}
+	@RequestMapping(value="queryCurriculumByteacherId",name="杨毅晨需要的方法，课程和章节")
+	public Object queryCurriculumByteacherId() {
+		Integer teacherIds=4;
+		List<TeacherCurriculum> tList=curriculumService.queryByTeacherId(teacherIds);
+		for (int i = 0; i < tList.size(); i++) {
+			tList.get(i).setChildren(chapterService.findChapterById(tList.get(i).getCurriculumId()));
+		}
+		return tList;
+	}
+	@RequestMapping(value="queryAllIdAndName",name="用于课程的下拉列表")
+	public Object queryAllIdAndName() {
+		 Integer teacherId=4;
+		 List<SelectCurriculum> list=curriculumService.queryAllIdAndName(teacherId);
+		 return list;
 	}
 }

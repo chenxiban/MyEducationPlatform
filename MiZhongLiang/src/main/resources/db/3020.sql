@@ -60,16 +60,17 @@ DROP TABLE IF EXISTS `usersdetailstb`;
 
 CREATE TABLE `usersdetailstb` (
   `users_id` int(10) unsigned NOT NULL COMMENT '用户id',
-  `users_birthday` varchar(20) NOT NULL COMMENT '生日',
+  `users_birthday` varchar(20) DEFAULT NULL COMMENT '生日',
   `users_departmentsmajor` varchar(20) NOT NULL COMMENT '院系',
-  `users_diploma` varchar(20) DEFAULT NULL,
-  `users_email` varchar(50) DEFAULT NULL COMMENT '邮箱',
-  `users_ext1` varchar(20) DEFAULT NULL,
-  `users_ext2` int(10) unsigned DEFAULT NULL,
+  `users_diploma` varchar(20) DEFAULT NULL COMMENT '最高学历',
+  `users_email` varchar(50) NOT NULL COMMENT '邮箱',
+  `users_ext1` varchar(20) DEFAULT NULL COMMENT '预留字段1',
+  `users_ext2` int(10) unsigned DEFAULT NULL COMMENT '预留字段2',
   `users_idcard` varchar(18) DEFAULT NULL COMMENT '身份证',
-  `users_name` varchar(8) NOT NULL COMMENT '用户真实姓名',
+  `users_identitytype` varchar(4) NOT NULL COMMENT '身份类型:1为学生；0为老师',
+  `users_name` varchar(8) DEFAULT NULL COMMENT '用户真实姓名',
   `users_nickname` varchar(20) NOT NULL COMMENT '用户昵称',
-  `users_profile` varchar(200) NOT NULL COMMENT '个人简介',
+  `users_profile` varchar(200) DEFAULT NULL COMMENT '个人简介',
   `users_sex` char(1) NOT NULL COMMENT '备注:用户性别',
   `users_telephone` varchar(11) DEFAULT NULL COMMENT '手机号',
   `users_url` varchar(50) NOT NULL COMMENT '头像路径',
@@ -77,6 +78,8 @@ CREATE TABLE `usersdetailstb` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `usersdetailstb` */
+
+insert  into `usersdetailstb`(`users_id`,`users_birthday`,`users_departmentsmajor`,`users_diploma`,`users_email`,`users_ext1`,`users_ext2`,`users_idcard`,`users_identitytype`,`users_name`,`users_nickname`,`users_profile`,`users_sex`,`users_telephone`,`users_url`) values (1,'2018-1-1','计算机','本科','123@qq.com',NULL,NULL,'411403199711305118','1','小佳','丑逼李海潮','李海潮是丑逼','男','13245631234','img/lhc.jpg'),(2,'2018-1-1','计算机','本科','123@qq.com',NULL,NULL,'411403199711305118','0','郭士才','丑逼李海潮','李海潮是丑逼','男','13245631234','img/lhc.jpg');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

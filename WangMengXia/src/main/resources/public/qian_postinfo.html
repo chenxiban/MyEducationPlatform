@@ -11,17 +11,6 @@
 		<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/element-ui.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js"></script>
-		<script src="js/trumbowyg.js"></script>
-		<script src="js/trumbowyg.base64.js"></script>
-		<script type="text/javascript" async="" src="js/qian8.js"></script>
-		<script onerror="javascript:window.errorEventHandler &amp;&amp; window.errorEventHandler(event)" src="js/qian9.js"></script>
-		<script onerror="javascript:window.errorEventHandler &amp;&amp; window.errorEventHandler(event)" src="js/qian1.js"></script>
-		<script onerror="javascript:window.errorEventHandler &amp;&amp; window.errorEventHandler(event)" src="js/qian2.js"></script>
-		<script onerror="javascript:window.errorEventHandler &amp;&amp; window.errorEventHandler(event)" src="js/qian3.js"></script>
-		<script onerror="javascript:window.errorEventHandler &amp;&amp; window.errorEventHandler(event)" src="js/qian4.js"></script>
-		<script onerror="javascript:window.errorEventHandler &amp;&amp; window.errorEventHandler(event)" src="js/qian5.js"></script>
-		<script type="text/javascript" src="js/qian6.js"></script>
-		<script type="text/javascript" src="js/qian7.js"></script>
 		<link rel="stylesheet" href="css/qian.css">
 		<link rel="stylesheet" href="css/qian2.css">
 		<style>
@@ -31,7 +20,7 @@
 		</style>
 
 		<body id="topic" class="auto-1544871376574-parent">
-			<div id="g-body">
+			<div id="g-body" >
 				<div class="dis-head g-flow-wide" style="background: url(img/F40E80796AE30810E51ACCC1C4754918.jpg) no-repeat;background-size: 100% 100%;">
 					<div class="cnt f-f0 f-cb">
 						<div class="intro f-fl">
@@ -82,58 +71,31 @@
 												</li>
 											</ul>
 										</div>
-										<div class="topic" id="j-topic">
+										<div class="topic" id="j-topic" id="postXiangQ" v-for="tab in postBiao">
 											<div class="tagList f-cb" id="j-tagList">
-												<span style="background-color:#f39c12;" class="tag f-fl">置顶</span>
+												<!-- <span style="background-color:#f39c12;" class="tag f-fl">置顶</span>-->
 											</div>
-											<h1 class="topic-title" style="display: inline-block;">你坚持的意义是什么？</h1>
+											<h1 class="topic-title" style="display: inline-block;">{{tab.postTitle}}</h1>
 											<div class="topic-info f-cb">
-												<a href="/home.htm?userId=1021981657#/home/discuss" class="author info-item f-fcgreen" target="_blank">刀锋战士勇往直前
+												<a href="/home.htm?userId=1021981657#/home/discuss" class="author info-item f-fcgreen" target="_blank">{{tab.postName}}
 												</a>
-												<span class="time info-item"><span class="web">发表于</span>2016年11月19日</span>
+												<span class="time info-item"><span class="web">发表于</span>{{tab.postCreatetime}}</span>
 												<span class="j-user-detail" style="display:none;"></span>
 											</div>
 											<div class="topic-content j-topic-content f-richEditorText edueditor_styleclass_0">
-												<p>有人问我“你理想的工作是什么？”</p>
-												<p>“我的理想是不工作”</p>
-												<p>“呵呵”</p>
-												<p><br></p>
-												<p>坚持，二字，说来容易，做起来难。但有时候，我们却没有退路，只能闷头向前，因为逼迫我们向前走的不是前方梦想的万丈光芒，而是身后现实的万丈深渊。生活就像这张照片，累么，累！ 为什么不放手… 这特么的能放手么？</p>
-												<p><br></p>
-												<p><br></p>
-												<p><br></p>
-												<p>我想这就是我坚持的意义吧，你坚持的意义又是什么呢？</p>
-												<p><br></p>
-												<p><br></p>
-												<p>01</p>
-												<p>为了成为更好的自己。</p>
-												<p>有的人坚持在贫困地区支教那么多年，是因为信念；有的人在边境保家卫国，默默坚持在岗位上多年，是因为信仰；有的人不管经历多少挫折、苦难，仍然坚持前行，是因为梦想；还有很多人不论天寒地冻、酷暑难耐，仍然坚持在自己的岗位上，是因为责任。</p>
-												<p><br></p>
-												<p>也有人说，我坚持的意义说白了就是钱 &nbsp;对，我就是这么庸俗。我想过上更好的生活，我想 看到更广阔的世界，我想选择自己想要的人生，我想要说走就走的任性，我想要名牌的包包、衣服、化妆品。我想有能力买得起这世上一切价值昂贵的东西，我想满足自己对这世界的欲望。</p>
-												<p><br></p>
-												<p>02</p>
-												<p>为了让父母去世界看看。</p>
-												<p>如果说这世上有什么事不需要回报的，我想就是“爸爸妈妈的爱”了吧。从小到大，父母为我们默默付出了一切，给我们生命，给我们爱，给我们他们的所有。我不是一个矫情的人，但我还是想说我坚持的意义就是想让爸爸妈妈过上好的生活，让他们不是通过听说来了解这个世界，让他们在有生之年好好体验下这精彩纷呈的世界。</p>
-												<p><br></p>
-												<p>03</p>
-												<p>为了配得上更好的TA。</p>
-												<p>我希望我可以嫁给爱情，而不是婚姻，不是金钱。当有一天我结婚的时候，我可以坦然潇洒的站在我爱的人身边，不管他是富甲一方，还是一无所有，我都有勇气拥抱他。他富有我不用觉得自己高攀，他贫穷我也不嫌弃，我有能力让我们过的很好。我可以理直气壮地说“虽然你很好，但是我也不差。”</p>
-												<p><br></p>
-												<p>“放弃”二字15笔， “坚持”二字16笔， 放弃和坚持就在一笔之差，差之毫厘，失之千里。</p>
-												<p><br></p>
-												<p>最后希望我们大家都可以坚持下去！</p>
-												<p><br></p>
+												{{tab.postContent}}
 											</div>
 											<div class="topic-func f-cb">
 												<div class="topic-func-share f-cb f-fl" id="j-topicshare">
 
-													<!--左侧 举报-->
+													<!--左侧 帖子举报-->
 													<div id="informs">
 														<el-button type="text" @click="dialogFormVisible = true">举报</el-button>
 														<!-- Form -->
 														<el-dialog title="举报当前帖子" center="true" width=25% :close-on-click-modal="false" :close-on-press-escape="false" :visible.sync="dialogFormVisible">
 															<el-form :model="form" ref="from" :rules="rules">
-																<el-form-item label="举报不良信息：" prop="password"><!--v-model双向绑定-->
+																<el-form-item label="举报不良信息：" prop="password">
+																	<!--v-model双向绑定-->
 																	<el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入举报内容" v-model="form.password">
 																	</el-input>
 																</el-form-item>
@@ -162,14 +124,14 @@
 												<span id="j-reply-num" class="num">191</span>回复
 											</div>
 										</div>
-										<div id="j-reply-list-wrapper">
+										<div id="j-reply-list-wrapper" id="postCom">
 											<ul class="reply-list">
 												<div class="reply-container f-cb">
 													<div class="reply-container f-cb">
 														<div class="reply-floor f-fl">
 															<div class="pic">
-																<a class="name" target="_blank" href="/home.htm?userId=9270982#/home/discuss">
-																	<img src="https://nos.netease.com/edu-image/CD42345007A45FB07B4FD59FC824F618.jpg?imageView&amp;thumbnail=180y180&amp;quality=100" alt="xuanrui66">
+																<a class="name" target="_blank" href="qian_user.html">
+																	<img src="img/txiang.png" alt="xuanrui66">
 																</a>
 															</div>
 															<p class="reply-floor-num">11楼</p>
@@ -177,34 +139,24 @@
 														<li id="1008052866" data-value="{&quot;top&quot;:0, &quot;id&quot;:1008052866,&quot;type&quot;: &quot;reply&quot;, &quot;replyerId&quot;:9270982, &quot;postId&quot;:1002874968 }" class="j-reply-item reply-item reply-top f-fl">
 															<div class="reply-item-foot mobile">
 																<div class="reply-item-info">
-																	<a class="name f-thide f-fcgreen" target="_blank" href="/home.htm?userId=9270982#/home/discuss">xuanrui66
+																	<a class="name f-thide f-fcgreen" target="_blank" href="/home.htm?userId=9270982#/home/discuss">{{tab.postcommitName}}
 																	</a>
-																	<span class="time"><span class="web">发表于</span>2016年11月21日</span>
+																	<span class="time"><span class="web">发表于</span>{{tab.postcommitCreatetime}}</span>
 																	<span class="j-user-detail user-detail" style="display:none;"></span>
-																</div>
-																<div class="reply-item-func">
-																	<a data-func="up" class="u-icon-vote  j-icon-up"></a>
-																	<a class="num">1</a>
-																	<span class="horizontal-line">|</span>
-																	<a data-func="comment" class="comment u-icon-foreign-language"><span class="j-comment-num f-f0">4</span></a>
-																	<span class="horizontal-line">|</span>
-																	<a class="report" data-func="report">举报</a>
 																</div>
 															</div>
 															<div class="reply-content">
 																<div class="reply-main-func j-reply-main-func">
 																</div>
 																<div class="reply-editor-content j-reply-content f-richEditorText edueditor_styleclass_13">
-																	<p>如果你做的是你热爱的事情，如果你所做的事情你确信是有其本身的意义，如果工作/学习本身的意义就足以让你目眩倾心。</p>
-																	<p>那么也无所谓“坚持”了</p>
-																	<p>而是乐于持续享受。</p>
+																	{{tab.postcommitCount}}
 																</div>
 															</div>
 															<div class="reply-item-foot web">
 																<div class="reply-item-info">
-																	<a class="name f-thide f-fcgreen" target="_blank" href="/home.htm?userId=9270982#/home/discuss">xuanrui66
+																	<a class="name f-thide f-fcgreen" target="_blank" href="/home.htm?userId=9270982#/home/discuss">{{tab.postcommitName}}
 																	</a>
-																	<span class="time">发表于2016年11月21日</span>
+																	<span class="time">{{tab.postcommitCreatetime}}</span>
 																	<span class="j-user-detail user-detail" style="display:none;"></span>
 																</div>
 																<div class="reply-item-func">
@@ -212,19 +164,35 @@
 																	<a class="num">1</a>
 																	<span class="horizontal-line">|</span>
 																	<a data-func="comment" class="comment">评论(<span class="j-comment-num">4</span>)</a>
-																	<span class="horizontal-line">|</span>
-																	<a class="report" data-func="report">举报</a>
+																	<!--评论举报表 -->
+																	<div id="informspl">
+																		<el-button type="text" @click="dialogFormVisible = true">举报</el-button>
+																		<!-- Form -->
+																		<el-dialog title="举报当前评论" center="true" width=25% :close-on-click-modal="false" :close-on-press-escape="false" :visible.sync="dialogFormVisible">
+																			<el-form :model="form" ref="from" :rules="rules">
+																				<el-form-item label="举报不良信息：" prop="password">
+																					<!--v-model双向绑定-->
+																					<el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入举报内容" v-model="form.password">
+																					</el-input>
+																				</el-form-item>
+																			</el-form>
+																			<div slot="footer" class="dialog-footer">
+																				<el-button type="primary" @click="submitForm('from')">确 定</el-button>
+																				<el-button @click="dialogFormVisible = false">取 消</el-button>
+																			</div>
+																		</el-dialog>
+																	</div>
 																</div>
 															</div>
-															<div class="sub-replies-wrapper ">
+															<div class="sub-replies-wrapper " id="postRel">
 																<div class="j-comment-list-wrapper">
 																	<ul class="reply-list j-comment-list">
 																		<li id="1003166170" data-value="{&quot;top&quot;:0, &quot;id&quot;:1003166170,&quot;commentorId&quot;:9270982, &quot;parentReplyId&quot;: 1008052866, &quot;type&quot;: &quot;comment&quot;, &quot;postId&quot;:1002874968,&quot;forumId&quot;:1001974001 }" class="reply-item">
 																			<div class="reply-item-foot mobile">
 																				<div class="reply-item-info">
-																					<a class="name f-thide f-fcgreen" target="_blank" href="/home.htm?userId=9270982#/home/discuss">xuanrui66
+																					<a class="name f-thide f-fcgreen" target="_blank" href="qian_user.html">{{tab.userName}}
 																					</a>
-																					<span class="time">2016年11月21日</span>
+																					<span class="time">{{tab.postreplyCreatetime}}</span>
 																					<span style="display:none;" class="j-user-detail"></span>
 																				</div>
 																				<div class="reply-item-func">
@@ -238,132 +206,37 @@
 																				<div class="reply-main-func j-reply-main-func">
 																				</div>
 																				<div class="reply-editor-content j-reply-content f-richEditorText edueditor_styleclass_14">
-																					<p>这也是为什么“理想”、“愿景”这样的词这么有价值。</p>
+																					{{tab.postreplyCount}}
 																				</div>
 																			</div>
 																			<div class="reply-item-foot web">
 																				<div class="reply-item-info">
-																					<a class="name f-thide f-fcgreen" target="_blank" href="/home.htm?userId=9270982#/home/discuss">xuanrui66
+																					<a class="name f-thide f-fcgreen" target="_blank" href="/home.htm?userId=9270982#/home/discuss">{{tab.userName}}
 																					</a>
-																					<span class="time">发表于2016年11月21日</span>
+																					<span class="time">{{tab.postreplyCreatetime}}</span>
 																					<span style="display:none;" class="j-user-detail"></span>
 																				</div>
 																				<div class="reply-item-func">
 																					<a data-func="up" class="j-icon-up u-icon-vote"></a>
 																					<span class="num j-num">1</span>
-																					<span class="horizontal-line">|</span>
-																					<a data-func="report" class="report">举报</a>
-																				</div>
-																			</div>
-																		</li>
-																		<li id="1003173415" data-value="{&quot;top&quot;:0, &quot;id&quot;:1003173415,&quot;commentorId&quot;:1020191704, &quot;parentReplyId&quot;: 1008052866, &quot;type&quot;: &quot;comment&quot;, &quot;postId&quot;:1002874968,&quot;forumId&quot;:1001974001 }" class="reply-item">
-																			<div class="reply-item-foot mobile">
-																				<div class="reply-item-info">
-																					<a class="name f-thide f-fcgreen" target="_blank" href="/home.htm?userId=1020191704#/home/discuss">HUB03C20161601047
-																					</a>
-																					<span class="time">2016年11月23日</span>
-																					<span style="display:none;" class="j-user-detail"></span>
-																				</div>
-																				<div class="reply-item-func">
-																					<a data-func="up" class="j-icon-up u-icon-vote"></a>
-																					<span class="num j-num">0</span>
-																					<span class="horizontal-line">|</span>
-																					<a data-func="report" class="report">举报</a>
-																				</div>
-																			</div>
-																			<div class="reply-content">
-																				<div class="reply-main-func j-reply-main-func">
-																				</div>
-																				<div class="reply-editor-content j-reply-content f-richEditorText edueditor_styleclass_15">
-																					<p>good</p>
-																				</div>
-																			</div>
-																			<div class="reply-item-foot web">
-																				<div class="reply-item-info">
-																					<a class="name f-thide f-fcgreen" target="_blank" href="/home.htm?userId=1020191704#/home/discuss">HUB03C20161601047
-																					</a>
-																					<span class="time">发表于2016年11月23日</span>
-																					<span style="display:none;" class="j-user-detail"></span>
-																				</div>
-																				<div class="reply-item-func">
-																					<a data-func="up" class="j-icon-up u-icon-vote"></a>
-																					<span class="num j-num">0</span>
-																					<span class="horizontal-line">|</span>
-																					<a data-func="report" class="report">举报</a>
-																				</div>
-																			</div>
-																		</li>
-																		<li id="1003210270" data-value="{&quot;top&quot;:0, &quot;id&quot;:1003210270,&quot;commentorId&quot;:2266061, &quot;parentReplyId&quot;: 1008052866, &quot;type&quot;: &quot;comment&quot;, &quot;postId&quot;:1002874968,&quot;forumId&quot;:1001974001 }" class="reply-item">
-																			<div class="reply-item-foot mobile">
-																				<div class="reply-item-info">
-																					<a class="name f-thide f-fcgreen" target="_blank" href="/home.htm?userId=2266061#/home/discuss">shadi
-																					</a>
-																					<span class="time">2016年11月27日</span>
-																					<span style="display:none;" class="j-user-detail"></span>
-																				</div>
-																				<div class="reply-item-func">
-																					<a data-func="up" class="j-icon-up u-icon-vote"></a>
-																					<span class="num j-num">0</span>
-																					<span class="horizontal-line">|</span>
-																					<a data-func="report" class="report">举报</a>
-																				</div>
-																			</div>
-																			<div class="reply-content">
-																				<div class="reply-main-func j-reply-main-func">
-																				</div>
-																				<div class="reply-editor-content j-reply-content f-richEditorText edueditor_styleclass_16">
-																					<p>你是真进入境界了！</p>
-																				</div>
-																			</div>
-																			<div class="reply-item-foot web">
-																				<div class="reply-item-info">
-																					<a class="name f-thide f-fcgreen" target="_blank" href="/home.htm?userId=2266061#/home/discuss">shadi
-																					</a>
-																					<span class="time">发表于2016年11月27日</span>
-																					<span style="display:none;" class="j-user-detail"></span>
-																				</div>
-																				<div class="reply-item-func">
-																					<a data-func="up" class="j-icon-up u-icon-vote"></a>
-																					<span class="num j-num">0</span>
-																					<span class="horizontal-line">|</span>
-																					<a data-func="report" class="report">举报</a>
-																				</div>
-																			</div>
-																		</li>
-																		<li id="1003681990" data-value="{&quot;top&quot;:0, &quot;id&quot;:1003681990,&quot;commentorId&quot;:1025025342, &quot;parentReplyId&quot;: 1008052866, &quot;type&quot;: &quot;comment&quot;, &quot;postId&quot;:1002874968,&quot;forumId&quot;:1001974001 }" class="reply-item">
-																			<div class="reply-item-foot mobile">
-																				<div class="reply-item-info">
-																					<a class="name f-thide f-fcgreen" target="_blank" href="/home.htm?userId=1025025342#/home/discuss">成型161-吴复涛
-																					</a>
-																					<span class="time">2017年04月19日</span>
-																					<span style="display:none;" class="j-user-detail"></span>
-																				</div>
-																				<div class="reply-item-func">
-																					<a data-func="up" class="j-icon-up u-icon-vote"></a>
-																					<span class="num j-num">0</span>
-																					<span class="horizontal-line">|</span>
-																					<a data-func="report" class="report">举报</a>
-																				</div>
-																			</div>
-																			<div class="reply-content">
-																				<div class="reply-main-func j-reply-main-func">
-																				</div>
-																				<div class="reply-editor-content j-reply-content f-richEditorText edueditor_styleclass_17">
-																					<p>不错哦，有收获了</p>
-																				</div>
-																			</div>
-																			<div class="reply-item-foot web">
-																				<div class="reply-item-info">
-																					<a class="name f-thide f-fcgreen" target="_blank" href="/home.htm?userId=1025025342#/home/discuss">成型161-吴复涛
-																					</a>
-																					<span class="time">发表于2017年04月19日</span>
-																					<span style="display:none;" class="j-user-detail"></span>
-																				</div>
-																				<div class="reply-item-func">
-																					<a data-func="up" class="j-icon-up u-icon-vote"></a>
-																					<span class="num j-num">0</span>
-																					<span class="horizontal-line">|</span>
-																					<a data-func="report" class="report">举报</a>
+																					<!--回复举报表 -->
+																					<div id="informshf">
+																						<el-button type="text" @click="dialogFormVisible = true">举报</el-button>
+																						<!-- Form -->
+																						<el-dialog title="举报当前回复" center="true" width=25% :close-on-click-modal="false" :close-on-press-escape="false" :visible.sync="dialogFormVisible">
+																							<el-form :model="form" ref="from" :rules="rules">
+																								<el-form-item label="举报不良信息：" prop="password">
+																									<!--v-model双向绑定-->
+																									<el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入举报内容" v-model="form.password">
+																									</el-input>
+																								</el-form-item>
+																							</el-form>
+																							<div slot="footer" class="dialog-footer">
+																								<el-button type="primary" @click="submitForm('from')">确 定</el-button>
+																								<el-button @click="dialogFormVisible = false">取 消</el-button>
+																							</div>
+																						</el-dialog>
+																					</div>
 																				</div>
 																			</div>
 																		</li>
@@ -377,139 +250,330 @@
 											</ul>
 											</div>
 											<div id="j-pager" class="main-pager">
-												<ul class="m-pager m-pager-center">
-													<li class="pager_prev z-dis">
-														<a>上一页</a>
-													</li>
-													<li class="z-crt">
-														<a>1</a>
-													</li>
-													<li class="">
-														<a>2</a>
-													</li>
-													<li class="">
-														<a>3</a>
-													</li>
-													<li class="">
-														<a>4</a>
-													</li>
-													<li class="">
-														<a>5</a>
-													</li>
-													<li class="">
-														<a>6</a>
-													</li>
-													<li class="">
-														<a>7</a>
-													</li>
-													<li class="">
-														<a>8</a>
-													</li>
-													<li class="">
-														<a>9</a>
-													</li>
-													<li class="">
-														<a>10</a>
-													</li>
-													<li class="pager_next">
-														<a>下一页</a>
-													</li>
-												</ul>
-											</div>
-											<div id="odiv" style="display:none;position:absolute;z-index:100;">
-												<img src="assets/pic/sx.png" title="缩小" border="0" alt="缩小" onclick="sub(-1);" />
-												<img src="assets/pic/fd.png" title="放大" border="0" alt="放大" onclick="sub(1)" />
-												<img src="assets/pic/cz.png" title="重置" border="0" alt="重置" onclick="sub(0)" />
-												<img src="assets/pic/sc.png" title="删除" border="0" alt="删除" onclick="del();odiv.style.display='none';" />
-											</div>
-											<div onmousedown="show_element(event)" style="clear:both" id="customized-buttonpane" class="editor"></div>
-											<div id="ann">
-												<input class="button is-success" type="submit" value="发表主题">
+												
 											</div>
 		</body>
+		<!--
+        	作者：offline
+        	时间：2018-12-24
+        	描述：帖子举报表
+        -->
 		<script type="text/javascript">
-		new Vue({
-			el: '#informs',
-			data: function() {
-				return {
-					dialogFormVisible: false,
-					form: {
-						password: ''
-					},
-					rules: {
-						password: [{
-							required: true,
-							message: '请输入举报内容',
-							trigger: 'blur'
-						}]
+			new Vue({
+				el: '#informs',
+				data: function() {
+					return {
+						dialogFormVisible: false,
+						form: {
+							password: ''
+						},
+						rules: {
+							password: [{
+								required: true,
+								message: '请输入举报内容',
+								trigger: 'blur'
+							}]
+						}
 					}
-				}
-			},
-			methods: {
-				submitForm(from) {
-					this.$refs[from].validate((valid) => {
-						const vm = this;
-						if(valid) {
-							console.log(this.$refs[from].model)
-							//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
-							axios({
-									method: "post",
-									url: "http://localhost:3011/wangmengxia/WangMengXia/postreport/savePostreport",
-									params: {
-										postId:1,// 获取帖子id
-										userId:1,// 获取当前用户id
-										postreportContent: this.$refs[from].model.password,
-									}
-								})
-								.then(function(res) {
-									if(res.data.success) {
-										vm.$alert(res.data.message, '帖子举报成功,等待管理员审核', {
-											confirmButtonText: '确定',
-											callback: action => {
-												vm.$message({
-													type: 'warning',
-													message: res.data.message
-												});
-											}
-										});
-									} else {
-										vm.$alert(res.data.message, '帖子举报失败', {
-											confirmButtonText: '确定',
-											callback: action => {
-												vm.$message({
-													type: 'warning',
-													message: res.data.message
-												});
-											}
-										});
-									}
-								})
-								.catch(function(error) {
-									vm.$alert(error.data.message, '帖子举报失败', {
-										confirmButtonText: '确定',
-										callback: action => {
-											vm.$message({
-												type: 'error',
-												message: error.data.message
+				},
+				methods: {
+					submitForm(from) {
+						this.$refs[from].validate((valid) => {
+							const vm = this;
+							if(valid) {
+								console.log(this.$refs[from].model)
+								//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
+								axios({
+										method: "post",
+										url: "http://localhost:3011/wangmengxia/WangMengXia/postreport/savePostreport",
+										params: {
+											postId: 1, // 获取帖子id
+											userId: 1, // 获取当前用户id
+											postreportContent: this.$refs[from].model.password,
+										}
+									})
+									.then(function(res) {
+										if(res.data.success) {
+											vm.$alert(res.data.message, '帖子举报成功,等待管理员审核', {
+												confirmButtonText: '确定',
+												callback: action => {
+													vm.$message({
+														type: 'warning',
+														message: res.data.message
+													});
+												}
+											});
+										} else {
+											vm.$alert(res.data.message, '帖子举报失败', {
+												confirmButtonText: '确定',
+												callback: action => {
+													vm.$message({
+														type: 'warning',
+														message: res.data.message
+													});
+												}
 											});
 										}
+									})
+									.catch(function(error) {
+										vm.$alert(error.data.message, '帖子举报失败', {
+											confirmButtonText: '确定',
+											callback: action => {
+												vm.$message({
+													type: 'error',
+													message: error.data.message
+												});
+											}
+										});
 									});
+							} else {
+								vm.$alert('表单验证失败', '帖子举报失败', {
+									confirmButtonText: '确定',
+									callback: action => {
+										vm.$message({
+											type: 'info',
+											message: '表单验证失败'
+										});
+									}
 								});
-						} else {
-							vm.$alert('表单验证失败', '帖子举报失败', {
-								confirmButtonText: '确定',
-								callback: action => {
-									vm.$message({
-										type: 'info',
-										message: '表单验证失败'
-									});
-								}
-							});
-							return false;
+								return false;
+							}
+						});
+					}
+				}
+			});
+		</script>
+		<!--
+        	作者：offline
+        	时间：2018-12-24
+        	描述：评论举报表
+        -->
+		<script type="text/javascript">
+			new Vue({
+				el: '#informspl',
+				data: function() {
+					return {
+						dialogFormVisible: false,
+						form: {
+							password: ''
+						},
+						rules: {
+							password: [{
+								required: true,
+								message: '请输入举报内容',
+								trigger: 'blur'
+							}]
 						}
-					});
+					}
+				},
+				methods: {
+					submitForm(from) {
+						this.$refs[from].validate((valid) => {
+							const vm = this;
+							if(valid) {
+								console.log(this.$refs[from].model)
+								//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
+								axios({
+										method: "post",
+										url: "http://localhost:3011/wangmengxia/WangMengXia/comReport/saveComreport",
+										params: {
+											postcommitId: 1, // 获取评论id
+											userId: 1, // 获取当前用户id
+											commitreportContent: this.$refs[from].model.password,
+										}
+									})
+									.then(function(res) {
+										if(res.data.success) {
+											vm.$alert(res.data.message, '评论举报成功,等待管理员审核', {
+												confirmButtonText: '确定',
+												callback: action => {
+													vm.$message({
+														type: 'warning',
+														message: res.data.message
+													});
+												}
+											});
+										} else {
+											vm.$alert(res.data.message, '评论举报失败', {
+												confirmButtonText: '确定',
+												callback: action => {
+													vm.$message({
+														type: 'warning',
+														message: res.data.message
+													});
+												}
+											});
+										}
+									})
+									.catch(function(error) {
+										vm.$alert(error.data.message, '评论举报失败', {
+											confirmButtonText: '确定',
+											callback: action => {
+												vm.$message({
+													type: 'error',
+													message: error.data.message
+												});
+											}
+										});
+									});
+							} else {
+								vm.$alert('表单验证失败', '评论举报失败', {
+									confirmButtonText: '确定',
+									callback: action => {
+										vm.$message({
+											type: 'info',
+											message: '表单验证失败'
+										});
+									}
+								});
+								return false;
+							}
+						});
+					}
+				}
+			});
+		</script>
+<!--
+        	作者：offline
+        	时间：2018-12-24
+        	描述：回复举报表
+        -->
+		<script type="text/javascript">
+			new Vue({
+				el: '#informshf',
+				data: function() {
+					return {
+						dialogFormVisible: false,
+						form: {
+							password: ''
+						},
+						rules: {
+							password: [{
+								required: true,
+								message: '请输入举报内容',
+								trigger: 'blur'
+							}]
+						}
+					}
+				},
+				methods: {
+					submitForm(from) {
+						this.$refs[from].validate((valid) => {
+							const vm = this;
+							if(valid) {
+								console.log(this.$refs[from].model)
+								//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
+								axios({
+										method: "post",
+										url: "http://localhost:3011/wangmengxia/WangMengXia/replyReport/savePostreply",
+										params: {
+											postreplyId: 1, // 获取回复id
+											userId: 1, // 获取当前用户id
+											postreplyreportContent: this.$refs[from].model.password,
+										}
+									})
+									.then(function(res) {
+										if(res.data.success) {
+											vm.$alert(res.data.message, '回复举报成功,等待管理员审核', {
+												confirmButtonText: '确定',
+												callback: action => {
+													vm.$message({
+														type: 'warning',
+														message: res.data.message
+													});
+												}
+											});
+										} else {
+											vm.$alert(res.data.message, '回复举报失败', {
+												confirmButtonText: '确定',
+												callback: action => {
+													vm.$message({
+														type: 'warning',
+														message: res.data.message
+													});
+												}
+											});
+										}
+									})
+									.catch(function(error) {
+										vm.$alert(error.data.message, '回复举报失败', {
+											confirmButtonText: '确定',
+											callback: action => {
+												vm.$message({
+													type: 'error',
+													message: error.data.message
+												});
+											}
+										});
+									});
+							} else {
+								vm.$alert('表单验证失败', '回复举报失败', {
+									confirmButtonText: '确定',
+									callback: action => {
+										vm.$message({
+											type: 'info',
+											message: '表单验证失败'
+										});
+									}
+								});
+								return false;
+							}
+						});
+					}
+				}
+			});
+			
+			
+			
+			
+			
+			new Vue({
+			el: '#g-body',
+			data:
+				postBiao: [
+
+				],
+				/*postCom: [
+
+				],
+				postRel: [
+
+				],*/
+				/*currentPage: 1,
+				pagesize: 9*/
+			},
+			mounted: function() {
+				this.postRe();
+				this.comRe();
+				this.relRe();
+				this.getPost();
+				this.getCom();
+				this.getRel();
+			},
+			methods: {
+				getPost() {
+					const vm = this;
+					//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
+					axios({
+							method: "get",
+							url: "http://localhost:3011/wangmengxia/WangMengXia/post/findByPostId"
+						})
+						.then(function(res) {
+							vm.postBiao = res.data;
+						})
+				},
+				getPost() {
+					const vm = this;
+					//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
+					axios({
+							method: "get",
+							url: "http://localhost:3011/wangmengxia/WangMengXia/post/findByPostReport"
+						})
+						.then(function(res) {
+							vm.listPost = res.data;
+						})
 				}
 			}
 		});
-	</script>
-	</html>
+		</script>
+</html>

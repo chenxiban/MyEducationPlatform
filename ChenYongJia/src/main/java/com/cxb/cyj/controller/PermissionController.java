@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import com.cxb.cyj.entity.Permission;
 import com.cxb.cyj.service.PermissionService;
+import com.cxb.cyj.service.UserService;
 
 /**
  * 
@@ -38,6 +39,9 @@ public class PermissionController {
 
 	@Autowired
 	private PermissionService service;
+	
+	@Autowired
+	private UserService userService;
 	
 	/**
 	 * http://localhost:3011/chenyongjia/ChenYongJia/permission/queryNode 查看系统权限
@@ -127,4 +131,22 @@ public class PermissionController {
 		return pList.size() > 0 ? service.batchInsert(pList) : 0;
 	}
 
+	/**
+	 * 查询所有权限http://localhost:3011/chenyongjia/ChenYongJia/permission/queryNodess
+	 * @author WangChuanWei
+	 * @param roleId
+	 * @return
+	 */
+	@RequestMapping(value = "/queryNodess", name = "查询所有权限")
+	public Object queryNodess(@RequestParam(value = "roleId", required = false) Integer[] roleId) {
+		List<Integer> roleIds = new ArrayList<Integer>();
+		for (int i = 0; i < roleId.length; i++) {
+			roleIds.add(roleId[i]);
+		}
+		System.out.println("roleId=>" + roleIds);
+		List<Permission> list = service.queryRoleSetPermission(roleIds);
+		System.out.println("list=>" + list);
+		return list;
+	}
+	
 }

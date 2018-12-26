@@ -14,9 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 @Entity
 @Table(name="covermapTb")
-@Getter
-@Setter
-@NoArgsConstructor
+
 public class CoverMap {
 	@Id
 	private String covermapId;//封面图id(王安岭返回过来的id,uuid)
@@ -30,6 +28,39 @@ public class CoverMap {
 		this.covermapUrl = covermapUrl;
 		this.curriculumId = curriculumId;
 	}
+	public String getCovermapId() {
+		return covermapId;
+	}
+	public void setCovermapId(String covermapId) {
+		this.covermapId = covermapId;
+	}
+	public String getCovermapUrl() {
+		return covermapUrl;
+	}
+	public void setCovermapUrl(String covermapUrl) {
+		this.covermapUrl = covermapUrl;
+	}
+	public Timestamp getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+	public void setLastUpdateTime(Timestamp lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
+	}
+	public Integer getCurriculumId() {
+		return curriculumId;
+	}
+	public void setCurriculumId(Integer curriculumId) {
+		this.curriculumId = curriculumId;
+	}
+	@Override
+	public String toString() {
+		return "CoverMap [covermapId=" + covermapId + ", covermapUrl=" + covermapUrl + ", lastUpdateTime="
+				+ lastUpdateTime + ", curriculumId=" + curriculumId + "]";
+	}
+	public CoverMap() {
+		super();
+	}
+	
 	
 	
 

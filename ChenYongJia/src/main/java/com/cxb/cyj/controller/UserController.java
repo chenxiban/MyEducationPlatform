@@ -100,7 +100,7 @@ public class UserController {
 	 * @return
 	 */
 	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
-	@RequestMapping(value = "/addUsers", method = RequestMethod.PUT)
+	@RequestMapping(value = "/addUsers",name="添加用户信息", method = RequestMethod.PUT)
 	public Object addUsers(User u) {
 		u.setUserCreatTime(new Date(System.currentTimeMillis()));
 		u.setUserPassword("cyj123");
@@ -131,7 +131,7 @@ public class UserController {
 	 */
 	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/delUsers", name = "删除用户", method = RequestMethod.DELETE)
-	public Object delUsers(String userId) {
+	public Object delUsers(String userId) {// 有待修订
 		List<String> list = new ArrayList<String>();
 		String[] ids = userId.split(",");
 		for (String dids : ids) {
@@ -246,8 +246,51 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/getUserIdByToken", name = "通过token换取用户信息", method = RequestMethod.GET)
-	public Object getUserIdByToken(String token) {
+	public Object getUserIdByToken(@RequestParam(value="token") String token) {
 		return myTokenService.findByTokenAcc(token);
 	}
-
+	
+	/**
+	 * 查询老师
+	 * http://localhost:3011/chenyongjia/ChenYongJia/user/getByTeacher
+	 * 
+	 * @return
+	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
+	@RequestMapping(value = "/getByTeacher", name = "查询老师", method = RequestMethod.GET)
+	public Object getByTeacher(@RequestParam(value="collegeId") Integer collegeId,@RequestParam(value="p") Integer p,Integer page,Integer rows) {
+		return userService.getByTeacher(collegeId,p,page,rows);
+	}
+	
+	/**
+	 * 修改老师专业绑定
+	 * http://localhost:3011/chenyongjia/ChenYongJia/user/updateUser
+	 * 
+	 * @return
+	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
+	@RequestMapping(value = "/updateUser", name = "修改老师专业绑定", method = RequestMethod.POST)
+	public Object updateUser(@RequestParam(value="userId") Integer userId,@RequestParam(value="collegeId") Integer collegeId) {
+		return userService.updateUser(userId,collegeId);
+	}
+	
+	@RequestMapping(value="/getUserInfo",name="提供芈忠良获取所有用户信息",method=RequestMethod.GET)
+	public List<User> getUserInfo(){
+		return userService.getUserInfo();
+	}
+	
+	/**
+	 * 班级设置学生
+	 * http://localhost:3011/chenyongjia/ChenYongJia/user/addUserClazz
+	 * @param userId
+	 * @param classId
+	 * @param p
+	 * @return
+	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
+	@RequestMapping(value = "/addUserClazz", name = "为班级设置学生", method = RequestMethod.POST)
+	public Object addUserClazz(@RequestParam(value="userId") Integer userId,@RequestParam(value="classId") Integer classId,@RequestParam(value="p") Integer p) {
+		return userService.addUserClazz(userId, classId, p);
+	}
+	
 }

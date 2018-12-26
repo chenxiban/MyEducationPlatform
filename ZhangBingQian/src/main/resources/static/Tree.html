@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="css/element-ui.css" />
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/element-ui.js"></script>
+		<style>
+			.demo-table-expand {
+				font-size: 0;
+			}
+			
+			.demo-table-expand label {
+				width: 90px;
+				color: #99a9bf;
+			}
+			
+			.demo-table-expand .el-form-item {
+				margin-right: 0;
+				margin-bottom: 0;
+				width: 50%;
+			}
+		</style>
+		<style>
+			.transition-box {
+				margin-bottom: 10px;
+				width: 200px;
+				height: 100px;
+				border-radius: 4px;
+				background-color: #409EFF;
+				text-align: center;
+				color: #fff;
+				padding: 40px 20px;
+				box-sizing: border-box;
+				margin-right: 20px;
+			}
+		</style>
+		<style>
+			.avatar-uploader .el-upload {
+				border: 1px dashed #d9d9d9;
+				border-radius: 6px;
+				cursor: pointer;
+				position: relative;
+				overflow: hidden;
+			}
+			
+			.avatar-uploader .el-upload:hover {
+				border-color: #409EFF;
+			}
+			
+			.avatar-uploader-icon {
+				font-size: 28px;
+				color: #8c939d;
+				width: 178px;
+				height: 178px;
+				line-height: 178px;
+				text-align: center;
+			}
+			
+			.avatar {
+				width: 178px;
+				height: 178px;
+				display: block;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div id="app">
+			<div :data="tableData5.filter(tableData5 => !search || tableData5.curriculumName.toLowerCase().includes(search.toLowerCase()))">
+				<template>
+					<el-row>
+						<el-col :span="6">
+							<div class="grid-content bg-purple">
+								<el-input placeholder="请输入内容" v-model="input10" clearable>
+								</el-input>
+							</div>
+						</el-col>
+						<el-col :span="6">
+
+							<div class="grid-content bg-purple-light" style="margin-left: 25px;">
+
+								<el-row class="demo-autocomplete">
+									<el-col :span="12">
+										<!--<el-autocomplete class="inline-input" v-model="state1" :fetch-suggestions="querySearch" placeholder="请输入内容" @select="handleSelect"></el-autocomplete>-->
+									</el-col>
+
+								</el-row>
+							</div>
+						</el-col>
+						<el-col :span="6">
+							<div class="grid-content bg-purple" style="margin-top: 10px;">
+								<el-radio-group v-model="radio2">
+									<el-radio :label="2">所有内容</el-radio>
+									<el-radio :label="0">暂无发布</el-radio>
+									<el-radio :label="1">发布成功</el-radio>
+								</el-radio-group>
+							</div>
+						</el-col>
+						<el-col :span="6">
+							<div class="grid-content bg-purple-light">
+								<el-button type="primary" icon="el-icon-search" @click="select()">搜索</el-button>
+								<template>
+									<el-popover placement="left" width="400" trigger="click">
+										<el-radio-group v-model="labelPosition" size="small">
+											<el-radio-button label="left">左对齐</el-radio-button>
+											<el-radio-button label="right">右对齐</el-radio-button>
+											<el-radio-button label="top">顶部对齐</el-radio-button>
+										</el-radio-group>
+										<div style="margin: 20px;"></div>
+										<el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
+											<el-form-item label="课程名称">
+												<el-input v-model="formLabelAlign.name"></el-input>
+											</el-form-item>
+											<el-form-item label="课程介绍">
+												<el-input v-model="formLabelAlign.region"></el-input>
+											</el-form-item>
+											<el-form-item label="课程类别">
+												<el-select v-model="formLabelAlign.type" placeholder="请选择活动区域">
+													<el-option label="河南工业大学理工学院" value="1"></el-option>
+													<el-option label="河南工业大学中英国际学院" value="2"></el-option>
+												</el-select>
+											</el-form-item>
+											<el-form-item label="课程老师">
+												<el-select v-model="formLabelAlign.tea" placeholder="请选择活动区域">
+													<el-option label="马帅1" value="1"></el-option>
+													<el-option label="马帅2" value="2"></el-option>
+												</el-select>
+
+											</el-form-item>
+											<el-form-item label="">
+												<el-button type="primary" @click="insert('formLabelAlign')">立即创建</el-button>
+												<el-button @click="resetForm('ruleForm')">重置</el-button>
+											</el-form-item>
+
+										</el-form>
+										<el-button slot="reference" type="primary" icon="el-icon-search" @change="insert">新增</el-button>
+									</el-popover>
+								</template>
+
+							</div>
+						</el-col>
+					</el-row>
+				</template>
+
+				<el-table :data="tableData5.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100% ">
+					<el-table-column type="expand">
+						<template slot-scope="props">
+							<el-form label-position="left" inline class="demo-table-expand">
+								<el-form-item label="课程图片">
+									<el-popover placement="right" width="400" trigger="click">
+										<el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+											<i class="el-icon-plus"></i>
+										</el-upload>
+										<el-dialog :visible.sync="dialogVisible">
+											<img width="100%" :src="dialogImageUrl" alt="">
+										</el-dialog>
+										<img :src="imgurl" width="10%" height="10%" slot="reference" />
+									</el-popover>
+									<!--<img :src="imgurl" width="10%" height="10%" slot="reference" />-->
+									<!--<span>{{ props.row.curriculumId }}</span>-->
+								</el-form-item>
+								<el-form-item label="课程名称">
+									<span>{{ props.row.curriculumName }}</span>
+								</el-form-item>
+								<el-form-item label="创建时间">
+									<span>{{ props.row.creationTime }}</span>
+								</el-form-item>
+								<el-form-item label="封面图路径">
+									<span>{{ props.row.coursesCover }}</span>
+								</el-form-item>
+								<el-form-item label="课程类别id">
+									<span>{{ props.row.curriculumCategoryId }}</span>
+								</el-form-item>
+								<el-form-item label="老师id">
+									<span>{{ props.row.teacherId }}</span>
+								</el-form-item>
+								<el-form-item label="订阅人数">
+									<span>{{ props.row.subscriptionNum }}</span>
+								</el-form-item>
+								<el-form-item label="开课时间">
+									<span>{{ props.row.startTime }}</span>
+								</el-form-item>
+								<el-form-item label="结束时间">
+									<span>{{ props.row.endTime }}</span>
+								</el-form-item>
+								<el-form-item label="课程介绍">
+									<span>{{ props.row.courseIntroduction }}</span>
+								</el-form-item>
+								<el-form-item label="是否发布">
+									<span v-if="props.row.whetherToIssue==0">尚未发布</span>
+									<span v-else>发布成功</span>
+								</el-form-item>
+								<el-form-item label="修改时间">
+									<span>{{ props.row.lastUpdateTime}}</span>
+								</el-form-item>
+
+							</el-form>
+						</template>
+					</el-table-column>
+					<el-table-column label="课程编号" prop="curriculumId">
+					</el-table-column>
+					<el-table-column label="课程名称" prop="curriculumName">
+					</el-table-column>
+					<el-table-column>
+						<template slot="header" slot-scope="scope">
+							<el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
+						</template>
+						<template slot-scope="props">
+							<el-popover placement="left" width="800" height="900" trigger="click">
+								<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+									<el-form-item label="课程名称" prop="name">
+										<el-input v-model="ruleForm.name" clearable></el-input>
+									</el-form-item>
+									<el-form-item label="课程类别" prop="region">
+										<el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+											<el-option label="河南工业大学理工学院" value="1"></el-option>
+											<el-option label="河南工业大学中英国际学院" value="2"></el-option>
+										</el-select>
+									</el-form-item>
+									<el-form-item label="课程描述" prop="describe">
+										<el-input v-model="ruleForm.describe" clearable></el-input>
+									</el-form-item>
+									<!--<el-form-item label="是否发布" prop="value3">
+										<span v-if="props.row.whetherToIssue==0"><el-radio v-model="ruleForm.radio" label="1" @change="inputToDisabled1">暂不发布</el-radio>
+										<el-radio v-model="ruleForm.radio" label="2" @change="inputToDisabled">立即发布</el-radio></span>
+										<span v-else><el-radio v-model="ruleForm.radio" label="2" @change="inputToDisabled1">暂不发布</el-radio>
+										<el-radio v-model="ruleForm.radio" label="1" @change="inputToDisabled">立即发布</el-radio></span>
+
+									</el-form-item>
+									<el-form-item label="开课时间" prop="vaData">
+										<el-date-picker v-model="ruleForm.vaData" :disabled="disabled" type="datetime" placeholder="开课时间不能小于当前时间" value-format="yyyy-MM-dd HH:mm:ss">
+										</el-date-picker>
+									</el-form-item>
+									<el-form-item label="结束时间" prop="vatime">
+										<el-date-picker v-model="ruleForm.vatime" :disabled="disabled" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
+										</el-date-picker>
+									</el-form-item>-->
+									<!--<el-form-item label="开课时间" prop="Begin">
+										<el-input v-model="ruleForm.Begin" clearable></el-input>
+									</el-form-item>
+									<el-form-item label="结束时间" prop="Last">
+										<el-input v-model="ruleForm.Last" clearable></el-input>
+									</el-form-item>-->
+									<!--<el-form-item label="上传图片" prop="desc">
+										<el-upload action="http://localhost:8088/file/uploadFile" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+											<i class="el-icon-plus"></i>
+										</el-upload>
+										<el-dialog :visible.sync="dialogVisible">
+											<img width="100%" :src="dialogImageUrl" alt="">
+										</el-dialog>
+									</el-form-item>-->
+									<el-form-item>
+										<el-button type="primary" @click="submitForm('ruleForm',props.row.curriculumId,props.row.startTime,props.row.endTime)">立即创建</el-button>
+										<el-button @click="resetForm('ruleForm')">重置</el-button>
+									</el-form-item>
+								</el-form>
+								<el-button slot="reference" @click="handleEdit(props.$index, props.row)">修改信息</el-button>
+
+							</el-popover>
+							<!--<el-button type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.$index, scope.row)"></el-button>-->
+							<el-button type="primary" @click.native.prevent="handleDelete(props.$index, props.row,tableData5)">删除信息</el-button>
+
+							<el-popover placement="right" width="400" trigger="click" :disabled="disabled">
+
+								<el-form :model="ruleForm" v-if="props.row.whetherToIssue==0" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+
+									<el-form-item label="开课时间" prop="vaData">
+										<el-date-picker v-model="ruleForm.vaData" type="datetime" placeholder="开课时间不能小于当前时间" value-format="yyyy-MM-dd">
+										</el-date-picker>
+									</el-form-item>
+									<el-form-item label="结束时间" prop="vatime">
+										<el-date-picker v-model="ruleForm.vatime" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd">
+										</el-date-picker>
+									</el-form-item>
+									<el-form-item label="" prop="">
+										<el-button type="primary" @click="submiup('ruleForm',props.row.curriculumId)">立即创建</el-button>
+										<el-button @click="resetForm('ruleForm')">重置</el-button>
+									</el-form-item>
+								</el-form>
+
+								<el-button v-if="props.row.whetherToIssue==0" slot="reference" @click="fabu()" type="warning">发布课程</el-button>
+								<el-button v-else slot="reference" @click="quxiao(props.row.curriculumId)" type="warning">取消发布</el-button>
+							</el-popover>
+							<el-button @click="zhangjie(props.row.curriculumId)" type="warning">查看章节</el-button>
+						</template>
+					</el-table-column>
+				</el-table>
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pagesize" background layout="total,sizes,prev, pager, next,jumper" :total="tableData5.lenth">
+				</el-pagination>
+			</div>
+		</div>
+		<script type="text/javascript">
+		</script>
+		<script>
+			var vm = new Vue({
+				el: '#app',
+				data() {
+					return {
+						disabled: true,
+						labelPosition: 'right',
+						formLabelAlign: {
+							name: '',
+							region: '',
+							type: '',
+							tea: '',
+						},
+
+						imgurl: "img/moocwechat.jpg",
+						restaurants: [],
+						state1: '',
+						input: '',
+						radio2: 2,
+						input10: '',
+						show2: true,
+						search: '',
+						currentPage: 1,
+						dialogImageUrl: '',
+						dialogVisible: false,
+						pagesize: 9,
+						tableData5: [],
+						ruleForm: {
+							name: '',
+							region: '',
+							Currid: '',
+							describe: '',
+							Begin: '',
+							Last: '',
+							radio: '1',
+							vaData: '',
+							vatime: ''
+
+						},
+						rules: {
+							name: [{
+									required: true,
+									message: '请输入活动名称',
+									trigger: 'blur'
+								},
+								{
+									min: 3,
+									max: 5,
+									message: '长度在 3 到 5 个字符',
+									trigger: 'blur'
+								}
+							],
+							region: [{
+								required: true,
+								message: '请选择活动区域',
+								trigger: 'change'
+							}]
+
+						},
+
+					}
+				},
+				methods: {
+					zhangjie(currId) {
+						localStorage.setItem("currId", currId);
+						url = "chapter.html"; //此处拼接内容
+						window.location.href = url;
+					},
+					open10() {
+
+					},
+					fabu() {
+						this.disabled = false;
+					},
+					quxiao(currId) {
+						var _this = this;
+						var currId = currId;
+						console.log(currId);
+						this.$confirm('您确定取消发布课程吗?', '提示', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							type: 'warning'
+						}).then(() => {
+							axios({
+								method: 'post',
+								url: 'http://localhost:3050/ZhangBingQian/curriculum/updateIsReleaseToFalse',
+								params: {
+									currId: currId
+								}
+							}).then(function(res) {
+								console.log(res.data);
+								if(res.data.state == 1) {
+									_this.$message({
+										type: 'success',
+										message: res.data.msg
+									});
+									setTimeout(() => {
+										window.location.reload();
+									}, 1500)
+								} else {
+									_this.$message({
+										type: 'info',
+										message: res.data.msg
+									});
+								}
+							})
+						}).catch(() => {
+							_this.$message({
+								type: 'info',
+								message: '已取消删除'
+							});
+						});
+						this.disabled = true;
+
+					},
+					submiup(formName, currid) {
+
+						var _this = this;
+						var vaData = _this.ruleForm.vaData;
+						var vatime = _this.ruleForm.vatime;
+						var currid = currid;
+						console.log(vaData);
+						console.log(vatime);
+						console.log(currid);
+						axios({
+								method: 'put',
+								url: 'http://localhost:3050/ZhangBingQian/curriculum/updateIsReleaseToTrue',
+								params: {
+									startTime: vaData,
+									endTime: vatime,
+									curriculumId: currid
+								}
+							})
+							.then(function(res) {
+								if(res.data.state == 1) {
+									_this.$message({
+										type: 'success',
+										message: res.data.msg
+									});
+									setTimeout(() => {
+										window.location.reload();
+									}, 1200)
+								} else {
+									_this.$message({
+										type: 'info',
+										message: res.data.msg
+									});
+								}
+							}).catch(function(error) {
+								console.log(error)
+							})
+
+					},
+					insert(formLabelAlign) {
+
+						var _this = this;
+						var name = _this.formLabelAlign.name;
+						var region = _this.formLabelAlign.region;
+						var type = _this.formLabelAlign.type;
+						var tea = _this.formLabelAlign.tea;
+						console.log(name);
+						console.log(region);
+						console.log(type);
+						console.log(tea);
+						axios({
+								method: 'post',
+								url: 'http://localhost:3050/ZhangBingQian/curriculum/insertCurriculum',
+								data: {
+									curriculumName: name,
+									courseIntroduction: region,
+									curriculumCategoryId: type,
+									teacherId: tea
+								}
+							})
+							.then(function(res) {
+								if(res.data.state == 1) {
+									_this.$message({
+										type: 'success',
+										message: res.data.msg
+									});
+									setTimeout(() => {
+										window.location.reload();
+									}, 1500)
+								} else {
+									_this.$message({
+										type: 'error',
+										message: res.data.msg
+									});
+								}
+							}).catch(function(error) {
+								console.log(error)
+							})
+					},
+
+					submitForm(formName, rows, begin, last, describe) {
+						this.$refs[formName].validate((valid) => {
+							if(valid) {
+								var _this = this;
+								var region = _this.ruleForm.region;
+								var gaga = _this.ruleForm.name;
+								var describe = _this.ruleForm.describe;
+								var vaData = _this.ruleForm.vaData;
+								var vatime = _this.ruleForm.vatime;
+								/*console.log(gaga);
+								console.log(region);*/
+								//var gege =_this.ruleForm.Currid;
+								console.log(gaga);
+								console.log(rows);
+								console.log(region);
+								console.log(begin);
+								console.log(last);
+								console.log(describe);
+								console.log(vaData);
+								console.log(vatime);
+
+								axios({
+										method: 'put',
+										url: 'http://localhost:3050/ZhangBingQian/curriculum/updateCurriculum',
+										data: {
+											curriculumName: gaga,
+											curriculumId: rows,
+											curriculumCategoryId: region,
+
+											courseIntroduction: describe
+
+										}
+
+									})
+									.then(function(res) {
+										if(res.data.state == 1) {
+											_this.$message({
+												type: 'success',
+												message: res.data.msg
+											});
+											setTimeout(() => {
+												window.location.reload();
+											}, 1500)
+										} else {
+											_this.$message({
+												type: 'error',
+												message: res.data.msg
+											});
+										}
+									}).catch(function(error) {
+										console.log(error)
+									})
+
+							}
+						});
+					},
+					resetForm(formName) {
+						this.$refs[formName].resetFields();
+					},
+					querySearch(queryString, cb) {
+						var restaurants = this.restaurants;
+						var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+						// 调用 callback 返回建议列表的数据
+						cb(results);
+					},
+					createFilter(queryString) {
+						return(restaurant) => {
+							return(restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+						};
+					},
+					loadAll() {
+						return [{
+								"value": "河南工业大学计算机与应用技术学院",
+								"address": ""
+							},
+							{
+								"value": "河南工业大学中英国际学院",
+								"address": ""
+							},
+							{
+								"value": "河南工业大学磨料磨具学院",
+								"address": "上海市普陀区真北路988号创邑金沙谷6号楼113"
+							},
+							{
+								"value": "河南工业大学粮食教育学院",
+								"address": "天山西路438号"
+							},
+							{
+								"value": "河南工业大学经济教育学院",
+								"address": "上海市长宁区金钟路968号1幢18号楼一层商铺18-101"
+							},
+							{
+								"value": "河南工业大学心理与精神教育学院",
+								"address": "上海市长宁区金钟路633号"
+							},
+							{
+								"value": "河南工业大学园林建筑土木学院",
+								"address": "上海市嘉定区曹安公路曹安路1685号"
+							},
+							{
+								"value": "河南工业大学理工学院",
+								"address": "上海市普陀区同普路1435号"
+							},
+							{
+								"value": "河南工业大学艺术设计学院",
+								"address": "上海市北翟路1444弄81号B幢-107"
+							},
+							{
+								"value": "河南工业大学政治与哲学学院",
+								"address": "上海市嘉定区新郁路817号"
+							},
+							{
+								"value": "河南工业大学计算机专业学院",
+								"address": "嘉定区曹安路1611号"
+							},
+							{
+								"value": "安卓开发",
+								"address": "嘉定区曹安公路2383弄55号"
+							},
+							{
+								"value": "Java开发",
+								"address": "嘉定区江桥镇曹安公路2409号1F，2383弄62号1F"
+							},
+							{
+								"value": "ios开发",
+								"address": "上海长宁区金钟路968号9号楼地下一层"
+							},
+							{
+								"value": "前端开发与美工设计",
+								"address": "上海市长宁区天山西路119号"
+							},
+							{
+								"value": "运维与实施",
+								"address": "上海市长宁区仙霞西路"
+							},
+							{
+								"value": "外语专业院系",
+								"address": "上海市长宁区天山西路567号1层R117号店铺"
+							}
+						];
+					},
+					handleSelect(item) {
+						console.log(item);
+					},
+					handleRemove(file, fileList) {
+						console.log(file, fileList);
+					},
+					handlePictureCardPreview(file) {
+						this.dialogImageUrl = file.url;
+						this.dialogVisible = true;
+					},
+					handleSizeChange(val) {
+						this.pagesize = val;
+						console.log(`每页 ${val} 条`);
+					},
+					handleCurrentChange(val) {
+						this.currentPage = val;
+					},
+					handleEdit(index, row) {
+						console.log(index, row);
+
+					},
+					handleDelete(index, row, rows) {
+						var _this = this;
+						console.log(index, row);
+						//console.log(row.curriculumId);
+						const h = this.$createElement;
+						console.log(h);
+						this.$msgbox({
+							title: '消息',
+							message: h('p', null, [
+								h('span', null, '您确定删除吗 '),
+								h('i', {
+									style: 'color: teal'
+								}, '')
+							]),
+							showCancelButton: true, //是否显示取消按钮
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							beforeClose: (action, instance, done) => {
+								if(action === 'confirm') {
+									instance.confirmButtonLoading = true;
+									var qqq = row.curriculumId;
+									console.log(row.curriculumId);
+									instance.confirmButtonText = '执行中...';
+									setTimeout(() => {
+										axios.delete('http://localhost:3050/ZhangBingQian/curriculum/deleteCurriculum', {
+												params: {
+													curriculumId: qqq
+												}
+											})
+											.then(function(res) {
+												//window.location.reload();
+												console.log(res.data.state);
+												if(res.data.state == 1) {
+													_this.$message({
+														type: 'success',
+														message: res.data.msg
+													});
+													rows.splice(index, 1);
+													/*setTimeout(() => {
+														window.location.reload();
+													}, 1500)*/
+												} else {
+													_this.$message({
+														type: 'error',
+														message: res.data.msg
+													});
+												}
+											}).catch(function(error) {
+												console.log(error)
+												_this.$message({
+													type: 'error',
+													message: res.data.msg
+												});
+											})
+										done();
+										setTimeout(() => {
+											instance.confirmButtonLoading = false;
+										}, 300);
+									}, 1000);
+								} else {
+									this.$message({
+										type: 'info',
+										message: '取消删除'
+									});
+									done();
+								}
+							}
+						}).then(action => {
+							console.log(action);
+							this.$message({
+								type: 'info',
+								message: '删除失败'
+							});
+						});
+
+					},
+					select() {
+						var _this = this;
+						var inpt = _this.input10;
+						var radio2 = _this.radio2;
+						console.log(inpt);
+						console.log(radio2);
+						if(radio2 == 2) {
+							axios({
+									method: 'get',
+									url: 'http://localhost:3050/ZhangBingQian/curriculum/queryCurriculumByPage',
+									params: {
+										curriculumName: inpt
+									}
+								})
+								.then(function(res) {
+									_this.tableData5 = res.data
+								}).catch(function(error) {
+									console.log(error)
+								})
+						} else {
+							axios({
+									method: 'get',
+									url: 'http://localhost:3050/ZhangBingQian/curriculum/queryCurriculumByPage',
+									params: {
+										curriculumName: inpt,
+										whetherToIssue: radio2
+									}
+								})
+								.then(function(res) {
+									_this.tableData5 = res.data
+								}).catch(function(error) {
+									console.log(error)
+								})
+						}
+					}
+
+				},
+				mounted: function() {
+					var _this = this;
+					var inpt = _this.input10;
+					var radio2 = _this.radio2;
+					console.log(inpt);
+					console.log(radio2);
+					axios({
+							method: 'get',
+							url: 'http://localhost:3050/ZhangBingQian/curriculum/queryCurriculumByPage',
+							params: {
+								curriculumName: inpt
+							}
+						})
+						.then(function(res) {
+							_this.tableData5 = res.data
+						}).catch(function(error) {
+							console.log(error)
+						}),
+						this.restaurants = this.loadAll();
+				}
+				/*,
+								watch: {
+									tableData5.name: function(nValue, oValue) {
+										var _this = this;
+										axios.get('http://localhost:3050/ZhangBingQian/curriculum/queryCurriculumByPage?curriculumName=s')
+											.then(function(res) {
+												_this.tableData5 = res.data
+											}).catch(function(error) {
+												console.log(error)
+											})
+									}
+								}*/
+
+			})
+		</script>
+	</body>
+
+</html>

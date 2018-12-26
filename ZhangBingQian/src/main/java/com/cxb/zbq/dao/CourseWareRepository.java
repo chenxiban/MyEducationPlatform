@@ -15,4 +15,8 @@ public interface CourseWareRepository extends JpaRepository<CourseWare, String>{
     @Query(value="DELETE FROM course_ware_tb WHERE course_ware_id=?1",nativeQuery=true)
     @Transactional@Modifying
     int deleteCourseWare(Integer cId);//根据课件id删除课件信息
+    @Query(value="update CourseWare c set c.coursewareDescription=?2 where c.courseWareId=?1")
+    @Transactional
+    @Modifying
+    int updateCourseWare(String courseWareId,String coursewareDescription);//根据课件id,修改课件信息
 }

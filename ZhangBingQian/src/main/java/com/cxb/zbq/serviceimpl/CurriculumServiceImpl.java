@@ -13,10 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.cxb.zbq.OtherEntity.SelectCurriculum;
+import com.cxb.zbq.OtherEntity.TeacherCurriculum;
 import com.cxb.zbq.dao.CurriculumRepository;
 import com.cxb.zbq.entity.Curriculum;
 import com.cxb.zbq.entityquery.CurriculumQuery;
 import com.cxb.zbq.service.CurriculumService;
+import com.cxb.zbq.utils.JpaObjectsToEntity;
 @Service
 public class CurriculumServiceImpl implements CurriculumService {
 	@Autowired
@@ -113,13 +116,34 @@ public class CurriculumServiceImpl implements CurriculumService {
 	}
 
 	@Override
-	public List<Integer> getCurrIdBySubscriptionNum() {
+	public List<Curriculum> getCurrIdBySubscriptionNum() {
 		return curriculumRepository.getCurrIdBySubscriptionNum();
 	}
 
 	@Override
 	public String getCurrNameByCurrId(Integer currId) {
 		return curriculumRepository.findBycurriculumId(currId).getCurriculumName();
+	}
+
+	@Override
+	public List<TeacherCurriculum> queryByTeacherId(Integer teacherId) {
+		// TODO Auto-generated method stub
+		List<Object[]> rootList=curriculumRepository.queryCurriculumByTeacherId(teacherId);
+		List<TeacherCurriculum> teacherCurriculum=(List<TeacherCurriculum>) JpaObjectsToEntity.jpaResultToObjectList(rootList,TeacherCurriculum.class);
+		return teacherCurriculum;
+	}
+
+	@Override
+	public List<Integer> queryCurriculumIdByTeacherId(Integer teacherId) {
+		// TODO Auto-generated method stub
+		return curriculumRepository.queryCurriculumIdByTeacherId(teacherId);
+	}
+
+	@Override
+	public List<SelectCurriculum> queryAllIdAndName(Integer teacherId) {
+		List<Object[]> rootList=curriculumRepository.queryAllIdAndName(teacherId);
+		List<SelectCurriculum> selectCurriculum=(List<SelectCurriculum>) JpaObjectsToEntity.jpaResultToObjectList(rootList,SelectCurriculum.class);
+		return selectCurriculum;
 	}
 
 

@@ -265,6 +265,7 @@ public class TeacherSetTestQuestionController {
 	 */
 	@RequestMapping(value = "/queryChoiceQuestionAndOption", name = "预览问题及选项",method=RequestMethod.GET)
 	public Object queryChoiceQuestionAndOption(@RequestParam(value="chapterId",required=false)Integer chapterId,@RequestParam(value="state",required=false)String state) {
+		System.out.println("chapterId=>"+chapterId);
 		ArrayList<Object> list = new ArrayList<Object>();
 		// 选择题集合
 		List<QuestionOption> list1 = choiceQuestionService.queryChoiceQuestion(chapterId);

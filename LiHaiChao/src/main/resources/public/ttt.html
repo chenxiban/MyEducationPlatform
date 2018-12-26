@@ -1,31 +1,40 @@
 <!DOCTYPE html>
 <html>
+	<meta charset="UTF-8">
+	<title>角色管理</title>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+	<style>
+		.datagrid-td-rownumber{
+			height: 26px;
+		}
+	</style>
+	<script type="text/javascript">
+		$(function() {
+			searchInfo();
+		});
+		var ss=9;
+		function searchInfo() {
+			$("#dg").datagrid({
+				url: 'http://localhost:3011/lihaichao/LiHaiChao/stuSelectionCourse/queryIdcurriculumId=9&name=',
+				queryParams: {
+					curriculumId: ss,
+					name: ""
+				},
+			});
 
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-		<script type="text/javascript" src="js/jquery.min.js"></script>
-	</head>
+		}
+	</script>
 
-	<body>
-		<div id="mytt"></div>
-		<script type="text/javascript">
-			var url = 'content.html';
-			if($('#mytt').length > 0) {
-							$.get("content.html",function(d) {
-								$('#mytt').html(d);
-							})
-						}
-			
-			/*$.ajax({
-				url: url,
-				cache: true,
-				async: false,
-				success: function(html) {
-					$("#mytt").html(html);
-				}
-			});*/
-		</script>
-	</body>
+	<table name="center" class="easyui-datagrid" id="dg" title="角色列表" data-options="rownumbers:true, iconCls:'icon-save',singleSelect:true,pagination:true,method:'post',toolbar:'#tb',pageSize:10">
+		<thead>
+			<tr>
+				<th data-options="field:'chapterId',width:280,hidden:true">角色ID</th>
+				<th data-options="field:'chapterName',width:100">角色名</th>
+
+			</tr>
+		</thead>
+
+	</table>
 
 </html>

@@ -1,13 +1,14 @@
 package com.cxb.lhc.service;
 
-import java.sql.Date;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cxb.lhc.entity.StuCourseComment;
+
+
 
 /**
  * 
@@ -28,7 +29,16 @@ public interface StuCourseCommentService {
 	 * @return
 	 */
 	Page<StuCourseComment> findByCourseId(Integer courseId,Pageable pageable);
-		
+	
+	/**
+	 * 2.根据课程id查询出
+	 * 订阅该课程的所有学生id集合
+	 * @param courseId
+	 * @return
+	 */
+
+	List<Integer> selStudentIdByCourseId(Integer courseId);
+	
 	
 	/**
 	 * 根据课程id
@@ -45,6 +55,18 @@ public interface StuCourseCommentService {
 	 */
 	double queryCommentStart(Integer courseId);
 	
+	
+	/**
+	 * 根据评价id查询出评价对象
+	 * @param commentId
+	 * @return
+	 */
+	
+	StuCourseComment queryStuCourseCommentByCommentId(Integer commentId);
+	
+	
+	
+	
 	/**
 	 * 向学生评价表中添加一条数据
 	 * @param commentContext
@@ -54,8 +76,8 @@ public interface StuCourseCommentService {
 	 * @param studentId
 	 * @return
 	 */
-	@Transactional
-	Integer saveStuCourseComment(String commentContext,Integer commentStart,Date commentTime,Integer courseId,Integer studentId);
+	
+	StuCourseComment saveStuCourseComment(StuCourseComment stuCourseComment);
 		
 	/**
 	 * 学生根据评价id(主键)
@@ -83,7 +105,6 @@ public interface StuCourseCommentService {
 	 */
 	@Transactional
 	Integer delCoursePraiseByCommentId(Integer commentId);
-	
 	/**3.根据评价id(主键)
 	 * 删除自己的评价 
 	 * @param studentId
@@ -93,8 +114,4 @@ public interface StuCourseCommentService {
 	@Transactional
 	Integer delStuCourseComment(Integer commentId);
 	
-	
-	
-
-
 }

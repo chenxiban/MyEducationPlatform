@@ -18,6 +18,7 @@
 		</style>
 		<script type="text/javascript">
 			var token = window.localStorage.getItem("token"); //取出暂存的token数据
+			var loginIds = window.localStorage.getItem("userIds"); // 登录用户的id
 			$(function() {
 				$("#dg").datagrid({
 					method: 'get',

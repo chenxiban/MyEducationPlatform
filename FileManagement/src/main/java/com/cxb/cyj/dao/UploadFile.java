@@ -1,5 +1,6 @@
 package com.cxb.cyj.dao;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -28,7 +29,14 @@ public interface UploadFile {
 	 */
 	@Delete({ "DELETE FROM filemanagement.tb_files WHERE files_name =#{name}" })
 	void deleteFileByFileName(@Param("name") String files_name);
-
+	/**
+	 * 根据名称删除file
+	 * 
+	 * @param files_name
+	 * @return
+	 */
+	@Delete({ "DELETE FROM filemanagement.tb_files WHERE files_id ==#{ids}" })
+	Integer deleteFileByFileids(@Param("ids") String fileids);
 	/**
 	 * 上传音频文件
 	 * 

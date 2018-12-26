@@ -12,7 +12,7 @@ import com.cxb.zbq.entity.Notice;
 
 public interface NoticeRepository extends JpaRepository<Notice, Integer>{
 	//通过课程id找到对应的最新公告
-	@Query(value="SELECT notice_id,announcement_content,creation_time,curriculum_id,teacher_id FROM notice_tb WHERE curriculum_id=?1 ORDER BY creation_time DESC LIMIT 1",nativeQuery=true)
+	@Query(value="SELECT notice_id,notice_title,announcement_content,creation_time,curriculum_id,teacher_id,last_update_time FROM notice_tb WHERE curriculum_id=?1 ORDER BY creation_time DESC LIMIT 1",nativeQuery=true)
 	Notice getNewNoticeByCurrId(Integer currId);
 	
 	//修改公告信息

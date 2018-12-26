@@ -4,7 +4,6 @@ eureka:
     serviceUrl:
     #eureka注册中心地址固定就这样写
       defaultZone: http://localhost:8888/eureka/
-      
 server:
 #项目端口号
   port: 3040
@@ -24,7 +23,12 @@ spring:
     #数据库意思是:机构权限文件
     url: jdbc:mysql://127.0.0.1:3306/llltzhihuistudent?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false 
     username: root 
-    password: root 
+    password: root
+
+     # 打印sql
+#logging:
+#  level: 
+#    com.onepro.custom.mapper: DEBUG
   #redis数据库配置
   #redis:
     #host: 127.0.0.1
@@ -69,3 +73,8 @@ spring:
  #    userAuthorizationUri: http://localhost:3011/chenyongjia-oauth/oauth/authorize
  # clientId: client_1
  #     clientSecret: 123456   
+feign: 
+  httpclient: 
+    connection-timeout: 8000
+     
+    

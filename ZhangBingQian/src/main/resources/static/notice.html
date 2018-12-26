@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<script type="text/javascript" src="js/axios.min.js"></script>
+		<script type="text/javascript" src="js/vue.min.js"></script>
+		<script type="text/javascript" src="js/element-ui.js"></script>
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<link rel="stylesheet" href="css/suki_sqs.css" />
+		<link rel="stylesheet" href="css/element-ui.css" />
+
+		<title>公告页</title>
+	</head>
+
+	<body>
+		<div id="n-one">
+			<el-container>
+				<el-header>
+					<el-span style="font-family: '微软雅黑';">公告:</el-span>
+					<el-span style="font-size: small; font-family: '微软雅黑';">向订阅该课程的学习者发布课程动态、课程计划、课程活动通知、课程补充信息等</el-span>
+
+				</el-header>
+
+				<el-button type="success" icon="el-icon-plus" style="width: 150px;" @click="insertNotice()">创建公告</el-button>
+				<el-dialog title="创建公告" :visible.sync="dialogFormVisible">
+					<el-form ref="form" :model="form" label-width="80px">
+						<el-form-item label="课程名称">
+							<el-select v-model="form.curriculumName" placeholder="请选择课程">
+								<el-option v-for="item in form.options" :key="item.value" :label="item.label" :value="item.value">
+								</el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="公告标题">
+							<el-input v-model="form.noticeTitle"></el-input>
+						</el-form-item>
+						<el-form-item label="公告内容">
+							<el-input type="textarea" v-model="form.announcementContent"></el-input>
+						</el-form-item>
+						<el-form-item>
+							<el-button type="primary" @click="addNotice()">立即创建</el-button>
+							<el-button @click="dialogFormVisible = false">取消</el-button>
+						</el-form-item>
+					</el-form>
+				</el-dialog>
+				<el-main>
+					
+					<!--"tableData5.slice((currentPage-1)*pagesize,currentPage*pagesize)"-->
+                    <!--tableData5.filter(data => !search || data.curriculumName.toLowerCase().includes(search.toLowerCase()))-->
+					<el-table :data="tableData5.filter(data => !search || data.curriculumName.toLowerCase().includes(search.toLowerCase()))" style="width: 100%; margin-top: -80px;">
+						<el-table-column type="expand">
+							<template slot-scope="props">
+								<el-form label-position="left" inline class="demo-table-expand">
+									<el-form-item label="详细内容" prop="announcementContent">
+										<span>{{ props.row.announcementContent }}</span>
+									</el-form-item>
+
+								</el-form>
+							</template>
+						</el-table-column>
+						<el-table-column label="公告id" prop="noticeId" v-if="" style="margin-top: 200px;">
+						</el-table-column>
+						<el-table-column label="课程名称" prop="curriculumName" style="margin-top: 200px;">
+						</el-table-column>
+						<el-table-column label="公告标题" prop="noticeTitle" style="margin-top: 200px;">
+						</el-table-column>
+						<el-table-column label="发布时间" prop="creationTime">
+						</el-table-column>
+
+						<el-table-column label="操作" prop="desc">
+
+							<template slot="header" slot-scope="scope">
+								<el-input v-model="search" size="mini" placeholder="输入课程名称搜索" />
+							</template>
+							<template slot-scope="scope">
+								<el-button size="mini" @click="handleEdit(scope.$index,scope.row)" icon="el-icon-edit" circle></el-button>
+								<el-dialog title="修改公告" v-model="editFormVisible" :visible.sync="editFormVisible" :close-on-click-modal="false">
+									<el-form ref="updateForm" :model="updateForm" label-width="80px">
+										<el-form-item label="公告标题">
+											<el-input prop="noticeTitle" v-model="updateForm.noticeTitle"></el-input>
+										</el-form-item>
+										<el-form-item label="公告内容">
+											<el-input type="textarea" prop="announcementContent" v-model="updateForm.announcementContent"></el-input>
+										</el-form-item>
+										<el-form-item>
+											<el-button type="primary" @click="updateNotice()">立即修改</el-button>
+											<el-button @click="editFormVisible = false">取消</el-button>
+										</el-form-item>
+									</el-form>
+								</el-dialog>
+								<el-button size="mini" @click="handleDelete(scope.$index,scope.row,tableData5)" icon="el-icon-delete" circle></el-button>
+							</template>
+
+						</el-table-column>
+					</el-table>
+					<div class="block">
+                     
+						<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="tableData5.length">
+							<!--<span>{{ (currentPage-1)*pagesize,currentPage*pagesize }}</span>-->
+						</el-pagination>
+						
+					</div>
+				</el-main>
+			</el-container>
+
+		</div>
+
+		<script>
+			new Vue({
+				el: "#n-one",
+				methods: {
+					 
+
+					//打开公告的弹窗
+					insertNotice() {
+						var _this = this;
+                        _this.dialogFormVisible=true;
+						axios({
+							method: 'get',
+							url: 'http://localhost:3050/ZhangBingQian/curriculum/queryAllIdAndName',
+							params: {
+							}
+						}).then((res) => {
+							_this.form.options = res.data;
+						})
+
+					},
+
+					//编辑公告的弹窗
+					handleEdit(index, row) {
+						var _this = this;
+						_this.nId = row.noticeId;
+						var noticeId = row.noticeId;
+						var curriculumId = row.curriculumId;
+
+						axios({
+							method: 'get',
+							url: 'http://localhost:3050/ZhangBingQian/notice/isNewOfNotice',
+							params: {
+								noticeId: noticeId,
+								curriculumId: curriculumId
+							},
+						}).then((res) => {
+							if(res.data == true) {
+								_this.editFormVisible = true;
+								_this.updateForm = Object.assign({}, row);
+							} else {
+								_this.$message({
+									showClose: true,
+									message: '当前公告不是最新公告,不可修改',
+									type: 'error'
+								});
+							}
+						}).catch(() => {
+							_this.$message({
+								type: 'info',
+								message: '故障故障故障'
+							});
+						});
+
+					},
+
+					handleSizeChange(val) {
+						this.pagesize = val;
+						console.log(`每页 ${val} 条`);
+					},
+					handleCurrentChange(val) {
+						this.currentPage = val;
+					},
+
+					//删除公告
+					handleDelete(index, row, rows) {
+						var _this = this;
+						var noticeId = row.noticeId;
+						console.log(noticeId);
+						_this.$confirm('您确定要删除该条公告吗?', '提示', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							type: 'warning'
+						}).then(() => {
+
+							axios({
+								method: 'delete',
+								url: 'http://localhost:3050/ZhangBingQian/notice/deleteNotice',
+								params: {
+									noticeId: noticeId
+								}
+							}).then((res) => {
+								if(res.data.state == 1) {
+									_this.$message({
+										type: 'success',
+										message: res.data.msg
+									});
+									rows.splice(index, 1);
+								} else {
+									_this.$message({
+										type: 'info',
+										message: res.data.msg
+									});
+								}
+
+							})
+
+						}).catch(() => {
+							_this.$message({
+								type: 'info',
+								message: '已取消删除'
+							});
+						});
+					},
+
+					//修改公告
+					updateNotice() {
+						var _this = this;
+						var noticeTitle = _this.updateForm.noticeTitle;
+						var noticeId = _this.nId;
+						var announcementContent = _this.updateForm.announcementContent;
+						axios({
+							method: 'post',
+							url: 'http://localhost:3050/ZhangBingQian/notice/updateNotice',
+							params: {
+								noticeId: noticeId,
+								noticeTitle: noticeTitle,
+								announcementContent: announcementContent
+							}
+						}).then(function(res) {
+							if(res.data.state == 1) {
+								_this.$message({
+									message: res.data.msg,
+									type: 'success'
+								});
+								setInterval(() => {
+									window.location.reload();
+								}, 1000);
+							} else {
+								_this.$message({
+									message: res.data.msg,
+									type: 'info'
+								});
+							}
+						}).catch(function(error) {
+							console.log(error);
+						});
+
+					},
+					//添加公告
+					addNotice() {
+						var _this = this;
+						axios({
+							method: 'post',
+							url: 'http://localhost:3050/ZhangBingQian/notice/insertNotice',
+							params: {
+								curriculumId: _this.form.curriculumName,
+								teacherId: 2,
+								noticeTitle: _this.form.noticeTitle,
+								announcementContent: _this.form.announcementContent
+
+							}
+						}).then(function(res) {
+							if(res.data.state == 1) {
+								_this.$message({
+									message: res.data.msg,
+									type: 'success'
+								});
+								setInterval(() => {
+									window.location.reload();
+								}, 1500);
+							} else {
+								_this.$message({
+									message: res.data.msg,
+									type: 'info'
+								});
+							}
+
+						}).catch(function(error) {
+							console.log(error);
+						});
+
+					}
+				},
+				data() {
+					return {
+						
+						nId: 0,
+						currentPage: 1,
+						pagesize: 9,
+						dialogFormVisible: false,
+						editFormVisible: false,
+						form: {
+							region: '',
+							curriculumName: '',
+							curriculumId: '',
+							noticeTitle: '',
+							announcementContent: '',
+							delivery: false,
+							type: [],
+							options: [],
+							desc: ''
+						},
+
+						updateForm: {
+							noticeTitle: '',
+							announcementContent: ''
+							/*delivery: false,
+							type: []*/
+
+						},
+
+						currentPage1: 5,
+						currentPage2: 5,
+						currentPage3: 5,
+						currentPage4: 4,
+
+						tableData5: [],
+						search: ''
+					}
+				},
+				//查询所有公告的方法
+				mounted: function() {
+					var _this = this;
+					axios({
+						method: 'get',
+						url: 'http://localhost:3050/ZhangBingQian/notice/getAllNotice',
+						params: {
+							teaId: 2
+						}
+
+					}).then(function(res) {
+						_this.tableData5 = res.data
+					}).catch(function(error) {
+						console.log(error);
+					});
+
+				},
+
+			})
+		</script>
+	</body>
+
+</html>

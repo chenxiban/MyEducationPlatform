@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cxb.lhc.entity.StuCourseComment;
 import com.cxb.lhc.entity.StuGivePraise;
 
+
+
 /**
  * 
  * @Description:   学生对所选课程评价进行点/踩赞
@@ -18,6 +20,29 @@ import com.cxb.lhc.entity.StuGivePraise;
  */
 		
 public interface StuGivePraiseService {
+	
+	/**
+	 * 根据评价id和点赞状态为1
+	 * 查询出该评价的点赞数量
+	 * @param commentId
+	 * @param givePraiseState
+	 * @return
+	 */
+	
+	Integer queryPraiseNumByCommentId(Integer commentId,Integer givePraiseState);
+	
+	/**
+	 * 根据评价id和踩赞状态为1
+	 * 查询出该评价的踩赞数量
+	 * @param commentId
+	 * @param givePraiseState
+	 * @return
+	 */
+	
+	Integer queryFootPraiseNumByCommentId(Integer commentId,Integer notPraiseState);
+	
+	
+	
 	/**
 	 * 点/取消赞或踩/取消赞
 	 * 都要先根据学生id和评价id判断该学生对该评价

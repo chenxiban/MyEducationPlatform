@@ -11,9 +11,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cxb.lhc.entity.StuCourseComment;
+
 import com.cxb.lhc.repository.StuCourseCommentRepository;
+import com.cxb.lhc.service.StuCourseCommentClient;
 import com.cxb.lhc.service.StuCourseCommentService;
 /**
  * 
@@ -29,6 +32,12 @@ public class StuCourseCommentServiceImpl implements StuCourseCommentService{
 	@Autowired
 	private StuCourseCommentRepository stuCommentRepository;
 	
+	
+	@Autowired
+	private StuCourseCommentClient stuCourseCommentClient;
+	
+	
+	
 	/**
 	 * 根据课程id
 	 * 分页查询出该课程下所有的学生评价信息
@@ -42,7 +51,18 @@ public Page<StuCourseComment> findByCourseId(Integer courseId,Pageable pageable)
 		return stuCommentRepository.findByCourseId(courseId, pageable);
 	};
 		
+	/**
+	 * 根据课程id查询出
+	 * 订阅该课程的所有学生id集合
+	 * @param courseId
+	 * @return
+	 */
 
+public	List<Integer> selStudentIdByCourseId(Integer courseId){
+	return stuCommentRepository.selStudentIdByCourseId(courseId);
+};
+		
+	
 	/**
 	 * 根据课程id
 	 * 该课程的评价总条数
@@ -63,6 +83,21 @@ public double queryCommentStart(Integer courseId) {
 	return stuCommentRepository.queryCommentStart(courseId);
 };
 	
+
+/**
+ * 根据评价id查询出评价对象
+ * @param commentId
+ * @return
+ */
+
+public StuCourseComment queryStuCourseCommentByCommentId(Integer commentId) {
+	return stuCommentRepository.queryStuCourseCommentByCommentId(commentId);
+};
+
+
+
+
+
 	/**学生对自己所选课程进行评价
 	 * 向学生评价表中添加一条数据
 	 * @param commentContext
@@ -72,10 +107,9 @@ public double queryCommentStart(Integer courseId) {
 	 * @return
 	 */
 	@Override
-	public Integer saveStuCourseComment(String commentContext, Integer commentStart,Date commentTime,
-			Integer courseId, Integer studentId) {
+	public StuCourseComment saveStuCourseComment(StuCourseComment stuCourseComment) {
 		
-		return stuCommentRepository.saveStuCourseComment(commentContext, commentStart,commentTime,courseId, studentId);
+		return stuCommentRepository.save(stuCourseComment);
 	}
 	/**
 	 * 学生根据评价id(主键)
@@ -120,6 +154,13 @@ public	Integer delCoursePraiseByCommentId(Integer commentId) {
 public	Integer delStuCourseComment(Integer commentId) {
 		return stuCommentRepository.delStuCourseComment(commentId);
 	};
-	
-
+	/**
+	 * 调用小米组的方法 
+	 * 根据老师id查询出该门课的老师信息
+	 * @param teacherId
+	 * @return
+	 */	
+public 	Object queryTeacherByTeacherId(Integer teacherId) {
+	return stuCourseCommentClient.queryTeacherByTeacherId(teacherId);
+};
 }

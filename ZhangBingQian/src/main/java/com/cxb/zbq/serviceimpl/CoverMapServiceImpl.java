@@ -15,14 +15,8 @@ import com.cxb.zbq.service.CoverMapService;
 @Service
 public class CoverMapServiceImpl implements CoverMapService {
 	@Autowired
-	private UploadFeign feign;
-	@Autowired
 	private CoverMapRepository coverRepository;
 
-	@Override
-	public Object uploadFile(MultipartFile file) {
-		return feign.uploadFile(file);
-	}
 
 	@Override
 	public CoverMap insertCoverMap(CoverMap coverMap) {

@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +24,6 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -78,8 +76,12 @@ public class College implements Serializable {
 	private Organization organization;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="college",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="college",fetch=FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL)
 	private List<Clazz> list = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="college",fetch=FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL)
+	private List<User> list2 = new ArrayList<>();
 	
 	@Transient
 	private boolean checked;

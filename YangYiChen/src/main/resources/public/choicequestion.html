@@ -294,7 +294,11 @@
 									optionA: 'A、' + sub.ruleForm.optionA,
 									optionB: 'B、' + sub.ruleForm.optionB,
 									optionC: 'C、' + sub.ruleForm.optionC,
-									optionD: 'D、' + sub.ruleForm.optionD //end
+									optionD: 'D、' + sub.ruleForm.optionD, //end
+									trueA:'A',
+									trueB:'B',
+									trueC:'C',
+									trueD:'D'
 								}
 							}).then(function(res) { //成功时候
 								sub.$message.success(res.data.msg);
@@ -362,7 +366,11 @@
 											optionA: 'A、' + sub.ruleForm.optionA,
 											optionB: 'B、' + sub.ruleForm.optionB,
 											optionC: 'C、' + sub.ruleForm.optionC,
-											optionD: 'D、' + sub.ruleForm.optionD //end
+											optionD: 'D、' + sub.ruleForm.optionD, //end
+											trueA:'A',
+											trueB:'B',
+											trueC:'C',
+											trueD:'D'
 										}
 									}).then(function(res) { //成功时候
 										sub.$message.success(res.data.msg);
@@ -389,12 +397,20 @@
 			},
 			mounted: function() {
 				var _this = this;
-				axios.get('http://localhost:3050/ZhangBingQian/chapte/queryId').then(function(res) {
-					_this.options = res.data;
-				}).catch(function(error) {
-					console.log(error);
-				});
-			},
+				axios({
+						method: 'get', 
+						url: 'http://localhost:3011/zhangbingqian/ZhangBingQian/curriculum/queryCurriculumByteacherId',
+						params: {
+							teacherIds:4
+						}
+					})
+					.then(function(res) {
+						_this.options = res.data;
+					})
+					.catch(function(error) {
+						console.log(error);
+					});
+			}
 		});
 	</script>
 

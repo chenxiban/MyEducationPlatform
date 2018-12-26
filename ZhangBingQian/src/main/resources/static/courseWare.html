@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<!-- 引入饿了么Element样式,本地样式文件所在目录下的fonts目录中需要有样式图标文件element-icons.woff -->
+		<link rel="stylesheet" href="css/element-ui.css">
+		<!-- vue语法环境 -->
+		<script src="js/vue.min.js"></script>
+		<!-- vue使用Ajax -->
+		<script src="js/axios.min.js"></script>
+		<!-- 引入饿了么Element组件库 -->
+		<script src="js/element-ui.js"></script>
+	</head>
+	<style>
+		.demo-table-expand {
+			font-size: 0;
+		}
+		
+		.demo-table-expand label {
+			width: 90px;
+			color: #99a9bf;
+		}
+		
+		.demo-table-expand .el-form-item {
+			margin-right: 0;
+			margin-bottom: 0;
+			width: 50%;
+		}
+	</style>
+
+	<body>
+		<div id="app">
+			<template>
+				<el-button type="primary" @click="setCurrent()">返回上一层</el-button>
+				<el-button type="primary">上传<i class="el-icon-upload el-icon--right"></i></el-button>
+				<el-table :data="tableData5" style="width: 100%">
+					<el-table-column type="expand">
+						<template slot-scope="props">
+							<el-form label-position="left" inline class="demo-table-expand">
+								<el-form-item label="课件ID">
+									<span>{{ props.row.courseWareId }}</span>
+								</el-form-item>
+								<el-form-item label="所属课时名称">
+									<span>{{ props.row.chapterName }}</span>
+								</el-form-item>
+								<el-form-item label="课件描述">
+									<span>{{ props.row.coursewareDescription }}</span>
+								</el-form-item>
+								<el-form-item label="课件类型">
+									<span>{{ props.row.coursewareType }}</span>
+								</el-form-item>
+								<el-form-item label="课件时长-秒">
+									<span>{{ props.row.coursewareDuration }}</span>
+								</el-form-item>
+								<el-form-item label="课件路径">
+									<span>{{ props.row.coursewarePath }}</span>
+								</el-form-item>
+								<el-form-item label="课件大小">
+									<span>{{ props.row.coursewareSize }}</span>
+								</el-form-item>
+								<el-form-item label="创建时间">
+									<span>{{ props.row.coursewareCreationTime }}</span>
+								</el-form-item>
+								<el-form-item label="最后一次修改时间">
+									<span>{{ props.row.lastUpdateTime }}</span>
+								</el-form-item>
+							</el-form>
+						</template>
+					</el-table-column>
+					<el-table-column label="课件ID" prop="courseWareId">
+					</el-table-column>
+					<el-table-column label="所属课时名称" prop="chapterName">
+					</el-table-column>
+					<el-table-column label="课件类型" prop="coursewareType">
+					</el-table-column>
+					<el-table-column label="课件路径" prop="coursewarePath">
+					</el-table-column>
+					<el-table-column label="操作">
+						<template slot-scope="scope">
+							<el-button @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+							<el-button type="primary" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+						</template>
+					</el-table-column>
+
+				</el-table>
+			</template>
+			<el-dialog v-bind:title="'您正在编辑  '+editTitle+'  的信息'" :visible.sync="dialogFormVisible">
+				<el-input v-model="editColumn"></el-input>
+				<div slot="footer" class="dialog-footer">
+					<el-button @click="dialogFormVisible = false">取 消</el-button>
+					<el-button type="primary" @click="btnSub()">确 定</el-button>
+				</div>
+			</el-dialog>
+		</div>
+
+		<script>
+			var a = new Vue({
+				el: "#app",
+				data() {
+					return {
+						dialogFormVisible: false,
+						editTitle: '',
+						editColumn: '',
+						editid: '',
+						tableData5: []
+					}
+				},
+				mounted: function() {
+					var this_ = this;
+					var chapterId = localStorage.chapterId;
+					//console.log(chapterId);
+					axios({
+						method: 'get',
+						url: 'http://localhost:3050/ZhangBingQian/courseWare/getClassHourById',
+						params: {
+							clazzId: chapterId
+						}
+					}).then(function(response) {
+						this_.tableData5 = response.data;
+					});
+
+				},
+				methods: {
+					setCurrent() {
+						window.location.href = "chapter.html";
+					},
+					handleEdit(x, row) {
+						//console.log(x + row);
+						var this_ = this;
+						this_.editTitle = row.courseWareId;
+						this_.editColumn = row.coursewareDescription;
+						//console.log(row.coursewareDescription);
+						this_.dialogFormVisible = true;
+					},
+					handleDelete(x, row) {
+						//console.log(x + row);
+					},
+					btnSub() {
+						var this_ = this;
+						var coursewareDescription = this_.editColumn;
+						var courseWareId = this_.editTitle;
+						axios({
+							method: 'post',
+							url: 'http://localhost:3050/ZhangBingQian/courseWare/update',
+							params: {
+								courseWareId: courseWareId,
+								coursewareDescription: coursewareDescription
+							}
+						}).then(function(response) {
+							if(response.data == 1) {
+								this_.$message({
+									showClose: true,
+									message: '恭喜你，修改成功',
+									type: 'success'
+								});
+								this_.dialogFormVisible = false;
+								window.setTimeout(function() {
+									location.reload();
+								}, 1000);
+
+								
+							}
+
+						});
+					}
+				}
+
+			})
+		</script>
+	</body>
+
+</html>

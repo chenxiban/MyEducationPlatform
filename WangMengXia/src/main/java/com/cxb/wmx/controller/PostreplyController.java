@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cxb.wmx.entity.Bar;
 import com.cxb.wmx.entity.Postreply;
-import com.cxb.wmx.entitysearch.BarSearch;
 import com.cxb.wmx.entitysearch.PostreplySearch;
 import com.cxb.wmx.service.PostreplyService;
 

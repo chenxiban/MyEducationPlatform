@@ -36,6 +36,18 @@ public class PostController {
 	@SuppressWarnings("unused")
 	private Timestamp timestamp = new Timestamp(date.getTime());
 
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/findByPostId
+	 * 根据id查详细信息
+	 * @author 王梦霞
+	 * @param postId
+	 * @return
+	 */
+	@RequestMapping(value="/findByPostId",method=RequestMethod.GET)
+	public Object findByPostId(Integer postId) {
+		return postService.findByPostId(postId);
+	}
 	/**
 	 * http://localhost:3011/wangmengxia/WangMengXia/post/queryAllPage
 	 * 
@@ -243,7 +255,33 @@ public class PostController {
 		}
 	}
 	
-	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/findByPostReport?page=1&size=5
+	 * @param postId
+	 * 查询位举报的帖子
+	 * @author 王梦霞
+	 * @return
+	 */
+	@RequestMapping(value="/findByPostReport",method=RequestMethod.GET)
+	public Object findByPostReport(Integer postReport,@RequestParam("page") Integer page,@RequestParam("size") Integer size){
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		Pageable pageable=PageRequest.of(page-1, size);
+		Page<Post> list=postService.findByPostReport(0,pageable);
+		
+		List<Post> list2=list.getContent();
+		long count=list.getTotalElements();
+		for (int i = 0; i < list2.size(); i++) {
+			// 用于存储点赞数
+			list2.get(i).setPostLikeNum(postService.queryPostLikeByPidDz(list2.get(i).getPostId()));
+			// 用于存储评论数
+			list2.get(i).setPostCommitNume(postService.queryPostComByPid(list2.get(i).getPostId()));
+		}
+		
+		map.put("total", count);
+		map.put("rows", list2);
+		return map;
+	}
 	/**
 	 * http://localhost:3011/wangmengxia/WangMengXia/post/queryPage
 	 * http://localhost:3030/WangMengXia/post/queryPage

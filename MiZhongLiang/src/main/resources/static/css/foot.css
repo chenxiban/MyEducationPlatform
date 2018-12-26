@@ -1,0 +1,20 @@
+*{margin:0;padding:0;}
+body{background:white;position:relative;height:100%;color:white;font-size: 13px;}
+img{border:none;display:block;}
+li{list-style:none;text-decoration: none;}
+.miaov_head {height:220px;width:100%;margin:0 auto;background: #696969;margin-bottom: 0px;}
+.miaov_head  img{width: 30px ;height: 30px;margin-top: 0;margin-left: 130px;}
+.miaov_head  #yi {float: left;width:900px;height: 36px;margin-top: 0px;color: white;position: absolute;margin-left: 200px;padding-left: 430px;}
+.miaov_head  ul li{float: left; padding-top: 70px; margin-left: 0px;color: white;list-style: none; }
+.miaov_head  ul li a{color: white;font-size: 14px;text-decoration: none;}
+.miaov_head input{position: absolute;top: 5px;margin-left: 1000px;width: 200px;height: 22px;}
+.miaov_head a{line-height:36px;color:#777;}
+.miaov_head a:hover{color:#555;}
+.miaov_head #jj {float: left;padding-left: 3%;padding-top: 40px;font-size: 28px;font-family: "STXinwei";}
+.miaov_head   #gywm{float: left;padding-left: 20%;padding-top: 180px; padding-top: 40px; margin-left: 0px;color: white;list-style: none;font-size: 20px;}
+.miaov_head   #yqlj{float: left;padding-left: 20%;padding-top: 180px; padding-top: 40px; margin-left: 0px;color: white;list-style: none;font-size: 20px;}
+.miaov_head  #er {float: left;width:900px;height: 36px;margin-top: 40px;color: white;position: absolute;margin-left: 200px;padding-left: 430px;}
+.miaov_head  #san {float: left;width:900px;height: 36px;margin-top: 80px;color: white;position: absolute;margin-left: 200px;padding-left: 430px;}
+.miaov_head  #si {float: left;width:900px;height: 36px;margin-top: 0px;color: white;position: absolute;margin-left: 200px;padding-left: 765px;}
+.miaov_head  #wu {float: left;width:900px;height: 36px;margin-top: 40px;color: white;position: absolute;margin-left: 200px;padding-left: 765px;}
+.miaov_head  #liu {float: left;width:900px;height: 36px;margin-top: 80px;color: white;position: absolute;margin-left: 200px;padding-left: 765px;}

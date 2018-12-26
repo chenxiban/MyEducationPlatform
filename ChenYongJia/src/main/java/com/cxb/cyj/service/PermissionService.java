@@ -47,4 +47,35 @@ public interface PermissionService {
 	 */
 	List<Permission> findsByPermissionModules(String permissionModule);
 	
+	/**
+	 * 根据用户Id查询出该用户的所有权限
+	 * @param userId
+	 * @author Chenyongjia
+	 * @return
+	 */
+	List<String> queryPermissionValueByUserId(Integer userId);
+	
+	/**
+	 * 根据角色id查询权限
+	 * @param roleIds
+	 * @return
+	 */
+	List<Permission> queryRoleSetPermission(List<Integer> roleIds);
+	
+	/**
+	 * 移除权限
+	 * @param roleId
+	 * @return
+	 */
+	boolean deletePermission(Integer roleId);
+	
+	/**
+	 * 设置权限
+	 * @param roleId
+	 * @param permissionIds
+	 * @return
+	 */
+	boolean setRolePermission(Integer roleId, Integer permissionIds);
+	
+	
 }

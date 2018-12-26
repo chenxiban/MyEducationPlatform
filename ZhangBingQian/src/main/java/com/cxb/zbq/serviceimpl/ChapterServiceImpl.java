@@ -7,9 +7,11 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cxb.zbq.OtherEntity.CurriculumChapter;
 import com.cxb.zbq.dao.ChapterRepository;
 import com.cxb.zbq.entity.Chapter;
 import com.cxb.zbq.service.ChapterService;
+import com.cxb.zbq.utils.JpaObjectsToEntity;
 
 @Service
 public class ChapterServiceImpl implements ChapterService {
@@ -133,6 +135,20 @@ public class ChapterServiceImpl implements ChapterService {
 	public int deleteChapter(Integer chapterId) {
 		// TODO Auto-generated method stub
 		return chapterRepository.deleteChapter(chapterId);
+	}
+
+	@Override
+	public String queryChapterIdBychapterName(Integer chapterId) {
+		// TODO Auto-generated method stub
+		return chapterRepository.queryChapterIdBychapterName(chapterId);
+	}
+
+	@Override
+	public List<CurriculumChapter> findChapterById(Integer curriculumId) {
+		// TODO Auto-generated method stub
+				List<Object[]> rootList=chapterRepository.findChapterById(curriculumId);
+				List<CurriculumChapter> curriculumChapter=(List<CurriculumChapter>) JpaObjectsToEntity.jpaResultToObjectList(rootList,CurriculumChapter.class); 
+				return curriculumChapter;
 	}
 
 }

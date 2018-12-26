@@ -1,0 +1,32 @@
+#header{
+	background-image: url(../img/y6.jpg);
+	background-size: 100% 100%; 
+    background-repeat: no-repeat;
+}
+.window-mask{
+	background-image: url(../img/y6.jpg);
+	background-repeat: no-repeat;
+	background-size: 100% 100%; 
+}
+
+.cs{
+	background-image: url(../img/y6.jpg);
+}
+
+.tabs { 
+	background:#FEFF93;
+} 
+.panel-header { 
+	background:#FEFF93;	
+}
+
+.panel{
+	background:#FEFF93;	
+}
+#btnLogin{
+	background:#FEFF93;	
+}
+
+#btnClear{
+	background:#FEFF93;	
+}

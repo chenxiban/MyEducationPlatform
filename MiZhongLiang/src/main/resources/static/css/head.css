@@ -1,0 +1,155 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: white;
+	position: relative;
+	height: 100%;
+	color: #777;
+	font-size: 13px;
+}
+
+img {
+	border: none;
+	display: block;
+}
+
+li {
+	list-style: none;
+	text-decoration: none;
+}
+
+.miaov_head {
+	height: 106px;
+	width: 85%;
+	margin: 0 auto;
+	background: white;
+	margin-bottom: 0px;
+	float: left;
+}
+
+.touxiang {
+	height: 106px;
+	width: 7%;
+	background: white;
+	float: left;
+}
+.login{
+	height: 106px;
+	width: 8%;
+	margin: 0 auto;
+	background: white;
+	float: right;
+	margin-bottom: 0px;
+	margin-right: 0px;
+	/*display:none;*/
+}
+
+.miaov_head img {
+	width: 170px;
+	height: 40px;
+	padding-top: 20px;
+	margin-top: 0px;
+	margin-left: 80px;
+}
+
+.miaov_head ul {
+	float: left;
+	width: 900px;
+	height: 36px;
+	margin-top: 0px;
+	color: white;
+	position: absolute;
+	top: 70px;
+	margin-left: -40px;
+}
+
+.miaov_head ul li {
+	color: white;
+	list-style: none;
+}
+
+.miaov_head ul li a {
+	color: black;
+	font-size: 18px;
+	text-decoration: none;
+	float: left;
+	padding-left: 120px;
+}
+
+.miaov_head input {
+	position: absolute;
+	top: 25px;
+	margin-left: 800px;
+	width: 220px;
+	height: 30px;
+}
+
+#btnSub {
+	position: absolute;
+	top: 25px;
+	margin-left: 1020px;
+	width: 50px;
+	height: 31px;
+	background-color: #32CD32;
+	color: white;
+	border: none;
+}
+
+.miaov_head a {
+	line-height: 36px;
+	color: #777;
+}
+
+.miaov_head a:hover {
+	color: #32CD32;/*悬浮变色*/
+}
+
+#round_icon {
+	width: 34px;
+	height: 34px;
+	display: flex;
+	border-radius: 50%;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	float: left;
+	margin-left: 30px;
+	margin-top: 25px;
+}
+
+.touxiang ul {
+	height: 200px;
+	width: 100px;
+	list-style: none;
+	float: left;
+}
+
+.touxiang li {
+	display: none;
+	
+}
+.touxiang .sss a {
+	color: black;
+	font-size: 15px;
+	text-decoration: none;
+	float: left;
+	padding-left: 30px;
+	padding-top: 10px;
+}
+.touxiang .sss a:hover {
+	color: #32CD32;/*悬浮变色*/
+}
+.login form input{
+	width: 50px;
+	height: 31px;
+	background: white;
+	border: none;
+	margin-top: 25px;
+	cursor: pointer;
+}
+.login a{
+	text-decoration: none;
+}

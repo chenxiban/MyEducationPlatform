@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  * @author         Mashuai 
  * @Date           2018-5-18 下午11:02:46  
  * @Email          1119616605@qq.com
- */
+ */ 
 @JsonInclude(Include.NON_NULL)	//如果该属性为NULL则不参与序列化
 public class Result {
 	/**

@@ -51,4 +51,12 @@ public interface ChapterRepository extends JpaRepository<Chapter, Integer> {
 	@Modifying
 	@Transactional
 	int deleteChapter(Integer chapterId);
+	
+	//根据章节课时id查询出章节名称
+	@Query(value="select c.chapterName from Chapter c where c.chapterId=?1")
+	String queryChapterIdBychapterName(Integer chapterId);
+	
+	// 查询出一门课程下的所有父章节对象,参数条件为课程ID
+		@Query(value="SELECT c.chapter_id AS chapterId,c.chapter_name AS chapterName,c.* FROM chapter_tb c WHERE c.parent_id=0 AND c.curriculum_id=?1",nativeQuery=true)
+		List<Object[]> findChapterById(Integer curriculumId);
 }

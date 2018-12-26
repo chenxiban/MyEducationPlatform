@@ -23,10 +23,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name="chapterTb")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class Chapter {//章节表
 	@Id
 	@GeneratedValue
@@ -49,4 +46,90 @@ public class Chapter {//章节表
     @Transient
     @JsonProperty("iconCls")
     private String iconCls;
+	public Integer getChapterId() {
+		return chapterId;
+	}
+	public void setChapterId(Integer chapterId) {
+		this.chapterId = chapterId;
+	}
+	public Integer getCurriculumId() {
+		return curriculumId;
+	}
+	public void setCurriculumId(Integer curriculumId) {
+		this.curriculumId = curriculumId;
+	}
+	public String getChapterName() {
+		return chapterName;
+	}
+	public void setChapterName(String chapterName) {
+		this.chapterName = chapterName;
+	}
+	public String getChapterDescription() {
+		return chapterDescription;
+	}
+	public void setChapterDescription(String chapterDescription) {
+		this.chapterDescription = chapterDescription;
+	}
+	public Date getCreationTime() {
+		return creationTime;
+	}
+	public void setCreationTime(Date creationTime) {
+		this.creationTime = creationTime;
+	}
+	public Integer getParentId() {
+		return parentId;
+	}
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
+	public Timestamp getLastUpdteTime() {
+		return lastUpdteTime;
+	}
+	public void setLastUpdteTime(Timestamp lastUpdteTime) {
+		this.lastUpdteTime = lastUpdteTime;
+	}
+	public String getRemarkParam() {
+		return remarkParam;
+	}
+	public void setRemarkParam(String remarkParam) {
+		this.remarkParam = remarkParam;
+	}
+	public List<Chapter> getChildren() {
+		return children;
+	}
+	public void setChildren(List<Chapter> children) {
+		this.children = children;
+	}
+	public String getIconCls() {
+		return iconCls;
+	}
+	public void setIconCls(String iconCls) {
+		this.iconCls = iconCls;
+	}
+	@Override
+	public String toString() {
+		return "Chapter [chapterId=" + chapterId + ", curriculumId=" + curriculumId + ", chapterName=" + chapterName
+				+ ", chapterDescription=" + chapterDescription + ", creationTime=" + creationTime + ", parentId="
+				+ parentId + ", lastUpdteTime=" + lastUpdteTime + ", remarkParam=" + remarkParam + ", children="
+				+ children + ", iconCls=" + iconCls + "]";
+	}
+	public Chapter(Integer chapterId, Integer curriculumId, String chapterName, String chapterDescription,
+			Date creationTime, Integer parentId, Timestamp lastUpdteTime, String remarkParam, List<Chapter> children,
+			String iconCls) {
+		super();
+		this.chapterId = chapterId;
+		this.curriculumId = curriculumId;
+		this.chapterName = chapterName;
+		this.chapterDescription = chapterDescription;
+		this.creationTime = creationTime;
+		this.parentId = parentId;
+		this.lastUpdteTime = lastUpdteTime;
+		this.remarkParam = remarkParam;
+		this.children = children;
+		this.iconCls = iconCls;
+	}
+	public Chapter() {
+		super();
+	}
+    
 }

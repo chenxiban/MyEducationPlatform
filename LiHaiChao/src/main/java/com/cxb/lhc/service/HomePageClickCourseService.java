@@ -12,7 +12,7 @@ public interface HomePageClickCourseService {
 	 * 获取首页点击课程服务
 	 * @param courseId
 	 * @return
-	 */
+	 */ 
 	@RequestMapping("/HomePageClick/getHomePageClickCourseId")
 	Object getHomePageClickCourseId();
 	

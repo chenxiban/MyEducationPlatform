@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
  * @Date           2018-12-6 下午4:43:05   
  * @Email          1273822019@qq.com
  */
-@Entity	// HQL 使用,默认类名
+@Entity	// HQL 使用,默认类名 
 @Table(name="stugivepraise")	//数据库原生SQL使用,默认
 @Data
 @AllArgsConstructor

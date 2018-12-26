@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<!-- 引入饿了么Element样式,本地样式文件所在目录下的fonts目录中需要有样式图标文件element-icons.woff -->
+		<link rel="stylesheet" href="css/element-ui.css">
+		<!-- vue语法环境 -->
+		<script src="js/vue.min.js"></script>
+		<!-- vue使用Ajax -->
+		<script src="js/axios.min.js"></script>
+		<!-- 引入饿了么Element组件库 -->
+		<script src="js/element-ui.js"></script>
+	</head>
+	<style>
+		.demo-table-expand {
+			font-size: 0;
+		}
+		
+		.demo-table-expand label {
+			width: 90px;
+			color: #99a9bf;
+		}
+		
+		.demo-table-expand .el-form-item {
+			margin-right: 0;
+			margin-bottom: 0;
+			width: 50%;
+		}
+	</style>
+
+	<body>
+		<div id="app">
+			<el-button type="primary" @click="setAdd()">添加</el-button>
+			<template>
+				<el-table :data="tableData.filter(data => !search || data.curriculumName.toLowerCase().includes(search.toLowerCase()))" style="width: 100%">
+					<el-table-column type="index" label="序号" header-align="center" align="center">
+					</el-table-column>
+					<el-table-column label="评分表id" prop="scoringStandardId" v-if='show'>
+					</el-table-column>
+					<el-table-column label="课程名称" prop="curriculumName">
+					</el-table-column>
+					<el-table-column label="章节测验比重(%)" prop="proportion">
+					</el-table-column>
+					<el-table-column label="课程考试比重(%)" prop="exam">
+					</el-table-column>
+					<el-table-column label="修改次数" prop="updateCount">
+					</el-table-column>
+					<el-table-column align="right">
+						<template slot="header" slot-scope="scope">
+
+							<el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
+						</template>
+						<template slot-scope="scope">
+							<el-button type="primary" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+						</template>
+					</el-table-column>
+				</el-table>
+			</template>
+			<el-dialog v-bind:title="'您正在编辑  '+editTitle+'  课程的测验和考试比重值'" :visible.sync="dialogFormVisible">
+				<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注意:章节测验所占比重+课程考试所占比重=100%</h3>
+				<div>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;章节测验所占比重为:
+					<el-input v-model="editColumn" style="width:60px" size="small" @change="getColumn(editColumn)"></el-input>% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;课程考试所占比重为:
+					<el-input v-model="editColumns" style="width:60px" size="small" disabled="true"></el-input>%
+				</div>
+				<div slot="footer" class="dialog-footer">
+					<el-button @click="dialogFormVisible = false">取 消</el-button>
+					<el-button type="primary" @click="btnSub()">确 定</el-button>
+				</div>
+			</el-dialog>
+			<el-dialog title="您正在添加新的评分标准" :visible.sync="dialogFormVisibleAdd">
+
+				<div>
+					课程名称:
+					<el-select v-model="selectCurricu" filterable placeholder="可搜索课程名称">
+						<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+						</el-option>
+					</el-select><br /><br /> 章节测验所占比重为:
+					<el-input v-model="AddColumn" style="width:60px" size="small" @change="getAddColumn(AddColumn)"></el-input>%<br /><br /> 课程考试所占比重为:
+					<el-input v-model="AddColumns" style="width:60px" size="small" disabled="true"></el-input>%<br /><br />
+					<h4 style="color: red;">注意:章节测验所占比重+课程考试所占比重=100%</h4>
+				</div>
+				<div slot="footer" class="dialog-footer">
+					<el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
+					<el-button type="primary" @click="btnAddSub()">确 定</el-button>
+				</div>
+			</el-dialog>
+		</div>
+
+		<script>
+			var a = new Vue({
+				el: "#app",
+				data() {
+					return {
+						editCount: '',
+						selectCurricu: '',
+						options: [],
+						AddColumn: '',
+						AddColumns: '',
+						editColumns: '',
+						dialogFormVisible: false,
+						dialogFormVisibleAdd: false,
+						editTitle: '',
+						editColumn: '',
+						editId: '',
+						tableData: [],
+						search: '',
+						show: false
+					}
+				},
+				mounted: function() {
+					var this_ = this;
+					axios({
+						method: 'get',
+						url: 'http://localhost:3050/ZhangBingQian/scoringStandard/queryAll',
+						params: {
+							teacherId: 4
+						}
+					}).then(function(response) {
+						this_.tableData = response.data;
+					});
+
+				},
+				methods: {
+					handleEdit(index, row) {
+						var this_ = this;
+						this_.editTitle = row.curriculumName;
+						this_.editColumn = row.proportion;
+						this_.editId = row.scoringStandardId;
+						this_.editColumns = row.exam;
+						this_.editCount = row.updateCount;	
+						if(row.updateCount!=1){
+							this_.$confirm('您只有一次修改机会, 是否继续?', '提示', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							type: 'warning'
+						}).then(() => {
+							this_.dialogFormVisible = true;
+						}).catch(() => {
+							
+						});
+						}else{
+							this_.$message({
+								showClose: true,
+								message: '修改次数只有一次，您已丧失资格',
+								type: 'error'
+							});
+						}
+						
+
+					},
+					setAdd() {
+						var this_ = this;
+						axios({
+							method: 'get',
+							url: 'http://localhost:3050/ZhangBingQian/curriculum/queryAllIdAndName'
+						}).then(function(response) {
+							this_.options = response.data;
+						});
+						this_.dialogFormVisibleAdd = true;
+					},
+					getColumn(value) {
+						var this_ = this;
+						this_.editColumns = 100 - value;
+					},
+					getAddColumn(value) {
+						var this_ = this;
+						this_.AddColumns = 100 - value;
+					},
+					btnSub() {
+						var this_ = this;
+						var proportion = this_.editColumn;
+						var scoringStandardId = this_.editId;
+						var count = this_.editCount;
+						if(count != 1) {
+							axios({
+								method: 'post',
+								url: 'http://localhost:3050/ZhangBingQian/scoringStandard/updateScStanById',
+								params: {
+									scoringStandardId: scoringStandardId,
+									proportion: proportion
+								}
+							}).then(function(response) {
+								if(response.data == 1) {
+									this_.$message({
+										showClose: true,
+										message: '恭喜你，修改成功',
+										type: 'success'
+									});
+									this_.dialogFormVisible = false;
+									window.setTimeout(function() {
+										location.reload();
+									}, 1000);
+
+								}
+
+							});
+						} else {
+							this_.$message({
+								showClose: true,
+								message: '修改次数只有一次，您已丧失资格',
+								type: 'error'
+							});
+
+						}
+
+					},
+					btnAddSub() {
+						var this_ = this;
+						var curriculumId = this_.selectCurricu;
+						var proportion = this_.AddColumn;
+						axios({
+							method: 'post',
+							url: 'http://localhost:3050/ZhangBingQian/scoringStandard/insert',
+							params: {
+								curriculumId: curriculumId,
+								proportion: proportion
+							}
+						}).then(function(response) {
+							if(response.data == 1) {
+								this_.$message({
+									showClose: true,
+									message: '恭喜你，添加成功',
+									type: 'success'
+								});
+								this_.dialogFormVisibleAdd = false;
+								window.setTimeout(function() {
+									location.reload();
+								}, 1000);
+
+							}
+
+						});
+					}
+				}
+
+			})
+		</script>
+	</body>
+
+</html>

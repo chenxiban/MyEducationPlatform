@@ -83,13 +83,13 @@ public class StudentSetTestRecordController {
 		System.out.println("3333>>>>" + gap);
 
 		// 通过章节Id和课程Id查询测试截止时间
-		String endTime = teacherTestService.queryTestEndTime(1, 1);
+		/*String endTime = teacherTestService.queryTestEndTime(1, 1);
 		Date date;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		date = sdf.parse(endTime);
 		String time = sdf.format(date);
 		Date nowDate = new Date();
-		String nowTime = sdf.format(nowDate);
+		String nowTime = sdf.format(nowDate);*/
 //------------------------------------------------------------
 		// 单选题的处理
 		String regex = "^,*|,*$";
@@ -258,7 +258,7 @@ public class StudentSetTestRecordController {
 		}
 		sum = sumScore + sumScore1 + sumScore2 + sumScore3;
 		map.put("sum", sum);
-		int com=nowTime.compareTo(time);//time-nowTime
+		/*int com=nowTime.compareTo(time);//time-nowTime
 		if (com<0) {
 			// 查询教师设置测试的次数
 			int testNum = teacherTestService.querytestMaxNum(1, 1);
@@ -273,7 +273,7 @@ public class StudentSetTestRecordController {
 			}
 		} else {
 			map.put("sum", "该测试时间已过,所测分数不记入总分");
-		}
+		}*/
 		return map;
 	}
 

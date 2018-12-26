@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>章节数据</title>
+		<script src="js/easyui-all.js" type="text/javascript" charset="utf-8"></script>
+
+		<style>
+			.datagrid-header-row td {
+				background-color: #409EFF;
+				color: #fff;
+				height: 42px;
+			}
+			
+			.datagrid-row {
+				height: 42px;
+				text-align: center;
+			}
+			
+			.datagrid-row-selected {
+				background-color: #A0CFFF;
+			}
+			
+			.easyui-linkbutton:hover {
+				background-color: white;
+			}
+		</style>
+
+	</head>
+
+	<body>
+
+		<table id="tg" class="easyui-treegrid" style="width:auto;height:auto;">
+			<thead>
+				<tr>
+					<th data-options="field:'chapterId',hidden:true" width="200">章节id</th>
+					<th data-options="field:'parentId',hidden:true" width="200">章节父id</th>
+					<th data-options="field:'curriculumId',hidden:true" width="200">课程id</th>
+					<th data-options="field:'chapterName',align:'left'" width="400">名称</th>
+					<th data-options="field:'wordAction',align:'center',formatter:formatterLoad" width="400">操作</th>
+					<th data-options="field:'creationTime',align:'center'" width="400">创建时间</th>
+					<th data-options="field:'lastUpdteTime',align:'center'" width="290">最后一次修改时间</th>
+				</tr>
+			</thead>
+		</table>
+
+		<div id="toolbar" style="background-color: white;height: 100px;">
+
+			<h2>当前课程:计算机基础 </h2>
+
+			<!--
+			-->
+			<div id="tb" style="padding:3px" data-require-permission='module:queryRoleSetModuleTree'>
+				<span>名称:</span>
+				<input id="tname" name="tname" class="easyui-textbox" style="width:160px">
+				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" style="background-color: #409EFF;color: white;" plain="true" onclick="doSearch()">查询</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" style="background-color: #409EFF;color: white;" plain="true" onclick="newUser()">添加</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" style="background-color: #409EFF;color: white;" plain="true" onclick="edit()">编辑</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" style="background-color: #409EFF;color: white;" plain="true" onclick="deletes()">删除</a>
+			</div>
+		</div>
+
+		<div id="dlg" class="easyui-dialog" style="width:400px;height:200px;padding:10px 20px;" closed="true" buttons="#dlg-buttons">
+			<form id="fm" method="post">
+				<table cellspacing="10px;">
+					<tr>
+						<td colspan="2"><input name="chapterId" class="easyui-validatebox" hidden="true" readonly="true" style="width: 200px;"></td>
+					</tr>
+					<tr>
+						<td colspan="2"><input name="curriculumId" class="easyui-validatebox" hidden="true" readonly="true" style="width: 200px;"></td>
+					</tr>
+					<tr>
+						<td colspan="2"><input name="parentId" class="easyui-validatebox" hidden="true" readonly="true" style="width: 200px;"></td>
+					</tr>
+					<tr>
+						<td>名称：</td>
+						<td><input name="chapterName" class="easyui-validatebox" required="true" style="width: 200px;"></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+		<div id="dlg-buttons">
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">保存</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">关闭</a>
+		</div>
+
+		<div id="courseWare">
+
+		</div>
+
+		<script type="text/javascript">
+			$(function() {
+				doSearch();
+				$('.datagrid-header .datagrid-cell span ').css('font-size', '15px');
+
+			});
+
+			function doSearch() {
+				var curriculumId= localStorage.currId;
+				//console.log(curriculumId);
+				let name = $("#tname").val();
+				$("#tg").treegrid({
+					url: "http://localhost:3050/ZhangBingQian/chapter/queryId",
+					toolbar: '#toolbar',
+					idField: 'chapterId',
+					treeField: 'chapterName',
+					pagination: false,
+					rownumbers: true,
+					singleSelect: true,
+					queryParams: { //要发送的参数列表
+						curriculumId: curriculumId,
+						chapterName: name
+					},
+					onLoadSuccess: function() {
+						$('.easyui-linkbutton').linkbutton();
+					}
+				});
+
+			}
+
+			//新增一个菜单
+			function newUser() {
+				$('#fm').form('clear'); //清空表单
+				let row = $('#tg').treegrid('getSelected'); //获取选中的父菜单
+				if(row) {
+					$.messager.confirm('新增确认', '您即将为' + row.chapterName + '添加子节点，或者您想直接添加新章节？', function(r) {
+						if(r) {
+							$("#dlg").dialog('open').dialog('setTitle', '添加章节');
+							$('#fm').form('load', {
+								parentId: 0,
+								curriculumId: 14
+							}); //菜单parentid设置为0,则为根菜单
+							url = 'http://localhost:3050/ZhangBingQian/chapter/add';
+						} else {
+							$("#dlg").dialog('open').dialog('setTitle', '添加' + row.chapterName + '的子菜单');
+							$('#fm').form('load', {
+								parentId: row.chapterId,
+								curriculumId: row.curriculumId
+							}); //菜单parentid设置为选中的菜单
+							url = 'http://localhost:3050/ZhangBingQian/chapter/add';
+						}
+					});
+
+				} else {
+					$.messager.confirm('新增确认', '请先选中一条信息,否则将新增一个章节。您是否要新增一个章节？', function(r) {
+						if(r) {
+							$("#dlg").dialog('open').dialog('setTitle', '添加章节');
+							$('#fm').form('load', {
+								parentId: 0,
+								curriculumId: 14
+							}); //菜单parentid设置为0,则为根菜单
+							url = 'http://localhost:3050/ZhangBingQian/chapter/add';
+						}
+					});
+				}
+
+			}
+
+			//保存新增和修改的菜单对象
+			function saveUser() {
+
+				//$('#tg').treegrid('unselectAll');
+				let boo = $('#fm').form('validate');
+				if(boo) {
+					$.ajax({
+						url: url,
+						type: "post",
+						data: GlobalConst.parseFormAddToken("fm"),
+						dataType: "json",
+						success: function(result) {
+							if(result.state == 1) {
+								$.messager.alert("系统提示", result.msg);
+								$('#dlg').dialog('close');
+
+								$('#tg').treegrid('reload');
+								//$('#tg').treegrid('unselectAll');
+							} else {
+								$.messager.alert("系统提示", result.msg);
+								return;
+							}
+						},
+						error() {
+							$.messager.alert("服务器提示", "服务器出错");
+						}
+					});
+				}
+
+			}
+
+			//修改一个菜单
+			function edit() {
+				$('#fm').form('clear'); //清空表单
+				//			var row=$('#tg').treegrid('getSelected');//获取选中的菜单
+				let rows = $('#tg').treegrid('getSelections'); //获取被选中的菜单
+				let leng = rows.length;
+				if(leng == 1) {
+					let row = rows[0];
+					//console.log(JSON.stringify(row));
+					$("#dlg").dialog('open').dialog('setTitle', '修改' + row.chapterName + '的信息');
+					$('#fm').form('load', row); //菜单内容
+					url = 'http://localhost:3050/ZhangBingQian/chapter/update';
+				} else {
+					$.messager.alert("系统提示", "请选中一个你要修改的数据");
+				}
+			}
+
+			//删除一个章节
+			function deletes() {
+				let rows = $('#tg').treegrid('getSelections');
+				let leng = rows.length;
+				if(leng == 1) {
+					let row = rows[0];
+					$.messager.confirm('删除确认', '你确定要删除' + row.chapterName + '吗?',
+						function(r) {
+							if(r) {
+								$.post("http://localhost:3050/ZhangBingQian/chapter/delete", {
+										chapterId: row.chapterId
+									},
+									function(result) {
+										if(result.state == 1) {
+											$('#tg').treegrid('unselectAll');
+											$.messager.alert("消息", "删除成功");
+											$('#tg').treegrid('reload');
+										} else {
+											$.messager.alert("消息", result.msg);
+										}
+
+									}, "json")
+							}
+						});
+				} else {
+					$.messager.alert("系统提示", "请选中一个你要删除的数据");
+				}
+
+			}
+
+			function loadCourseWare() {
+				let rows = $('#tg').treegrid('getSelections');
+				let row = rows[0];
+				localStorage.setItem("chapterId",row.chapterId);
+				localStorage.setItem("curriculumId",row.curriculumId);
+				url = "courseWare.html"; //此处拼接内容
+				window.location.href = url;
+				
+				
+			}
+
+			function formatterLoad(value, rowData, rowIndex) {
+				if(rowData.parentId != 0) {
+					return "<a class='easyui-linkbutton' iconCls='icon-shipin' plain='true' onclick='loadCourseWare()'>管理课件(文档和视频)</a>";
+				} else {
+					return "<a class='easyui-linkbutton' iconCls='icon-tip' plain='true' onclick=''>管理章节测验</a>";
+				}
+			}
+		</script>
+
+	</body>
+
+</html>

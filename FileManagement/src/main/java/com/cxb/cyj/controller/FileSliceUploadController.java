@@ -1,4 +1,5 @@
 package com.cxb.cyj.controller;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,8 +12,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,20 +34,21 @@ import it.sauronsoftware.jave.Encoder;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/file")
+@RequestMapping(value="/file",name="文件管理")
 public class FileSliceUploadController {
 	@Autowired
 	private UploadFileService uploadFileService;
 
 	/**
-	 * http://localhost:8080/file/beforeUpload 文件上传之前的准备工作
+	 * http://localhost:3011/chenyongjia-file/FileManagement/file/beforeUpload
+	 * 文件上传之前的准备工作
 	 * 
 	 * @param name
 	 * @param totalSize
 	 * @param lastModified
 	 * @return
 	 */
-	@RequestMapping(value="/beforeUpload",name="上传支持分片断点传输",method=RequestMethod.POST)
+	@RequestMapping(value = "/beforeUpload", name = "上传支持分片断点传输", method = RequestMethod.POST)
 	public Map<String, Object> beforeUpload(@RequestBody FileSlice fileSlice) {
 		System.out.println("beforeUpload fileSlice=>" + fileSlice);
 		int slice = 0;// 文件是否续传
@@ -70,6 +70,7 @@ public class FileSliceUploadController {
 			return result;
 
 		} else {
+			fileSlice.setFid(uuid);// 新文件ID
 			fileSlice = PropUtil.queryFileSliceByFid(fileSlice.getFid());// 查询出文件上次传输断点位置
 			System.out.println("FileSliceUploadController.beforeUpload(FileSlice) 断点续传=>" + fileSlice);
 			result.put("slice", 1);// 断点续传
@@ -79,7 +80,7 @@ public class FileSliceUploadController {
 		}
 	}
 
-	// http://localhost:8080/file/sliceUpload
+	// http://localhost:3011/chenyongjia-file/FileManagement/file/sliceUpload
 	// 大文件分片上传,支持断点续传
 	@RequestMapping("/sliceUpload")
 	public Object sliceUpload(@RequestParam(value = "myfile", required = false) MultipartFile myfile,
@@ -109,7 +110,25 @@ public class FileSliceUploadController {
 		return result;
 	}
 
-	// http://localhost:8080/file/sliceUploadOver
+	/**
+	 * http://localhost:3011/chenyongjia-file/FileManagement/file/deleteFiles
+	 * 
+	 * @param fileids
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteFiles", name = "删除多个或一个文件", method = RequestMethod.DELETE)
+	public Object deleteFileByFileIds(@RequestParam(value = "fileids", required = false) String fileids) {
+		Map<Object, String> map = new HashMap<Object, String>();
+		String[] modulesIds = fileids.split(",");
+		Integer k = 0;
+		for (String dids : modulesIds) {
+			k += uploadFileService.deleteFileByFileids(dids);
+		}
+		map.put("result", "成功删除了：" + k + "条数据。");
+		return map;
+	}
+
+	// http://localhost:3011/chenyongjia-file/FileManagement/file/sliceUploadOver
 	// 文件分片上传,传输完毕.删除所有传输状态记录并且保存数据库
 	@RequestMapping("/sliceUploadOver")
 	public Object sliceUploadOver(@RequestBody FileSlice fileSlice) {
@@ -119,9 +138,9 @@ public class FileSliceUploadController {
 		// 删除uuid.properties文件
 		PropUtil.deleteFileSlice(fileSlice.getFid());
 		// 创建文件路径
-		String fileName = fileSlice.getName();//原始文件名称
-		String fileSuffix  = fileName.substring(fileName.lastIndexOf("."));//获取文件后缀名称
-		String path = "D:/fileUpload/" +fileSlice.getFid()+fileSuffix;
+		String fileName = fileSlice.getName();// 原始文件名称
+		String fileSuffix = fileName.substring(fileName.lastIndexOf("."));// 获取文件后缀名称
+		String path = "D:/fileUpload/" + fileSlice.getFid() + fileSuffix;
 		Integer videoTime = null;
 		String videoFormat = null;
 		String videoCover = null;
@@ -130,7 +149,7 @@ public class FileSliceUploadController {
 		if (this.isVedioFile(fileSlice.getName())) {
 			Encoder encoder = new Encoder();
 			// 获取上传视频截图
-			processImg("D:\\fileUpload\\"  +fileSlice.getFid()+fileSuffix,
+			processImg("D:\\fileUpload\\" + fileSlice.getFid() + fileSuffix,
 					"E:\\ffmpeg\\ffmpeg-20181215-011c911-win64-shared\\bin\\ffmpeg.exe");
 			try {
 				// 获取视频时长
@@ -187,10 +206,10 @@ public class FileSliceUploadController {
 	 * @author WangAnLing
 	 */
 	@RequestMapping(value = "/downloadFile", name = "下载文件", method = RequestMethod.POST)
-	public String downloadFile(@RequestParam("fileName") String fileName,
-			@RequestParam("request") HttpServletRequest request,
-			@RequestParam("response") HttpServletResponse response) {
+	public String downloadFile(String fileName, HttpServletRequest request,
+			HttpServletResponse response) {
 		// 设置文件名，根据业务需要替换成要下载的文件名
+		fileName = "eb3742fa7c8f4b64be53597315a8669f.jpg";
 		if (fileName != null) {
 			// 设置文件路径
 			String realPath = "D://fileUpload//";

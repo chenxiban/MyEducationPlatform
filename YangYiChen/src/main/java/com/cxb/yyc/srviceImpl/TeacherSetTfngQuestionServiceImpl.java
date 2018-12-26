@@ -88,7 +88,7 @@ public class TeacherSetTfngQuestionServiceImpl implements TeacherSetTfngQuestion
 	@Override
 	public List<Tfng> queryTfng(Integer chapterId, Integer courseId) {
 		// TODO Auto-generated method stub
-		return null;
+		return tfngQuestionRepository.queryTfng(chapterId, courseId);
 	}
 
 }

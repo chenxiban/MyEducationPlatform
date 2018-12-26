@@ -43,27 +43,14 @@
 				$('#portrait').click(function() {
 					$("#uploadPic").window('open');
 				});
-
+				getUserId();
 			});
 
-			function handlePermission() {
-				console.log('权限控制插件data-require-permission.js加载成功!');
-				let permission = window.localStorage.getItem("permission"); //从session缓存中取出权限数组
-				console.log("权限控制插件permission=>" + permission);
-				$("*[data-require-permission]").map((i, ele) => {
-					let elePer = $(ele).attr('data-require-permission');
-					console.log("elePer=>" + elePer);
-
-					let p = permission.split(",");
-
-					let requireRemove = true;
-
-					for(var i = 0; i < p.length; i++) {
-						if(elePer == p[i]) requireRemove = false;
-					}
-					if(requireRemove) {
-						$(ele).remove();
-					};
+			function getUserId() {
+				$.get("http://localhost:3011/chenyongjia/ChenYongJia/user/getUserIdByToken", {
+					token: token
+				}, function(res) {
+					window.localStorage.setItem("userIds", res.userId);
 				});
 			}
 

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -193,4 +195,11 @@ public interface PostRpository extends JpaRepository<Post, Integer>, JpaSpecific
 	@Query(value = "SELECT COUNT(*) FROM tb_postcommit WHERE post_id=?1", nativeQuery = true) 
 	int selectPostCom(Integer postId);
 	
+	/**
+	 * 查询举报状态为0的
+	 * @author 王梦霞
+	 * @param postReport
+	 * @return
+	 */
+	Page<Post> findByPostReport(Integer postReport,Pageable pageable);
 }

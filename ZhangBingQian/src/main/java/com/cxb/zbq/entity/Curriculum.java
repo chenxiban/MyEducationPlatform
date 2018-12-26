@@ -22,10 +22,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name="curriculumTb")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class Curriculum {//课程表
 	@Id
 	@GeneratedValue
@@ -52,7 +49,117 @@ public class Curriculum {//课程表
 	@Column(columnDefinition="timestamp")
 	private Timestamp lastUpdateTime;//最后一次修改时间
 	@Transient
-	private String remarkParam;//临时参数
+	private String categoryName;//临时参数(类别名称)
+	@Transient
+	private String teacherName;//临时参数(名称)
+	public Integer getCurriculumId() {
+		return curriculumId;
+	}
+	public void setCurriculumId(Integer curriculumId) {
+		this.curriculumId = curriculumId;
+	}
+	public String getCurriculumName() {
+		return curriculumName;
+	}
+	public void setCurriculumName(String curriculumName) {
+		this.curriculumName = curriculumName;
+	}
+	public Integer getCurriculumCategoryId() {
+		return curriculumCategoryId;
+	}
+	public void setCurriculumCategoryId(Integer curriculumCategoryId) {
+		this.curriculumCategoryId = curriculumCategoryId;
+	}
+	public Integer getTeacherId() {
+		return teacherId;
+	}
+	public void setTeacherId(Integer teacherId) {
+		this.teacherId = teacherId;
+	}
+	public Date getCreationTime() {
+		return creationTime;
+	}
+	public void setCreationTime(Date creationTime) {
+		this.creationTime = creationTime;
+	}
+	public Integer getSubscriptionNum() {
+		return subscriptionNum;
+	}
+	public void setSubscriptionNum(Integer subscriptionNum) {
+		this.subscriptionNum = subscriptionNum;
+	}
+	public Date getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+	public Date getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+	public String getCourseIntroduction() {
+		return courseIntroduction;
+	}
+	public void setCourseIntroduction(String courseIntroduction) {
+		this.courseIntroduction = courseIntroduction;
+	}
+	public Integer getWhetherToIssue() {
+		return whetherToIssue;
+	}
+	public void setWhetherToIssue(Integer whetherToIssue) {
+		this.whetherToIssue = whetherToIssue;
+	}
+	public Timestamp getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+	public void setLastUpdateTime(Timestamp lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
+	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	public String getTeacherName() {
+		return teacherName;
+	}
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
+	@Override
+	public String toString() {
+		return "Curriculum [curriculumId=" + curriculumId + ", curriculumName=" + curriculumName
+				+ ", curriculumCategoryId=" + curriculumCategoryId + ", teacherId=" + teacherId + ", creationTime="
+				+ creationTime + ", subscriptionNum=" + subscriptionNum + ", startTime=" + startTime + ", endTime="
+				+ endTime + ", courseIntroduction=" + courseIntroduction + ", whetherToIssue=" + whetherToIssue
+				+ ", lastUpdateTime=" + lastUpdateTime + ", categoryName=" + categoryName + ", teacherName="
+				+ teacherName + "]";
+	}
+	public Curriculum(Integer curriculumId, String curriculumName, Integer curriculumCategoryId, Integer teacherId,
+			Date creationTime, Integer subscriptionNum, Date startTime, Date endTime, String courseIntroduction,
+			Integer whetherToIssue, Timestamp lastUpdateTime, String categoryName, String teacherName) {
+		super();
+		this.curriculumId = curriculumId;
+		this.curriculumName = curriculumName;
+		this.curriculumCategoryId = curriculumCategoryId;
+		this.teacherId = teacherId;
+		this.creationTime = creationTime;
+		this.subscriptionNum = subscriptionNum;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.courseIntroduction = courseIntroduction;
+		this.whetherToIssue = whetherToIssue;
+		this.lastUpdateTime = lastUpdateTime;
+		this.categoryName = categoryName;
+		this.teacherName = teacherName;
+	}
+	public Curriculum() {
+		super();
+	}
 	
 	
 	

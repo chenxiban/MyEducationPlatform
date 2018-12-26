@@ -2,9 +2,9 @@ package com.cxb;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -19,6 +19,7 @@ import org.springframework.web.filter.CorsFilter;
  * @Email 867647213@qq.com
  */
 @EnableZuulProxy
+@EnableHystrix
 @SpringCloudApplication
 public class Application {
 	public static void main(String[] args) {

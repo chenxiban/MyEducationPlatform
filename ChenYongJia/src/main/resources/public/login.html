@@ -83,12 +83,9 @@
 								}
 							})
 							.then(function(res) {
-								alert(res.data.backUrl);
 								if(res.data.success) {
 									window.localStorage.setItem("token", res.data.message.object.access_token); //将resObj的message消息中的参数存入token中
 									window.localStorage.setItem("refreshToken", res.data.message.object.refresh_token); //将resObj的message消息中的参数存入token中
-									window.localStorage.setItem("roleIds", res.data.message.roleIds);
-									window.localStorage.setItem("loginName", usernames);
 									axios({
 											method: "put",
 											url: "http://localhost:3011/chenyongjia/ChenYongJia/tokens/saveMyToken",

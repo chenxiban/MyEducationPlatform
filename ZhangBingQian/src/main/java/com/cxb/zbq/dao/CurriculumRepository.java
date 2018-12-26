@@ -24,7 +24,7 @@ import com.cxb.zbq.entityquery.CurriculumQuery;
 public interface CurriculumRepository extends JpaRepository<Curriculum, Integer>,JpaSpecificationExecutor<Curriculum> {
 	
 	// 修改课程信息
-	@Query(value = "UPDATE curriculum_tb cu SET cu.course_introduction=:#{#c.courseIntroduction},cu.curriculum_category_id=:#{#c.curriculumCategoryId},cu.curriculum_name=:#{#c.curriculumName},cu.start_time=:#{#c.startTime},cu.end_time=:#{#c.endTime},cu.whether_to_issue=:#{#c.whetherToIssue}  WHERE cu.curriculum_id=:#{#c.curriculumId}", nativeQuery = true)
+	@Query(value = "UPDATE curriculum_tb cu SET cu.course_introduction=:#{#c.courseIntroduction},cu.curriculum_category_id=:#{#c.curriculumCategoryId},cu.curriculum_name=:#{#c.curriculumName} WHERE cu.curriculum_id=:#{#c.curriculumId}", nativeQuery = true)
 	@Modifying
 	@Transactional
 	int updateCurriculum(@Param("c") Curriculum curriculum);
@@ -55,6 +55,15 @@ public interface CurriculumRepository extends JpaRepository<Curriculum, Integer>
 	@Transactional@Modifying
 	int updateIsReleaseToFalse(Integer currId);//取消发布课程
 
-	@Query(value="SELECT curriculum_id FROM curriculum_tb ORDER BY subscription_num DESC LIMIT 12",nativeQuery=true)
-    List<Integer> getCurrIdBySubscriptionNum();//根据订阅人数获取前12条课程id
+	@Query(value="SELECT curriculum_id,course_introduction,creation_time,curriculum_category_id,curriculum_name,end_time,last_update_time,start_time,subscription_num,teacher_id,whether_to_issue FROM curriculum_tb ORDER BY subscription_num DESC LIMIT 20",nativeQuery=true)
+    List<Curriculum> getCurrIdBySubscriptionNum();//根据订阅人数获取前20条课程数据
+	
+	@Query(value="SELECT c.curriculum_id as curriculumId,c.curriculum_name as curriculumName,c.* FROM curriculum_tb c where c.teacher_id=?1",nativeQuery=true)
+	List<Object[]> queryCurriculumByTeacherId(Integer teacherId);
+	
+	@Query(value="SELECT c.curriculumId FROM Curriculum c where c.teacherId=?1")
+    List<Integer> queryCurriculumIdByTeacherId(Integer teacherId);//根据登录的老师id获取该老师的所有课程id
+	
+	@Query(value="SELECT c.curriculum_id as curriculumId,c.curriculum_name as curriculumName,c.* FROM curriculum_tb c where c.teacher_id=?1",nativeQuery=true)
+	List<Object[]> queryAllIdAndName(Integer teacherId);//用于课程的下拉列表
 }

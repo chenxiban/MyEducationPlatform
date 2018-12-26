@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cxb.wmx.entity.Post;
 import com.cxb.wmx.entity.Postcommit;
 import com.cxb.wmx.entitysearch.PostComSearch;
 import com.cxb.wmx.service.PostComService;

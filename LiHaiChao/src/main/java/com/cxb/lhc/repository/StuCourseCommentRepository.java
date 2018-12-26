@@ -1,15 +1,19 @@
 package com.cxb.lhc.repository;
 
 import java.sql.Date;
+import java.util.List;
 
+import org.hibernate.type.TrueFalseType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cxb.lhc.entity.StuCourseComment;
+
 
 /**
  * 
@@ -20,7 +24,24 @@ import com.cxb.lhc.entity.StuCourseComment;
  * @Email 1273822019@qq.com
  */
 public interface StuCourseCommentRepository extends JpaRepository<StuCourseComment, Integer> {
+	
+
+/**
+ * 根据评价id查询出评价对象
+ * @param commentId
+ * @return
+ */
+	@Query(value="SELECT * FROM stucoursecomment WHERE comment_id=?1",nativeQuery=true)
+	StuCourseComment queryStuCourseCommentByCommentId(Integer commentId);
 	/**
+	 * 根据课程id查询出
+	 * 订阅该课程的所有学生id集合
+	 * @param courseId
+	 * @return
+	 */
+	@Query(value="SELECT student_id FROM  stuselectioncourse WHERE course_id =?1",nativeQuery=true)
+	List<Integer> selStudentIdByCourseId(Integer courseId);
+	/** 
 	 * 根据课程id 分页查询出该课程下所有的学生评价信息
 	 * 
 	 * @param courseId
@@ -107,5 +128,6 @@ public interface StuCourseCommentRepository extends JpaRepository<StuCourseComme
 	@Query(value = "DELETE FROM stucoursecomment WHERE comment_id=?1", nativeQuery = true)
 	@Modifying
 	Integer delStuCourseComment(Integer commentId);
+
 
 }

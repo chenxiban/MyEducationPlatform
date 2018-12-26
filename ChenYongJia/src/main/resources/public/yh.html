@@ -28,7 +28,7 @@
 
 		<script type="text/javascript">
 			var token = window.localStorage.getItem("token"); //取出暂存的token数据
-			var loginIds = window.localStorage.getItem("loginId"); // 登录用户的id
+			var loginIds = window.localStorage.getItem("userIds"); // 登录用户的id
 			var loginNames = window.localStorage.getItem("loginName"); // 登录用户的名称
 			$(function() {
 
@@ -40,10 +40,41 @@
 					},
 					onLoadSuccess: function() {
 						$(".easyui-linkbutton").linkbutton();
-						$("#dg").datagrid('clearSelections');//再取消选中所有行
+						$("#dg").datagrid('clearSelections'); //再取消选中所有行
 					}
 				});
+
+				$("#rolesIdss").combobox({
+					method: 'get',
+					valueField: "rolesName",
+					textField: "rolesName",
+					panelHeight: 'auto',
+					url: 'http://localhost:3011/chenyongjia/ChenYongJia/roles/getAllRoles?access_token=' + token
+				});
+				
+				handlePermission();
 			});
+
+			function handlePermission() {
+				console.log('权限控制插件data-require-permission.js加载成功!');
+				let permission = window.localStorage.getItem("permission"); //从session缓存中取出权限数组
+				console.log("权限控制插件permission=>" + permission);
+				$("*[data-require-permission]").map((i, ele) => {
+					let elePer = $(ele).attr('data-require-permission');
+					console.log("elePer=>" + elePer);
+
+					let p = permission.split(",");
+
+					let requireRemove = true;
+
+					for(var i = 0; i < p.length; i++) {
+						if(elePer == p[i]) requireRemove = false;
+					}
+					if(requireRemove) {
+						$(ele).remove();
+					};
+				});
+			}
 
 			function serializeNotNull(serStr) {
 				return serStr.split("&").filter(
@@ -65,9 +96,10 @@
 						userProtectMTel: $("#userProtectMTel").val(),
 						birthStart: birthStart,
 						birthEnd: birthEnd,
-						userIsLookout: $("#userIsLookout").combobox('getValue')
+						userIsLookout: $("#userIsLookout").combobox('getValue'),
+						rolesName: $("#rolesIdss").combobox('getValue')
 					});
-				}else {
+				} else {
 					$.messager.show({
 						title: '提示信息',
 						msg: '表单验证失败!',
@@ -93,7 +125,7 @@
 				uid = row.userId;
 				$("#zb").datagrid({
 					method: 'GET',
-					url: 'http://localhost:3011/chenyongjia/ChenYongJia/user/getRolesList?userId=' + uid+"&access_token="+token,
+					url: 'http://localhost:3011/chenyongjia/ChenYongJia/user/getRolesList?userId=' + uid + "&access_token=" + token,
 					singleSelect: true, //是否可以多选
 					rownumbers: true, //是否出现行数
 					fitColumns: true //是否出现滚动条
@@ -101,7 +133,7 @@
 
 				$("#yb").datagrid({
 					method: 'GET',
-					url: 'http://localhost:3011/chenyongjia/ChenYongJia/roles/getUserRolesByUserId?userId=' + uid+"&access_token="+token,
+					url: 'http://localhost:3011/chenyongjia/ChenYongJia/roles/getUserRolesByUserId?userId=' + uid + "&access_token=" + token,
 					singleSelect: true, //是否可以多选
 					rownumbers: true, //是否出现行数
 					fitColumns: true //是否出现滚动条
@@ -122,15 +154,15 @@
 					$.messager.confirm('确认', '您确认要为该用户设置当前角色信息么？', function(r) {
 						if(r) {
 							$.get(' http://localhost:3011/chenyongjia/ChenYongJia/roles/addByRole', {
-								access_token:token,
+								access_token: token,
 								usersId: rows.userId,
 								rolesId: row.rolesId,
-								userId: rows.userId
+								userId: loginIds
 							}, function(res) {
 								if(res) {
 									window.localStorage.setItem("roleIds", res.message.roleIds);
-									//window.localStorage.setItem("permission", res.message.permission);
-									//window.top.loadTree();
+									window.localStorage.setItem("permission", res.message.permission);
+									window.top.loadTree();
 									$.messager.alert({
 										title: '添加成功',
 										msg: '角色添加成功-:' + row.rolesName,
@@ -181,7 +213,7 @@
 						if(r) {
 							$.ajax({
 								type: "POST",
-								url: "http://localhost:3011/chenyongjia/ChenYongJia/user/updUsers?access_token="+token,
+								url: "http://localhost:3011/chenyongjia/ChenYongJia/user/updUsers?access_token=" + token,
 								cache: false,
 								data: formData,
 								dataType: "json",
@@ -256,7 +288,7 @@
 						if(r) {
 							$.ajax({
 								type: "DELETE",
-								url: " http://localhost:3011/chenyongjia/ChenYongJia/roles/delRolesId?rolesId=" + row.rolesId + "&usersId=" + rows.userId+"&access_token="+token,
+								url: " http://localhost:3011/chenyongjia/ChenYongJia/roles/delRolesId?userId="+loginIds+"&rolesId=" + row.rolesId + "&usersId=" + rows.userId + "&access_token=" + token,
 								/*data:{
 									usersId:rows.userId,
 									rolesId:row.rolesId
@@ -265,6 +297,9 @@
 								dataType: "json",
 								success: function(res) {
 									if(res.success) {
+										window.localStorage.setItem("roleIds", res.message.roleIds);
+										window.localStorage.setItem("permission", res.message.permission);
+										window.top.loadTree();
 										$.messager.alert({
 											title: '提示信息',
 											msg: "角色移除成功",
@@ -308,7 +343,7 @@
 						if(r) { // 用户点击了确认按钮
 							//真正执行重置的代码……
 							$.post("http://localhost:3011/chenyongjia/ChenYongJia/user/clearUsers", {
-								access_token:token,
+								access_token: token,
 								userId: row.userId,
 								userName: row.userName
 							}, function(lock) {
@@ -337,7 +372,7 @@
 						if(r) { // 用户点击了确认按钮
 							//真正执行重置的代码……
 							$.post("http://localhost:3011/chenyongjia/ChenYongJia/user/clearUsers", {
-								access_token:token,
+								access_token: token,
 								userId: row.userId,
 								userName: row.userName
 							}, function(lock) {
@@ -494,7 +529,7 @@
 						if(boo) {
 							$.ajax({
 								type: 'PUT',
-								url: "http://localhost:3011/chenyongjia/ChenYongJia/user/addUsers?access_token="+token,
+								url: "http://localhost:3011/chenyongjia/ChenYongJia/user/addUsers?access_token=" + token,
 								cache: false,
 								data: formData,
 								dataType: "json",
@@ -559,7 +594,7 @@
 					if(r) {
 						$.ajax({
 							type: "DELETE",
-							url: "http://localhost:3011/chenyongjia/ChenYongJia/user/delUsers?userId=" + ids+"&access_token="+token,
+							url: "http://localhost:3011/chenyongjia/ChenYongJia/user/delUsers?userId=" + ids + "&access_token=" + token,
 							cache: false,
 							dataType: "json",
 							success: function(res) {
@@ -633,12 +668,16 @@
 						<option value="是">是</option>
 						<option value="否">否</option>
 					</select>
+					角色名:
+					<select class="easyui-combobox" id="rolesIdss" name="rolesIdss" editable="true" style="width: 100px;" panelHeight="auto">
+						<option value=""></option>
+					</select>
 					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="javascript:doSearch()">查询</a>
 				</from>
 			</div>
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:openDepartmentAddDialog()">添加用户</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delUsers()">删除用户</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updUsers()">修改用户</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" data-require-permission='user:addUsers' onclick="javascript:openDepartmentAddDialog()">添加用户</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" data-require-permission='user:delUsers' onclick="delUsers()">删除用户</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" data-require-permission='user:updUsers' onclick="updUsers()">修改用户</a>
 
 			<!-- 设置-->
 			<div class="easyui-window" id="sz-window" title="设置角色信息" data-options="moal:true,iconCls:'icon-save',closed:true" style="width:45% ; height: 500px; padding: 30px;">
@@ -733,7 +772,7 @@
 					</table>
 				</form>
 			</div>
-			
+
 			<div id="dlg-buttons" style="background: url(img/xingk1.jpg) no-repeat; background-size: 100% 100%;">
 				<a href="javascript:updteUser()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 				<a href="javascript:closeUpdUsers()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>

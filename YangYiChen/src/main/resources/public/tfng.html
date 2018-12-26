@@ -291,8 +291,11 @@
 			mounted: function() {
 				var _this = this;
 				axios({
-						method: 'get',
-						url: 'http://localhost:3050/ZhangBingQian/chapte/queryId',
+						method: 'get', 
+						url: 'http://localhost:3011/zhangbingqian/ZhangBingQian/curriculum/queryCurriculumByteacherId',
+						params: {
+							teacherIds:4
+						}
 					})
 					.then(function(res) {
 						_this.options = res.data;

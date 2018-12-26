@@ -12,4 +12,6 @@ public interface CourseWareService {
 	 int deleteCourseWare(Integer cId);//根据课件id删除课件信息
 	 
 	 int deleteCourseWareByCurrId(Integer classHourId);//根据课时id删除课件
+	 
+	 int updateCourseWare(String courseWareId,String coursewareDescription);//根据课件id,修改课件信息
 }

@@ -15,7 +15,7 @@ public class HomePageClickCourseController {
 	/**
 	 **  获取首页点击课程服务
 	 * @param courseId
-	 * @return 
+	 * @return  
 	 */
 	//http://localhost:3011/LiHaiChao/stuSelectionCourse/getCourseByCourseId
 		@RequestMapping(value="/getHomePageClickCourseId",method=RequestMethod.GET)
@@ -33,7 +33,7 @@ public class HomePageClickCourseController {
 		// http://localhost:3011/lihaichao/LiHaiChao/stuCourseComment/queryTeacherByCourseId
 		@RequestMapping("/queryTeacherByCourseId")
 		Object queryTeacherByCourseId(Integer teacherId) {
-			return homepageclickcourseservice.queryTeacherByCourseId(teacherId);
+			return homepageclickcourseservice.queryTeacherByCourseId(teacherId); 
 		}
 	
 

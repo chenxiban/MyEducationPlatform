@@ -1,6 +1,8 @@
 package com.cxb.lhc.entity;
 
 
+import java.math.BigInteger;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,13 +16,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
- 
+ /**
+  *    	学生学习表
+  * @author Administrator
+  *
+  */
 @Entity	//  HQL 使用,默认类名
 @Table(name="studentrecord")	//数据库原生SQL使用,默认
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder  
 public class StudentRecord {
 	@Id	//实体类的主键
 	@GeneratedValue(strategy= GenerationType.IDENTITY)	//自动增长列
@@ -31,9 +37,9 @@ public class StudentRecord {
 	private Integer studentId;
 	@Column(columnDefinition="int unsigned NOT NULL comment '备注:章节课时ID'  ")
 	private Integer unitCourseId;
-	@Column(columnDefinition="int  DEFAULT 0 NOT NULL comment '备注:视频学习时长'  ")
-	private int videoStudentingTime;
-	@Column(columnDefinition="double  DEFAULT 0 NOT NULL comment '备注:视频退出时间'  ")
+	@Column(columnDefinition="bigint  DEFAULT 0 NOT NULL comment '备注:视频学习时长'  ")
+	private BigInteger videoStudentingTime;
+	@Column(columnDefinition="double DEFAULT 0 comment '备注:视频退出时间'  ")
 	private Double videoExitTime;
 	@Column(columnDefinition="int DEFAULT 0 NOT NULL comment '备注:视频学习状态'  ")
 	private int studentState;

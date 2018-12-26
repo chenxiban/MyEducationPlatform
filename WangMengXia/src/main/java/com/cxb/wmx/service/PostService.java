@@ -16,7 +16,8 @@ public interface PostService {
 	 * @return
 	 */
 	public List<Post> selectPostByPid(Integer pid);
-	
+	Page<Post> findByPostReport(Integer postReport,Pageable pageable);
+	Post findByPostId(Integer postId);
 	/**
 	 * @author 王梦霞
 	 * 删除帖子

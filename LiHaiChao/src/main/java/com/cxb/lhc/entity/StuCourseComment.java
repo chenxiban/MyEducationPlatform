@@ -17,6 +17,9 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,13 +58,20 @@ public class StuCourseComment {
 	private String  commentContext;
 	@Column(nullable=false,columnDefinition="date comment '备注:评价时间' ")	
 	//private Date commentTime=new Date();
+	@DateTimeFormat(pattern="yyyy-MM-dd ")
+	//@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date commentTime;
 	@Column(columnDefinition="TIMESTAMP comment '备注:评价修改时间' ",nullable=false,updatable=false,insertable=false)	//自定义字段类型
 	private Timestamp commentUpdateTime;
-	@Column(columnDefinition="varchar(255) NOT NULL comment '备注:第几次开课'  ")
+	@Column(columnDefinition="varchar(50) NULL comment '备注:第几次开课'  ")
 	private String  courseCount;
 	@Transient 
 	private String  exel1;
+	@Transient 
+	private Integer giveParaiseNum=0;
+	@Transient 
+	private  Integer caiParaiseNum=0;
+	
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="stucoursecomment",fetch=FetchType.LAZY,cascade=CascadeType.ALL)

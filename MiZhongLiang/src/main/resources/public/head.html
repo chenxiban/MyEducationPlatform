@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<style></style>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title></title>
+		<link href="css/head.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript">
+			window.localStorage.setItem("backUrl", window.location.href);
+		</script>
+		<script type="text/javascript">
+			function disp() {
+				for(var i = 0; i < 3; i++) {
+					document.getElementsByClassName('sss')[i].style.display = 'block';
+				}
+			}
+
+			function out() {
+				for(var i = 0; i < 3; i++) {
+					document.getElementsByClassName('sss')[i].style.display = 'none';
+				}
+			}
+		</script>
+
+		<script type="text/javascript">
+			var token = window.localStorage.getItem("token");
+			$.post("http://locahost:3011/mizhongliang/MiZhongLiang/login/getUserIdByToken", {
+				token: token
+			}, function() {
+				if(token != null && token != '') {
+					document.getElementsByClassName('login')[i].style.display = 'none';
+				} else {
+					document.getElementsByClassName('touxiang')[i].style.display = 'none';
+				}
+			});
+		</script>
+
+	</head>
+
+	<body>
+		<div class='miaov_head'>
+			<ul>
+				<li>
+					<a href="http://www.cnblogs.com/jtjds/">首页</a>
+				</li>
+				<li>
+					<a href="http://www.cnblogs.com/jtjds/">课程</a>
+				</li>
+				<li>
+					<a href="http://www.cnblogs.com/jtjds/">名师专栏</a>
+				</li>
+				<li>
+					<a href="http://www.cnblogs.com/jtjds/">个人中心</a>
+				</li>
+
+			</ul>
+			<input type="text" placeholder="搜你想搜的" name="sousuo" id="sousuo" />
+			<input id="btnSub" type="submit" value="搜索" />
+			<img src="img/hngydx.gif" />
+		</div>
+		<div class="touxiang">
+			<ul onmouseover="disp()" onmouseout="out()">
+				<a href="https://www.icourse163.org/">
+					<img src="img/xlb.jpg" id="round_icon" alt="万人迷博哥"></a>
+				<li class="sss">
+					<a href="http://www.baidu.com">个人中心</a>
+				</li>
+				<li class="sss">
+					<a href="http://www.baidu.com">设置</a>
+				</li>
+				<li class="sss">
+					<a href="http://www.baidu.com">退出</a>
+				</li>
+			</ul>
+		</div>
+		<div class="login">
+
+			<form action="" method=" post ">
+				<a href="http://localhost:3011/chenyongjia/ChenYongJia/login">
+					<input type="button" value="登录" />
+				</a>
+			</form>
+		</div>
+	</body>
+
+</html>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cxb.cyj.entity.Result;
 import com.cxb.cyj.entity.User;
+import com.cxb.cyj.service.PermissionService;
 import com.cxb.cyj.service.UserService;
 import com.cxb.cyj.service.impl.ConsumerService;
 import com.cxb.cyj.util.IsEmptyUtils;
@@ -31,6 +32,9 @@ public class LoginController {
 
 	@Autowired
 	private ConsumerService consumerServiceTwo;
+	
+	@Autowired
+	private PermissionService permissionService;
 
 	@Autowired
 	private UserService userService;
@@ -81,10 +85,14 @@ public class LoginController {
 					if (IsEmptyUtils.isEmpty(object)) {
 						return new Result(false, "登录失败，请重试");
 					} else {
+						// 根据用户Id查询出该用户的所有权限
+						List<String> permissionValueList = userService
+								.queryPermissionValueByUserId(user.getUserId());
 						List<Integer> urRoles=userService.getUserRole(user.getUserId());
 						Map<String, Object> map = new HashMap<String, Object>();
 						map.put("object", object);
 						map.put("roleIds", urRoles);
+						map.put("permission", permissionValueList);
 						if (!IsEmptyUtils.isEmpty(backUrl)) {
 							map.put("backUrl", backUrl);
 						}

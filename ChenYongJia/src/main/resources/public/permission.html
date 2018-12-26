@@ -15,6 +15,7 @@
 		<script>
 			var token = window.localStorage.getItem("token"); //取出暂存的token数据
 			var roleId = window.localStorage.getItem("roleIds"); // 登录用户拥有的角色
+			var loginIds = window.localStorage.getItem("userIds"); // 登录用户的id
 			$(function() {
 				$('#tg').treegrid({
 					url: 'http://localhost:3011/chenyongjia/ChenYongJia/permission/queryNode?token=' + token,

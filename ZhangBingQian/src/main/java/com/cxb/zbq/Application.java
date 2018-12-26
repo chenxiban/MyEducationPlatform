@@ -20,6 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @EnableFeignClients
 @SpringCloudApplication //===( @EnableEurekaClient + @EnableHystrix + @SpringBootApplication )pom.xml必须引Eureka、Hystrix依赖
+//@SpringBootApplication
 @EnableSwagger2
 @EntityScan(basePackages="com.cxb.zbq.entity")
 @EnableJpaRepositories(basePackages="com.cxb.zbq.dao")

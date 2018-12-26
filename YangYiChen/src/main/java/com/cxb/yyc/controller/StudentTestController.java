@@ -55,6 +55,7 @@ public class StudentTestController {
 	@Autowired
 	private TeacherSetTfngQuestionService tfngQuestionService;
 	
+	
 	/**
 	 * 记录学生测试，当学生点击测试提交按钮后，将该学生测试的相关信息存到数据库
 	 * 同时给学生测试记录表中的外键赋值
@@ -95,6 +96,7 @@ public class StudentTestController {
 		list.add(list2);
 		//判断题集合
 		List<Tfng> list3=tfngQuestionService.queryTfng(chapterId, courseId);
+		System.out.println(list3);
 		list.add(list3);
 		return list;
 	}

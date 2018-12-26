@@ -1,0 +1,74 @@
+#title {
+	margin-left: 1100px;
+	margin-top: -20px;
+}
+
+span {
+	font-family: "微软雅黑";
+}
+
+#kc {
+	margin-top: 30px;
+	margin-left: 300px;
+}
+
+#select {
+	margin-top: 20px;
+	width: auto;
+	height: auto;
+	background-color: #C6E2FF;
+}
+
+#select1 {
+	margin-left: 280px;
+}
+
+#one {
+	width: auto;
+	height: 60px;
+	border-bottom: solid #D9D9D9;
+}
+
+#tab {
+	margin-top: 20px;
+	margin-left: 300px;
+}
+
+
+
+ .el-header {
+ 	width:1400px;
+    color: #333;
+    line-height: 60px;
+    
+  }
+  
+   .el-main {
+   width:1400px;
+    color: #333;
+    margin-top: 20px;
+    line-height: 160px;
+  }
+  
+  
+   .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand  {
+    margin-right: 0px;
+    margin-top: -40px;
+    margin-bottom:0px;
+    width: 50%;
+  }
+  .el-form-item{
+  	margin-right: 0px;
+  	margin-top: 20px;
+    margin-bottom:0px;
+    width: 50%;
+  }
+  
+

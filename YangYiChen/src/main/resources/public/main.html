@@ -337,6 +337,7 @@
 						});
 				},
 				preview(index, row) {
+					console.log(row.teachercreatetestChapterId);
 					axios({
 						method: 'get',
 						url: 'http://localhost:3011/yangyichen/YangYiChen/choiceQuestion/queryChoiceQuestionAndOption',
@@ -357,7 +358,7 @@
 				var _this = this;
 				axios({
 					method: 'get',
-					url: 'http://localhost:3011/yangyichen/YangYiChen/teacherTest/queryTeacherCreateTest?',
+					url: 'http://localhost:3011/yangyichen/YangYiChen/teacherTest/queryTeacherCreateTest',
 					params: {
 						teacherId: 1
 					}
