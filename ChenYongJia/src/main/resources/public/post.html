@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>用户管理</title>
+		<title>贴吧推荐</title>
 		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/icon.css" />
 		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/default/easyui.css" />
 		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.min.js"></script>
@@ -28,7 +28,7 @@
 					},
 					onLoadSuccess: function() {
 						$(".easyui-linkbutton").linkbutton();
-						dg.datagrid("uncheckAll");//再取消选中所有行
+						$("#dg").datagrid('clearSelections');//再取消选中所有行
 					}
 				});
 			});

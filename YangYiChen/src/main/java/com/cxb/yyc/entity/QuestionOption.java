@@ -9,6 +9,7 @@ package com.cxb.yyc.entity;
  */
 public interface QuestionOption {	
 
+	Integer getOtherId();
 	Integer getOtherState(); 
 	String getOtherQuestion();
 	Integer getOtherScore();

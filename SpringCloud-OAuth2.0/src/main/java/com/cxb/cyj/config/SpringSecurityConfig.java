@@ -1,7 +1,10 @@
 package com.cxb.cyj.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -10,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import com.cxb.cyj.Handler.MyAuthenticationFailureHandler;
 import com.cxb.cyj.Handler.MyAuthenticationSuccessHandler;
+import com.cxb.cyj.service.impl.CustomUserServiceImpl;
 
 /**
  * 
@@ -21,8 +25,13 @@ import com.cxb.cyj.Handler.MyAuthenticationSuccessHandler;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true) // 启用方法级的权限认证
+@EnableGlobalMethodSecurity(prePostEnabled=true) // 启用方法级的权限认证
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	private CustomUserServiceImpl userDetailsService;
+	
+	static final Logger logger = LoggerFactory.getLogger(AuthorizationServerConfig.class);
 
 	@Autowired
 	private MyAuthenticationSuccessHandler successHandler;
@@ -30,6 +39,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private MyAuthenticationFailureHandler failHandler;
 
+	/**
+	 * 用户自定义
+	 */
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService);
+	}
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
@@ -38,7 +54,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/webjars/**", "/js/**", "/css/**", "/images/*", "/fonts/**", "/**/*.png", "/**/*.jpg",
 						"/static/**")
-				.permitAll().antMatchers("login", "/oauth/**").permitAll().antMatchers("/**").fullyAuthenticated()
+				.permitAll().antMatchers("/login", "/oauth/**").permitAll().antMatchers("/**").fullyAuthenticated()
 				.and().csrf().disable().formLogin()
 				.and().headers().frameOptions().sameOrigin();
 	}

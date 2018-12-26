@@ -73,7 +73,7 @@ public class UserController {
 	 * @param userSearch
 	 * @return
 	 */
-	@PreAuthorize(value = "hasAuthority('user:getAllPageUsers')")
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/getAllPageUsers", name = "查询用户", method = RequestMethod.GET)
 	public Object getAllPageUsers(UserSearch userSearch) {
 		System.out.println("当前查询参数===>" + userSearch);
@@ -99,6 +99,7 @@ public class UserController {
 	 * @param u
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/addUsers", method = RequestMethod.PUT)
 	public Object addUsers(User u) {
 		u.setUserCreatTime(new Date(System.currentTimeMillis()));
@@ -128,6 +129,7 @@ public class UserController {
 	 * @param userId
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/delUsers", name = "删除用户", method = RequestMethod.DELETE)
 	public Object delUsers(String userId) {
 		List<String> list = new ArrayList<String>();
@@ -151,6 +153,7 @@ public class UserController {
 	 * @param u
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/updUsers", name = "修改用户", method = RequestMethod.POST)
 	public Object updUsers(User u) {
 		User user = userService.updUserById(u.getUserId());
@@ -166,7 +169,7 @@ public class UserController {
 		if (!IsEmptyUtils.isEmpty(u.getUserProtectEMail())) {
 			user.setUserProtectEMail(u.getUserProtectEMail());
 		}
-
+		user.setUserPsdWrongTime(u.getUserPsdWrongTime());
 		user.setUserId(u.getUserId());
 		if (userService.addUser(user)) {
 			return new Result(true, "用户修改成功");
@@ -181,6 +184,7 @@ public class UserController {
 	 * @param u
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/lockUsers", name = "锁定用户", method = RequestMethod.POST)
 	public Object lockUsers(User u) {
 		User user = userService.getUserById(u.getUserId());
@@ -200,6 +204,7 @@ public class UserController {
 	 * @param u
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/clearUsers", name = "重置密码" ,method = RequestMethod.POST)
 	public Object clearUsers(User u) {
 		User user = userService.getUserById(u.getUserId());
@@ -222,6 +227,7 @@ public class UserController {
 	 * 
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/getRolesList", name = "不分页查询角色", method = RequestMethod.GET)
 	public Object getRolesList(Integer[] roleId,@RequestParam(value = "userId", required = false) Integer userId) {
 		List<Integer> urRoles = userService.getUserRole(userId);

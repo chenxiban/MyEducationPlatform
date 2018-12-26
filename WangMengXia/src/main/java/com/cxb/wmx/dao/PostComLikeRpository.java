@@ -1,5 +1,7 @@
 package com.cxb.wmx.dao;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.cxb.wmx.entity.Commitlike;
-import com.cxb.wmx.entity.Postlike;
+import com.cxb.wmx.entity.Postcommit;
 
 /**
  * 评论点踩赞Rpostiory层
@@ -17,7 +19,22 @@ import com.cxb.wmx.entity.Postlike;
  *
  */
 public interface PostComLikeRpository extends JpaRepository<Commitlike, Integer>, JpaSpecificationExecutor<Commitlike>{
-
+	
+	/**
+	 * 根据评论查询点赞踩赞数据
+	 * @param postcommit
+	 * @return
+	 */
+	List<Commitlike> findByPostcommit(Postcommit postcommit);
+	
+	/**
+	 * 根据多个评论查询点赞踩赞数据
+	 * @param postcommitId
+	 * @return
+	 */
+	@Query(value="SELECT * FROM tb_commitlike WHERE postcommit_id IN (:postcommitId) GROUP BY postcommit_id ",nativeQuery=true)
+	List<Commitlike> findPostcommitId(List<Integer> postcommitId);
+	
 	/**
 	 * 用户给评论点赞
 	 * @param 
@@ -77,4 +94,24 @@ public interface PostComLikeRpository extends JpaRepository<Commitlike, Integer>
 	@Modifying
 	@Transactional
 	int updatePostComlikeCz(@Param("commitId")Integer commitId,@Param("userId")Integer userId);
+	
+	/**
+	 * 根据评论id删除点菜赞
+	 * @param 
+	 * @return
+	 */
+	@Query(value="DELETE FROM tb_commitlike WHERE postcommit_id=:commitId",nativeQuery=true)
+	@Modifying
+	@Transactional
+	int deleteByCommitId(@Param("commitId")Integer commitId);
+	
+	/**
+	 * 根据评论id删除点菜赞
+	 * @param 
+	 * @return
+	 */
+	@Query(value="DELETE FROM tb_commitlike WHERE postcommit_id IN(:commitId)",nativeQuery=true)
+	@Modifying
+	@Transactional
+	int deleteByLsitCommitId(@Param("commitId")List<Integer> commitId);
 }

@@ -13,7 +13,6 @@ import com.cxb.wmx.entity.Post;
 import com.cxb.wmx.entity.Postreport;
 import com.cxb.wmx.entity.Reportcount;
 import com.cxb.wmx.service.PostreportService;
-import com.cxb.wmx.service.ReportcountService;
 import com.cxb.wmx.util.IsEmptyUtils;
 
 @Service

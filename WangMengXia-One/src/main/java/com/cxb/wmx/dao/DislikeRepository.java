@@ -126,5 +126,4 @@ public interface DislikeRepository extends JpaRepository<Dislike, Integer>,JpaSp
 	 */
 	@Query(value="SELECT dislike_id,dislike_createtime,dislike_stuts,dislike_updatetime,user_id,dispost_id,COUNT(dispost_id) AS number FROM tb_dislike WHERE dislike_stuts=2 GROUP BY dispost_id ORDER BY number DESC ",nativeQuery=true)
 	List<Dislike> selectDisPostListByTopC();
-	
 }

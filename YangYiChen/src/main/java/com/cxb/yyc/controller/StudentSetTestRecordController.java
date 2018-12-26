@@ -1,10 +1,13 @@
 package com.cxb.yyc.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +24,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cxb.yyc.entity.ChoiceQuestion;
 import com.cxb.yyc.entity.StudentTestRecord;
 import com.cxb.yyc.service.StudentSetTestRecordService;
+import com.cxb.yyc.service.StudentTestService;
 import com.cxb.yyc.service.TeacherSetChoiceQuestionAnswerService;
 import com.cxb.yyc.service.TeacherSetGapfillingAnswerService;
 import com.cxb.yyc.service.TeacherSetTestService;
@@ -43,6 +47,12 @@ public class StudentSetTestRecordController {
 	// 填空题答案接口
 	@Autowired
 	private TeacherSetGapfillingAnswerService gapfillingAnswerService;
+	// 教师发起测试接口
+	@Autowired
+	private TeacherSetTestService teacherTestService;
+	// 学生测试接口
+	@Autowired
+	private StudentTestService studentTestService;
 
 	/**
 	 * 添加学生测试题及答案
@@ -58,18 +68,28 @@ public class StudentSetTestRecordController {
 	 * @param gapScore          填空题分数
 	 * @param twinScore         多选题分数
 	 * @return
+	 * @throws ParseException
 	 */
-	@RequestMapping(value = "/insertStudentTestRecord", name = "添加学生做的测试题及答案",method=RequestMethod.POST)
+	@RequestMapping(value = "/insertStudentTestRecord", name = "添加学生做的测试题及答案", method = RequestMethod.POST)
 	public Object insertStudentTestRecord(@RequestParam(value = "choice", required = false) String choice,
 			@RequestParam(value = "twinchoice", required = false) String twinchoice,
 			@RequestParam(value = "gap", required = false) String gap,
 			@RequestParam(value = "twinScore", required = false) Integer twinScore,
-			@RequestParam(value = "tfng", required = false) String tfng) {
+			@RequestParam(value = "tfng", required = false) String tfng) throws ParseException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		System.out.println("11111111>>>>" + choice);
 		System.out.println("66666===>" + tfng);
 		System.out.println("2222>>>>>" + twinchoice);
 		System.out.println("3333>>>>" + gap);
+
+		// 通过章节Id和课程Id查询测试截止时间
+		String endTime = teacherTestService.queryTestEndTime(1, 1);
+		Date date;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		date = sdf.parse(endTime);
+		String time = sdf.format(date);
+		Date nowDate = new Date();
+		String nowTime = sdf.format(nowDate);
 //------------------------------------------------------------
 		// 单选题的处理
 		String regex = "^,*|,*$";
@@ -238,6 +258,22 @@ public class StudentSetTestRecordController {
 		}
 		sum = sumScore + sumScore1 + sumScore2 + sumScore3;
 		map.put("sum", sum);
+		int com=nowTime.compareTo(time);//time-nowTime
+		if (com<0) {
+			// 查询教师设置测试的次数
+			int testNum = teacherTestService.querytestMaxNum(1, 1);
+			// 查询学生已经测试的次数
+			int num = studentTestService.queryStudentTestNum(1, 1, 1);
+			num += 1;
+			if (num >= 0 && num <= testNum) {
+				// 向学生表中添加一条学生测试得分的信息
+				int m = studentTestService.insertStudentTest(1, 1, time, sum, num);
+			} else {
+				map.put("sum", "你以达到测试的次数，分数将不计入总分");
+			}
+		} else {
+			map.put("sum", "该测试时间已过,所测分数不记入总分");
+		}
 		return map;
 	}
 
@@ -249,11 +285,16 @@ public class StudentSetTestRecordController {
 	 * @param studentTestId
 	 * @return
 	 */
-	/*@GetMapping(value = "/queryStudentTestRecord", name = "查看测试")
-	public Object queryStudentTestRecord(@RequestParam(value = "studentId", required = false) Integer studentId,
-			@RequestParam(value = "courseId", required = false) Integer courseId,
-			@RequestParam(value="chapterId",required=false) Integer chapterId) {
-		return studentTestRecordService.queryStudentTestRecord(studentId,courseId,chapterId);
-	}*/
+	/*
+	 * @GetMapping(value = "/queryStudentTestRecord", name = "查看测试") public Object
+	 * queryStudentTestRecord(@RequestParam(value = "studentId", required = false)
+	 * Integer studentId,
+	 * 
+	 * @RequestParam(value = "courseId", required = false) Integer courseId,
+	 * 
+	 * @RequestParam(value="chapterId",required=false) Integer chapterId) { return
+	 * studentTestRecordService.queryStudentTestRecord(studentId,courseId,chapterId)
+	 * ; }
+	 */
 
 }

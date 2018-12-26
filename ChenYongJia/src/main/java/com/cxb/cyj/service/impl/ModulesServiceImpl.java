@@ -86,7 +86,6 @@ public class ModulesServiceImpl implements ModulesService {
 
 	@Override
 	public List<Modules> queryChildrenById(int parentList, List<Integer> moduleId) {
-		// TODO Auto-generated method stub
 		return modulesRepository.queryChildrenById(parentList, moduleId);
 	}
 
@@ -95,7 +94,6 @@ public class ModulesServiceImpl implements ModulesService {
 	 */
 	@Override
 	public List<Modules> queryChildren(Integer parentId) {
-		// TODO Auto-generated method stub
 		return modulesRepository.queryChildren(parentId);
 	}
 
@@ -135,14 +133,12 @@ public class ModulesServiceImpl implements ModulesService {
 	}
 
 	@Override
-	public List<String> getChildrenByParentId(List<String> parentId) {
-		// TODO Auto-generated method stub
+	public List<Integer> getChildrenByParentId(List<String> parentId) {
 		return modulesRepository.getChildrenByParentId(parentId);
 	}
 
 	@Override
-	public List<String> getChildrenByParentIds(List<String> parentId) {
-		// TODO Auto-generated method stub
+	public List<Integer> getChildrenByParentIds(List<String> parentId) {
 		return modulesRepository.getChildrenByParentIds(parentId);
 	}
 

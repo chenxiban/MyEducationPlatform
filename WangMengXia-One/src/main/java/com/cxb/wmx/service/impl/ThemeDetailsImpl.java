@@ -67,5 +67,27 @@ public class ThemeDetailsImpl implements ThemeDetailsService{
 		// TODO Auto-generated method stub
 		return tdRep.updateThemeByDispostId(dispostTitle,dispostCount, dispostId);
 	}
+	/**
+	 * @author sun
+	 * 查看id为dispostid的帖子是否存在
+	 */
+	@Override
+	public Integer selectThemeByDispostId(Integer dispostId) {
+		Dispost d=tdRep.getOne(dispostId);
+		if(d!=null) {
+			return 1;
+		}else {
+			return 0;
+		}
+		
+	}
+	@Override
+	public Integer selectDispostWhetherLike(Integer dispostId) {
+		return tdRep.selectDispostWhetherLike(dispostId);
+	}
+	@Override
+	public Integer deleteDislikeByDispostId(Integer dispost) {
+		return tdRep.deleteDislikeByDispostId(dispost);
+	}
 
 }

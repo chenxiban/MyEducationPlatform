@@ -20,7 +20,6 @@ public interface PostreportRrpository extends JpaRepository<Postreport, Integer>
 	
 	/**
 	 * 根据id查询Postreport
-	 * @author chenyongjia
 	 * @param postreportId
 	 * @return
 	 */
@@ -49,5 +48,4 @@ public interface PostreportRrpository extends JpaRepository<Postreport, Integer>
 	 */
 	@Query(value = "SELECT postreport_id,postreport_content,postreport_createtime,postreport_stuts,postreport_update_time,user_id,post_id FROM tb_postreport WHERE user_id=:userId AND post_id=:postId AND postreport_stuts NOT IN(1,2) ", nativeQuery = true)
 	Postreport findChongFu(@Param(value="userId") Integer userId,@Param(value="postId") Integer postId);
-	
 }

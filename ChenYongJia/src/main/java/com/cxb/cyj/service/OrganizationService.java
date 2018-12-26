@@ -29,4 +29,32 @@ public interface OrganizationService {
 	 */
 	List<Organization> getAll();
 	
+	/**
+	 * 根据机构id删除机构
+	 * @param organizationId
+	 * @return
+	 */
+	boolean delOrganization(Integer organizationId);
+	
+	/**
+	 * 添加机构信息
+	 * @param organization
+	 * @return
+	 */
+	boolean saveOrganization(Organization organization);
+	
+	/**
+	 * 修改机构信息
+	 * @param organization
+	 * @return
+	 */
+	boolean updOrganization(Organization organization);
+	
+	/**
+	 * 根据机构id查询
+	 * @param organizationId
+	 * @return
+	 */
+	Organization getById(Integer organizationId);
+	
 }

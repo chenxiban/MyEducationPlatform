@@ -21,7 +21,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		// 对 api/order 请求进行拦截 验证 accessToken,需要携带token的方法
-		http.authorizeRequests().antMatchers("/api/order/**").authenticated()
+		http.authorizeRequests().antMatchers("/user/**","/college/**","/clazz/**","/roles/**","/organization/**").authenticated()
 		.and().headers().frameOptions().sameOrigin();
 	}  
 	// public

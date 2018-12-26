@@ -31,6 +31,7 @@ public class TeacherSetGapfillingAnswerServiceImpl implements TeacherSetGapfilli
 	 * 根据填空题主键删除填空题对应的正确答案
 	 */
 	@Override
+	@Transactional
 	public int deleteGapfillingAnswer(Integer gapfillingAnswerId) {
 		return gapfillingAnswerRepository.deleteGapfillingAnswer(gapfillingAnswerId);
 	}
@@ -46,7 +47,7 @@ public class TeacherSetGapfillingAnswerServiceImpl implements TeacherSetGapfilli
 
 	@Override
 	public String queryGapfillingAnswer(String question) {
-		return queryGapfillingAnswer(question);
+		return gapfillingAnswerRepository.queryGapfillingAnswer(question);
 	}
 
 }

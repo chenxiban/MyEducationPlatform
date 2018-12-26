@@ -31,6 +31,7 @@ public class TeacherSetGapfillingQuestionServiceImpl implements TeacherSetGapfil
 	 * 删除填空题
 	 */
 	@Override
+	@Transactional
 	public int deleteGapfilling(Integer gapfillingId) {
 		return gapfillingQuestionRepository.deleteGapfilling(gapfillingId);
 	}
@@ -68,6 +69,17 @@ public class TeacherSetGapfillingQuestionServiceImpl implements TeacherSetGapfil
 	@Override
 	public int selectCountByGapfillingChapterId(Integer chapterId) {
 		return gapfillingQuestionRepository.selectCountByGapfillingChapterId(chapterId);
+	}
+	
+	/**
+	 * 根据章节Id和课程Id查询填空题问题
+	 * @param chapterId
+	 * @param courseId
+	 * @return
+	 */
+	@Override
+	public List<Gapfilling> queryGapfilling(Integer chapterId, Integer courseId) {
+		return gapfillingQuestionRepository.queryGapfilling(chapterId, courseId);
 	}
 
 }

@@ -56,5 +56,13 @@ public interface TeacherSetGapfillingQuestionService{
 	 * @return
 	 */
 	int selectCountByGapfillingChapterId(Integer chapterId);
+	
+	/**
+	 * 根据章节Id和课程Id查询填空题问题
+	 * @param chapterId
+	 * @param courseId
+	 * @return
+	 */
+	List<Gapfilling> queryGapfilling(Integer chapterId,Integer courseId);
 
 }

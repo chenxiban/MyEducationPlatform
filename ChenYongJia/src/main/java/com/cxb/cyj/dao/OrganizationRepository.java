@@ -26,4 +26,10 @@ public interface OrganizationRepository extends JpaRepository<Organization, Inte
 	 */
 	List<Organization> findByOrganizationSchoolContaining(String organizationSchool);
 	
+	/**
+	 * 根据机构id查询
+	 * @param organizationId
+	 * @return
+	 */
+	Organization findByOrganizationId(Integer organizationId);
 }

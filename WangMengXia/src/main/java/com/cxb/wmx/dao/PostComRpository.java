@@ -11,17 +11,24 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.cxb.wmx.entity.Postcommit;
-import com.cxb.wmx.entity.Postreply;
 
 public interface PostComRpository extends JpaRepository<Postcommit, Integer>, JpaSpecificationExecutor<Postcommit>{
 
+	
+	/**
+	 * 根据postcommitid查询Postcommit评论
+	 * @param copostcommitidmId
+	 * @return
+	 * @author 王梦霞
+	 */
+	Postcommit  findByPostcommitId(Integer postcommitid);
 	/**
 	 * 删除评论下的回复
 	 * @param postcommitId
 	 * @author 王梦霞
 	 * @return
 	 */
-	@Query(value="DELETE FROM  tb_postreply WHERE postcommit_id=:postcommitId",nativeQuery=true)
+	@Query(value="DELETE FROM tb_postcommit WHERE postcommit_id=:postcommitId",nativeQuery=true)
 	@Modifying
 	@Transactional
 	int deletePostCommitById(@Param(value="postcommitId") Integer postcommitId);
@@ -31,7 +38,7 @@ public interface PostComRpository extends JpaRepository<Postcommit, Integer>, Jp
 	 * @author 王梦霞
 	 * @return
 	 */
-	@Query(value="DELETE FROM tb_postcommit WHERE postcommit_id=:postcommitId AND postcommit_report =1",nativeQuery=true)
+	@Query(value="DELETE FROM tb_postcommit WHERE postcommit_id=:postcommitId AND postcommit_report=1",nativeQuery=true)
 	@Modifying
 	@Transactional
 	int deletePostCommitByIds(@Param(value="postcommitId") Integer postcommitId);
@@ -115,4 +122,39 @@ public interface PostComRpository extends JpaRepository<Postcommit, Integer>, Jp
 	 */
 	@Query(value="SELECT COUNT(*) AS commitDisLike FROM tb_commitlike WHERE postcommit_id=:pid AND commitlike_stuts=2",nativeQuery=true)
 	int queryPostReplyLikeByPidCz(@Param("pid") Integer pid);
+	
+	
+	/**
+	 * 查询发表总评论数
+	 * @param postcommitName
+	 * @return 刘森川
+	 */
+	@Query(value = "SELECT COUNT(*) FROM tb_postcommit WHERE user_id=?1", nativeQuery = true) 
+	int selectPostCommitCount(Integer userId);
+	
+	/**
+	 * 查询发表评论的时间,内容,帖子id
+	 * @param userId
+	 * @return 刘森川
+	 */
+	@Query(value="\r\n" + 
+			"SELECT post_id,postcommit_createtime,postcommit_count FROM tb_postcommit WHERE user_id=?1",nativeQuery = true)
+	List<Integer> selectPostCommitCtime(Integer userId);
+	
+	/**
+	 * 根据主题id查询主题
+	 * @param userId
+	 * @return 刘森川
+	 */
+	@Query(value="SELECT post_title FROM tb_post WHERE post_id=?1",nativeQuery = true)
+	List<String> selectPostCommitPost(Integer postId);
+	
+	/**
+	 * 查询所有评论
+	 * @author 刘森川
+	 * @param pageable 
+	 * 
+	 */
+	@Query(value="SELECT * FROM tb_postcommit WHERE user_id=?1",nativeQuery=true)
+	List<Postcommit> selectPostComByUser(Integer userId);
 }

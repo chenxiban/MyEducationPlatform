@@ -10,6 +10,7 @@ public interface DisreplylikeService {
 	public Integer updateReplyLike(Integer userId,Integer dispostreplyId);
 	public Integer updateReplyOut(Integer userId,Integer dispostreplyId);
 	
+	public Integer selectUserWhetherSet(Integer userId, Integer dispostreplyId);
 	
 	public Integer selectReplyLikeCount(Integer dispostreplyId);
 	public Integer selectReplyDisLikeCount(Integer dispostreplyId);

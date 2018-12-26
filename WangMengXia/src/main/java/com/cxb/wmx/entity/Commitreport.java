@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.cxb.wmx.entity.Postcommit.PostcommitBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,7 +25,7 @@ import lombok.Setter;
 
 /**
  * 
- * @Description:   帖子评论举报表
+ * @Description:   评论举报表
  * @ClassName:     Commitreport.java
  * @author         王梦霞
  */
@@ -61,5 +62,8 @@ public class Commitreport {
 	@JoinColumn(name="postcommit_id")	//副表中的外键字段名称
 	private Postcommit postcommit;
 	
+	
+	@Transient
+	private Integer postCommitId;
 	
 }

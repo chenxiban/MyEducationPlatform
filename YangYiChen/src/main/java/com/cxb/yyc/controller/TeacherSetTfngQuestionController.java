@@ -96,15 +96,15 @@ public class TeacherSetTfngQuestionController {
 	 * @param tfngId 判断题主键
 	 * @return
 	 */
-	@DeleteMapping(value = "/deleteTfng", name = "删除判断题及答案")
-	public Object deleteTfng(@RequestParam(value="tfngId",required=false)Integer tfngId, @RequestParam(value="tfngAnswerId",required=false)Integer tfngAnswerId) {
+	@RequestMapping(value = "/deleteTfng", name = "删除判断题及答案",method=RequestMethod.DELETE)
+	public Object deleteTfng(@RequestParam(value="tfngId",required=false)Integer tfngId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 删除判断题
-		if (tfngAnswerService.deleteTfngAnswer(tfngAnswerId) > 0) {
+		if (tfngAnswerService.deleteTfngAnswer(tfngId) > 0) {
 			// 删除判断题答案
 			if (tfngQuestionService.deleteTfng(tfngId) > 0) {
 				map.put("success", true);
-				map.put("msg", "判断题删除成功");
+				map.put("msg", "判断题删除成功,请重新查阅试题");
 			} else {
 				map.put("success", false);
 				map.put("msg", "判断题删除失败");

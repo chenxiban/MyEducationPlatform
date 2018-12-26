@@ -12,6 +12,11 @@ import org.springframework.data.repository.query.Param;
 
 import com.cxb.wmx.entity.Post;
 
+/**
+ * 帖子dao
+ * @author 王梦霞
+ *
+ */
 public interface PostRpository extends JpaRepository<Post, Integer>, JpaSpecificationExecutor<Post>{
 
 	/**
@@ -141,5 +146,51 @@ public interface PostRpository extends JpaRepository<Post, Integer>, JpaSpecific
 	@Query(value="SELECT * FROM tb_post WHERE post_id IN(:pid)",nativeQuery=true)
 	List<Post> selectPostListByPostId(@Param("pid") List<Integer> postId);
 	
+	
+	
+	/**
+	 * 查询讨论主题总数
+	 * 刘森川
+	 * @param userId
+	 * @return 
+	 */
+	@Query(value = "SELECT COUNT(*) FROM tb_post WHERE user_id=?1", nativeQuery = true) 
+	int selectPostCount(Integer userId);
+	
+	/**
+	 * 查询发表主题的标题，部分内容，用户，时间，分类
+	 * 刘森川
+	 * @param postId
+	 * @return
+	 */
+	@Query(value = "SELECT p.post_content AS postContent,p.post_createtime AS postCreatetime,p.post_name AS postName,p.post_title AS postTitle,b.bar_category AS barCategory FROM tb_post p LEFT JOIN tb_bar b ON p.bar_id=b.bar_id WHERE user_id=?1", nativeQuery = true) 
+	List<PostBar> selectPostA(Integer userId);
+	
+	/**
+	 * 查询该用户发表的评论
+	 * 刘森川
+	 * @param postId
+	 * @return
+	 */
+	@Query(value = "SELECT COUNT(postcommit_id) FROM tb_postcommit WHERE user_id=?1", nativeQuery = true) 
+	int selectPostCommit(Integer userId);
+	
+	/**
+	 * 查询发表主题的总点赞数
+	 * 刘森川
+	 * @param postId
+	 * @return
+	 */
+	@Query(value = "SELECT COUNT(postlike_id) FROM tb_postlike WHERE postlike_stuts=1 AND post_id=?1", nativeQuery = true) 
+	int selectPostDZ(Integer postId);
+	
+	/**
+	 * 查询该主题的评论数
+	 * 刘森川
+	 * @param postId
+	 * @return
+	 */
+	@Query(value = "SELECT COUNT(*) FROM tb_postcommit WHERE post_id=?1", nativeQuery = true) 
+	int selectPostCom(Integer postId);
 	
 }

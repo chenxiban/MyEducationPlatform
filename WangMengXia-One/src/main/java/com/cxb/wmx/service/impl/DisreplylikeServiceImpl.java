@@ -58,4 +58,10 @@ public class DisreplylikeServiceImpl implements DisreplylikeService{
 		return dlRep.selectReplyDisLikeCount(dispostreplyId);
 	}
 
+	@Override
+	public Integer selectUserWhetherSet(Integer userId, Integer dispostreplyId) {
+		// TODO Auto-generated method stub
+		return dlRep.selectUserWhetherSet(userId, dispostreplyId);
+	}
+
 }

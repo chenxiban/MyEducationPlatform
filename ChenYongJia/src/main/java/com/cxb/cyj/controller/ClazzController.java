@@ -36,6 +36,7 @@ public class ClazzController {
 	 * @param c
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/addClazzs",name = "添加班级", method = RequestMethod.PUT)
 	public Object addClazzs(Clazz c) {
 		c.setClassCreatTime(new Date(System.currentTimeMillis()));
@@ -59,6 +60,7 @@ public class ClazzController {
 	 * @param u
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/updClazz", name = "修改班级", method = RequestMethod.POST)
 	//@RequestMapping(value = "/updClazz", name = "修改班级")
 	public Object updClazz(Clazz c) {
@@ -89,6 +91,7 @@ public class ClazzController {
 	 * @param classId
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/delClazz", name = "删除班级", method = RequestMethod.DELETE)
 	//@RequestMapping(value = "/delClazz", name = "删除班级")
 	public Object delClazz(String classId) {
@@ -111,7 +114,7 @@ public class ClazzController {
 	 * @param clazzSearch
 	 * @return
 	 */
-	@PreAuthorize(value = "hasAuthority('clazz:getAllPageClazz')")
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/getAllPageClazz", name = "查询班级", method = RequestMethod.GET)
 	public Object getAllPageUsers(Clazz clazzSearch) {
 		System.out.println("当前查询参数===>" + clazzSearch);

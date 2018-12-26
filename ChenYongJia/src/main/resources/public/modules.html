@@ -29,7 +29,7 @@
 					treeField: 'text',
 					onLoadSuccess: function() {
 						$(".easyui-linkbutton").linkbutton();
-						dg.datagrid("uncheckAll");//再取消选中所有行
+						$('#tg').treegrid("clearSelections");//再取消选中所有行
 					}
 				});
 				handlePermission();
@@ -67,7 +67,7 @@
 
 	</head>
 
-	<body style="background: url(img/xingk2.jpg) no-repeat; background-size: 100% 710px">
+	<body>
 
 		<table id="tg" name="center" class="easyui-treegrid" style="height:590px;overflow:auto" collapsible="true" title="模块列表" toolbar="#toolbar" idField="id" rownumbers="true" fitColumns="true">
 			<thead>
@@ -90,9 +90,9 @@
 					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="javascript:doSearch()">查询</a>
 				</from>
 			</div>-->
-			<a href="javascript:void(0)" data-require-permission='modules:addModules' class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newModule()">添加菜单</a>
-			<a href="javascript:void(0)" data-require-permission='modules:updModules' class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editModules()">编辑菜单</a>
-			<a href="javascript:void(0)" data-require-permission='modules:delModules' class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteUser()">删除菜单</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newModule()">添加菜单</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editModules()">编辑菜单</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delModules()">删除菜单</a>
 		</div>
 
 		<!--
@@ -336,19 +336,16 @@
 
 			}
 		</script>
-		<!--删除-->
+				<!--删除-->
 		<script>
 			//点击删除按钮
-			function deleteUser() {
+			function delModules() {
 				var nodes = $('#tg').treegrid('getSelected');
-
 				var row = $('#tg').treegrid('getSelections');
-
 				var rows = [];
 				for(var i = 0; i < row.length; i++) {
-					rows.push(row[i].modules_id)
+					rows.push(row[i].modulesId)
 				}
-
 				if(nodes.text == "") {
 					$.messager.show({
 						title: '提示信息',
@@ -356,43 +353,57 @@
 						showType: 'show'
 					});
 				} else {
-					$.messager.confirm('删除', '你确定要删除其节点吗？', function(res) {
-						if(res) {
-							$.post("http://localhost:8080/SpringBootJpaTows/modules/delModules", {
-								id: rows,
-								token: token
-							}, function(res) {
-								if(res.success) {
-									$.messager.alert({
-										title: '系统提示',
-										msg: res.message,
+					$.messager.confirm('删除', '你确定要删除其节点吗？', function(r) {
+						if(r) {
+							$.ajax({
+								type: "DELETE",
+								url: "http://localhost:3011/chenyongjia/ChenYongJia/modules/delModules?modulesId=" + rows + "&access_token=" + token,
+								cache: false,
+								dataType: "json",
+								success: function(result) {
+									if(result) {
+										$.messager.alert({
+											title: '系统提示',
+											msg: result.message,
+											timeout: 3000, //推出时间
+											showType: 'slide', //动画效果
+											showSpeed: 1000,
+											//显示时间
+											fn: function() {
+												window.top.loadTree();
+											}
+										});
+										$('#tg').treegrid('reload');
+									} else {
+										$.messager.alert({
+											title: '系统提示',
+											msg: result.message,
+											timeout: 3000, //推出时间
+											showType: 'slide', //动画效果
+											showSpeed: 1000
+											//显示时间
+										});
+										$('#tg').treegrid('reload');
+									}
+								},
+								function(result) {
+									$.messager.show({
+										title: '提示信息',
+										msg: '请求失败!!!!',
 										timeout: 3000, //推出时间
 										showType: 'slide', //动画效果
-										showSpeed: 1000,
-										//显示时间
-										fn: function() {
-											window.top.loadTree();
-										}
-									});
-									$('#tg').treegrid('reload');
-								} else {
-									$.messager.alert({
-										title: '系统提示',
-										msg: res.message,
-										timeout: 3000, //推出时间
-										showType: 'slide', //动画效果
-										showSpeed: 1000
+										showSpeed: 3000
 										//显示时间
 									});
-									$('#tg').treegrid('reload');
 								}
-							}, "json");
+							});
 						}
-					});
 
+					});
 				}
 			}
 		</script>
+
 
 	</body>
 

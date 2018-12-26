@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -65,10 +64,7 @@ public class Dispost {
 	private Date dispostCreatetime;
 	@Column(columnDefinition = "timestamp COMMENT '最后一次修改时间'", nullable = false, updatable = false, insertable = false)
 	private Timestamp dispostUpdatetime;
-	@Transient
-	private int page=0;
-	@Transient
-	private int rows=10;
+	
 	
 	@JsonIgnore
 	@ManyToOne(targetEntity = Disbar.class)

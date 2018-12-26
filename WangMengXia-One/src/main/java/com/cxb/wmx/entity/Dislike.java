@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -52,12 +51,6 @@ public class Dislike {
 	@Column(columnDefinition = "timestamp COMMENT '最后一次修改时间'", nullable = false, updatable = false, insertable = false)
 	private Timestamp dislikeUpdatetime;
 	
-	@Transient
-	private Integer number;
-	@Transient
-	private int page=0;
-	@Transient
-	private int rows=10;
 	
 	@JsonIgnore
 	@ManyToOne(targetEntity = Dispost.class)

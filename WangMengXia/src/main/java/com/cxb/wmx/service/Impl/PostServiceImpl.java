@@ -14,25 +14,34 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.cxb.wmx.dao.BarRpository;
+import com.cxb.wmx.dao.PostBar;
+import com.cxb.wmx.dao.PostComLikeRpository;
 import com.cxb.wmx.dao.PostComRpository;
 import com.cxb.wmx.dao.PostLikeRpository;
 import com.cxb.wmx.dao.PostRpository;
 import com.cxb.wmx.dao.PostreplyRpository;
+import com.cxb.wmx.dao.ReplylikeRpostiory;
 import com.cxb.wmx.entity.Bar;
+import com.cxb.wmx.entity.Commitlike;
 import com.cxb.wmx.entity.Post;
 import com.cxb.wmx.entity.Postcommit;
 import com.cxb.wmx.entity.Postlike;
+import com.cxb.wmx.entity.Postreply;
+import com.cxb.wmx.entity.Postreplylike;
 import com.cxb.wmx.entity.Result;
 import com.cxb.wmx.service.PostService;
 import com.cxb.wmx.util.IsEmptyUtils;
 
 /**
  * 帖子Service层
+ * 
  * @author 王梦霞
  *
  */
@@ -51,17 +60,22 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	private PostLikeRpository postLikeRpository;
-	
+
 	@Autowired
 	private BarRpository barRpository;
 
+	@Autowired
+	private PostComLikeRpository postComLikeRpository;
+
+	@Autowired
+	private ReplylikeRpostiory replylikeRpostiory;
+
 	protected Path<Post> join;
 
-	
-	
-	public List<Post> selectPostByPid(Integer pid){
+	public List<Post> selectPostByPid(Integer pid) {
 		return postRpository.findAll();
 	}
+
 	/**
 	 * @author 王梦霞 删除帖子 先查询要删除那个帖子,判断该帖子是否举报,未举报,不能删除
 	 *         若举报,先查看该帖子下是否有评论,若有,查询一下评论下是否有回复,有就先删除回复,在删除评论,最后删除帖子
@@ -73,11 +87,6 @@ public class PostServiceImpl implements PostService {
 		if (post.getPostReport() == 0) {
 			return new Result(false, "该帖子未被举报,或者未举报成功,删除失败");
 		} else {
-			List<Postcommit> postcommit = postComRpository.selectPostComiByPostId(post.getPostId());
-			List<Integer> list = new ArrayList<Integer>();
-			for (int i = 0; i < postcommit.size(); i++) {
-				list.add(postcommit.get(i).getPostcommitId());
-			}
 			if (IsEmptyUtils.isEmpty(postComRpository.selectPostComiByPostId(postId))) {
 				try {
 					postRpository.deleteById(postId);
@@ -86,19 +95,14 @@ public class PostServiceImpl implements PostService {
 					return new Result(false, "当前帖子删除失败");
 				}
 			} else {
-				if (IsEmptyUtils.isEmpty(postreplyRpository.selectByListId(list))) {
-					if (postComRpository.deleteComByList(list) > 0) {
-						try {
-							postRpository.deleteById(postId);
-							return new Result(true, "当前帖子删除成功");
-						} catch (Exception e) {
-							return new Result(false, "当前帖子删除失败");
-						}
-					} else {
-						return new Result(false, "当前帖子下的评论删除失败");
-					}
-				} else {
-					if (postComRpository.deleteRetByList(list) > 0) {
+				List<Postcommit> postcommit = postComRpository.selectPostComiByPostId(post.getPostId());
+				List<Integer> list = new ArrayList<Integer>();
+				for (int i = 0; i < postcommit.size(); i++) {
+					list.add(postcommit.get(i).getPostcommitId());
+				}
+
+				if (IsEmptyUtils.isEmpty(postComLikeRpository.findPostcommitId(list))) {
+					if (IsEmptyUtils.isEmpty(postreplyRpository.selectByListId(list))) {
 						if (postComRpository.deleteComByList(list) > 0) {
 							try {
 								postRpository.deleteById(postId);
@@ -110,9 +114,109 @@ public class PostServiceImpl implements PostService {
 							return new Result(false, "当前帖子下的评论删除失败");
 						}
 					} else {
-						return new Result(false, "当前帖子评论下的回复删除失败");
+						// 从这里开始改
+						List<Integer> list4 = new ArrayList<Integer>();
+						for (int i = 0; i < postcommit.size(); i++) {
+							list4.add(postcommit.get(i).getPostcommitId());
+						}
+						List<Postreply> list3 = postreplyRpository.selectByListId(list4);
+						List<Integer> list2 = new ArrayList<Integer>();
+						for (int i = 0; i < list.size(); i++) {
+							list2.add(list3.get(i).getPostreplyId());
+						}
+						System.out.println("要根据回复查询的回复点赞id=====》" + list2);
+						List<Postreplylike> postreplylikes = new ArrayList<Postreplylike>();
+						if (!IsEmptyUtils.isEmpty(list2)) {
+							postreplylikes = replylikeRpostiory.findList(list2);
+						}
+
+						if (!IsEmptyUtils.isEmpty(postreplylikes)) {
+							System.out.println("aaaaaaaaaaaaaa====>" + postreplylikes);
+							for (int i = 0; i < postreplylikes.size(); i++) {
+								replylikeRpostiory.deleteByHfid(postreplylikes.get(i).getPostreply().getPostreplyId());
+								postreplyRpository.deleteById(postreplylikes.get(i).getPostreply().getPostreplyId());
+							}
+							postComRpository.deleteComByList(list);
+							try {
+								postRpository.deleteById(postId);
+								return new Result(true, "当前帖子删除成功");
+							} catch (Exception e) {
+								return new Result(false, "当前帖子删除失败");
+							}
+						} else {
+							postComRpository.deleteComByList(list);
+							try {
+								postRpository.deleteById(postId);
+								return new Result(true, "当前帖子删除成功");
+							} catch (Exception e) {
+								return new Result(false, "当前帖子删除失败");
+							}
+						}
+					}
+				} else {
+					List<Commitlike> commitlikes = postComLikeRpository.findPostcommitId(list);
+					List<Integer> integers = new ArrayList<Integer>();
+					for (int i = 0; i < commitlikes.size(); i++) {
+						integers.add(commitlikes.get(i).getPostcommit().getPostcommitId());
+					}
+					System.out.println("要删除的评论点赞表===》"+integers);
+					if (postComLikeRpository.deleteByLsitCommitId(integers) > 0) {
+						if (IsEmptyUtils.isEmpty(postreplyRpository.selectByListId(list))) {
+							postComRpository.deleteComByList(list);
+							try {
+								postRpository.deleteById(postId);
+								return new Result(true, "当前帖子删除成功");
+							} catch (Exception e) {
+								return new Result(false, "当前帖子删除失败");
+							}
+						} else {
+							// 从这里开始改
+							List<Integer> list4 = new ArrayList<Integer>();
+							for (int i = 0; i < postcommit.size(); i++) {
+								list4.add(postcommit.get(i).getPostcommitId());
+							}
+							List<Postreply> list3 = postreplyRpository.selectByListId(list4);
+							List<Integer> list2 = new ArrayList<Integer>();
+							for (int i = 0; i < list.size(); i++) {
+								list2.add(list3.get(i).getPostreplyId());
+							}
+							System.out.println("要根据回复查询的回复点赞id=====》" + list2);
+							List<Postreplylike> postreplylikes = new ArrayList<Postreplylike>();
+							if (!IsEmptyUtils.isEmpty(list2)) {
+								postreplylikes = replylikeRpostiory.findList(list2);
+							}
+
+							if (!IsEmptyUtils.isEmpty(postreplylikes)) {
+								System.out.println("cccccccccccccccc====>" + postreplylikes);
+								for (int i = 0; i < postreplylikes.size(); i++) {
+									replylikeRpostiory
+											.deleteByHfid(postreplylikes.get(i).getPostreply().getPostreplyId());
+									postreplyRpository
+											.deleteById(postreplylikes.get(i).getPostreply().getPostreplyId());
+								}
+								System.out.println("dddddddddddddddddddddddd====>" + postreplylikes);
+								postComRpository.deleteComByList(list);
+								try {
+									postRpository.deleteById(postId);
+									return new Result(true, "当前帖子删除成功");
+								} catch (Exception e) {
+									return new Result(false, "当前帖子删除失败");
+								}
+							} else {
+								postComRpository.deleteComByList(list);
+								try {
+									postRpository.deleteById(postId);
+									return new Result(true, "当前帖子删除成功");
+								} catch (Exception e) {
+									return new Result(false, "当前帖子删除失败");
+								}
+							}
+						}
+					} else {
+						return new Result(false, "当前评论下的点赞以及踩赞删除失败");
 					}
 				}
+
 			}
 		}
 	}
@@ -124,6 +228,7 @@ public class PostServiceImpl implements PostService {
 
 	/**
 	 * 查询条件动态组装 动态生成where语句 匿名内部类形式
+	 * 
 	 * @param
 	 * @author 王梦霞
 	 * @return
@@ -252,25 +357,77 @@ public class PostServiceImpl implements PostService {
 	public int queryPostLikeByPidCz(Integer pid) {
 		return postRpository.queryPostLikeByPidCz(pid);
 	}
+
 	@Override
 	public List<Post> queryPostTimeDesc() {
 		return postRpository.queryPostTimeDesc();
 	}
+
 	@Override
 	public List<Post> selectPostListByPostId(List<Integer> postId) {
 		return postRpository.selectPostListByPostId(postId);
 	}
+
 	@Override
 	public boolean addLauyiPost(Post post) {
 		try {
-			Bar bar=barRpository.findByBarId(post.getBarId());
+			Bar bar = barRpository.findByBarId(post.getBarId());
 			post.setBar(bar);
 			postRpository.save(post);
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
-		 
+
+	}
+
+	@Override
+	public boolean delPostById(Integer postId) {
+		try {
+			postRpository.deleteById(postId);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	
+	@Override
+	// 查询讨论主题总数
+	public int selectPostCount(Integer userId) {
+		return postRpository.selectPostCount(userId);
+	}
+
+	@Override
+	// 查询发表主题的总评论数
+	public int selectPostCommit(Integer userId) {
+		return postRpository.selectPostCommit(userId);
+	}
+
+	@Override
+	//查询发表主题的标题，部分内容，用户，时间，来自 public List<Post> selectPostA(Integer
+	public List<PostBar> selectPostA(Integer userId) {
+		return postRpository.selectPostA(userId);
+	}
+
+	@Override
+	//查询总点赞数
+	public int selectPostDZ(Integer postId) {
+		return postRpository.selectPostDZ(postId);
+	}
+
+	@Override
+	//查询分页
+	public Page<Post> queryAllPage(Integer page, Integer size) {
+		Sort sort = new Sort(Sort.Direction.ASC, "postCreatetime"); 
+	    Pageable pageable =PageRequest.of(page, size, sort);
+	    return postRpository.findAll(pageable);
+	}
+
+	@Override
+	//查询该主题的评论数
+	public int selectPostCom(Integer postId) {
+		return postRpository.selectPostCom(postId);
 	}
 
 }

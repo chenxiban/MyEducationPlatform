@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cxb.wmx.dao.PostBar;
 import com.cxb.wmx.entity.Post;
 import com.cxb.wmx.entity.Result;
 import com.cxb.wmx.service.PostService;
@@ -171,6 +172,7 @@ public class PostController {
 	@RequestMapping(value = "/queryPostComByPid")
 	public Object queryPostComByPid(Integer pid) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		@SuppressWarnings("unused")
 		List<Post> pid1 = postService.selectPostByPid(pid);
 		map.put("postCmmit", postService.queryPostComByPid(pid));
 		map.put("postLike", postService.queryPostLikeByPidDz(pid));
@@ -224,5 +226,103 @@ public class PostController {
 		} else {
 			return new Result(false, "帖子发表失败");
 		}
+	}
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/delPostById
+	 * @param postId
+	 * @author 王梦霞
+	 * @return
+	 */
+	@RequestMapping(value="/delPostById")
+	public Object delPostById(Integer postId) {
+		if (postService.delPostById(postId)) {
+			return new Result(true, "帖子删除成功");
+		} else {
+			return new Result(false, "该帖子未被举报,或未举报成功,帖子删除失败");
+		}
+	}
+	
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/queryPage
+	 * http://localhost:3030/WangMengXia/post/queryPage
+	 * 查询个人中心讨论(主题分页)
+	 * @author 刘森川
+	 * @param postSearch
+	 * @return
+	 */
+	@RequestMapping(value="/queryPage")
+    public Object queryPage(Integer page,Integer size) {
+    	Page<Post> pageList= null;
+    	pageList = postService.queryAllPage(1, 10);//第2页,每页3条;第几页从零开始,每页显示几条.
+    	System.out.println("queryPage page=>"+page);
+    	Long total = pageList.getTotalElements();
+    	List<Post> list = pageList.getContent();
+    	Map<String, Object> map = new HashMap<>();
+    	map.put("total", total);
+    	map.put("rows", list);
+    	return map;
+    }
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/selectPostCount?userId=1
+	 * 查询讨论主题总数
+	 * @author 刘森川
+	 * @param postName
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostCount")
+	public Object selectPostCount(Integer userId) {
+		return postService.selectPostCount(userId);
+	}
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/selectPostA?userId=1
+	 * http://localhost:3030/WangMengXia/post/selectPostA?userId=1
+	 * 查询发表主题的标题，部分内容，用户，时间, 分类
+	 * @author 刘森川
+	 * @param postName
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostA")
+	public List<PostBar> selectPostA(Integer userId){
+		return postService.selectPostA(userId);
+	}
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/selectPostCommit?userId=1
+	 *  http://localhost:3011/WangMengXia/post/selectPostCommit?userId=1
+	 * 查询发表主题的总评论数
+	 * @author 刘森川
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostCommit")
+	public Object selectPostCommit(Integer userId) {
+		return postService.selectPostCommit(userId);
+	}
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/selectPostDZ?postId=1
+	 * 查询主题总点赞数
+	 * @author 刘森川
+	 * @param postId
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostDZ")
+	public Object selectPostDZ(Integer postId) {
+		return postService.selectPostDZ(postId);
+	}
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/post/selectPostCom?postId=1
+	 * http://localhost:3011/WangMengXia/post/selectPostCom?postId=1
+	 * 查询该主题的评论数
+	 * @author 刘森川
+	 * @param postId
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostCom")
+	public Object selectPostCom(Integer postId) {
+		return postService.selectPostCom(postId);
 	}
 }

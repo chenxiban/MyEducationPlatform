@@ -1,11 +1,16 @@
 package com.cxb.wmx.service;
 
+import org.springframework.stereotype.Service;
+
 /**
  * 评论点赞踩赞service
  * @author 王梦霞
  *
  */
+@Service
 public interface CommitLikeService {
+	
+	
 
 	public boolean addPostComlikeDz(Integer commitId,Integer userId);
 	public boolean addPostComlikeCz(Integer commitId,Integer userId);

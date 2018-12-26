@@ -1,5 +1,7 @@
 package com.cxb.cyj.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +22,7 @@ import lombok.Setter;
 @NoArgsConstructor // 自动无参的构造方法方法
 @Entity
 @Table(name = "tb_coursetui")
-public class CourseTui {
+public class CourseTui implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +38,8 @@ public class CourseTui {
 	private int rows=10;
 	@Transient
 	private int p;
+	@Transient
+	private String token;
 	
 }
 

@@ -79,14 +79,14 @@ public interface ModulesService {
 	 * @param parentId
 	 * @return
 	 */
-	List<String> getChildrenByParentId(List<String> parentId);
+	List<Integer> getChildrenByParentId(List<String> parentId);
 	
 	/**
 	 * 根据父id查询孙子菜单
 	 * @param parentId
 	 * @return
 	 */
-	List<String> getChildrenByParentIds(List<String> parentId); 
+	List<Integer> getChildrenByParentIds(List<String> parentId); 
 	
 	/**
 	 * 根据roleId查询模块

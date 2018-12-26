@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -63,6 +64,9 @@ public class Organization implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy="organization",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	private List<College> list = new ArrayList<>();
+	
+	@Transient
+	private String token;
 
 	@Override
 	public String toString() {

@@ -98,18 +98,19 @@ public class TeacherSetGapfillingQuestionController {
 	 * 根据填空题主键删除问题及答案
 	 * 1.删除填空题
 	 * 2.删除填空题答案
+	 * http://localhost:3060/YangYiChen/gapfillingQuestion/insertGapfillingQuestion
 	 * @param gapfillingId 填空题主键
 	 * @return
 	 */
-	@DeleteMapping(value="/deleteGapfilling",name="删除填空题及答案")
-	public Object deleteGapfilling(@RequestParam(value="gapfillingId",required=false)Integer gapfillingId,@RequestParam(value="gapfillingAnswerId",required=false)Integer gapfillingAnswerId) {
+	@RequestMapping(value="/deleteGapfilling",name="删除填空题及答案",method=RequestMethod.DELETE)
+	public Object deleteGapfilling(@RequestParam(value="gapfillingId",required=false)Integer gapfillingId) {
 		Map<String, Object> map=new HashMap<String, Object>();
 		//删除填空题问题答案
 		if (gapfillingAnswerService.deleteGapfillingAnswer(gapfillingId)>0) {
 			//删除填空题问题
 			if (gapfillingQuestionService.deleteGapfilling(gapfillingId)>0) {
 				map.put("success", true);
-				map.put("msg", "删除成功");
+				map.put("msg", "删除成功,请重新查看试题");
 			}else {
 				map.put("success", false);
 				map.put("msg", "删除失败");

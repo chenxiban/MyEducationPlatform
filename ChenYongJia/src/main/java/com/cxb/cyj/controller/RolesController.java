@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,6 +48,7 @@ public class RolesController {
 	 * @param rolesSearch
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/getAllPageRoles", name = "查询角色", method = RequestMethod.GET)
 	public Object getAllPageRoles(RolesSearch rolesSearch) {
 		// System.out.println("当前查询参数===>" + rolesSearch);
@@ -71,6 +73,7 @@ public class RolesController {
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/getRolesPermissionByRoleId", name = "获取角色权限", method = RequestMethod.GET)
 	public Object getRolesPermissionByRoleId(Integer id) {
 		return rolesService.getRolesPermissionByRoleId(id);
@@ -84,6 +87,7 @@ public class RolesController {
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/getUserRolesByUserId", name = "获取用户角色", method = RequestMethod.GET)
 	public Object getUserRolesByUserId(Integer userId) {
 		return rolesService.getUserRolesByUserId(userId);
@@ -97,6 +101,7 @@ public class RolesController {
 	 * @param r
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/addRoles", name = "添加角色", method = RequestMethod.PUT)
 	public Object addRoles(Roles r) {
 		r.setRolesCreatTime(new Date());
@@ -119,6 +124,7 @@ public class RolesController {
 	 * @param roleId
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/delRoles", name = "删除角色", method = RequestMethod.DELETE)
 	public Object delRoles(@RequestParam(value="roleId") String roleId) {
 		List<String> list = new ArrayList<String>();
@@ -141,6 +147,7 @@ public class RolesController {
 	 * @param u
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/updRoles", name = "修改角色", method = RequestMethod.POST)
 	public Object updRoles(Roles u) {
 		Roles roles = rolesService.getRolesById(u.getRolesId());
@@ -162,6 +169,7 @@ public class RolesController {
 	 * @param moduleId
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/setRoleModule", name = "角色设置菜单模块",method = RequestMethod.POST)
 	public Object setRoleModule(
 			Integer roleId,
@@ -182,6 +190,7 @@ public class RolesController {
 	 * @param roleId
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/addByRole", name = "增加角色", method = RequestMethod.GET)
 	public Object addByRole(Integer usersId, Integer rolesId, Integer userId) {
 		if (rolesService.addByRole(rolesId, usersId)) {
@@ -200,6 +209,7 @@ public class RolesController {
 	 * @param rolesId
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value = "/delRolesId", name = "移除角色", method = RequestMethod.DELETE)
 	//public Object delRolesId(Integer rolesId, Integer usersId, Integer userId) {
 	public Object delRolesId(Integer rolesId, Integer usersId) {
@@ -218,6 +228,7 @@ public class RolesController {
 	 * 获取所有角色
 	 * @return
 	 */
+	@PreAuthorize(value = "hasAuthority('ROLE_ALL')")
 	@RequestMapping(value="/getAllRoles",method=RequestMethod.GET)
 	public List<Roles> getAllRoles(){
 		return rolesService.findAll();

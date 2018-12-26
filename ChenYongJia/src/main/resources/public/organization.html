@@ -2,503 +2,508 @@
 <html>
 
 	<head>
-		<meta charset="UTF-8">
+		<meta charset="utf-8" />
 		<title>机构管理</title>
 		<link rel="icon" href="img/timg.jpg">
-		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/icon.css" />
-		<link rel="stylesheet" href="js/jquery-easyui-1.4.5/themes/default/easyui.css" />
-		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.min.js"></script>
-		<script type="text/javascript" src="js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
-		<script type="text/javascript" src="js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
-		<script type="text/jscript" src="js/easyUIvalidate.js"></script>
-		<!-- 复选框-->
-		<script>
-			var token = window.localStorage.getItem("token"); //取出暂存的token数据
-			var roleId = window.localStorage.getItem("roleIds"); // 登录用户拥有的角色
-			$(function() {
-				$('#tg').treegrid({
-					url: 'http://localhost:3011/chenyongjia/ChenYongJia/college/getCollege?token=' + token,
-					method: 'get',
-					lines: true,
-					animate: true,
-					toolbar: '#toolbar',
-					rownumbers: true,
-					singleSelect: false,
-					fitColumns: true,
-					idField: 'collegeId',
-					treeField: 'collegeName',
-					onLoadSuccess: function() {
-						$(".easyui-linkbutton").linkbutton();
-						dg.datagrid("uncheckAll");//再取消选中所有行
-					}
-				});
-
-				$('#oid').combobox({
-					valueField: 'organizationId',
-					textField: 'organizationSchool',
-					panelHeight: 'auto',
-					method: 'get',
-					url: 'http://localhost:3011/chenyongjia/ChenYongJia/organization/queryAllOrganization',
-					queryParams: {
-						token: token
-					},
-					onBeforeLoad: function(param) {
-						param.organizationSchool = '大学';
-					}
-				});
-				$('#oids').combobox({
-					valueField: 'organizationId',
-					textField: 'organizationSchool',
-					panelHeight: 'auto',
-					method: 'get',
-					url: 'http://localhost:3011/chenyongjia/ChenYongJia/organization/queryAllOrganization',
-					queryParams: {
-						token: token
-					},
-					onBeforeLoad: function(param) {
-						param.organizationSchool = '大学';
-					}
-				});
-				handlePermission();
-
-			});
-
-			function handlePermission() {
-				console.log('权限控制插件data-require-permission.js加载成功!');
-				let permission = window.localStorage.getItem("permission"); //从session缓存中取出权限数组
-				console.log("权限控制插件permission=>" + permission);
-				$("*[data-require-permission]").map((i, ele) => {
-					let elePer = $(ele).attr('data-require-permission');
-					console.log("elePer=>" + elePer);
-
-					let p = permission.split(",");
-
-					let requireRemove = true;
-
-					for(var i = 0; i < p.length; i++) {
-						if(elePer == p[i]) requireRemove = false;
-					}
-					if(requireRemove) {
-						$(ele).remove()
-					};
-				});
-			}
-
-			//查询
-			function doSearch() {
-				$('#tg').treegrid('load', {
-					token: token
-				});
+		<link rel="stylesheet" type="text/css" href="css/element-ui.css" />
+		<script src="js/Vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/element-ui.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.demo-table-expand {
+				font-size: 0;
 			}
 			
-			//操作用户
-			function formatterOPTeacher(value, row, index) {
-				if(row.collegeRmark==1 || row.collegeRmark==2){
-					return "<a class='easyui-linkbutton' iconCls='icon-edit' style='cursor: pointer;' onclick='setTeacher(" + index + ")'>绑定教师</a>";
-				}
-				if(row.collegeRmark==0){
-					return '暂无操作';
-				}
+			.demo-table-expand label {
+				width: 90px;
+				color: #99a9bf;
 			}
-		</script>
-
+			
+			.demo-table-expand .el-form-item {
+				margin-right: 0;
+				margin-bottom: 0;
+				width: 50%;
+			}
+		</style>
 	</head>
 
-	<body style="background: url(img/xingk2.jpg) no-repeat; background-size: 100% 710px">
+	<body>
 
-		<table id="tg" name="center" class="easyui-treegrid" style="height:590px;overflow:auto" collapsible="true" title="机构模块列表" toolbar="#toolbar" idField="id" rownumbers="true" fitColumns="true">
-			<thead>
-				<tr>
-					<th data-options="field:'collegeName'" width="180">学院/院系/专业名称</th>
-					<th data-options="field:'collegeId'" width="80">机构id</th>
-					<th data-options="field:'collegeParentId',hidden:true" width="80">父机构id</th>
-					<th data-options="field:'collegeFounder'" width="80">创建人</th>
-					<th data-options="field:'collegeCreatTime'" width="160">创建时间</th>
-					<th data-options="field:'collegeUpdateMan'" width="80">修改人</th>
-					<th data-options="field:'collegeUpdateTime'" width="160">修改时间</th>
-					<th data-options="field:'setPassword',width:180,align:'center',formatter:formatterOPTeacher">操作</th>
-				</tr>
-			</thead>
-		</table>
+		<div id="tables">
+			<el-table :data="tableData.filter(data => !search || data.organizationSchool.toLowerCase().includes(search.toLowerCase()))" stripe border style="width: 100%;height: auto;color: #409EFF;" max-height="600">
+				<el-table-column type="expand" fixed prop="organizationId">
+					<template slot-scope="props">
+						<el-form label-position="left" inline class="demo-table-expand">
+							<el-form-item label="机构id">
+								<span>{{ props.row.organizationId }}</span>
+							</el-form-item>
+							<el-form-item label="机构名称">
+								<span>{{ props.row.organizationSchool }}</span>
+							</el-form-item>
+							<el-form-item label="负责人">
+								<span>{{ props.row.organizationHead }}</span>
+							</el-form-item>
+							<el-form-item label="联系方式">
+								<span>{{ props.row.organizationMtel }}</span>
+							</el-form-item>
+							<el-form-item label="机构地址">
+								<span>{{ props.row.organizationAddress }}</span>
+							</el-form-item>
+							<el-form-item label="创建时间">
+								<span>{{ props.row.organizationCreatTime }}</span>
+							</el-form-item>
+							<el-form-item label="机构简介">
+								<span>{{ props.row.organizationAbstract }}</span>
+							</el-form-item>
+						</el-form>
+					</template>
+				</el-table-column>
+				<el-table-column fixed prop="organizationSchool" label="机构名称">
+				</el-table-column>
+				<el-table-column fixed prop="organizationHead" label="机构负责人">
+					<template slot-scope="scope">
+						<el-popover trigger="hover" placement="top">
+							<p>负责人: {{ scope.row.organizationHead }}</p>
+							<p>联系方式: {{ scope.row.organizationMtel }}</p>
+							<p>机构地址: {{ scope.row.organizationAddress }}</p>
+							<p>机构简介: {{ scope.row.organizationAbstract }}</p>
+							<div slot="reference" class="name-wrapper">
+								<el-tag size="medium">{{ scope.row.organizationHead }}</el-tag>
+							</div>
+						</el-popover>
+					</template>
+				</el-table-column>
+				<el-table-column fixed prop="organizationMtel" label="机构联系方式">
+				</el-table-column>
+				</el-table-column>
+				<el-table-column fixed="left" label="操作">
+					<template slot="header" slot-scope="scope">
+						<el-row>
+							<el-input v-model="search" size="mini" size="30px" placeholder="输入学校关键字搜索" />
+							<!--<el-button type="success" icon="el-icon-check" circle></el-button>
+							<el-button type="info" icon="el-icon-message" circle></el-button>
+							<el-button type="warning" icon="el-icon-star-off" circle></el-button>
+							<el-button type="danger" icon="el-icon-delete" circle></el-button>-->
+						</el-row>
+					</template>
+					<template slot-scope="scope">
+						<el-button type="warning" size="mini" icon="el-icon-plus" round @click="addOrg(scope.$index, scope.row)">添加</el-button>
+						<el-button type="primary" size="mini" icon="el-icon-edit" round @click="updOrg(scope.$index, scope.row)">修改</el-button>
+						<el-button size="mini" type="danger" icon="el-icon-close" round @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+					</template>
+				</el-table-column>
+			</el-table>
 
-		<div id="toolbar" style="background: url(img/xingk1.jpg);">
-			<a href="javascript:void(0)" data-require-permission='modules:addModules' class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加机构</a>
-			<a href="javascript:void(0)" data-require-permission='modules:updModules' class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑机构</a>
-			<a href="javascript:void(0)" data-require-permission='modules:delModules' class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteUser()">删除机构</a>
+			<!-- Form -->
+			<el-dialog title="添加机构信息" width=35% :close-on-click-modal="false" :close-on-press-escape="false" :visible.sync="dialogFormVisible">
+				<el-form :model="from" ref="from" :rules="rules" label-width="120px">
+					<el-form-item label="机构名称" prop="organizationSchool">
+						<el-input v-model="from.organizationSchool" placeholder="请输入机构名称" prefix-icon="el-icon-edit"></el-input>
+					</el-form-item>
+					<el-form-item label="机构负责人" prop="organizationHead">
+						<el-input v-model="from.organizationHead" placeholder="请输入机构负责人姓名" prefix-icon="el-icon-edit-outline"></el-input>
+					</el-form-item>
+					<el-form-item label="联系电话" prop="organizationMtel">
+						<el-input minlength=11 maxlength=11 v-model.number="from.organizationMtel" placeholder="请输入机构负责人联系电话" prefix-icon="el-icon-phone-outline"></el-input>
+					</el-form-item>
+					<el-form-item label="机构地址" prop="organizationAddress">
+						<el-input type="textarea" v-model="from.organizationAddress"></el-input>
+					</el-form-item>
+					<el-form-item label="机构简介" prop="organizationAbstract">
+						<el-input type="textarea" v-model="from.organizationAbstract"></el-input>
+					</el-form-item>
+					<el-form-item>
+						<el-button type="primary" @click="onSubmit('from')">立 即 添 加</el-button>
+						<el-button @click="resetForm('from')">清 空 输 入</el-button>
+					</el-form-item>
+				</el-form>
+			</el-dialog>
+
+			<!-- Form -->
+			<el-dialog title="修改机构信息" width=35% :close-on-click-modal="false" :close-on-press-escape="false" :visible.sync="dialogFormUpd">
+				<el-form :model="froms" ref="froms" :rules="rulesU" label-width="120px">
+					<el-form-item label="机构ID" prop="organizationId">
+						<el-input v-model="froms.organizationId" disabled="true" placeholder="请输入机构Id" prefix-icon="el-icon-edit"></el-input>
+					</el-form-item>
+					<el-form-item label="机构名称" prop="organizationSchool">
+						<el-input v-model="froms.organizationSchool" placeholder="请输入机构名称" prefix-icon="el-icon-edit"></el-input>
+					</el-form-item>
+					<el-form-item label="机构负责人" prop="organizationHead">
+						<el-input v-model="froms.organizationHead" placeholder="请输入机构负责人姓名" prefix-icon="el-icon-edit-outline"></el-input>
+					</el-form-item>
+					<el-form-item label="联系电话" prop="organizationMtel">
+						<el-input minlength=11 maxlength=11 v-model.number="froms.organizationMtel" placeholder="请输入机构负责人联系电话" prefix-icon="el-icon-phone-outline"></el-input>
+					</el-form-item>
+					<el-form-item label="机构地址" prop="organizationAddress">
+						<el-input type="textarea" v-model="froms.organizationAddress"></el-input>
+					</el-form-item>
+					<el-form-item label="机构简介" prop="organizationAbstract">
+						<el-input type="textarea" v-model="froms.organizationAbstract"></el-input>
+					</el-form-item>
+					<el-form-item>
+						<el-button type="primary" @click="onSubmitUpd('froms')">立 即 修 改</el-button>
+						<el-button @click="resetForms('froms')">清 空 输 入</el-button>
+					</el-form-item>
+				</el-form>
+			</el-dialog>
 		</div>
-
-		<div id="dlg" class="easyui-dialog" style="width:400px;height:340px;padding:10px 20px;background: url(img/beijing.jpg) no-repeat; background-size: 100% 100%;" closed="true" buttons="#dlg-buttons">
-			<form id="fm" method="post">
-				<table cellspacing="10px;">
-					<tr>
-						<td>父亲机构parentId：</td>
-						<td><input id="collegeParentId" name="collegeParentId" class="easyui-validatebox" required="true" readonly="true" style="width: 200px;"></td>
-					</tr>
-					<tr>
-						<td>机构级别：</td>
-						<td>
-							<select class="easyui-combobox" id="collegeRmark" name="collegeRmark" editable="false" panelHeight="auto" style="width: 200px;">
-								<option value="0">学院</option>
-								<option value="1">院系</option>
-								<option value="2">专业</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>所属机构：</td>
-						<td>
-							<select class="easyui-combobox" id="oid" name="oid" editable="false" panelHeight="auto" style="width: 200px;">
-								<option value=""></option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>机构名称：</td>
-						<td><input id="collegeName" name="collegeName" class="easyui-validatebox" required="true" style="width: 200px;"></td>
-					</tr>
-					<tr>
-						<td>机构路径：</td>
-						<td><input id="collegePath" name="collegePath" class="easyui-validatebox" style="width: 200px;"></td>
-					</tr>
-					<tr>
-						<td>机构权重：</td>
-						<td><input id="collegeWeight" name="collegeWeight" class="easyui-validatebox" data-options="validType:'intPlus'" style="width: 200px;"></td>
-					</tr>
-					<tr>
-						<td>创建人：</td>
-						<td><input id="collegeFounder" name="collegeFounder" class="easyui-validatebox" data-options="validType:'name'" required="true" style="width: 200px;"></td>
-					</tr>
-				</table>
-			</form>
-		</div>
-
-		<div id="dlg-buttons" style="background: url(img/xingk1.jpg) no-repeat; background-size: 100% 100%;">
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">保存</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">关闭</a>
-		</div>
-
-		<div id="dlgs" class="easyui-dialog" style="width:400px;height:360px;padding:10px 20px;background: url(img/beijing.jpg) no-repeat; background-size: 100% 100%;" closed="true" buttons="#dlg-buttonss">
-			<form id="fms" method="post">
-				<table cellspacing="10px;">
-					<tr>
-						<!-- 机构id -->
-						<td><input id="collegeId" name="collegeId" class="easyui-validatebox" readonly="true" hidden="true" style="width: 200px;"></td>
-					</tr>
-					<tr>
-						<td>父亲机构parentId：</td>
-						<td><input id="collegeParentId" name="collegeParentId" class="easyui-validatebox" required="true" readonly="true" style="width: 200px;"></td>
-					</tr>
-					<tr>
-						<td>所属机构：</td>
-						<td>
-							<select class="easyui-combobox" id="oids" name="oid" editable="false" panelHeight="auto" style="width: 200px;">
-								<option value=""></option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>机构级别：</td>
-						<td>
-							<select class="easyui-combobox" id="collegeRmark" name="collegeRmark" editable="false" panelHeight="auto" style="width: 200px;">
-								<option value="0">学院</option>
-								<option value="1">院系</option>
-								<option value="2">专业</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>机构名称：</td>
-						<td><input id="collegeName" name="collegeName" class="easyui-validatebox" required="true" style="width: 200px;"></td>
-					</tr>
-					<tr>
-						<td>机构路径：</td>
-						<td><input id="collegePath" name="collegePath" class="easyui-validatebox" style="width: 200px;"></td>
-					</tr>
-					<tr>
-						<td>机构权重：</td>
-						<td><input id="collegeWeight" name="collegeWeight" class="easyui-validatebox" data-options="validType:'intPlus'" style="width: 200px;"></td>
-					</tr>
-					<tr>
-						<td>修改人：</td>
-						<td><input id="collegeUpdateMan" name="collegeUpdateMan" class="easyui-validatebox" data-options="validType:'name'" required="true" style="width: 200px;"></td>
-					</tr>
-				</table>
-			</form>
-		</div>
-
-		<div id="dlg-buttonss" style="background: url(img/xingk1.jpg) no-repeat; background-size: 100% 100%;">
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUsers()">保存</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlgs').dialog('close')">关闭</a>
-		</div>
-
-		<script type="text/javascript">
-			//新增一个机构
-			function newUser() {
-				$('#fm').form('clear'); //清空表单
-				var row = $('#tg').treegrid('getSelected'); //获取选中的父机构
-				if(row) {
-					$("#dlg").dialog('open').dialog('setTitle', '添加' + row.collegeName + '的子机构');
-					$('#fm').form('load', {
-						collegeParentId: row.collegeId,
-						collegeRmark: row.collegeRmark
-					}); //机构parentid设置为选中的机构
-					url = 'http://localhost:3011/chenyongjia/ChenYongJia/college/addCollege?token=' + token;
-				} else {
-					$.messager.confirm('新增确认', '请选中一个父机构,否则将新增一个根机构。您是否要新增一个根机构？', function(r) {
-						if(r) {
-							$("#dlg").dialog('open').dialog('setTitle', '添加根机构');
-							$('#fm').form('load', {
-								collegeId: 0,
-								collegeRmark: 0
-							}); //机构parentid设置为0,则为根机构
-							url = 'http://localhost:3011/chenyongjia/ChenYongJia/college/addCollege?token=' + token;
-						}
-					});
-				}
-
-			}
-
-			//保存新增机构对象
-			function saveUser() {
-				var row = $('#tg').treegrid('getSelected'); //获取选中的父机构
-				$.messager.confirm('保存确认', '您确定要保存么？', function(r) {
-					if(r) {
-						var formData = $('#fm').serialize();
-						var boo = $('#fm').form('validate');
-						var oids = $('#oid').combobox('getValue');
-						if(oids == null || oids == '') {
-							$.messager.alert({
-								title: '系统提示',
-								msg: '请选择所属机构',
-								timeout: 3000, //推出时间
-								showType: 'slide', //动画效果
-								showSpeed: 3000,
-							});
-							return;
-						}
-						if(boo) {
-							$.ajax({
-								type: "PUT",
-								url: url,
-								cache: false,
-								data: formData,
-								dataType: "json",
-								success: function(result) {
-									$.messager.alert({
-										title: '系统提示',
-										msg: result.message,
-										timeout: 3000, //推出时间
-										showType: 'slide', //动画效果
-										showSpeed: 3000,
-										//显示时间
-										fn: function() {
-											$('#fm').form('clear');
-											$('#oid').combobox({
-												valueField: 'organizationId',
-												textField: 'organizationSchool',
-												panelHeight: 'auto',
-												method: 'get',
-												url: 'http://localhost:3011/chenyongjia/ChenYongJia/organization/queryAllOrganization',
-												queryParams: {
-													token: token
-												},
-												onBeforeLoad: function(param) {
-													param.organizationSchool = '大学';
-												}
-											});
-											window.top.loadTree();
-										}
-									});
-									$('#dlg').dialog('close');
-									$('#tg').treegrid('reload');
-								},
-								error: function(result) {
-									$.messager.alert({
-										title: '系统提示',
-										msg: result.message,
-										timeout: 3000, //推出时间
-										showType: 'slide', //动画效果
-										showSpeed: 3000
-										//显示时间
-									});
-									$('#tg').treegrid('reload');
-									return;
-								}
-							});
-						} else {
-							$.messager.show({
-								title: '提示信息',
-								msg: '表单验证失败!',
-								timeout: 3000, //推出时间
-								showType: 'slide', //动画效果
-								showSpeed: 3000
-								//显示时间
-							});
-						}
-					}
-				});
-
-			}
-
-			//修改一个机构
-			function editUser() {
-				$('#fms').form('clear'); //清空表单
-				//			var row=$('#tg').treegrid('getSelected');//获取选中的机构
-				var rows = $('#tg').treegrid('getSelections'); //获取被选中的机构
-				var leng = rows.length;
-				console.log("leng=>" + leng);
-				if(leng == 1) {
-					var row = rows[0];
-					//			console.log(JSON.stringify(row));
-					$("#dlgs").dialog('open').dialog('setTitle', '修改' + row.collegeName + '机构');
-					$("#collegeName").val(row.collegeName);
-					$('#fms').form('load', row); //机构内容
-					url = 'http://localhost:3011/chenyongjia/ChenYongJia/college/updateCollege?token=' + token;
-				} else {
-					$.messager.alert("系统提示", "请选中一个你要修改的数据");
-				}
-			}
-
-			//保存修改的机构对象
-			function saveUsers() {
-				var row = $('#tg').treegrid('getSelected'); //获取选中的父机构
-				$.messager.confirm('保存确认', '您确定要保存么？', function(r) {
-					if(r) {
-						var formData = $('#fms').serialize();
-						var boo = $('#fms').form('validate');
-						var oids = $('#oids').combobox('getValue');
-						if(oids == null || oids == '') {
-							$.messager.alert({
-								title: '系统提示',
-								msg: '请选择所属机构',
-								timeout: 3000, //推出时间
-								showType: 'slide', //动画效果
-								showSpeed: 3000,
-							});
-							return;
-						}
-						if(boo) {
-							$.ajax({
-								type: "POST",
-								url: url,
-								cache: false,
-								data: formData,
-								dataType: "json",
-								success: function(result) {
-									$.messager.alert({
-										title: '系统提示',
-										msg: result.message,
-										timeout: 3000, //推出时间
-										showType: 'slide', //动画效果
-										showSpeed: 3000,
-										//显示时间
-										fn: function() {
-											$('#oids').combobox({
-												valueField: 'organizationId',
-												textField: 'organizationSchool',
-												panelHeight: 'auto',
-												method: 'get',
-												url: 'http://localhost:3011/chenyongjia/ChenYongJia/organization/queryAllOrganization',
-												queryParams: {
-													token: token
-												},
-												onBeforeLoad: function(param) {
-													param.organizationSchool = '大学';
-												}
-											});
-											window.top.loadTree();
-										}
-									});
-									$('#dlgs').dialog('close');
-									$('#tg').treegrid('reload');
-								},
-								error: function(result) {
-									$.messager.alert({
-										title: '系统提示',
-										msg: result.message,
-										timeout: 3000, //推出时间
-										showType: 'slide', //动画效果
-										showSpeed: 3000
-										//显示时间
-									});
-									$('#tg').treegrid('reload');
-									return;
-								}
-							});
-						} else {
-							$.messager.show({
-								title: '提示信息',
-								msg: '表单验证失败!',
-								timeout: 3000, //推出时间
-								showType: 'slide', //动画效果
-								showSpeed: 3000
-								//显示时间
-							});
-						}
-
-					}
-				});
-
-			}
-		</script>
-		<!--删除-->
-		<script>
-			//点击删除按钮
-			function deleteUser() {
-				var nodes = $('#tg').treegrid('getSelected');
-
-				var row = $('#tg').treegrid('getSelections');
-
-				var rows = [];
-				for(var i = 0; i < row.length; i++) {
-					rows.push(row[i].modules_id)
-				}
-
-				if(nodes.text == "") {
-					$.messager.show({
-						title: '提示信息',
-						msg: '请选择父节点',
-						showType: 'show'
-					});
-				} else {
-					$.messager.confirm('删除', '你确定要删除其节点吗？', function(res) {
-						if(res) {
-							$.delete("http://localhost:8080/SpringBootJpaTows/modules/delModules", {
-								id: rows,
-								token: token
-							}, function(res) {
-								if(res.success) {
-									$.messager.alert({
-										title: '系统提示',
-										msg: res.message,
-										timeout: 3000, //推出时间
-										showType: 'slide', //动画效果
-										showSpeed: 1000,
-										//显示时间
-										fn: function() {
-											window.top.loadTree();
-										}
-									});
-									$('#tg').treegrid('reload');
-								} else {
-									$.messager.alert({
-										title: '系统提示',
-										msg: res.message,
-										timeout: 3000, //推出时间
-										showType: 'slide', //动画效果
-										showSpeed: 1000
-										//显示时间
-									});
-									$('#tg').treegrid('reload');
-								}
-							}, "json");
-						}
-					});
-
-				}
-			}
-		</script>
 
 	</body>
+	<script type="text/javascript">
+		const token = window.localStorage.getItem("token"); //取出暂存的token数据
+		const refreshToken = window.localStorage.getItem("refreshToken");
+		new Vue({
+			el: '#tables',
+			data: function() {
+				/*var checkAge = (rule, value, callback) => {
+					if(!value) {
+						return callback(new Error('联系人手机号不能为空'));
+					}
+					setTimeout(() => {
+						if(!Number.isInteger(value)) {
+							callback(new Error('请输入数字值'));
+						}
+					}, 1000);
+				};*/
+				return {
+					tableData: [
+
+					],
+					search: '',
+					dialogFormVisible: false,
+					dialogFormUpd: false,
+					from: {
+						organizationSchool: '',
+						organizationHead: '',
+						organizationMtel: '',
+						organizationAddress: '',
+						organizationAbstract: ''
+					},
+					rules: {
+						organizationSchool: [{
+								required: true,
+								message: '请输入机构名称',
+								trigger: 'blur'
+							},
+							{
+								min: 2,
+								max: 30,
+								message: '机构名称长度在 2 到 30 个字符',
+								trigger: 'blur'
+							}
+						],
+						organizationHead: [{
+								required: true,
+								message: '请输入机构负责人名称',
+								trigger: 'blur'
+							},
+							{
+								min: 2,
+								max: 10,
+								message: '机构负责人名称长度在 2 到 10 个字符',
+								trigger: 'blur'
+							}
+						],
+						organizationMtel: [{
+								type: 'number',
+								required: true,
+								message: '请输入手机号',
+								trigger: 'blur'
+							},
+							{
+								pattern: /^0{0,1}(13[0-9]|15[7-9]|153|156|18[7-9])[0-9]{8}$/,
+								message: '手机号格式不正确',
+								trigger: 'blur'
+							}
+						],
+						organizationAddress: [{
+								required: true,
+								message: '请输入机构地址',
+								trigger: 'blur'
+							},
+							{
+								min: 10,
+								max: 140,
+								message: '内容长度在 10 到 140 个字符',
+								trigger: 'blur'
+							}
+						],
+						organizationAbstract: [{
+								required: true,
+								message: '请输入机构简介',
+								trigger: 'blur'
+							},
+							{
+								min: 10,
+								message: '内容长度至少大于10字符',
+								trigger: 'blur'
+							}
+						]
+					},
+					froms: {
+						organizationId:'',
+						organizationSchool: '',
+						organizationHead: '',
+						organizationMtel: '',
+						organizationAddress: '',
+						organizationAbstract: ''
+					},
+					rulesU: {
+						organizationSchool: [{
+								required: true,
+								message: '请输入机构名称',
+								trigger: 'blur'
+							},
+							{
+								min: 2,
+								max: 30,
+								message: '机构名称长度在 2 到 30 个字符',
+								trigger: 'blur'
+							}
+						],
+						organizationHead: [{
+								required: true,
+								message: '请输入机构负责人名称',
+								trigger: 'blur'
+							},
+							{
+								min: 2,
+								max: 10,
+								message: '机构负责人名称长度在 2 到 10 个字符',
+								trigger: 'blur'
+							}
+						],
+						organizationMtel: [{
+								type: 'number',
+								required: true,
+								message: '请输入手机号',
+								trigger: 'blur'
+							},
+							{
+								pattern: /^0{0,1}(13[0-9]|15[7-9]|153|156|18[7-9])[0-9]{8}$/,
+								message: '手机号格式不正确',
+								trigger: 'blur'
+							}
+						],
+						organizationAddress: [{
+								required: true,
+								message: '请输入机构地址',
+								trigger: 'blur'
+							},
+							{
+								min: 10,
+								max: 140,
+								message: '内容长度在 10 到 140 个字符',
+								trigger: 'blur'
+							}
+						],
+						organizationAbstract: [{
+								required: true,
+								message: '请输入机构简介',
+								trigger: 'blur'
+							},
+							{
+								min: 10,
+								message: '内容长度至少大于10字符',
+								trigger: 'blur'
+							}
+						]
+					}
+				}
+			},
+			mounted: function() {
+				this.ajax();
+			},
+			methods: {
+				ajax: function() {
+					let vm = this;
+					//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
+					axios({
+							method: "get",
+							url: "http://localhost:3011/chenyongjia/ChenYongJia/organization/getAllOrganization",
+							params: {
+								access_token:token
+							}
+						})
+						.then(function(res) {
+							let obj = res.data;
+							vm.tableData = res.data;
+							console.log(tableData);
+						})
+						.catch(function(error) {
+							console.log(error);
+						});
+				},
+				addOrg: function(index, row) {
+					let vm = this;
+					vm.dialogFormVisible = true;
+				},
+				updOrg: function(index, row) {
+					let vm = this;
+					vm.dialogFormUpd = true;
+					vm.froms = {
+						organizationId:row.organizationId,
+						organizationSchool: row.organizationSchool,
+						organizationHead: row.organizationHead,
+						organizationMtel: parseInt(row.organizationMtel),
+						organizationAddress: row.organizationAddress,
+						organizationAbstract: row.organizationAbstract
+					}
+				},
+				onSubmit(from) {
+					this.$refs[from].validate((valid) => {
+						let vm = this;
+						if(valid) {
+							//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
+							axios({
+									method: "post",
+									url: "http://localhost:3011/chenyongjia/ChenYongJia/organization/saveOrganization",
+									data: {
+										organizationSchool: vm.$refs[from].model.organizationSchool,
+										organizationHead: vm.$refs[from].model.organizationHead,
+										organizationMtel: vm.$refs[from].model.organizationMtel,
+										organizationAddress: vm.$refs[from].model.organizationAddress,
+										organizationAbstract: vm.$refs[from].model.organizationAbstract,
+										access_token: token
+									}
+								})
+								.then(function(res) {
+									if(res.data.success) {
+										vm.$message({
+											type: 'success',
+											message: res.data.message
+										});
+										vm.$refs[from].resetFields();
+										vm.dialogFormVisible = false;
+										vm.ajax();
+									} else {
+										vm.$message({
+											type: 'error',
+											message: res.data.message
+										});
+										vm.ajax();
+									}
+								})
+								.catch(function(error) {
+									console.log(error);
+								});
+						} else {
+							vm.$alert('添加表单验证失败', '添加失败', {
+								confirmButtonText: '确定',
+								callback: action => {
+									vm.$message({
+										type: 'info',
+										message: '添加表单验证失败'
+									});
+								}
+							});
+							return false;
+						}
+					});
+				},
+				onSubmitUpd(from) {
+					this.$refs[from].validate((valid) => {
+						let vm = this;
+						if(valid) {
+							//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
+							axios({
+									method: "post",
+									url: "http://localhost:3011/chenyongjia/ChenYongJia/organization/updOrganization",
+									data: {
+										organizationId: vm.$refs[from].model.organizationId,
+										organizationSchool: vm.$refs[from].model.organizationSchool,
+										organizationHead: vm.$refs[from].model.organizationHead,
+										organizationMtel: vm.$refs[from].model.organizationMtel,
+										organizationAddress: vm.$refs[from].model.organizationAddress,
+										organizationAbstract: vm.$refs[from].model.organizationAbstract,
+										access_token: token
+									}
+								})
+								.then(function(res) {
+									if(res.data.success) {
+										vm.$message({
+											type: 'success',
+											message: res.data.message
+										});
+										vm.$refs[from].resetFields();
+										vm.dialogFormUpd = false;
+										vm.ajax();
+									} else {
+										vm.$message({
+											type: 'error',
+											message: res.data.message
+										});
+										vm.ajax();
+									}
+								})
+								.catch(function(error) {
+									console.log(error);
+								});
+						} else {
+							alert(vm.$refs[from].model.organizationId)
+							vm.$alert('修改表单验证失败', '修改失败', {
+								confirmButtonText: '确定',
+								callback: action => {
+									vm.$message({
+										type: 'info',
+										message: '修改表单验证失败'
+									});
+								}
+							});
+							return false;
+						}
+					});
+				},
+				handleDelete(index, row) {
+					this.$confirm('此操作将永久删除该机构, 是否继续?', '删除确认', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						type: 'warning'
+					}).then(() => {
+						let vm = this;
+						//发送Ajax请求axios.get|post(url,param).then(回调).catch(异常);
+						axios({
+								method: "delete",
+								url: "http://localhost:3011/chenyongjia/ChenYongJia/organization/delOrganization",
+								params: {
+									organizationId: row.organizationId,
+									access_token: token
+								}
+							})
+							.then(function(res) {
+								if(res.data.success) {
+									vm.$message({
+										type: 'success',
+										message: res.data.message
+									});
+									vm.ajax();
+								} else {
+									vm.$message({
+										type: 'error',
+										message: res.data.message
+									});
+									vm.ajax();
+								}
+							})
+							.catch(function(error) {
+								console.log(error);
+							});
+					}).catch(() => {
+						this.$message({
+							type: 'info',
+							message: '已取消删除机构信息!'
+						});
+					});
+				},
+				resetForm(from) {
+					this.$refs[from].resetFields();
+				},
+				resetForms(from) {
+					this.$refs[from].resetFields();
+				}
+			}
+
+		})
+	</script>
 
 </html>

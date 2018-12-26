@@ -71,4 +71,42 @@ public interface PostComService {
 	 * @return
 	 */
 	public int queryPostReplyLikeByPidCz(Integer pid);
+	
+	
+	/**
+	 * 查询讨论评论总数
+	 * 刘森川
+	 * @param userId
+	 * @return 
+	 */
+	public int selectPostCommitCount(Integer userId);
+	
+	/**
+	 * 查询发表评论的时间,内容,帖子id
+	 * @param userId
+	 * @return 刘森川
+	 */
+	public List<Integer> selectPostCommitCtime(Integer userId);
+	
+	/**
+	 * 根据主题id查询主题
+	 * @param userId
+	 * @return 刘森川
+	 */
+	public List<String> selectPostCommitPost(Integer postId);
+
+	/**
+	 * 查询所有评论
+	 * 刘森川
+	 * @param userId
+	 * @return
+	 */
+	public List<Postcommit> selectPostComByUser(Integer userId);
+	/**
+	 * 分页
+	 * 刘森川
+	 * @param userId
+	 * @return
+	 */
+	public Page<Postcommit> selectPostComPage(Integer page,Integer size);//分页,排序
 }

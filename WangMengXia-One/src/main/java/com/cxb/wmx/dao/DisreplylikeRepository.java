@@ -22,6 +22,16 @@ public interface DisreplylikeRepository
 	@Modifying
 	@Transactional
 	public Integer insertReplyLike(Integer userId, Integer dispostreplyId);
+	
+	/**
+	 * @author sun
+	 * 查看是否有点赞踩记录
+	 * @param userId
+	 * @param dispostreplyId
+	 * @return
+	 */
+	@Query(value="SELECT COUNT(*) FROM tb_disreplylike  WHERE dispostreply_id=?2 AND user_id=?1",nativeQuery=true)
+	public Integer selectUserWhetherSet(Integer userId, Integer dispostreplyId);
 
 	/**
 	 * @author sun 给帖子评论的回复点踩
@@ -40,7 +50,7 @@ public interface DisreplylikeRepository
 	 * @param userId
 	 * @return
 	 */
-	@Query(value = "SELECT COUNT(*) FROM tb_disreplylike  WHERE disreplylike_stuts=?1 AND user_id=?2 AND disreplylike_stuts=1", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM tb_disreplylike  WHERE dispostreply_id=?1 AND user_id=?2 AND disreplylike_stuts=1", nativeQuery = true)
 	public Integer seleteUserWhetherLikeThis(Integer dispostreplyId, Integer userId);
 
 	/**
@@ -58,7 +68,7 @@ public interface DisreplylikeRepository
 	 * @param dispostId
 	 * @return
 	 */
-	@Query(value = "UPDATE tb_disreplylike  SET disreplylike_stuts = 0 WHERE user_id = ?1 AND dispostreply_id =?2 and disreplylike_stuts = 1", nativeQuery = true)
+	@Query(value = "UPDATE tb_disreplylike  SET disreplylike_stuts = 0 WHERE user_id = ?1 AND dispostreply_id =?2 ", nativeQuery = true)
 	@Modifying
 	@Transactional
 	public Integer updateCancelLike(Integer userId, Integer dispostreplyId);
@@ -69,7 +79,7 @@ public interface DisreplylikeRepository
 	 * @param dispostId
 	 * @return
 	 */
-	@Query(value = "UPDATE tb_disreplylike  SET disreplylike_stuts = 1 WHERE user_id =?1 AND dispostreply_id = ?2 AND disreplylike_stuts = 2", nativeQuery = true)
+	@Query(value = "UPDATE tb_disreplylike  SET disreplylike_stuts = 1 WHERE user_id =?1 AND dispostreply_id = ?2", nativeQuery = true)
 	@Modifying
 	@Transactional
 	public Integer updateReplyLike(Integer userId, Integer dispostreplyId);
@@ -80,7 +90,7 @@ public interface DisreplylikeRepository
 	 * @param dispostId
 	 * @return
 	 */
-	@Query(value = "UPDATE tb_disreplylike  SET disreplylike_stuts = 2 WHERE user_id =?1 AND dispostreply_id = ?2 AND disreplylike_stuts = 1", nativeQuery = true)
+	@Query(value = "UPDATE tb_disreplylike  SET disreplylike_stuts = 2 WHERE user_id =?1 AND dispostreply_id = ?2", nativeQuery = true)
 	@Modifying
 	@Transactional
 	public Integer updateReplyOut(Integer userId, Integer dispostreplyId);

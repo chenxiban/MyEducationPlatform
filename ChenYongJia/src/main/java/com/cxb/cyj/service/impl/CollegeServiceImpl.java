@@ -129,4 +129,33 @@ public class CollegeServiceImpl implements CollegeService {
 		return collegeRepository.findByCollegeRmark(collegeRmark);
 	}
 
+	/**
+	 * 查询全部
+	 * @return
+	 */
+	@Override
+	public List<College> getAllChildren(Organization organization) {
+		return collegeRepository.findByOrganization(organization);
+	}
+	
+	@Override
+	public boolean delCollge(List<String> id) {
+		try {
+			collegeRepository.deleteBatch(id);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public List<Integer> getChildrenByParentId(List<String> parentId) {
+		return collegeRepository.getChildrenByParentId(parentId);
+	}
+
+	@Override
+	public List<Integer> getChildrenByParentIds(List<String> parentId) {
+		return collegeRepository.getChildrenByParentIds(parentId);
+	}
+
 }

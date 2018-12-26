@@ -47,7 +47,7 @@ public class TeacherSetTfngAnswerServiceImpl implements TeacherSetTfngAnswerServ
 
 	@Override
 	public String queryTfngAnswer(String question) {
-		return queryTfngAnswer(question);
+		return tfngAnswerRepository.queryTfngAnswer(question);
 	}
 
 }

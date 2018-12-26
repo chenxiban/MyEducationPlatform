@@ -44,14 +44,43 @@
 					<el-menu-item index="2-3" @click="createChoiceGap">创建填空题</el-menu-item>
 				</el-submenu>
 				<el-menu-item index="3" disabled>消息中心</el-menu-item>
-				<el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item><el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
+				<el-menu-item index="5" disabled></el-menu-item>
 				<el-menu-item index="6" disabled></el-menu-item>
 				<el-menu-item index="7" disabled></el-menu-item>
 				<el-menu-item index="8" disabled></el-menu-item>
 				<el-menu-item index="9" disabled></el-menu-item>
 				<el-menu-item index="10" disabled></el-menu-item>
 				<el-menu-item index="11" disabled></el-menu-item>
-				
+
 				<el-submenu index="12">
 					<template slot="title">个人中心</template>
 					<el-menu-item index="12-1" @click="">安全退出</el-menu-item>
@@ -98,21 +127,21 @@
 										<el-button type="primary" size="mini" v-text="item.otherState==0?msgSingle:msgTwin"></el-button>
 										<el-button type="text">{{item.otherScore}}分</el-button>
 										<el-button id="question" type="text">{{item.otherQuestion}}</el-button>
-										<el-button type="danger" icon="el-icon-delete"  circle @click="deleteChoice">删除</el-button>
+										<el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteChoice(item.otherId)">删除</el-button>
 									</el-form-item>
 									<el-form-item v-if="item.otherState==0">
-										<el-radio v-model="radios[index]" disabled  label="A">{{item.otherA}}</el-radio>
-										<el-radio v-model="radios[index]" disabled  label="B">{{item.otherB}}</el-radio>
-										<el-radio v-model="radios[index]" disabled  label="C">{{item.otherC}}</el-radio>
-										<el-radio v-model="radios[index]" disabled  label="D">{{item.otherD}}</el-radio>
+										<el-radio v-model="radios[index]" disabled label="A">{{item.otherA}}</el-radio>
+										<el-radio v-model="radios[index]" disabled label="B">{{item.otherB}}</el-radio>
+										<el-radio v-model="radios[index]" disabled label="C">{{item.otherC}}</el-radio>
+										<el-radio v-model="radios[index]" disabled label="D">{{item.otherD}}</el-radio>
 									</el-form-item>
 
 									<el-form-item v-else="item.otherState==1">
 										<el-checkbox-group v-model="checked">
-											<el-checkbox label="A" disabled >{{item.otherA}}</el-checkbox>
-											<el-checkbox label="B" disabled >{{item.otherB}}</el-checkbox>
-											<el-checkbox label="C" disabled >{{item.otherC}}</el-checkbox>
-											<el-checkbox label="D" disabled >{{item.otherD}}</el-checkbox>
+											<el-checkbox label="A" disabled>{{item.otherA}}</el-checkbox>
+											<el-checkbox label="B" disabled>{{item.otherB}}</el-checkbox>
+											<el-checkbox label="C" disabled>{{item.otherC}}</el-checkbox>
+											<el-checkbox label="D" disabled>{{item.otherD}}</el-checkbox>
 										</el-checkbox-group>
 									</el-form-item>
 
@@ -123,9 +152,10 @@
 										<el-button type="primary" size="mini">填空</el-button>
 										<el-button type="text">{{item1.gapfillingScore}}分</el-button>
 										<el-button id="question" type="text">{{item1.gapfillingQuestion}}</el-button>
+										<el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteGap(item1.gapfillingId)">删除</el-button>
 									</el-form-item>
 									<el-form-item>
-										<el-input type="textareas" disabled  autosize placeholder="请输入您的答案"></el-input>
+										<el-input type="textareas" disabled autosize placeholder="请输入您的答案"></el-input>
 									</el-form-item>
 								</el-form>
 								<el-form ref="form1" v-for="(item2, index2) in arrays2" label-width="200px" class="demo-form">
@@ -134,10 +164,11 @@
 										<el-button type="primary" size="mini">判断</el-button>
 										<el-button type="text">{{item2.tfngScore}}分</el-button>
 										<el-button id="question" type="text">{{item2.tfngQuestion}}</el-button>
+										<el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteTfng(item2.tfngId)">删除</el-button>
 									</el-form-item>
 									<el-form-item>
-										<el-radio disabled  v-model="radios[index2]" label="1">正确</el-radio>
-										<el-radio disabled  v-model="radios[index2]" label="2">错误</el-radio>
+										<el-radio disabled v-model="radios[index2]" label="1">正确</el-radio>
+										<el-radio disabled v-model="radios[index2]" label="2">错误</el-radio>
 									</el-form-item>
 								</el-form>
 							</template>
@@ -230,9 +261,19 @@
 				gapfilling: true,
 				msg2: "填空题",
 				textareas: '',
+
+				//dialog
+				editFormVisible: false,
+				editForm: {
+					id: 0,
+					name: '',
+					price: 0,
+					desc: '',
+					reserve: '',
+				},
 			},
-			methods:{
-				goMain(){
+			methods: {
+				goMain() {
 					window.location.href = "main.html";
 				},
 				createChoiceQuestion() { //创建选择题,跳转页面
@@ -247,8 +288,128 @@
 				createTest() {
 					window.location.href = "testpages.html";
 				},
-				deleteChoice(){
-					console.log('进来了');
+				deleteChoice(row) {
+					let choiceId = row;
+					let _this = this;
+					this.$confirm('此操作将永久删除该选择题以及对应的所有选项, 是否继续?', '提示', {
+						confirmButtonText: '确定删除',
+						cancelButtonText: '取消删除',
+						type: 'warning',
+						center: true
+					}).then(() => {
+						axios({
+								method: 'delete',
+								url: 'http://localhost:3011/yangyichen/YangYiChen/choiceQuestion/deleteChoiceQuestion',
+								params: {
+									questionId: choiceId
+								}
+							})
+							.then(function(res) {
+								if(res.data.success == true) {
+									_this.$message({
+										type: 'success',
+										message: res.data.msg
+									});
+									/*setTimeout(function() { //设置延迟
+										window.location.reload(); //页面刷新
+									}, 1500);*/
+								} else {
+									_this.$message.error(res.data.msg); //注意：这里_this必须在 237行定义！！！
+								}
+
+							})
+							.catch(function(error) {
+								console.log(error);
+							});
+					}).catch(() => {
+						this.$message({
+							type: 'info',
+							message: '已取消删除'
+						});
+					});
+				},
+				deleteGap(row) {
+					let gapId = row;
+					let _this = this;
+					this.$confirm('此操作将永久删除该填空题以及对应的答案, 是否继续?', '提示', {
+						confirmButtonText: '确定删除',
+						cancelButtonText: '取消删除',
+						type: 'warning',
+						center: true
+					}).then(() => {
+						axios({
+								method: 'delete',
+								url: 'http://localhost:3011/yangyichen/YangYiChen/gapfillingQuestion/deleteGapfilling',
+								params: {
+									gapfillingId: gapId
+								}
+							})
+							.then(function(res) {
+								if(res.data.success == true) {
+									_this.$message({
+										type: 'success',
+										message: res.data.msg
+									});
+									/*setTimeout(function() { //设置延迟
+										window.location.reload(); //页面刷新
+									}, 1500);*/
+								} else {
+									_this.$message.error(res.data.msg); //注意：这里_this必须在 237行定义！！！
+								}
+
+							})
+							.catch(function(error) {
+								console.log(error);
+							});
+					}).catch(() => {
+						this.$message({
+							type: 'info',
+							message: '已取消删除'
+						});
+					});
+				},
+				deleteTfng(row) {
+					let tfngId = row;
+					let _this = this;
+					this.$confirm('此操作将永久删除该填空题以及对应的答案, 是否继续?', '提示', {
+						confirmButtonText: '确定删除',
+						cancelButtonText: '取消删除',
+						type: 'warning',
+						center: true
+					}).then(() => {
+						axios({
+								method: 'delete',
+								url: 'http://localhost:3011/yangyichen/YangYiChen/tfngQuestion/deleteTfng',
+								params: {
+									tfngId: tfngId
+								}
+							})
+							.then(function(res) {
+								if(res.data.success == true) {
+									_this.$message({
+										type: 'success',
+										message: res.data.msg
+									});
+									/*setTimeout(function() { //设置延迟
+										window.location.reload(); //页面刷新
+									}, 1500);*/
+								} else {
+									_this.$message.error(res.data.msg); //注意：这里_this必须在 237行定义！！！
+								}
+
+							})
+							.catch(function(error) {
+								console.log(error);
+							});
+					}).catch(() => {
+						this.$message({
+							type: 'info',
+							message: '已取消删除'
+						});
+					});
+				},
+				updateChoice(row) {
+					
 				}
 			}
 		})

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.cxb.cyj.entity.College;
+import com.cxb.cyj.entity.Organization;
 
 /**
  * 
@@ -21,7 +22,7 @@ public interface CollegeService {
 	 * 显示所有机构
 	 * @return
 	 */
-	public List<College> showColleges(); 
+	List<College> showColleges(); 
 	
 	/**
 	 * 查询孩子菜单
@@ -59,5 +60,32 @@ public interface CollegeService {
 	 * @author Chenyongjia
 	 */
 	List<College> findByCollegeRmark(Integer collegeRmark);
+	
+	/**
+	 * 查询全部
+	 * @return
+	 */
+	List<College> getAllChildren(Organization organization);
+	
+	/**
+	 * 批量删除机构信息
+	 * @param id
+	 * @return
+	 */
+	boolean delCollge(List<String> id); 
+	
+	/**
+	 * 根据父id查询子菜单
+	 * @param parentId
+	 * @return
+	 */
+	List<Integer> getChildrenByParentId(List<String> parentId);
+	
+	/**
+	 * 根据父id查询孙子菜单
+	 * @param parentId
+	 * @return
+	 */
+	List<Integer> getChildrenByParentIds(List<String> parentId);
 	
 }

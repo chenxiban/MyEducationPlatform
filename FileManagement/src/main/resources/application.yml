@@ -58,7 +58,7 @@ spring:
       max-file-size: -1
       max-request-size: -1
       
-cbs:
+cbs: 
   imagesPath: file:/D:/fileUpload/
 security:
   oauth2:

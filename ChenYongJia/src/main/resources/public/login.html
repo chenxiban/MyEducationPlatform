@@ -11,7 +11,7 @@
 		<script src="js/element-ui.js" type="text/javascript" charset="utf-8"></script>
 		<style type="text/css">
 			#aaa {
-				background: url(img/mainbj.jpg) no-repeat;
+				background: url(img/login.jpg) no-repeat;
 				background-size: 100%;
 			}
 		</style>
@@ -26,7 +26,7 @@
 						<el-input v-model="form.username" autosize="true" placeholder="请输入用户名" prefix-icon="el-icon-edit" autocomplete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="用户密码：" prop="password">
-						<el-input v-model="form.password" autosize="true" placeholder="请输入用户密码" prefix-icon="el-icon-view	" autocomplete="off"></el-input>
+						<el-input type="password" v-model="form.password" autosize="true" placeholder="请输入用户密码" prefix-icon="el-icon-view	" autocomplete="off"></el-input>
 					</el-form-item>
 				</el-form>
 				<div slot="footer" class="dialog-footer">

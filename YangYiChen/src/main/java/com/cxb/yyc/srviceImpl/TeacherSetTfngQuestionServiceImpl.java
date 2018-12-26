@@ -79,4 +79,16 @@ public class TeacherSetTfngQuestionServiceImpl implements TeacherSetTfngQuestion
 		return tfngQuestionRepository.selectCountByTfngChapterId(chapterId);
 	}
 
+	/**
+	 * 根据章节Id和课程Id查询判断题问题
+	 * @param chapterId
+	 * @param courseId
+	 * @return
+	 */
+	@Override
+	public List<Tfng> queryTfng(Integer chapterId, Integer courseId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

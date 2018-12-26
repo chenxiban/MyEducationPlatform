@@ -59,6 +59,18 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>1.3.1</version>
 		</dependency>
+		<!-- IO操作工具包 -->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.6</version>
+		</dependency>
+		<!--获取视频时长 -->
+		<dependency>
+			<groupId>org.javers</groupId>
+			<artifactId>javers-core</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 		
 		<!-- 权限控制Spring-Oauth2.0的认证模式依赖暂时不用,由于一些注解和API从spring security5.0中移除，所以需要导入下面的依赖包 -->
 		<!-- spring-cloud-starter-oauth2 -->

@@ -96,7 +96,11 @@ public class TeacherSetTestQuestionController {
 			@RequestParam("optionA")String optionA,
 			@RequestParam("optionB")String optionB,
 			@RequestParam("optionC")String optionC,
-			@RequestParam("optionD")String optionD) {
+			@RequestParam("optionD")String optionD,
+			@RequestParam("trueA")String trueA,
+			@RequestParam("trueB")String trueB,
+			@RequestParam("trueC")String trueC,
+			@RequestParam("trueD")String trueD) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		ChoiceQuestion choiceQuestion=new ChoiceQuestion();
@@ -118,7 +122,7 @@ public class TeacherSetTestQuestionController {
 		if (choiceQuestionService.insertChoiceQuestion(choiceQuestion)!=null&&optionService.insertOption(option)!=null) {
 			if (selectA!="") {
 				ChoiceQuestionAnswer choiceQuestionAnswer=new ChoiceQuestionAnswer();
-				choiceQuestionAnswer.setChoicequestionanswerAnswer(optionA);
+				choiceQuestionAnswer.setChoicequestionanswerAnswer(trueA);
 				choiceQuestionAnswer.setChoiceQuestion(choiceQuestion);
 				choiceQuestionAnswer.setChoicequestionanswerCreateDateTime(new Date());
 				questionAnswerService.insertChoiceQuestionAnswer(choiceQuestionAnswer);
@@ -126,7 +130,7 @@ public class TeacherSetTestQuestionController {
 			}
 			if (selectB!="") {
 				ChoiceQuestionAnswer choiceQuestionAnswer=new ChoiceQuestionAnswer();
-				choiceQuestionAnswer.setChoicequestionanswerAnswer(optionB);
+				choiceQuestionAnswer.setChoicequestionanswerAnswer(trueB);
 				choiceQuestionAnswer.setChoiceQuestion(choiceQuestion);
 				choiceQuestionAnswer.setChoicequestionanswerCreateDateTime(new Date());
 				questionAnswerService.insertChoiceQuestionAnswer(choiceQuestionAnswer);
@@ -134,7 +138,7 @@ public class TeacherSetTestQuestionController {
 			}
 			if (selectC!="") {
 				ChoiceQuestionAnswer choiceQuestionAnswer=new ChoiceQuestionAnswer();
-				choiceQuestionAnswer.setChoicequestionanswerAnswer(optionC);
+				choiceQuestionAnswer.setChoicequestionanswerAnswer(trueC);
 				choiceQuestionAnswer.setChoiceQuestion(choiceQuestion);
 				choiceQuestionAnswer.setChoicequestionanswerCreateDateTime(new Date());
 				questionAnswerService.insertChoiceQuestionAnswer(choiceQuestionAnswer);
@@ -142,7 +146,7 @@ public class TeacherSetTestQuestionController {
 			}
 			if (selectD!="") {
 				ChoiceQuestionAnswer choiceQuestionAnswer=new ChoiceQuestionAnswer();
-				choiceQuestionAnswer.setChoicequestionanswerAnswer(optionD);
+				choiceQuestionAnswer.setChoicequestionanswerAnswer(trueD);
 				choiceQuestionAnswer.setChoiceQuestion(choiceQuestion);
 				choiceQuestionAnswer.setChoicequestionanswerCreateDateTime(new Date());
 				questionAnswerService.insertChoiceQuestionAnswer(choiceQuestionAnswer);
@@ -168,7 +172,7 @@ public class TeacherSetTestQuestionController {
 	 * @param choicequestionId
 	 * @return
 	 */
-	@DeleteMapping(value = "/deleteChoiceQuestion", name = "删除选择题")
+	@RequestMapping(value = "/deleteChoiceQuestion", name = "删除选择题",method=RequestMethod.DELETE)
 	public Object deleteChoiceQuestion(@RequestParam(value="questionId",required=false)Integer questionId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 删除正确答案
@@ -178,7 +182,7 @@ public class TeacherSetTestQuestionController {
 				// 删除问题
 				if (choiceQuestionService.deleteChoiceQuestion(questionId) > 0) {
 					map.put("success", true);
-					map.put("msg", "删除成功");
+					map.put("msg", "删除成功,请重新查看试题");
 				} else {
 					map.put("success", false);
 					map.put("msg", "删除失败");

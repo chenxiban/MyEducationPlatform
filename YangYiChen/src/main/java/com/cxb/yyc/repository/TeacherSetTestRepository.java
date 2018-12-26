@@ -105,4 +105,23 @@ public interface TeacherSetTestRepository extends JpaRepository<TeacherCreateTes
 	@Query(value=" SELECT teachercreatetest_chapter_id FROM teachercreatetesttb WHERE teachercreatetest_id = ?1 ",nativeQuery=true)
 	int selectByTestIdForChapterId(Integer testId);
 	
+	/**
+	 * 根据课程Id章节Id查询测试结束时间
+	 * @param courseId
+	 * @param chapterId
+	 * @return
+	 */
+	@Query(value="SELECT teachercreatetest_endtime FROM teachercreatetesttb WHERE teachercreatetest_course_id=?1 AND teachercreatetest_chapter_id=?2",nativeQuery=true)
+	String queryTestEndTime(Integer courseId,Integer chapterId);
+	
+	/**
+	 * 根据章节Id和课程Id查询测试可以测试的次数
+	 * @param courseId
+	 * @param chapterId
+	 * @return
+	 */
+	@Query(value="select teachercreatetest_number from teachercreatetesttb where teachercreatetest_course_id=?1 and teachercreatetest_chapter_id=?2",nativeQuery=true)
+	int querytestMaxNum(Integer courseId,Integer chapterId);
+	
+	
 }

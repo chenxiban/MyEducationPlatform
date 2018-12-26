@@ -24,8 +24,10 @@
 				$("#dg").datagrid({
 					method: 'GET',
 					url: 'http://localhost:3011/wangmengxia/WangMengXia/post/queryAllPage',
-					onLoadSuccess: function() { //加载小图标
+					onLoadSuccess: function(row) { //加载小图标
+						console.log(row);
 						$(".easyui-linkbutton").linkbutton();
+						//$("dg").datagrid('clearSelections');
 						handlePermission();
 					}
 				});
@@ -544,8 +546,6 @@
 				}
 
 			}
-		</script>
-		<script>
 			function deluser() {
 				var row = $('#dg').datagrid('getSelected');
 				if(row == null || row == '') {
@@ -562,7 +562,7 @@
 
 				$.messager.confirm('确认', '您确认删除当前帖子么？', function(r) {
 					if(r) {
-						$.post("http://localhost:3011/wangmengxia/WangMengXia/post/deletePostById", {
+						$.post("http://localhost:3011/wangmengxia/WangMengXia/post/delPostById", {
 							postId: row.postId
 						}, function(res) {
 							if(res.success) {
@@ -589,7 +589,7 @@
 				});
 			}
 
-			// 关闭修改老师窗体
+			// 关闭窗体
 			function closeUpdUsers() {
 				$('#dlg').dialog("close");
 				resetValues();

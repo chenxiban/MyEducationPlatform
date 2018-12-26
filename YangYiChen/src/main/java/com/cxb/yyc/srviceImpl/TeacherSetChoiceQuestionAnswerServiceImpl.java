@@ -47,7 +47,7 @@ public class TeacherSetChoiceQuestionAnswerServiceImpl implements TeacherSetChoi
 	}
 	@Override
 	public List<String> queryChoiceQuestionAnswer(String question) {
-		return queryChoiceQuestionAnswer(question);
+		return questionAnswerRepository.queryChoiceQuestionAnswer(question);
 	}
 
 }

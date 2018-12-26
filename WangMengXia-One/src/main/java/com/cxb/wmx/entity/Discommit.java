@@ -43,6 +43,15 @@ import lombok.Setter;
 @Table(name = "tb_discommit")
 public class Discommit {
 
+/*	discommit_id字段,int类型,主键自增,非空,备注:课程评论id主键
+	dispost_id字段,int类型,非空,外键,备注:课程帖子外键
+	user_id字段,int类型,非空,备注:评论人id
+	discommit_name字段,varchar(30)类型,非空,备注:课程评论人姓名
+	discommit_count字段,varchar类型,非空,备注:课程评论内容
+	discommit_report字段,tinyint(0否,1是),备注:是否举报
+	discommit_like字段,tinyint(0否,1是),备注:是否点赞
+	discommit_createtime字段,datetime类型,非空,备注:创建时间
+	discommit_updatetime字段,时间戳,非空,备注:修改时间*/
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy
@@ -62,12 +71,9 @@ public class Discommit {
 	private Timestamp discommitUpdatetime; 
 	
 	@Transient
-	private Integer number;
-	@Transient
 	private int page=0;
 	@Transient
 	private int rows=10;
-
 	@JsonIgnore
 	@ManyToOne(targetEntity = Dispost.class)
 	@JoinColumn(name="dispost_id")	//副表中的外键字段名称

@@ -40,5 +40,62 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public List<Organization> getAll() {
 		return organizationRepository.findAll();
 	}
+
+	/**
+	 * 根据机构id删除机构
+	 * @param organizationId
+	 * @return
+	 */
+	@Override
+	public boolean delOrganization(Integer organizationId) {
+		try {
+			organizationRepository.deleteById(organizationId);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+		
+	}
+
+	/**
+	 * 添加机构信息
+	 * @param organization
+	 * @return
+	 */
+	@Override
+	public boolean saveOrganization(Organization organization) {
+		try {
+			organizationRepository.save(organization);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	/**
+	 * 修改机构信息
+	 * @param organization
+	 * @return
+	 */
+
+	@Override
+	public boolean updOrganization(Organization organization) {
+		try {
+			organizationRepository.save(organization);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	/**
+	 * 根据机构id查询
+	 * @param organizationId
+	 * @return
+	 */
+	@Override
+	public Organization getById(Integer organizationId) {
+		return organizationRepository.findByOrganizationId(organizationId);
+	}
 	
 }

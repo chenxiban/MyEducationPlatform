@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cxb.wmx.dao.DiscommitRepository;
 import com.cxb.wmx.entity.Discommit;
 import com.cxb.wmx.entity.Dispost;
+import com.cxb.wmx.entity.Dispostreply;
 import com.cxb.wmx.service.DiscommieService;
 
 @Service
@@ -16,6 +17,7 @@ public class DiscommitServiceImpl implements DiscommieService{
 
 	@Autowired
 	private DiscommitRepository dRep;
+	
 	
 	@Override
 	public Integer selectCommentLikeCount(Integer dispostId) {
@@ -55,28 +57,26 @@ public class DiscommitServiceImpl implements DiscommieService{
 			return list3;
 	
 	}
-	/*
-	@Override
-	public List<Dispost> selectDispostHot(int page, int rows) {
-		List<Discommit> list=dRep.selectDiscommentHot();
-		List<Integer> list2=new ArrayList<Integer>();
-		for (int i = 0; i < list.size(); i++) {
-			list2.add(list.get(i).getDispost().getDispostId());
-		}
-		
-		List<Dispost> list3=dRep.seleteDispostByCommentIdPage(list2, (page-1)*rows, rows);
-		return list3;
-	}*/
 
-/*	@Override
-	public Integer deleteCommentByDiscommentId(Integer discommitId) {
-		try {
-			dRep.deleteById(discommitId);
-			return 1;
-		} catch (Exception e) {
-			return 0;
-		}
-		
-	}*/
+
+	@Override
+	public Integer selectDiscommentWhetherLike(Integer discommentId) {
+		return dRep.selectDiscommentWhetherLike(discommentId);
+	}
+
+	@Override
+	public Integer deleteDisclazzlikeByCommentId(Integer discommentId) {
+		return dRep.deleteDisclazzlikeByCommentId(discommentId);
+	}
+
+	@Override
+	public Integer deleteDiscommentByDiscommentIdList(Integer discommentId, Integer userId) {
+		return dRep.deleteDiscommentByDiscommentIdList(discommentId, userId);
+	}
+
+	@Override
+	public Integer selectDiscommentByDiscommentId(Integer discommentId) {
+		return dRep.selectDiscommentByDiscommentId(discommentId);
+	}
 
 }

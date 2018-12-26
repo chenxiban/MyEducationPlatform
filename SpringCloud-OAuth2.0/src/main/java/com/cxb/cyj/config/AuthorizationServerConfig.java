@@ -10,10 +10,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -21,7 +20,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import com.cxb.cyj.service.impl.CustomUserServiceImpl;
 
@@ -36,6 +34,7 @@ import com.cxb.cyj.service.impl.CustomUserServiceImpl;
 // 授权认证服务中心配置
 @Configuration // 配置类
 @EnableAuthorizationServer // 启用授权认证中心服务
+@EnableGlobalMethodSecurity(prePostEnabled=true) // 启用方法级的权限认证
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
 	@Autowired
@@ -79,7 +78,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	 */
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 		endpoints.authenticationManager(authenticationManager()).allowedTokenEndpointRequestMethods(HttpMethod.GET,
-				HttpMethod.POST);
+				HttpMethod.POST,HttpMethod.PUT,
+				HttpMethod.DELETE);
 		// 必须加上他，不然刷新令牌接口会报错
 		endpoints.authenticationManager(authenticationManager());
 		endpoints.userDetailsService(userDetailsService);
@@ -102,7 +102,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	 * 用户自定义
 	 */
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(userDetailsService);
 	}
 
 	/**

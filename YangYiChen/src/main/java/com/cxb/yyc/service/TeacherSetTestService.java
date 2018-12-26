@@ -93,4 +93,21 @@ public interface TeacherSetTestService {
 	 */
 	int selectByTestIdForChapterId(Integer testId);
 
+	/**
+	 * 根据课程Id章节Id查询测试结束时间
+	 * @param courseId
+	 * @param chapterId
+	 * @return
+	 */
+	String queryTestEndTime(Integer courseId,Integer chapterId);
+	
+	/**
+	 * 根据章节Id和课程Id查询测试可以测试的次数
+	 * @param courseId
+	 * @param chapterId
+	 * @return
+	 */
+	int querytestMaxNum(Integer courseId,Integer chapterId);
+
+
 }

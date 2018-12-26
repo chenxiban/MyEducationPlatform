@@ -62,7 +62,7 @@ public interface ModulesRepository extends JpaRepository<Modules, Integer>, JpaS
 	 * @return
 	 */
 	@Query(value = "SELECT modules_id FROM tb_modules WHERE modules_parent_id IN(:parentId)", nativeQuery = true)
-	List<String> getChildrenByParentId(@Param("parentId") List<String> parentId);
+	List<Integer> getChildrenByParentId(@Param("parentId") List<String> parentId);
 	
 	/**
 	 * 根据父id查询孙子菜单
@@ -70,6 +70,6 @@ public interface ModulesRepository extends JpaRepository<Modules, Integer>, JpaS
 	 * @return
 	 */
 	@Query(value = "SELECT modules_id FROM tb_modules WHERE modules_parent_id IN(SELECT modules_id FROM tb_modules WHERE modules_parent_id IN (:parentId))", nativeQuery = true)
-	List<String> getChildrenByParentIds(@Param("parentId") List<String> parentId);
+	List<Integer> getChildrenByParentIds(@Param("parentId") List<String> parentId);
 	
 }

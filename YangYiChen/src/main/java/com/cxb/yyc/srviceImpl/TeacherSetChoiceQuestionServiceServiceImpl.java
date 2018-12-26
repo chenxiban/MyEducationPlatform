@@ -95,6 +95,17 @@ public class TeacherSetChoiceQuestionServiceServiceImpl implements TeacherSetCho
 		return choiceRepository.selectCountByChoiceChapterId(chapterId);
 	}
 
+	/**
+	 * 根据章节Id和课程Id查询问题及选项
+	 * 使用自定义工具类转换时原生SQL结果集与实体类只需要字段顺序一致即可.不需要字段名称一致
+	 * @param chapterId
+	 * @param courseId
+	 * @return
+	 */
+	public List<QuestionOption> queryChoiceQuestion(Integer chapterId, Integer courseId) {
+		return choiceRepository.queryChoiceQuestion(chapterId, courseId);
+	}
+
 	
 
 	

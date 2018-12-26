@@ -57,4 +57,11 @@ public interface TeacherSetTfngQuestionService{
 	 */
 	int selectCountByTfngChapterId(Integer chapterId);
 
+	/**
+	 * 根据章节Id和课程Id查询判断题问题
+	 * @param chapterId
+	 * @param courseId
+	 * @return
+	 */
+	List<Tfng> queryTfng(Integer chapterId,Integer courseId);
 }

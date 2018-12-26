@@ -17,18 +17,326 @@
 			}
 		</style>
 		<script type="text/javascript">
-		//	var barCategory = window.localStorage.getItem("barCategory");
+			//	var barCategory = window.localStorage.getItem("barCategory");
+			const token = window.localStorage.getItem("token"); //取出暂存的token数据
+			const refreshToken = window.localStorage.getItem("refreshToken");
 			$(function() {
 				$("#dg").datagrid({
-					method:'GET',
+					method: 'GET',
 					url: 'http://localhost:3011/wangmengxia/WangMengXia/postReply/queryPostreply',
 					onLoadSuccess: function() { //加载小图标
 						$(".easyui-linkbutton").linkbutton();
 						handlePermission();
+						aaa();
 					}
 				});
+
 				handlePermission();
 			});
+			
+			function aaa () {
+				$.ajax({
+						type: "get",
+						url: "http://localhost:3011/wangmengxia/WangMengXia/replyReport/countPostReplyreport?postreplyreportStuts=" + 0 + "&token=" + token,
+						success: function(res) {
+							if(res) {
+								if(res == 0) {
+									$.messager.show({
+										title: '暂无新消息!',
+										msg: "评论举报暂时没有新动态!",
+										showType: 'slide', //动画效果
+										timeout: 10000 //显示时间
+									});
+								} else {
+									$.messager.show({
+										title: '您有新消息!',
+										msg: "您有" + res + "条新消息,请注意查收!<br/><a href='#' class='easyui-linkbutton'iconcls='icon-search' onclick='searchDny()'>查看</a>",
+										showType: 'slide', //动画效果
+										timeout: 10000 //显示时间
+									});
+								}
+							}
+						}
+					});
+			}
+			
+			// 显示动态信息
+			function searchDny() {
+				$("#logDny").window('open');
+
+				$("#dnys").datagrid({ //为了加载小图标
+					method: 'get',
+					url: 'http://localhost:3011/wangmengxia/WangMengXia/replyReport/findByPostReplyreportStuts',
+					queryParams: { //datagrid的固定参数
+						token: token, //必传
+						postreplyreportStuts: 0
+					},
+					columns: [
+						[{
+								field: 'postreplyreportId',
+								align: 'center',
+								title: '举报ID',
+								width: 80,
+								hidden: true
+							},
+							{
+								field: 'postreplyId',
+								align: 'center',
+								title: '回复id',
+								width: 80,
+								hidden: true
+							},
+							{
+								field: 'userId',
+								align: 'center',
+								title: '用户id',
+								width: 100
+							},
+							{
+								field: 'postreplyreportContent',
+								align: 'center',
+								width: 400,
+								title: '举报内容',
+								formatter: formatterMessContent
+							},
+							{
+								field: 'postreplyreportCreatetime',
+								align: 'center',
+								title: '举报时间',
+								width: 140
+							},
+							{
+								field: 'setPassword',
+								width: 200,
+								align: 'center',
+								title: '操作',
+								formatter: formatterMessOPUser
+							}
+						]
+					],
+					onLoadSuccess: function(data) {
+						$(".easyui-linkbutton").linkbutton();
+						if(data.length == 0) {
+							alert("暂时没有举报数据！");
+						}
+					}
+				});
+				$("#dnyYes").datagrid({ //为了加载小图标
+					method: 'get',
+					url: 'http://localhost:3011/wangmengxia/WangMengXia/replyReport/findByPostReplyreportStuts',
+					queryParams: { //datagrid的固定参数
+						token: token, //必传
+						postreplyreportStuts: 1
+					},
+					columns: [
+						[{
+								field: 'postreplyreportId',
+								align: 'center',
+								title: '举报ID',
+								width: 80,
+								hidden: true
+							},
+							{
+								field: 'postreplyId',
+								align: 'center',
+								title: '回复id',
+								width: 80,
+								hidden: true
+							},
+							{
+								field: 'userId',
+								align: 'center',
+								title: '用户id',
+								width: 100
+							},
+							{
+								field: 'postreplyreportContent',
+								align: 'center',
+								width: 400,
+								title: '举报内容',
+								formatter: formatterMessContent
+							},
+							{
+								field: 'postreplyreportCreatetime',
+								align: 'center',
+								title: '举报时间',
+								width: 140
+							},
+							{
+								field: 'setPassword',
+								width: 200,
+								align: 'center',
+								title: '操作',
+								formatter: formatterOPUser
+							}
+						]
+					],
+					onLoadSuccess: function(data) {
+						$(".easyui-linkbutton").linkbutton();
+						if(data.length == 0) {
+							alert("暂时没有动态数据！");
+						}
+					}
+				});
+				$("#dnyFou").datagrid({ //为了加载小图标
+					method: 'get',
+					url: 'http://localhost:3011/wangmengxia/WangMengXia/replyReport/findByPostReplyreportStuts',
+					queryParams: { //datagrid的固定参数
+						token: token, //必传
+						postreplyreportStuts: 2
+					},
+					columns: [
+						[{
+								field: 'postreplyreportId',
+								align: 'center',
+								title: '举报ID',
+								width: 80,
+								hidden: true
+							},
+							{
+								field: 'postreplyId',
+								align: 'center',
+								title: '回复id',
+								width: 80,
+								hidden: true
+							},
+							{
+								field: 'userId',
+								align: 'center',
+								title: '用户id',
+								width: 100
+							},
+							{
+								field: 'postreplyreportContent',
+								align: 'center',
+								width: 400,
+								title: '举报内容',
+								formatter: formatterMessContent
+							},
+							{
+								field: 'postreplyreportCreatetime',
+								align: 'center',
+								title: '举报时间',
+								width: 140
+							},
+							{
+								field: 'setPassword',
+								width: 200,
+								align: 'center',
+								title: '操作',
+								formatter: formatterOPUser
+							}
+						]
+					],
+					onLoadSuccess: function(data) {
+						$(".easyui-linkbutton").linkbutton();
+						if(data.length == 0) {
+							alert("暂时没有动态数据！");
+						}
+					}
+				});
+			}
+
+			function formatterMessContent(value, row, index) {
+				if(row.postreplyreportContent.length > 0) {
+					return row.postreplyreportContent.substr(0, 30) + "...";
+				} else {
+					return "暂无";
+				}
+			}
+
+			//操作用户
+			function formatterOPUser(value, row, index) {
+				return "<a class='easyui-linkbutton' iconCls='icon-search' style='cursor: pointer;' onclick='showTail(" + index + ")'>查看</a>";
+			}
+
+			//操作用户
+			function formatterMessOPUser(value, row, index) {
+				return "<a class='easyui-linkbutton' iconCls='icon-search' style='cursor: pointer;' onclick='showStudentsDny(" + index + ")'>查看</a> <a class='easyui-linkbutton' iconCls='icon-edit' style='cursor: pointer;' onclick='updDny(" + index + ")'>进行处理</a>";
+			}
+
+			function showTail(index) {
+				var data = $("#dnyYes").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+
+				$.messager.alert('内容信息', row.postreplyreportContent, 'info');
+			}
+
+			function showTailss(index) {
+				var data = $("#dnyFou").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+
+				$.messager.alert('内容信息', row.postreplyreportContent, 'info');
+			}
+
+			function showStudentsDny(index) {
+				var data = $("#dnys").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+
+				$.messager.alert('内容信息', row.postreplyreportContent, 'info');
+			}
+
+			function updDny(index) {
+				var data = $("#dnys").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
+				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
+
+				$('#postreportIdJu').val(row.postreplyreportId);
+				$('#userIdJU').val(row.userId);
+				$('#dlgJu').window('open')
+			}
+
+			function lockJu() {
+				//var userId = $('#userIdJU').val();
+				var postreplyreportId = $('#postreportIdJu').val();
+				var postreplyreportStuts = $('#postreportStutsJu').combobox('getValue');
+				$.messager.confirm('确认', '您确认审核结果么？', function(r) {
+					if(r) {
+						var formData = serializeNotNull($('#fmJu').serialize());
+						var boo = $('#fmJu').form('validate');
+						if(boo) {
+							$.ajax({
+								type: "PUT",
+								url: "http://localhost:3011/wangmengxia/WangMengXia/replyReport/updPostReplyreport?token=" + token + "&postreplyreportId=" + postreplyreportId + "&postreplyreportStuts=" + postreplyreportStuts,
+								cache: false,
+								success: function(result) {
+									$.messager.alert({
+										title: '系统提示',
+										msg: result.message,
+										timeout: 3000, //推出时间
+										showType: 'slide', //动画效果
+										showSpeed: 3000
+										//显示时间
+									});
+
+									$("#dlgJu").window('close');
+									$('#dnys').datagrid('reload');
+									$('#dg').datagrid('reload');
+								},
+								error: function(result) {
+									$.messager.alert({
+										title: '系统提示',
+										msg: result.message,
+										timeout: 3000, //推出时间
+										showType: 'slide', //动画效果
+										showSpeed: 3000
+										//显示时间
+									});
+									return;
+								}
+							});
+						} else {
+							$.messager.alert({
+								title: '系统提示',
+								msg: '表单验证失败',
+								timeout: 3000, //推出时间
+								showType: 'slide', //动画效果
+								showSpeed: 3000
+								//显示时间
+							});
+						}
+					}
+				});
+			}
 
 			//remove权限按钮
 			function handlePermission() {
@@ -57,18 +365,16 @@
 					});
 				}
 			}
-			
-		
+
 			function formatterContents(value, row, index) {
-				if(row.postreplyCount==null ){
+				if(row.postreplyCount == null) {
 					return "暂无";
 				}
 				if(row.postreplyCount.length > 0) {
 					return row.postreplyCount.substr(0, 10) + "...";
 				}
 			}
-			
-			
+
 			//表单序列化去空值
 			function serializeNotNull(serStr) {
 				return serStr.split("&").filter(
@@ -77,23 +383,22 @@
 					}).join("&");
 			}
 		</script>
-	<script>
-		//操作
+		<script>
+			//操作
 			function formatterSetRole(value, row, index) {
 				return "<a class='easyui-linkbutton' iconCls='icon-tip' style='cursor: pointer;' onclick='lookCount(" +
 					index + ")'>查看内容</a>";
 			}
+
 			function lookCount(index) {
 				var data = $("#dg").datagrid("getData"); //获取datagrid对应的json对象集合（再来一遍）。
 				var row = data.rows[index]; //获取第index行对应的json对象（再来一遍）。
 
 				$.messager.alert('内容信息', row.postreplyCount, 'info');
 			}
-	</script>
+		</script>
 		<script>
-			
-			
-		function deluser() {
+			function deluser() {
 				var row = $('#dg').datagrid('getSelected');
 				if(row == null || row == '') {
 					$.messager.show({
@@ -106,15 +411,15 @@
 					});
 					return;
 				}
-				$.messager.confirm('确认', '您确认删除么？', function(r) {
+				$.messager.confirm('确认', '您确认删除回复么？', function(r) {
 					if(r) {
 						$.post("http://localhost:3011/wangmengxia/WangMengXia/postReply/deletePostRepById", {
 							hfId: row.postreplyId
 						}, function(res) {
-							if(res) {
+							if(res.success) {
 								$.messager.show({
 									title: '提示信息',
-									msg: '删除成功!',
+									msg: res.message,
 									timeout: 1000, //推出时间
 									showType: 'slide', //动画效果
 									showSpeed: 1000
@@ -123,7 +428,7 @@
 							} else {
 								$.messager.show({
 									title: '提示信息',
-									msg: '该回复未被举报,或未举报成功,删除失败',
+									msg: res.message,
 									timeout: 3000, //推出时间
 									showType: 'slide', //动画效果
 									showSpeed: 3000
@@ -134,7 +439,6 @@
 					}
 				});
 			}
-	
 		</script>
 	</head>
 
@@ -155,12 +459,56 @@
 		<div id="toolbar" style="padding:5px; height:auto">
 			<div style="margin-bottom:5px">
 				<from id="sousuo">
-					回复名称:&nbsp;&nbsp;  <input class="easyui-textbox" id="userName" name="userName" style="width:80px"> &nbsp;&nbsp;&nbsp; 
+					回复名称:&nbsp;&nbsp; <input class="easyui-textbox" id="userName" name="userName" style="width:80px"> &nbsp;&nbsp;&nbsp;
 					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doSearch()">查询</a>
 				</from>
 			</div>
 			<div>
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deluser()">删除回复</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deluser()">删除回复</a>
+			</div>
+
+			<!-- 查看回复举报信息 -->
+			<div id="logDny" class="easyui-window" title="查看评论举报信息" data-options="iconCls:'icon-search',minimizable:false,closed:true," style="width:70%;height:500px;">
+				<div id="tt" class="easyui-tabs" fit="true">
+					<div title="待审核举报" fit="true">
+						<table name="center" class="easyui-datagrid" id="dnys" collapsible="true" style="width:100%; height:auto;overflow:auto" data-options="fitColumns:false,rownumbers:true,split:true,pagination:true,pageSize:10,singleSelect: true">
+
+						</table>
+					</div>
+					<div title="已通过举报" fit="true">
+						<table name="center" class="easyui-datagrid" id="dnyYes" collapsible="true" style="width:100%; height:auto;overflow:auto" data-options="fitColumns:false,rownumbers:true,split:true,pagination:true,pageSize:10,singleSelect: true">
+
+						</table>
+					</div>
+					<div title="未通过举报" fit="true">
+						<table name="center" class="easyui-datagrid" id="dnyFou" collapsible="true" style="width:100%; height:auto;overflow:auto" data-options="fitColumns:false,rownumbers:true,split:true,pagination:true,pageSize:10,singleSelect: true">
+
+						</table>
+					</div>
+
+				</div>
+			</div>
+			
+			<div id="dlgJu" class="easyui-dialog" title="处理举报" style="width:280px;height:auto;padding:10px 20px;background: url(img/beijing.jpg) no-repeat; background-size: 100% 100%;" closed="true" buttons="#dlg-buttonJu">
+				<form id="fmJu" method="post">
+					<table>
+						<input type="text" id="postreportIdJu" name="postreplyreportId" hidden="true" />
+						<input type="text" id="userIdJu" name="userId" hidden="true" />
+						<tr>
+							<td>是否通过：</td>
+							<td>
+								<select class="easyui-combobox" id="postreportStutsJu" name="postreplyreportStuts" data-options="required:true" editable="true" style="width: 100px;" panelHeight="auto">
+									<option value="1">审核通过</option>
+									<option value="2">审核不通过</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div id="dlg-buttonJu" style="background: url(img/xingk1.jpg) no-repeat; background-size: 100% 100%;">
+				<a href="javascript:lockJu()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+				<a href="javascript:closeJu()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
 			</div>
 	</body>
 

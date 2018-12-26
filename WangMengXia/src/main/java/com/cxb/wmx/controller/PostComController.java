@@ -97,4 +97,76 @@ public class PostComController {
 		map.put("commitDisLike",postComService.queryPostReplyLikeByPidCz(pid));
 		return map;
 	}
+	
+	/**
+	 *  http://localhost:3011/wangmengxia/WangMengXia/postCom/selectPostComPage
+	 *  http://localhost:3011/WangMengXia/postCom/queryPage
+	 * 查询个人中心讨论(评论分页)
+	 * @author 刘森川
+	 * @param postSearch
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostComPage")
+    public Object selectPostComPage(Integer page,Integer rows) {
+    	Page<Postcommit> pageList= null;
+    	pageList = postComService.selectPostComPage(1, 10);//第2页,每页3条;第几页从零开始,每页显示几条.
+    	System.out.println("queryPage page=>"+page);
+    	Long total = pageList.getTotalElements();
+    	List<Postcommit> list = pageList.getContent();
+    	Map<String, Object> map = new HashMap<>();
+    	map.put("total", total);
+    	map.put("rows", list);
+    	return map;
+    }
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/postCom/selectPostComByUser?userId=1
+	 * 查询所有评论
+	 * @author 刘森川
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostComByUser")
+	public Object selectPostComByUser(Integer userId) {
+		return postComService.selectPostComByUser(userId);
+	}
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/postCom/selectPostCommitCount?userId=1
+	 * 查询讨论评论总数
+	 * @author 刘森川
+	 * @param postcommitName
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostCommitCount")
+	public Object selectPostCommitCount(Integer userId) {
+		return postComService.selectPostCommitCount(userId);
+	}
+	
+	/**
+	 *http://localhost:3011/wangmengxia/WangMengXia/postCom/selectPostCommitCtime?userId=1
+	 * http://localhost:3011/WangMengXia/postCom/selectPostCommitCtime?userId=1
+	 * 查询发表评论的时间,内容,帖子id
+	 * @author 刘森川
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostCommitCtime")
+	public Object selectPostCommitCtime(Integer userId) {
+		return postComService.selectPostCommitCtime(userId);
+	}
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/postCom/selectPostCommitPost?postId=1
+	 * http://localhost:3011/WangMengXia/postCom/selectPostCommitPost?userId=1
+	 * 根据主题id查询主题
+	 * @author 刘森川
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostCommitPost")
+	public Object selectPostCommitPost(Integer postId) {
+		return postComService.selectPostCommitPost(postId);
+	}
+
 }

@@ -62,13 +62,9 @@ public class PostreplyController {
 	 * @param prIddeleteUserPostreplyById
 	 * @return
 	 */
-	@RequestMapping(value="/deletePostRepById",method=RequestMethod.POST)
+	@RequestMapping(value="/deletePostRepById")
 	public Object deletePostRepById(Integer hfId) {
-		if (postreplyService.deletePostreplyById(hfId)) {
-			return true;
-		} else {
-			return false;
-		}
+		return postreplyService.deletePostreplyById(hfId);
 	} 
 	
 	/**
@@ -102,6 +98,86 @@ public class PostreplyController {
 		map.put("replyLike", postreplyService.queryPostReplyLikeByhfIdDz(hfId));
 		map.put("replyDisLike", postreplyService.queryPostReplyLikeByhfIdCz(hfId));
 		return map;
+	}
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/postReply/selectPageByPostreply?userName=倾宸
+	 * 动态查询个人中心讨论(回复分页)
+	 * @author 刘森川
+	 * @param barSearch
+	 * @return
+	 */
+/*	@RequestMapping(value="/selectPageByPostreply")
+	public Object selectPageByPostreply(PostreplySearch postreplySearch) {
+		Pageable pageable = PageRequest.of(postreplySearch.getPage(), postreplySearch.getRows(), Sort.Direction.ASC,"postreplyId");
+		Page<Postreply> page = postreplyService.selectPageByPostreply(postreplySearch, pageable);
+		System.out.println("page======>" + page);
+		Long total = page.getTotalElements();
+		List<Postreply> list = page.getContent();
+		System.out.println("list======>" + list);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", total);
+		map.put("rows", list);
+		System.out.println("total 总数为===>" + map.get("total"));
+		System.out.println("rows 数据为===>" + map.get("rows"));
+		return map;
+	}*/
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/postReply/selectPostReplyCount?userId=1
+	 * 查询讨论总回复数
+	 * @author 刘森川
+	 * @param postName
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostReplyCount")
+	public Object selectPostReplyCount(Integer userId) {
+		return postreplyService.selectPostReplyCount(userId);
+	}
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/postReply/queryPage
+	 * http://localhost:3030/WangMengXia/postReply/queryPage
+	 * 查询个人中心讨论(回复分页)
+	 * @author 刘森川
+	 * @param postSearch
+	 * @return
+	 */
+	@RequestMapping(value="/queryPage")
+    public Object queryPage(Integer page,Integer size) {
+    	Page<Postreply> pageList= null;
+    	pageList = postreplyService.queryAllPage(1, 10);//第2页,每页3条;第几页从零开始,每页显示几条.
+    	System.out.println("queryPage page=>"+page);
+    	Long total = pageList.getTotalElements();
+    	List<Postreply> list = pageList.getContent();
+    	Map<String, Object> map = new HashMap<>();
+    	map.put("total", total);
+    	map.put("rows", list);
+    	return map;
+    }
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/postReply/selectPostReplyCtime?userId=1
+	 * 查询发表回复的时间,内容,帖子id
+	 * @author 刘森川
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostReplyCtime")
+	public Object selectPostReplyCtime(Integer userId) {
+		return postreplyService.selectPostReplyCtime(userId);
+	}
+	
+	/**
+	 * http://localhost:3011/wangmengxia/WangMengXia/postReply/selectPostReplyPostCom?postId=1
+	 * 查询发表回复的时间,内容,帖子id
+	 * @author 刘森川
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/selectPostReplyPostCom")
+	public Object selectPostReplyPostCom(Integer postId) {
+		return postreplyService.selectPostReplyPostCom(postId);
 	}
 	
 }

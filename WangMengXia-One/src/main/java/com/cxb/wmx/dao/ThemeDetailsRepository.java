@@ -59,4 +59,26 @@ public interface ThemeDetailsRepository extends JpaRepository<Dispost, Integer>,
 	public Integer updateThemeByDispostId(String dispostTitle,String dispostCount,int dispostId);
 	
 
+
+	/**
+	 * @author sun
+	 * 删除帖子时查看该帖子是否有点赞踩
+	 * @param dispostId
+	 * @return
+	 */
+	@Query(value="SELECT COUNT(*) FROM tb_dislike WHERE dispost_id = ?1",nativeQuery=true)
+	public Integer selectDispostWhetherLike(Integer dispostId);
+	
+	
+	/**
+	 * @author sun
+	 * 删除帖子的点踩赞
+	 * @param discommentId
+	 * @return
+	 */
+	@Query(value="DELETE FROM tb_dislike  WHERE dispost_id = ?1",nativeQuery=true)
+	@Modifying
+	@Transactional
+	public Integer deleteDislikeByDispostId(Integer dispost);
+	
 }

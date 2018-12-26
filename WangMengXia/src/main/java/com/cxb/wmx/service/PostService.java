@@ -4,11 +4,9 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
+import com.cxb.wmx.dao.PostBar;
 import com.cxb.wmx.entity.Post;
-import com.cxb.wmx.entity.Postlike;
 
 public interface PostService {
 	
@@ -130,4 +128,58 @@ public interface PostService {
 	 * @return
 	 */
 	public boolean addLauyiPost(Post post);
+	
+	public boolean delPostById(Integer postId);
+	
+	
+	/**
+	 * 查询发表主题的标题，部分内容，用户，时间，分类
+	 * 刘森川
+	 * @param postId
+	 * @return
+	 */
+	public List<PostBar> selectPostA(Integer userId);
+	
+	/**
+	 * 查询讨论主题总数
+	 * 刘森川
+	 * @param postSearch
+	 * @param pageable
+	 * @return
+	 */
+	
+	public int selectPostCount(Integer userId);
+	
+	/**
+	 * 查询发表主题的总评论数
+	 * 刘森川
+	 * @param userId
+	 * @return
+	 */
+	public int selectPostCommit(Integer userId);
+	
+	/**
+	 * 查询发表主题的总点赞数
+	 * 刘森川
+	 * @param postId
+	 * @param postlikeId
+	 * @return
+	 */
+	public int selectPostDZ(Integer postId);
+	
+	/**
+	 * 查询分页
+	 * 刘森川
+	 * @param userId
+	 * @return
+	 */
+	public Page<Post> queryAllPage(Integer page,Integer size);//分页,排序
+	
+	/**
+	 * 查询该主题的评论数
+	 * 刘森川
+	 * @param postId
+	 * @return
+	 */
+	public int selectPostCom(Integer postId);
 }

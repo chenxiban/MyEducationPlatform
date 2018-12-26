@@ -85,16 +85,16 @@ public class StudentTestController {
 	 * @return
 	 */
 	@RequestMapping(value="/queryQuestion",name="学生的测试题",method=RequestMethod.GET)
-	public Object queryQuestion(@RequestParam(value="chapterId",required=false) Integer chapterId) {
+	public Object queryQuestion(@RequestParam(value="chapterId",required=false) Integer chapterId,@RequestParam(value="courseId",required=false) Integer courseId) {
 		ArrayList<Object> list=new ArrayList<Object>();
 		//选择题、选项集合
-		List<QuestionOption> list1=choiceQuestionService.queryChoiceQuestion(chapterId); 
+		List<QuestionOption> list1=choiceQuestionService.queryChoiceQuestion(chapterId, courseId); 
 		list.add(list1);
 		//填空题集合
-		List<Gapfilling> list2=gapfillingQuestionService.queryGapfilling(chapterId);
+		List<Gapfilling> list2=gapfillingQuestionService.queryGapfilling(chapterId, courseId);
 		list.add(list2);
 		//判断题集合
-		List<Tfng> list3=tfngQuestionService.queryTfng(chapterId);
+		List<Tfng> list3=tfngQuestionService.queryTfng(chapterId, courseId);
 		list.add(list3);
 		return list;
 	}

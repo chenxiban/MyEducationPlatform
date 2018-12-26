@@ -50,4 +50,13 @@ public interface TeacherSetGapfillingQuestionRepository extends JpaRepository<Ga
 	 */
 	@Query(value=" SELECT COUNT(*) FROM gapfillingtb WHERE gapfilling_chapter_id = ?1 ",nativeQuery=true)
 	int selectCountByGapfillingChapterId(Integer chapterId);
+	
+	/**
+	 * 根据章节Id和课程Id查询填空题问题
+	 * @param chapterId
+	 * @param courseId
+	 * @return
+	 */
+	@Query(value="SELECT * FROM gapfillingtb WHERE gapfilling_chapter_id=?1 AND gapfilling_course_id=?2",nativeQuery=true)
+	List<Gapfilling> queryGapfilling(Integer chapterId,Integer courseId);
 }

@@ -116,18 +116,21 @@ public class ModulesController {
 	 * 删除模块http://localhost:3011/chenyongjia/ChenYongJia/modules/delModules
 	 * 
 	 * @author WangChuanWei
-	 * @param id
+	 * @param modulesId
 	 * @return
 	 */
 	@RequestMapping(value = "/delModules", name = "删除模块", method = RequestMethod.DELETE)
-	public Object delModules(@RequestParam(value = "id[]") String[] id) {
+	public Object delModules(@RequestParam(value = "modulesId") String modulesId) {
+		System.out.println("------------哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇-----------");
 		List<String> list = new ArrayList<String>();
-		for (String dids : id) {
+		String[] modulesIds = modulesId.split(",");
+		for (String dids : modulesIds) {
 			list.add(dids);
 		}
 
-		List<String> moduleId = modulesService.getChildrenByParentId(list);
-		List<String> modulePid = modulesService.getChildrenByParentIds(list);
+		List<Integer> moduleId = modulesService.getChildrenByParentId(list);
+		List<Integer> modulePid = modulesService.getChildrenByParentIds(list);
+
 		if (IsEmptyUtils.isEmpty(moduleId) || moduleId.size() == 0) {
 			if (modulesService.delModules(list)) {
 				return new Result(true, "模块删除成功");
@@ -137,7 +140,12 @@ public class ModulesController {
 		}
 
 		if (IsEmptyUtils.isEmpty(modulePid) || modulePid.size() == 0) {
-			for (String dids : moduleId) {
+			List<String> list2 = new ArrayList<String>();
+			for (int i = 0; i < moduleId.size(); i++) {
+				list2.add(Integer.toString(moduleId.get(i)));
+			}
+
+			for (String dids : list2) {
 				list.add(dids);
 			}
 
@@ -147,11 +155,20 @@ public class ModulesController {
 				return new Result(false, "有角色拥有当前模块,删除失败");
 			}
 		} else {
-			for (String dids : moduleId) {
+			List<String> list2 = new ArrayList<String>();
+
+			for (int i = 0; i < moduleId.size(); i++) {
+				list2.add(Integer.toString(moduleId.get(i)));
+			}
+			List<String> list3 = new ArrayList<String>();
+			for (int i = 0; i < modulePid.size(); i++) {
+				list3.add(Integer.toString(modulePid.get(i)));
+			}
+			for (String dids : list2) {
 				list.add(dids);
 			}
 
-			for (String dids : modulePid) {
+			for (String dids : list3) {
 				list.add(dids);
 			}
 

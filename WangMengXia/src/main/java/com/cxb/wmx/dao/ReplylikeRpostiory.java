@@ -1,5 +1,7 @@
 package com.cxb.wmx.dao;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.cxb.wmx.entity.Postreply;
 import com.cxb.wmx.entity.Postreplylike;
 
 /**
@@ -16,7 +19,22 @@ import com.cxb.wmx.entity.Postreplylike;
  *
  */
 public interface ReplylikeRpostiory extends JpaRepository<Postreplylike, Integer>, JpaSpecificationExecutor<Postreplylike>{
-
+	
+	/**
+	 * 根据评论查询点赞踩赞数据
+	 * @param postcommit
+	 * @return
+	 */
+	List<Postreplylike> findByPostreply(Postreply postreply);
+	
+	/**
+	 * 用户给回复点赞
+	 * @param 
+	 * @return
+	 */
+	@Query(value="SELECT * FROM tb_postreplylike WHERE postreply_id IN (:list2) GROUP BY postreply_id ",nativeQuery=true)
+	List<Postreplylike> findList(@Param("list2")List<Integer> list2);
+	
 	/**
 	 * 用户给回复点赞
 	 * @param 
@@ -76,4 +94,15 @@ public interface ReplylikeRpostiory extends JpaRepository<Postreplylike, Integer
 	@Modifying
 	@Transactional
 	int updateReplylikeCz(@Param("replyId")Integer replyId,@Param("userId")Integer userId);
+
+	/**
+	 * 删除根据回复id
+	 * @param 
+	 * @return
+	 */
+	@Query(value="DELETE FROM tb_postreplylike WHERE postreply_id=:hfId",nativeQuery=true)
+	@Modifying
+	@Transactional
+	int deleteByHfid(@Param("hfId")Integer hfId);
+	
 }
