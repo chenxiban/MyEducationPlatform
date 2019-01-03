@@ -50,5 +50,11 @@ public class ClazzController {
 	public List <Integer> getPostId(){
 		return clazzService.getPostId();
 	}
+	@RequestMapping("/getCollegeInfos")
+	public List<College> getCollegeInfos(){
+		return clazzService.getCollegeInfos();
+	}
+	
+
 
 }

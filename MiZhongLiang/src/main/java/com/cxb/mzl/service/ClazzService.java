@@ -32,4 +32,13 @@ public interface ClazzService {
 	 * */
 	@RequestMapping("/ChenYongJia/post/getPostId") 
 	public List <Integer> getPostId(); 
+	
+	/**
+	 * 获取用户学院/院系/专业分类方法
+	 * @return
+	 */
+	@RequestMapping(value="/ChenYongJia/college/getCollegeInfos",method=RequestMethod.GET)
+	public List<College> getCollegeInfos();
+
 }
+

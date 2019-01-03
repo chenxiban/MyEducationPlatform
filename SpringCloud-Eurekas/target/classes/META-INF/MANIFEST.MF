@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: SpringCloud-Eurekas
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: 王梦霞
+Built-By: Administrator
 Implementation-Vendor-Id: com.cxb
 Build-Jdk: 1.8.0_152
 Implementation-URL: https://repo.spring.io/milestone
